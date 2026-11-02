@@ -9,7 +9,8 @@ const sample:Entry[] = [
  {id:4,title:'sunday afternoon',date:'2026-10-19',body:'<p>A slow afternoon, with nowhere in particular to be. The kind of day that feels like a page with plenty of space left on it.</p>',tags:['personal']}
 ]
 const fmt=(d:string)=>new Date(d+'T12:00:00').toLocaleDateString('en',{month:'long',day:'numeric',year:'numeric'})
-const iso=(y:number,m:number,d:number)=>new Date(y,m,d).toISOString().slice(0,10)
+const iso=(y:number,m:number,d:number)=>y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')
+const localToday=()=>{const d=new Date();return iso(d.getFullYear(),d.getMonth(),d.getDate())}
 const plain=(html:string)=>html.replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&')
 function parseQuery(q:string){const filters:{tag:string[];before:string[];year:number[];terms:string[]}={tag:[],before:[],year:[],terms:[]};const re=/"([^"]+)"|(\S+)/g;let m:RegExpExecArray|null;while((m=re.exec(q))){const t=m[1]||m[2];if(t.startsWith('tag:'))filters.tag.push(t.slice(4).toLowerCase());else if(t.startsWith('before:'))filters.before.push(t.slice(7));else if(t.startsWith('year:'))filters.year.push(Number(t.slice(5)));else filters.terms.push(t.toLowerCase())}return filters}
 function Highlight({text,terms}:{text:string;terms:string[]}){if(!terms.length)return <>{text}</>;const escaped=terms.filter(Boolean).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));if(!escaped.length)return <>{text}</>;const re=new RegExp('('+escaped.join('|')+')','ig');return <>{text.split(re).map((part,i)=>terms.some(t=>part.toLowerCase()===t)?<mark key={i}>{part}</mark>:part)}</>}
@@ -19,7 +20,7 @@ export default function App(){
  const [activeId,setActiveId]=useState<number>(entries[0]?.id||1),[section,setSection]=useState('Journal'),[query,setQuery]=useState('')
  const [memo,setMemo]=useState(false),[collapsed,setCollapsed]=useState(false),[theme,setTheme]=useState(localStorage.getItem('memento.theme')||'light'),[accent,setAccent]=useState(localStorage.getItem('memento.accent')||'#78856e')
  const [title,setTitle]=useState(''),[body,setBody]=useState(''),[entryDate,setEntryDate]=useState(''),[entryTags,setEntryTags]=useState<string[]>([]),[saved,setSaved]=useState(true),[newTag,setNewTag]=useState('')
- const [month,setMonth]=useState(new Date().getMonth()),[year,setYear]=useState(new Date().getFullYear()),[selectedDate,setSelectedDate]=useState(new Date().toISOString().slice(0,10))
+ const [month,setMonth]=useState(new Date().getMonth()),[year,setYear]=useState(new Date().getFullYear()),[selectedDate,setSelectedDate]=useState(localToday())
  const [driveState,setDriveState]=useState('not connected')
  const editor=useRef<HTMLDivElement>(null)
  const active=entries.find(e=>e.id===activeId)
@@ -32,7 +33,7 @@ export default function App(){
  const filters=useMemo(()=>parseQuery(query),[query])
  const filtered=useMemo(()=>entries.filter(e=>{const p=plain(e.body).toLowerCase(),t=(e.title+' '+p).toLowerCase();return filters.tag.every(x=>e.tags.some(y=>y.toLowerCase()===x))&&filters.before.every(x=>e.date<x)&&filters.year.every(x=>new Date(e.date+'T12:00:00').getFullYear()===x)&&filters.terms.every(x=>t.includes(x))}),[entries,filters])
  const save=()=>{if(!active)return;setEntries(all=>all.map(e=>e.id===active.id?{...e,title:title||'untitled',date:entryDate,body,tags:entryTags}:e));setSaved(true)}
- const create=(date=new Date().toISOString().slice(0,10))=>{const e:Entry={id:Date.now(),title:'untitled',date,body:'',tags:[]};setEntries(a=>[e,...a]);setActiveId(e.id);setSection('Journal');setMemo(false);setTitle('');setBody('');setEntryDate(date);setEntryTags([]);setSaved(true)}
+ const create=(date=localToday())=>{const e:Entry={id:Date.now(),title:'untitled',date,body:'',tags:[]};setEntries(a=>[e,...a]);setActiveId(e.id);setSection('Journal');setMemo(false);setTitle('');setBody('');setEntryDate(date);setEntryTags([]);setSaved(true)}
  const selectEntry=(e:Entry)=>{setActiveId(e.id);setSection('Journal');setMemo(false)}
  const navTo=(s:string)=>{setSection(s);setMemo(false)}
  const command=(cmd:string,value?:string)=>{editor.current?.focus();document.execCommand(cmd,false,value);setBody(editor.current?.innerHTML||'');setSaved(false)}
@@ -40,7 +41,7 @@ export default function App(){
  const shiftMonth=(n:number)=>{const d=new Date(year,month+n,1);setMonth(d.getMonth());setYear(d.getFullYear())}
  const days=Array.from({length:new Date(year,month+1,0).getDate()},(_,i)=>i+1)
  const first=(new Date(year,month,1).getDay()+6)%7
- const today=new Date().toISOString().slice(0,10)
+ const today=localToday()
  const matchesOn=(d:string)=>entries.filter(e=>e.date===d)
  const addTag=()=>{const v=newTag.trim().toLowerCase();if(v&&!tags.includes(v))setTags(a=>[...a,v]);setNewTag('')}
  const toggleTag=(t:string)=>setEntryTags(a=>a.includes(t)?a.filter(x=>x!==t):[...a,t])
