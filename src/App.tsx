@@ -52,7 +52,7 @@ export default function App(){
  const editor=useRef<HTMLDivElement>(null)
  const [youtubeEnabled,setYoutubeEnabled]=useState(localStorage.getItem('memento.youtubeEnabled')==='true'),[youtubeNowPlaying,setYoutubeNowPlaying]=useState('')
  useEffect(()=>{localStorage.setItem('memento.youtubeEnabled',String(youtubeEnabled));if(!youtubeEnabled)setYoutubeNowPlaying('')},[youtubeEnabled])
- useEffect(()=>{const receive=(event:MessageEvent)=>{if(event.source!==window||event.origin!==window.location.origin||event.data?.source!=='memento-youtube-bridge')return;setYoutubeNowPlaying(typeof event.data.title==='string'?event.data.title:'')};window.addEventListener('message',receive);window.postMessage({source:'memento-app',type:'youtube-state-request'},window.location.origin);return()=>window.removeEventListener('message',receive)},[])
+ useEffect(()=>{const receive=(event:MessageEvent)=>{if(event.source!==window||event.origin!==window.location.origin||event.data?.source!=='memento-youtube-bridge')return;setYoutubeNowPlaying(youtubeEnabled&&typeof event.data.title==='string'?event.data.title:'')};window.addEventListener('message',receive);if(youtubeEnabled)window.postMessage({source:'memento-app',type:'youtube-state-request'},window.location.origin);return()=>window.removeEventListener('message',receive)},[youtubeEnabled])
 
  const [profileVisibleCount,setProfileVisibleCount]=useState(30)
  const profileFeedSentinel=useRef<HTMLDivElement>(null)
