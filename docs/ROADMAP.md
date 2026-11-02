@@ -40,6 +40,11 @@ This is a working plan, not a promise that every feature will ship in this order
 - [ ] Separate confirmed facts, user-approved preferences, and AI hypotheses.
 - [ ] Require approval before changing the profile.
 - [ ] Allow individual memories to be corrected or removed.
+- [ ] Let Memo prepare proposed entry and supported-file edits without writing them directly.
+- [ ] Build a review screen with before/after diffs and explicit approval.
+- [ ] Detect stale proposals before applying them.
+- [ ] Keep revision history and allow approved changes to be reverted.
+- [ ] Restrict Memo to explicitly supported files and operations.
 
 ## 5. Later
 - [ ] Evaluate a mobile app after the desktop workflow is stable.
