@@ -390,7 +390,7 @@
 
 /* Profile additions: pronouns, Spotify now-playing pill, and entry shortcut */
 .profile-pronouns{color:var(--muted);font-weight:400}
-.spotify-now-playing{display:inline-flex;align-items:center;gap:8px;max-width:min(100%,340px);height:30px;margin:12px 0 3px;padding:0 11px;border-radius:999px;background:#1ed760;color:#103b22;vertical-align:middle}
+.spotify-now-playing{display:inline-flex;align-items:center;gap:8px;max-width:min(100%,340px);height:30px;margin:12px 0 3px;padding:0 11px;border-radius:999px;background:#479d4c;color:#102b13;vertical-align:middle}
 .spotify-mark{width:17px;height:17px;flex:none;display:grid;place-items:center}
 .spotify-mark svg{display:block;width:17px;height:17px}
 .spotify-track-window{display:block;min-width:0;max-width:270px;overflow:hidden;white-space:nowrap}
