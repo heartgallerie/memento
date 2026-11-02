@@ -119,7 +119,7 @@
 /* Memo avatar */
 .memo-avatar-stage{display:grid;justify-items:center;gap:7px;padding:8px 0 18px;position:relative}
 .memo-avatar-stage .bs-avatar{width:min(58vw,290px);height:auto;aspect-ratio:1}
-.memo-avatar-stage .bs-avatar__svg g[clip-path]{transform:translate(var(--eye-x,0px),var(--eye-y,0px));transition:transform .12s ease-out}
+/* Let the avatar renderer control animated eye positions. */
 .memo-avatar-stage>strong{font:600 13px 'DM Sans';color:var(--text)}
 .memo-avatar-stage>span{font:10px 'DM Sans';color:var(--muted)}
 .avatar-design-select{min-width:130px;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font:11px 'DM Sans'}
