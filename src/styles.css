@@ -322,3 +322,13 @@
 *::-webkit-scrollbar-thumb:hover{background:var(--accent)}
 *::-webkit-scrollbar-corner{background:var(--panel)}
 .import-label{cursor:pointer;opacity:1}
+
+/* Profile navigation stays visible while browsing the feed */
+.profile-tabs{position:sticky;top:0;z-index:30;background:var(--bg)}
+.media-tab-control{position:relative;display:flex;flex:1;min-width:0}
+.profile-tabs>.media-tab-control>button{width:100%;display:flex;align-items:center;justify-content:center;gap:6px}
+.media-type-menu{position:absolute;top:calc(100% + 5px);right:8px;z-index:40;min-width:132px;padding:5px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:0 8px 24px #0002;display:grid;gap:2px}
+.media-type-menu button{width:100%;padding:9px 11px;border:0;border-radius:6px;background:transparent;color:var(--text);font:500 10px 'DM Sans';text-align:left;cursor:pointer}
+.media-type-menu button:hover{background:var(--soft);color:var(--accent)}
+.toolbar-entry-counts{align-items:center;white-space:nowrap}
+@media(max-width:650px){.profile-tabs{top:0}.profile-tabs button{padding:13px 5px}.toolbar-entry-counts{gap:8px;font-size:9px}}
