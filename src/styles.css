@@ -456,5 +456,8 @@
 .sidebar-profile-card{left:-4px;width:210px;max-width:calc(100vw - 32px)}
 .sidebar-profile-card .sidebar-card-banner{height:64px}
 .sidebar-card-main{padding-left:12px;padding-right:12px}
-.post-actions .post-open-entry-button{width:32px;height:32px;min-width:32px;padding:0;border:0!important;border-radius:7px;background:transparent!important;box-shadow:none!important;color:var(--muted)}
-.post-actions .post-open-entry-button:hover,.post-actions .post-open-entry-button:focus-visible{background:transparent!important;border:0!important;color:var(--text);box-shadow:none!important}
+.post-actions .post-open-entry-button{display:grid;place-items:center;width:32px;height:32px;min-width:32px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--accent);box-shadow:none;cursor:pointer;transition:background .15s,color .15s}
+.post-actions .post-open-entry-button:hover,.post-actions .post-open-entry-button:focus-visible{background:color-mix(in srgb,var(--accent) 15%,var(--surface));color:var(--accent);box-shadow:none}
+.profile-avatar-stack{top:0;width:112px;height:64px;overflow:visible}
+.profile-heading-row .profile-avatar-stack .profile-avatar{top:-48px}
+.profile-note-bubble{top:-90px!important;left:56px;transform:translateX(-50%);width:max-content;max-width:min(250px,70vw);min-height:28px;display:block!important;visibility:visible!important;opacity:1!important;z-index:100!important}
