@@ -33,9 +33,8 @@ export default function App(){
  useEffect(()=>{localStorage.setItem('memento.tags',JSON.stringify(tags))},[tags])
  useEffect(()=>{localStorage.setItem('memento.theme',theme);document.documentElement.dataset.theme=theme},[theme])
  useEffect(()=>{localStorage.setItem('memento.accent',accent);document.documentElement.style.setProperty('--accent',accent)},[accent])
- useEffect(()=>{if(active){setTitle(active.title);setBody(active.body);setEntryDate(active.date);setEntryTags(active.tags);setAttachments(active.attachments||[]);setSaved(true);setAttachmentUrls({})}},[activeId])
+ useEffect(()=>{if(active){setTitle(active.title);setBody(active.body);setEntryDate(active.date);setEntryTags(active.tags);setAttachments(active.attachments||[]);setSaved(true);setAttachmentUrls({});if(editor.current)editor.current.innerHTML=active.body}},[activeId])
  useEffect(()=>{let live=true;const load=async()=>{const urls:Record<string,string>={};for(const item of attachments){const blob=await readAttachment(item.id);if(blob)urls[item.id]=URL.createObjectURL(blob)}if(live)setAttachmentUrls(urls);else Object.values(urls).forEach(URL.revokeObjectURL)};load();return()=>{live=false;Object.values(attachmentUrls).forEach(URL.revokeObjectURL)}},[activeId,attachments])
- useEffect(()=>{if(editor.current&&editor.current.innerHTML!==body)editor.current.innerHTML=body},[activeId])
  const filters=useMemo(()=>parseQuery(query),[query])
  const filtered=useMemo(()=>entries.filter(e=>{const p=plain(e.body).toLowerCase(),t=(e.title+' '+p).toLowerCase();return filters.tag.every(x=>e.tags.some(y=>y.toLowerCase()===x))&&filters.before.every(x=>e.date<x)&&filters.year.every(x=>new Date(e.date+'T12:00:00').getFullYear()===x)&&filters.terms.every(x=>t.includes(x))}),[entries,filters])
  const save=()=>{if(!active)return;setEntries(all=>all.map(e=>e.id===active.id?{...e,title:title||'untitled',date:entryDate,body,tags:entryTags,attachments}:e));setSaved(true)}
