@@ -5,6 +5,7 @@ if (!globalThis.__mementoYoutubeDetectorInstalled) {
   let currentVideo = null;
   let lastTitle = "";
   let lastPlaying = false;
+  let lastSentAt = 0;
 
   function send(title) {
     try {
@@ -19,12 +20,13 @@ if (!globalThis.__mementoYoutubeDetectorInstalled) {
     const playing = !!video && !video.paused && !video.ended && video.readyState >= 2;
     const title = playing
       ? (document.querySelector("h1.ytd-watch-metadata yt-formatted-string")?.textContent?.trim()
-        || document.title.replace(/\\s*[-|] YouTube\\s*$/i, "").trim())
+        || document.title.replace(/\s*[-|] YouTube\s*$/i, "").trim())
       : "";
 
-    if (title !== lastTitle || playing !== lastPlaying) {
+    if (title !== lastTitle || playing !== lastPlaying || (playing && Date.now() - lastSentAt > 5000)) {
       lastTitle = title;
       lastPlaying = playing;
+      lastSentAt = Date.now();
       send(title);
     }
 
