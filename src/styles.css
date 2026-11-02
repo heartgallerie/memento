@@ -386,3 +386,17 @@
 .post-actions{justify-content:flex-start}
 .post-bookmark-button{color:var(--accent)}
 .post-bookmark-button:hover,.post-bookmark-button.active{background:color-mix(in srgb,var(--accent) 15%,var(--surface));color:var(--accent)}
+
+
+/* Profile additions: pronouns, Spotify now-playing pill, and entry shortcut */
+.profile-pronouns{color:var(--muted);font-weight:400}
+.spotify-now-playing{display:inline-flex;align-items:center;gap:8px;max-width:min(100%,340px);height:30px;margin:12px 0 3px;padding:0 11px;border-radius:999px;background:#1ed760;color:#103b22;vertical-align:middle}
+.spotify-mark{width:17px;height:17px;flex:none;display:grid;place-items:center}
+.spotify-mark svg{display:block;width:17px;height:17px}
+.spotify-track-window{display:block;min-width:0;max-width:270px;overflow:hidden;white-space:nowrap}
+.spotify-track{display:inline-flex;align-items:center;gap:5px;width:max-content;font-size:10px;line-height:1;animation:spotify-marquee 12s ease-in-out infinite alternate}
+.spotify-track strong{font-weight:750}.spotify-track span{font-weight:450;opacity:.9}
+@keyframes spotify-marquee{0%,12%{transform:translateX(0)}88%,100%{transform:translateX(min(0px,calc(270px - 100%)))}}
+.post-actions{display:flex;align-items:center;justify-content:flex-start;gap:7px}
+.post-open-entry-button{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--accent);font:600 10px 'DM Sans';cursor:pointer;transition:background .15s,border-color .15s}
+.post-open-entry-button:hover{background:var(--soft);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
