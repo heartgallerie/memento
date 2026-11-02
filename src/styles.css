@@ -472,3 +472,24 @@
 .sidebar-profile-anchor .collapsed-profile-launcher .sidebar-avatar-wrap{width:34px;height:34px}
 .sidebar-profile-anchor .collapsed-profile-launcher .sidebar-status-indicator{border-color:var(--panel)}
 .sidebar.collapsed .sidebar-profile-card{left:calc(100% + 10px);bottom:0;width:210px}
+
+
+.profile-avatar-frame{position:absolute;z-index:2;left:-6px;top:-6px;width:124px;height:124px;object-fit:contain;pointer-events:none}
+.profile-avatar-stack .profile-status-indicator{z-index:4}
+.profile-nameplate{display:block;width:min(210px,80%);max-height:58px;object-fit:contain;object-position:left center;margin:3px 0 2px}
+.profile-decoration-controls{display:grid;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.profile-decoration-preview{display:flex;align-items:center;gap:14px;min-height:100px;padding:12px;border-radius:9px;background:var(--bg)}
+.profile-decoration-avatar{position:relative;width:76px;height:76px;flex:none;display:grid;place-items:center;border:3px solid var(--surface);border-radius:50%;background:var(--soft);color:var(--accent);font:600 25px 'DM Sans'}
+.profile-decoration-avatar>img:first-child{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.profile-decoration-avatar .profile-decoration-frame{position:absolute;inset:-7px;width:90px;height:90px;object-fit:contain;pointer-events:none}
+.profile-decoration-name{display:grid;gap:4px;min-width:0}
+.profile-decoration-name strong{font:600 15px 'DM Sans';color:var(--text)}
+.profile-decoration-name>img{display:block;max-width:190px;max-height:48px;object-fit:contain;object-position:left center}
+.profile-decoration-name span{font:10px 'DM Sans';color:var(--muted)}
+.profile-decoration-upload-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:end}
+.profile-decoration-upload-grid label{display:grid;gap:5px}
+.profile-decoration-upload-grid label span{font:9px 'DM Sans';color:var(--muted)}
+.profile-decoration-upload-grid input{font-size:9px}
+.profile-decoration-upload-grid>button{border:1px solid var(--line);border-radius:8px;padding:8px;background:transparent;color:var(--muted);font:10px 'DM Sans';cursor:pointer}
+.profile-decoration-upload-grid>button:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:520px){.profile-decoration-upload-grid{grid-template-columns:1fr}.profile-decoration-upload-grid>button{justify-self:start}}
