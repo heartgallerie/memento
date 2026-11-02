@@ -508,7 +508,7 @@
 /* Avatar frames share the avatar's center and scale to each avatar size. */
 .profile-avatar-stack{width:112px;height:112px;top:-48px}
 .profile-avatar-stack>.profile-avatar{position:absolute!important;inset:0;width:112px;height:112px;top:0!important}
-.profile-avatar-stack>.profile-avatar-frame{inset:-8px;width:128px;height:128px;left:auto;top:auto}
+.profile-avatar-stack>.profile-avatar-frame{left:-8px;top:-8px;right:auto;bottom:auto;width:128px;height:128px}
 .avatar-frame-overlay{position:absolute;z-index:3;inset:-7px;width:calc(100% + 14px);height:calc(100% + 14px);object-fit:contain;pointer-events:none}
 .sidebar-avatar-wrap,.sidebar-card-avatar-wrap{overflow:visible}
 .sidebar-avatar-wrap .avatar,.sidebar-card-avatar-wrap .avatar{position:absolute;inset:0}
