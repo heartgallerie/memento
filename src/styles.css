@@ -397,7 +397,7 @@
 .spotify-track{display:inline-flex;align-items:center;gap:5px;width:max-content;font-size:10px;line-height:1;animation:spotify-marquee 12s ease-in-out infinite alternate}
 .spotify-track strong{font-weight:750}.spotify-track span{font-weight:450;opacity:.9}
 @keyframes spotify-marquee{0%,12%{transform:translateX(0)}88%,100%{transform:translateX(min(0px,calc(270px - 100%)))}}
-.post-actions{display:flex;align-items:center;justify-content:flex-start;gap:7px}
+.post-actions{display:flex;align-items:center;justify-content:flex-start;gap:7px;margin-top:10px;padding-top:0;border-top:0}
 .post-open-entry-button{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--accent);font:600 10px 'DM Sans';cursor:pointer;transition:background .15s,border-color .15s}
 .post-open-entry-button:hover{background:var(--soft);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
 
@@ -461,3 +461,14 @@
 .profile-avatar-stack{top:0;width:112px;height:64px;overflow:visible}
 .profile-heading-row .profile-avatar-stack .profile-avatar{top:-48px}
 .profile-note-bubble{top:-90px!important;left:56px;transform:translateX(-50%);width:max-content;max-width:min(250px,70vw);min-height:28px;display:block!important;visibility:visible!important;opacity:1!important;z-index:100!important}
+
+/* Persistent profile shortcut at the bottom of the sidebar. */
+.sidebar-profile-anchor{margin-top:12px}
+.sidebar-profile-anchor .profile-launcher{display:flex;align-items:center;gap:9px;padding:12px 4px 0;border-top:1px solid var(--line);border-radius:0}
+.sidebar-profile-anchor .profile-launcher:hover{background:var(--soft)}
+.sidebar-profile-anchor.collapsed-profile-anchor{display:flex;justify-content:center;margin-top:12px}
+.sidebar-profile-anchor .collapsed-profile-launcher{width:100%;height:40px;justify-content:center;padding:0;border:0;border-radius:8px;background:transparent}
+.sidebar-profile-anchor .collapsed-profile-launcher:hover{background:var(--soft)}
+.sidebar-profile-anchor .collapsed-profile-launcher .sidebar-avatar-wrap{width:34px;height:34px}
+.sidebar-profile-anchor .collapsed-profile-launcher .sidebar-status-indicator{border-color:var(--panel)}
+.sidebar.collapsed .sidebar-profile-card{left:calc(100% + 10px);bottom:0;width:210px}
