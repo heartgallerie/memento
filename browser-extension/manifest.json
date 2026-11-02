@@ -1,11 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Memento Now Playing",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Shares the title of a currently playing YouTube video with Memento.",
-  "permissions": [
-    "tabs"
-  ],
+  "permissions": ["tabs", "scripting", "storage"],
   "host_permissions": [
     "https://www.youtube.com/*",
     "https://m.youtube.com/*",
@@ -13,30 +11,9 @@
     "http://127.0.0.1/*",
     "http://192.168.3.218/*"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
+  "background": {"service_worker": "background.js"},
   "content_scripts": [
-    {
-      "matches": [
-        "http://localhost/*",
-        "http://127.0.0.1/*",
-        "http://192.168.3.218/*"
-      ],
-      "js": [
-        "app-bridge.js"
-      ],
-      "run_at": "document_start"
-    },
-    {
-      "matches": [
-        "https://www.youtube.com/*",
-        "https://m.youtube.com/*"
-      ],
-      "js": [
-        "youtube-detector.js"
-      ],
-      "run_at": "document_idle"
-    }
+    {"matches": ["http://localhost/*", "http://127.0.0.1/*", "http://192.168.3.218/*"], "js": ["app-bridge.js"], "run_at": "document_start"},
+    {"matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"], "js": ["youtube-detector.js"], "run_at": "document_idle"}
   ]
 }
