@@ -533,3 +533,6 @@
 /* The Pinterest detail viewer should not paint empty image space white. */
 .photo-detail-image{background:transparent}
 .photo-detail-image img{width:auto;max-width:100%;height:auto;max-height:78vh;object-fit:contain}
+
+
+.display-name-style-preview{display:block;margin-top:5px;font-size:15px;color:var(--text);overflow-wrap:anywhere}
