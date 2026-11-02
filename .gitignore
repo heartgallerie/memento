@@ -1,0 +1,40 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+target/
+out/
+.release/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.local
+secrets/
+*.pem
+*.key
+
+# Personal journal data and local databases
+data/
+journal/
+archive/
+attachments/
+backups/
+*.db
+*.sqlite
+*.sqlite3
+*.journal
+*.backup
+
+# Local AI/model files
+models/
+*.gguf
+*.safetensors
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
