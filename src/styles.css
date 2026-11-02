@@ -524,3 +524,12 @@
 .avatar-frame-overlay{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
 .post-avatar>.avatar-frame-overlay{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
 .profile-avatar-stack>.profile-avatar-frame{inset:-8px auto auto -8px;width:128px;height:128px}
+
+
+/* Keep avatar-frame animation hover-only in every profile and feed layout. */
+.profile-post .post-avatar>.avatar-frame-motion{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
+.video-card-meta .post-avatar{position:relative;overflow:visible}
+.video-card-meta .post-avatar>.avatar-frame-motion{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
+/* The Pinterest detail viewer should not paint empty image space white. */
+.photo-detail-image{background:transparent}
+.photo-detail-image img{width:auto;max-width:100%;height:auto;max-height:78vh;object-fit:contain}
