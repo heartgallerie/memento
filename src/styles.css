@@ -474,7 +474,7 @@
 .sidebar.collapsed .sidebar-profile-card{left:calc(100% + 10px);bottom:0;width:210px}
 
 
-.profile-avatar-frame{position:absolute;z-index:2;left:-6px;top:-6px;width:124px;height:124px;object-fit:contain;pointer-events:none}
+.profile-avatar-frame{position:absolute;z-index:3;left:-8px;top:-8px;width:128px;height:128px;object-fit:contain;pointer-events:none}
 .profile-avatar-stack .profile-status-indicator{z-index:4}
 .profile-nameplate{display:block;width:min(210px,80%);max-height:58px;object-fit:contain;object-position:left center;margin:3px 0 2px}
 .profile-decoration-controls{display:grid;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
@@ -504,3 +504,14 @@
 .sidebar-profile-anchor .profile-launcher{background:transparent}\n.sidebar-profile-anchor .profile-launcher>*:not(.sidebar-nameplate-background){position:relative;z-index:1}
 .sidebar-profile-anchor .profile-launcher .sidebar-user-copy{min-width:0}
 .profile-decoration-name>small{color:var(--muted);font:10px 'DM Sans';line-height:1.4}
+
+/* Avatar frames share the avatar's center and scale to each avatar size. */
+.profile-avatar-stack{width:112px;height:112px;top:-48px}
+.profile-avatar-stack>.profile-avatar{position:absolute!important;inset:0;width:112px;height:112px;top:0!important}
+.profile-avatar-stack>.profile-avatar-frame{inset:-8px;width:128px;height:128px;left:auto;top:auto}
+.avatar-frame-overlay{position:absolute;z-index:3;inset:-7px;width:calc(100% + 14px);height:calc(100% + 14px);object-fit:contain;pointer-events:none}
+.sidebar-avatar-wrap,.sidebar-card-avatar-wrap{overflow:visible}
+.sidebar-avatar-wrap .avatar,.sidebar-card-avatar-wrap .avatar{position:absolute;inset:0}
+.post-avatar{position:relative;overflow:visible}
+.post-avatar>img:not(.avatar-frame-overlay){position:relative;z-index:1;border-radius:50%;overflow:hidden}
+.post-avatar>.avatar-frame-overlay{z-index:2}
