@@ -332,3 +332,5 @@
 .media-type-menu button:hover{background:var(--soft);color:var(--accent)}
 .toolbar-entry-counts{align-items:center;white-space:nowrap}
 @media(max-width:650px){.profile-tabs{top:0}.profile-tabs button{padding:13px 5px}.toolbar-entry-counts{gap:8px;font-size:9px}}
+
+.profile-feed-loading{padding:18px 0;text-align:center;color:var(--muted);font:11px 'DM Sans'}
