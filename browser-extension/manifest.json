@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Memento Now Playing",
+  "version": "1.0.0",
+  "description": "Shares the title of a currently playing YouTube video with Memento.",
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "app-bridge.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
+      ],
+      "js": [
+        "youtube-detector.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
