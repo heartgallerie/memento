@@ -24,7 +24,7 @@ function AvatarFrame({src,className=""}:{src:string;className?:string}){
  const [hovered,setHovered]=useState(false)
  const canvasRef=useRef<HTMLCanvasElement>(null)
  useEffect(()=>{const image=new Image();image.onload=()=>{const canvas=canvasRef.current;if(!canvas)return;canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const context=canvas.getContext('2d');context?.drawImage(image,0,0)};image.src=src;return()=>{image.onload=null}},[src])
- return <span className={"avatar-frame-motion "+className} onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)} aria-hidden="true"><canvas ref={canvasRef}/>{hovered&&<img src={src} alt="" draggable={false}/>}</span>
+ return <span className={"avatar-frame-motion "+(hovered?"is-hovered ":"")+className} onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)} aria-hidden="true"><canvas ref={canvasRef}/>{hovered&&<img src={src} alt="" draggable={false}/>}</span>
 }
 
 function VerifiedBadge({size=16}:{size?:number}){return <BadgeCheck size={size} fill="var(--verified-color,var(--accent))" stroke="var(--surface)" strokeWidth={2.8} className="verified-badge" aria-label="Verified"/>}
