@@ -11,6 +11,6 @@ This small Chromium extension is needed because a normal website cannot read the
 5. Keep the extension enabled, open Memento, then enable **Settings → Now playing → YouTube**.
 6. Open a YouTube video in another tab and press Play. The red YouTube pill should appear on your Memento profile. Pause or close the video and it should disappear.
 
-The extension requests broad site access so its lightweight bridge can deliver the title to a locally hosted or deployed Memento tab. The detector itself only runs on YouTube. You can inspect the three small source files before loading it, and remove it at any time from the browser's extensions page.
+The extension requests access only to YouTube and local Memento addresses (`localhost` and `127.0.0.1`). The detector runs only on YouTube, and the bridge runs only on those local Memento addresses. You can inspect the three small source files before loading it, and remove it at any time from the browser's extensions page.
 
 This is a local browser-extension integration, not a server connection. Spotify is listed in Settings but still needs a Spotify OAuth app configuration before live playback can be read.
