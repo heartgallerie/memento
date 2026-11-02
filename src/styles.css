@@ -514,4 +514,4 @@
 .sidebar-avatar-wrap .avatar,.sidebar-card-avatar-wrap .avatar{position:absolute;inset:0}
 .post-avatar{position:relative;overflow:visible}
 .post-avatar>img:not(.avatar-frame-overlay){position:relative;z-index:1;border-radius:50%;overflow:hidden}
-.post-avatar>.avatar-frame-overlay{z-index:2}
+.post-avatar>.avatar-frame-overlay{z-index:2;inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
