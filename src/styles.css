@@ -334,3 +334,14 @@
 @media(max-width:650px){.profile-tabs{top:0}.profile-tabs button{padding:13px 5px}.toolbar-entry-counts{gap:8px;font-size:9px}}
 
 .profile-feed-loading{padding:18px 0;text-align:center;color:var(--muted);font:11px 'DM Sans'}
+
+
+/* Media images: clean transparent backgrounds and natural image sizing */
+.post-media{background:#fff}
+.post-media img{background:#fff;height:auto;max-height:none}
+.post-media-cell{background:#fff}
+.post-media-cell img{background:#fff;height:auto;max-height:none;object-fit:contain}
+.photo-pin-image{background:#fff;min-height:0}
+.photo-pin-image img{background:#fff;width:100%;height:auto;object-fit:contain}
+.all-media-preview:has(img){aspect-ratio:auto;background:#fff}
+.all-media-preview img{width:100%;height:auto;object-fit:contain;background:#fff}
