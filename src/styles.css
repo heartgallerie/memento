@@ -404,3 +404,17 @@
 
 /* Live YouTube now-playing profile pill */
 .youtube-now-playing{display:inline-flex;align-items:center;gap:8px;width:max-content;max-width:min(100%,380px);height:30px;margin:12px 0 3px;padding:0 11px;border-radius:999px;background:#f00;color:#fff;vertical-align:middle;overflow:hidden}.youtube-mark{width:17px;height:17px;flex:none;display:grid;place-items:center}.youtube-mark svg{display:block;width:17px;height:17px}.youtube-track-window{display:block;flex:0 1 auto;min-width:0;max-width:min(320px,calc(100vw - 100px));overflow:hidden;white-space:nowrap;font:600 10px/1.2 'DM Sans'}.youtube-track-content{display:inline-flex;width:max-content;gap:32px}.youtube-track-content>span{flex:none}.youtube-track-window.is-scrolling .youtube-track-content{animation:youtube-title-scroll 12s linear infinite}.youtube-track-window.is-scrolling:hover .youtube-track-content{animation-play-state:paused}@keyframes youtube-title-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}@media(prefers-reduced-motion:reduce){.youtube-track-window.is-scrolling .youtube-track-content{animation:none}}
+
+
+/* Profile note bubble and Discord-style presence */
+.profile-avatar-stack{position:relative;top:-48px;flex:none}
+.profile-heading-row .profile-avatar-stack .profile-avatar{position:relative;top:0}
+.profile-note-bubble{position:absolute;z-index:2;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);width:max-content;max-width:min(250px,70vw);padding:8px 12px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--text);font:11px/1.4 'DM Sans';text-align:center;overflow-wrap:anywhere;box-shadow:0 4px 16px #00000012}
+.profile-note-bubble:after{content:"";position:absolute;left:50%;top:100%;width:9px;height:9px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:translate(-50%,-5px) rotate(45deg)}
+.profile-status-indicator{position:absolute;z-index:3;right:5px;bottom:5px;width:25px;height:25px;border:4px solid var(--bg);border-radius:50%;display:grid;place-items:center}
+.profile-status-indicator.online{background:#43b581}
+.profile-status-indicator.idle{background:#f0b232;color:#fff}
+.profile-status-indicator.idle svg{width:13px;height:13px;stroke-width:2.5}
+.status-choice-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.status-choice-dot.online{background:#43b581}
+.status-choice-moon{color:#e3a923;fill:#e3a923}
