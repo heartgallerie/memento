@@ -241,3 +241,10 @@
 .memo-profile-link span{font:10px 'DM Sans';color:var(--muted)}
 .memo-profile-link>button{display:flex;align-items:center;gap:5px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--text);font:600 9px 'DM Sans';cursor:pointer}
 @media(max-width:650px){.photo-pinterest-grid{columns:2 135px;column-gap:9px}.photo-pin-card{margin-bottom:11px}.photo-pin-caption strong{font-size:10px}.all-media-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.memo-profile-link{margin-bottom:20px}.audio-wave{gap:1px}}
+
+.memo-public-banner{height:190px;border-radius:14px;background:radial-gradient(circle at 70% 20%,#a9c2ff66,transparent 34%),linear-gradient(130deg,#172c56,#426db4 55%,#8ba8df)}
+.memo-public-avatar{display:grid;place-items:center;background:#e6edff!important;color:#426db4!important;font:600 40px 'DM Sans'!important}
+.memo-public-profile .profile-name-display{display:flex;align-items:center;gap:6px}
+.verified-badge{display:inline-block;flex:none;color:#3989d8;vertical-align:middle}
+.memo-public-avatar-small{background:#e6edff;color:#426db4;font-weight:700}
+@media(max-width:650px){.memo-public-banner{height:145px}}
