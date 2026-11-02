@@ -152,3 +152,14 @@
 .video-channel-row>div:nth-child(2) span{font:10px 'DM Sans';color:var(--muted)}
 .video-channel-row>button{border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:var(--surface);color:var(--text);font:10px 'DM Sans';cursor:pointer}
 @media(max-width:650px){.video-grid{grid-template-columns:1fr;gap:20px}.video-channel-row{flex-wrap:wrap}.video-channel-row>button{margin-left:48px}}
+
+/* Memento refinement pass */
+.user-row{cursor:pointer}
+.top-actions .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.video-duration{position:absolute;right:8px;bottom:8px;padding:3px 6px;border-radius:4px;background:#000c;color:#fff;font:10px 'DM Mono'}
+.video-channel-row .video-handle{font-weight:400;color:var(--muted);margin-left:5px}
+.video-description{margin:15px 0;padding:14px 16px;border-radius:10px;background:var(--panel);color:var(--text);font:12px/1.7 'DM Sans';overflow-wrap:anywhere}
+.video-description p{margin:0 0 9px}.video-description p:last-child{margin-bottom:0}
+.video-card .video-thumbnail>video{pointer-events:none}
+.video-card-meta>div:last-child span{line-height:1.45}
+.profile-stats{flex-wrap:wrap}
