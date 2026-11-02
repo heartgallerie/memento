@@ -520,6 +520,7 @@
 .avatar-frame-motion{position:absolute;z-index:3;display:block;pointer-events:auto;cursor:pointer}
 .avatar-frame-motion canvas,.avatar-frame-motion img{display:block;width:100%;height:100%;object-fit:contain}
 .avatar-frame-motion canvas{position:absolute;inset:0}
+.avatar-frame-motion.is-hovered canvas{visibility:hidden}
 .avatar-frame-motion img{position:absolute;inset:0}
 .avatar-frame-overlay{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
 .post-avatar>.avatar-frame-overlay{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
