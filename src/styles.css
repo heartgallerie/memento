@@ -552,3 +552,9 @@
 .sidebar-card-status{position:absolute;z-index:5;top:-16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:5px;padding:3px 7px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:600 9px 'DM Sans';line-height:1;white-space:nowrap}
 .sidebar-card-status i{display:block;width:6px;height:6px;border-radius:50%;background:#43b581}
 .sidebar-card-status.idle i{background:#e3a923}
+
+
+/* Online/idle label belongs to the persistent bottom sidebar avatar, above its frame. */
+.sidebar-avatar-wrap .sidebar-profile-status-label{position:absolute;z-index:5;left:50%;top:-15px;transform:translateX(-50%);padding:2px 5px;border:1px solid var(--line);border-radius:999px;background:var(--panel);font:600 8px/1.2 'DM Sans';white-space:nowrap;color:#43b581;pointer-events:none}
+.sidebar-avatar-wrap .sidebar-profile-status-label.idle{color:#e3a923}
+.sidebar-card-avatar-wrap .sidebar-status-indicator{right:0;bottom:1px}
