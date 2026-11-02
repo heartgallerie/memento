@@ -288,3 +288,18 @@
 .calendar-stat strong{font:600 22px 'DM Sans';color:var(--accent)}
 .calendar-stat span{font:10px 'DM Sans';color:var(--muted)}
 @media(max-width:650px){.calendar-heading-actions{flex-wrap:wrap;justify-content:flex-end}.calendar-stats-panel{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Verified identity spacing and CSV import controls */
+.video-card-channel{display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap}
+.video-channel-name{display:inline-flex;align-items:center;gap:4px}
+.video-channel-name .video-handle{display:inline-flex;align-items:center;margin-left:2px}
+.video-channel-meta .verified-badge,.video-card-channel .verified-badge,.video-channel-name .verified-badge,.sidebar-account-name .verified-badge{margin-left:2px}
+.sidebar-account-name{display:inline-flex;align-items:center;gap:4px}
+.imported-file-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.imported-file-row>div{display:grid;gap:4px;min-width:0}
+.imported-file-row strong{overflow-wrap:anywhere;color:var(--text);font:600 11px 'DM Sans'}
+.imported-file-row span{color:var(--muted);font:10px 'DM Sans'}
+.danger-btn{display:inline-flex;align-items:center;gap:6px;flex:none;padding:8px 11px;border:1px solid color-mix(in srgb,#c65b5b 45%,var(--line));border-radius:999px;background:transparent;color:#c65b5b;font:600 10px 'DM Sans';cursor:pointer}
+.danger-btn:hover{background:color-mix(in srgb,#c65b5b 9%,var(--surface))}
+@media(max-width:560px){.imported-file-row{align-items:flex-start;flex-direction:column}}
