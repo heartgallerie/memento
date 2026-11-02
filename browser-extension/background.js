@@ -37,10 +37,8 @@ async function injectIntoExistingTabs() {
     if (!tab.id || !tab.url) continue;
     let file = null;
     if (/^https:\/\/(www\.)?youtube\.com\//i.test(tab.url)) file = "youtube-detector.js";
-    else if (/^http:\/\/(localhost|127\.0\.0\.1|192\.168\.3\.218)(:\\d+)?\//i.test(tab.url)) file = "app-bridge.js";
-    if (file) {
-      await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: [file] }).catch(() => {});
-    }
+    else if (/^http:\/\/(localhost|127\.0\.0\.1|192\.168\.3\.218)(:\d+)?\//i.test(tab.url)) file = "app-bridge.js";
+    if (file) await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: [file] }).catch(() => {});
   }
 }
 
@@ -60,7 +58,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       await broadcast();
     });
   }
-
   if (message?.type === "memento-youtube-get") {
     restoreState().then(() => sendResponse({ title: currentState() }));
     return true;
@@ -86,7 +83,7 @@ chrome.tabs.onUpdated.addListener((id, changeInfo, tab) => {
   if (changeInfo.status === "complete" && tab.url) {
     if (/^https:\/\/(www\.)?youtube\.com\//i.test(tab.url)) {
       chrome.scripting.executeScript({ target: { tabId: id }, files: ["youtube-detector.js"] }).catch(() => {});
-    } else if (/^http:\/\/(localhost|127\.0\.0\.1|192\.168\.3\.218)(:\\d+)?\//i.test(tab.url)) {
+    } else if (/^http:\/\/(localhost|127\.0\.0\.1|192\.168\.3\.218)(:\d+)?\//i.test(tab.url)) {
       chrome.scripting.executeScript({ target: { tabId: id }, files: ["app-bridge.js"] }).catch(() => {});
     }
   }
