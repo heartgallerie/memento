@@ -7,7 +7,10 @@
     "tabs"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "https://www.youtube.com/*",
+    "https://m.youtube.com/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -15,7 +18,8 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "http://localhost/*",
+        "http://127.0.0.1/*"
       ],
       "js": [
         "app-bridge.js"
