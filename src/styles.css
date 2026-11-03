@@ -1289,6 +1289,20 @@
 .memo-chat-message{max-width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
 .memo-chat-row.user .memo-chat-message{background:color-mix(in srgb,var(--accent) 13%,var(--surface));border-color:color-mix(in srgb,var(--accent) 25%,var(--line))}
 .memo-chat-message p{font:11px/1.65 'DM Sans';color:var(--text);margin:0;white-space:pre-wrap}
+.memo-markdown{font:11px/1.65 'DM Sans';color:var(--text);overflow-wrap:anywhere}
+.memo-markdown p{margin:0 0 8px;white-space:pre-wrap}
+.memo-markdown p:last-child{margin-bottom:0}
+.memo-markdown strong{font-weight:700}
+.memo-markdown em{font-style:italic}
+.memo-markdown code{padding:1px 4px;border-radius:4px;background:var(--soft);font:10px 'DM Mono',monospace}
+.memo-markdown ul,.memo-markdown ol{margin:5px 0 8px;padding-left:19px}
+.memo-markdown li{padding-left:2px;margin:2px 0}
+.memo-markdown blockquote{margin:7px 0;padding:7px 10px;border-left:2px solid var(--accent);background:var(--soft);border-radius:0 6px 6px 0;color:var(--muted)}
+.memo-markdown blockquote p{margin:0 0 5px}
+.memo-markdown blockquote p:last-child{margin-bottom:0}
+.memo-md-heading{display:block;margin:7px 0 4px}
+.memo-md-h1{font-size:13px}.memo-md-h2{font-size:12px}.memo-md-h3{font-size:11px}
+
 .memo-typing-caret{display:inline-block;width:5px;height:12px;background:var(--accent);margin-left:3px;vertical-align:-2px;animation:memo-caret-blink .8s steps(2,start) infinite}
 @keyframes memo-caret-blink{to{visibility:hidden}}
 .memo-quick-prompts{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 auto 12px}
