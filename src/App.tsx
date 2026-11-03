@@ -183,11 +183,12 @@ function InstagramDMPreview({chats}:{chats:ImportedConversation[]}){
  const own=new Set(ownNames.map(normalizedSender).filter(Boolean)),normalizedOwn=normalizedSender(ownSender);
  const clean=(v:string)=>cleanInstagramText(v||''),messageText=(m:ImportedMessage)=>clean(m.text||'').replace(/^(?:shared an attachment|you sent an attachment|.+ sent an attachment)\\.?\\s*/i,'').trim(),thread=chats.find(x=>x.id===active);
  const threadParticipants=thread?.participants?.length?thread.participants:Array.from(new Set((thread?.messages||[]).map(m=>clean(m.sender)).filter(x=>x&&x!=='Unknown')));
+ const conversationTitle=(c:ImportedConversation)=>{const people=c.participants?.length?c.participants:Array.from(new Set(c.messages.map(m=>clean(m.sender)).filter(x=>x&&x!=='Unknown')));return people.length>2?people.slice(0,3).join(', '):clean(c.name)};
  const allSenders=Array.from(new Set(chats.flatMap(c=>[...(c.participants||[]),...c.messages.map(m=>m.sender)]).map(clean).filter(x=>x&&x!=='Unknown')));
  const matchingSender=allSenders.find(x=>{const n=normalizedSender(x);return n&&[...own].some(o=>o===n||o.startsWith(n)||n.startsWith(o))});
  const selectedOwn=normalizedOwn||normalizedSender(matchingSender||'');
  const isOutgoing=(m:ImportedMessage)=>{const sender=normalizedSender(clean(m.sender));return !!sender&&(selectedOwn?sender===selectedOwn:isInstagramOwnSender(sender,own))};
- const matches=(c:ImportedConversation)=>{const q=query.trim().toLocaleLowerCase();if(!q)return true;return clean(c.name).toLocaleLowerCase().includes(q)||c.messages.some(m=>[clean(m.sender),messageText(m),clean(m.url||''),...(m.media||[]).map(x=>clean(x.name))].join(' ').toLocaleLowerCase().includes(q))};
+ const matches=(c:ImportedConversation)=>{const q=query.trim().toLocaleLowerCase();if(!q)return true;return conversationTitle(c).toLocaleLowerCase().includes(q)||c.messages.some(m=>[clean(m.sender),messageText(m),clean(m.url||''),...(m.media||[]).map(x=>clean(x.name))].join(' ').toLocaleLowerCase().includes(q))};
  const visibleChats=chats.filter(matches);
  useEffect(()=>{if(query.trim()&&visibleChats.length&&!visibleChats.some(c=>c.id===active))setActive(visibleChats[0].id)},[query,active,visibleChats]);
  const messages=(thread?.messages||[]).filter(m=>m.kind!=='system'&&!/^(?:liked a message|.+wasn't notified about this message because .+quiet mode\.?|.+ was not notified about this message because .+quiet mode\.?|shared an attachment\.?|you sent an attachment\.?|.+ sent an attachment\.?)$/i.test(clean(messageText(m)))).filter(m=>{if(!query.trim())return true;return [clean(m.sender),messageText(m),clean(m.url||''),...(m.media||[]).map(x=>clean(x.name))].join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())});
@@ -200,12 +201,12 @@ function InstagramDMPreview({chats}:{chats:ImportedConversation[]}){
     <div className="dm-thread-list-heading">CONVERSATIONS <span>{visibleChats.length}/{chats.length}</span></div>
     <div className="dm-search-wrap"><Search size={14}/><input aria-label="Search Instagram conversations and messages" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search DMs…"/>{query&&<button type="button" onClick={()=>setQuery('')} aria-label="Clear search"><X size={13}/></button>}</div>
     {visibleChats.map(c=><button key={c.id} className={'dm-thread-preview'+(active===c.id?' active':'')} onClick={()=>setActive(c.id)}>
-     <span className="dm-thread-avatar">{clean(c.name).slice(0,1)||'?'}</span><span className="dm-thread-preview-copy"><strong>{clean(c.name)}</strong><span>{messageText(c.messages[c.messages.length-1]||{text:'Shared media'} as ImportedMessage)||'Shared media'}</span></span>
+     <span className="dm-thread-avatar">{clean(c.name).slice(0,1)||'?'}</span><span className="dm-thread-preview-copy"><strong>{conversationTitle(c)}</strong><span>{messageText(c.messages[c.messages.length-1]||{text:'Shared media'} as ImportedMessage)||'Shared media'}</span></span>
     </button>)}
     {!visibleChats.length&&<div className="dm-search-empty">No matching conversations or messages.</div>}
    </aside>
    <article className="dm-conversation">
-    <header className="dm-conversation-header"><span className="dm-thread-avatar large">{clean(thread.name).slice(0,1)||'?'}</span><div><strong>{clean(thread.name)}</strong><span>{threadParticipants.length>2?'Group conversation · '+thread.participants!.length+' participants':'Instagram conversation'}</span></div></header>
+    <header className="dm-conversation-header"><span className="dm-thread-avatar large">{(threadParticipants.length>2?conversationTitle(thread):clean(thread.name)).slice(0,1)||'?'}</span><div><strong>{threadParticipants.length>2?conversationTitle(thread):clean(thread.name)}</strong><span>{threadParticipants.length>2?'Group conversation · '+thread.participants!.length+' participants':'Instagram conversation'}</span></div></header>
     {(thread.participants?.length||0)>2&&<div className="dm-participant-strip"><span>MEMBERS</span>{threadParticipants.map((person,i)=><span className={'dm-participant-chip'+(normalizedSender(person)==='metaai'?' ai':'')} key={person+'-'+i}>{normalizedSender(person)==='metaai'&&<Bot size={11}/>} {clean(person)}{normalizedSender(person)==='metaai'?' · AI':''}</span>)}</div>}
     <div className="dm-message-list">
      {messages.map(m=>{const changed=m.date!==previousDate;previousDate=m.date;const outgoing=isOutgoing(m),isAI=m.isAI||normalizedSender(clean(m.sender))==='metaai',text=messageText(m),url=clean(m.url||'');return <div className={'dm-message-group '+(outgoing?'outgoing':'incoming')+(isAI?' ai':'')} key={m.id}>
