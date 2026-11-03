@@ -103,14 +103,13 @@ function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedC
 }
 
 function MemoInline({text}:{text:string}){
- const pattern=/\\*\\*([^*]+)\\*\\*|__([^_]+)__|\\*([^*]+)\\*|_([^_]+)_|`([^`]+)`/g;
+ const pattern=/\*\*([^*]+)\*\*|\*([^*]+)\*/g;
  const parts:ReactNode[]=[];let last=0,match:RegExpExecArray|null;
  while((match=pattern.exec(text))!==null){
   if(match.index>last)parts.push(text.slice(last,match.index));
-  const value=match[1]??match[2]??match[3]??match[4]??match[5];
-  if(match[1]!==undefined||match[2]!==undefined)parts.push(<strong key={match.index}>{value}</strong>);
-  else if(match[3]!==undefined||match[4]!==undefined)parts.push(<em key={match.index}>{value}</em>);
-  else parts.push(<code key={match.index}>{value}</code>);
+  const value=match[1]??match[2];
+  if(match[1]!==undefined)parts.push(<strong key={match.index}>{value}</strong>);
+  else parts.push(<em key={match.index}>{value}</em>);
   last=pattern.lastIndex;
  }
  if(last<text.length)parts.push(text.slice(last));
@@ -118,26 +117,19 @@ function MemoInline({text}:{text:string}){
 }
 
 function MemoMarkdown({text}:{text:string}){
- const lines=text.replace(/\\r\\n?/g,'\\n').split('\\n');
- const blocks:ReactNode[]=[];let paragraph:string[]=[];let list:string[]=[];let listType:'ul'|'ol'|null=null;let quote:string[]=[];
+ const lines=text.replace(/\r\n?/g,'\n').split('\n');
+ const blocks:ReactNode[]=[];let paragraph:string[]=[];let quote:string[]=[];
  const flushParagraph=()=>{if(paragraph.length){blocks.push(<p key={'p'+blocks.length}><MemoInline text={paragraph.join(' ')}/></p>);paragraph=[]}};
- const flushList=()=>{if(list.length&&listType){const Tag=listType;blocks.push(<Tag key={'l'+blocks.length}>{list.map((item,index)=><li key={index}><MemoInline text={item}/></li>)}</Tag>)}list=[];listType=null};
- const flushQuote=()=>{if(quote.length){blocks.push(<blockquote key={'q'+blocks.length}><MemoMarkdown text={quote.join('\\n')}/></blockquote>);quote=[]}};
+ const flushQuote=()=>{if(quote.length){blocks.push(<blockquote key={'q'+blocks.length}><MemoInline text={quote.join(' ')}/></blockquote>);quote=[]}};
  for(const line of lines){
   const trimmed=line.trim();
-  const quoteMatch=trimmed.match(/^>\\s?(.*)$/);
-  const unordered=trimmed.match(/^[-*+]\\s+(.+)$/);
-  const ordered=trimmed.match(/^\\d+[.)]\\s+(.+)$/);
-  if(quoteMatch){flushParagraph();flushList();quote.push(quoteMatch[1]);continue}
+  const quoteMatch=trimmed.match(/^>\s?(.*)$/);
+  if(quoteMatch){flushParagraph();quote.push(quoteMatch[1]);continue}
   flushQuote();
-  if(unordered||ordered){flushParagraph();const nextType=unordered?'ul':'ol';if(listType&&listType!==nextType)flushList();listType=nextType;list.push((unordered||ordered)![1]);continue}
-  flushList();
   if(!trimmed){flushParagraph();continue}
-  const heading=trimmed.match(/^(#{1,3})\\s+(.+)$/);
-  if(heading){flushParagraph();blocks.push(<strong className={'memo-md-heading memo-md-h'+heading[1].length} key={'h'+blocks.length}><MemoInline text={heading[2]}/></strong>);continue}
   paragraph.push(trimmed);
  }
- flushParagraph();flushList();flushQuote();
+ flushParagraph();flushQuote();
  return <div className="memo-markdown">{blocks}</div>;
 }
 function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chats}:{memoText:string;setMemoText:(v:string)=>void;avatarColor:string;onOpenProfile:()=>void;entries:Entry[];chats:ImportedConversation[]}){
