@@ -232,7 +232,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
     if(done)break
    }
    if(buffer.trim()){const chunk=JSON.parse(buffer);if(chunk.error)throw new Error(chunk.error);if(chunk.message?.thinking)setThinkingText(current=>current+chunk.message.thinking);answer+=chunk.message?.content||''}
-   const cleanAnswer=answer.replace(/<tool_call>[\\s\\S]*?<\/tool_call>/gi,'').replace(/<function=[\\s\\S]*?<\/function>/gi,'').trim()
+   const cleanAnswer=answer.replace(/<tool_call>[\s\S]*?<\/tool_call>/gi,'').replace(/<function=[\s\S]*?<\/function>/gi,'').trim()
    setMessages(items=>[...items,{id:Date.now()+1,role:'memo',text:cleanAnswer||'I couldn’t complete that archive search. Please try asking again in a different way.'}])
    setStreamedText('');streamedTextRef.current='';setActivity('')
   }catch(error){
