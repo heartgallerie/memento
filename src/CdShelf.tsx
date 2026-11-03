@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject } from 'react'
 
 type Album = {
   id: string
@@ -24,7 +24,7 @@ function placeholderArt(album: Album) {
   return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`
 }
 
-const coverArt = (album: Album) => `url("${album.cover || `/covers/${album.id}.jpg` }"), ${placeholderArt(album)}`
+const coverArt = (album: Album) => `url("${album.cover || `/covers/${album.id}.jpg`}"), ${placeholderArt(album)}`
 const discArt = (album: Album) => album.disc ? `url("${album.disc}"), ${placeholderArt(album)}` : coverArt(album)
 const holeMask = 'radial-gradient(circle at center, transparent 0 8.5%, #000 9%)'
 
@@ -40,12 +40,12 @@ function CdCase({
   discOut?: boolean
   discAngle?: number
   dragging?: boolean
-  onDiscDown?: (event: React.PointerEvent<HTMLDivElement>) => void
-  discRef?: React.RefObject<HTMLDivElement | null>
+  onDiscDown?: (event: PointerEvent<HTMLDivElement>) => void
+  discRef?: RefObject<HTMLDivElement | null>
 }) {
   const depth = Math.round(size * 0.11)
   const diameter = size * 0.88
-  const face = (extra: React.CSSProperties): React.CSSProperties => ({
+  const face = (extra: CSSProperties): React.CSSProperties => ({
     position: 'absolute', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', ...extra,
   })
   const plastic = 'linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.025) 40%, rgba(0,0,0,.25))'
