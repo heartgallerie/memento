@@ -561,8 +561,8 @@
 
 
 /* Match the main profile presence badge, positioned above the avatar frame in sidebar surfaces. */
-.sidebar-avatar-wrap .profile-status-indicator,.sidebar-card-avatar-wrap .profile-status-indicator{top:-13px;left:50%;right:auto;bottom:auto;transform:translateX(-50%);width:25px;height:25px;border-color:var(--panel)}
-.sidebar-card-avatar-wrap .profile-status-indicator{border-color:var(--surface)}
+.sidebar-avatar-wrap .profile-status-indicator,.sidebar-card-avatar-wrap .profile-status-indicator{top:auto;left:auto;right:5px;bottom:5px;transform:none;width:25px;height:25px;border-color:var(--panel)}
+.sidebar-card-avatar-wrap .profile-status-indicator{right:0;bottom:1px;border-color:var(--surface)}
 /* The animated frame is shown only for one pass; its final frame is copied back to the still canvas. */
 .avatar-frame-motion img{opacity:0}
 .avatar-frame-motion img.is-ready{opacity:1}
