@@ -856,3 +856,22 @@
 
 /* Hard-hat owner mark. */
 .owner-mark svg{transform:none;transform-origin:50% 50%}
+
+
+/* Instagram profile: avatar first, bio/details below, profile actions beneath the bio. */
+.profile-main.profile-layout-instagram{grid-template-columns:112px minmax(0,1fr);column-gap:22px;row-gap:14px}
+.profile-layout-instagram .profile-heading-row{display:contents}
+.profile-layout-instagram .profile-avatar-stack{grid-column:1;grid-row:1;align-self:start;justify-self:start;margin:0;top:0}
+.profile-layout-instagram .profile-fields{grid-column:1/-1;grid-row:2;min-width:0;padding-top:0}
+.profile-layout-instagram .profile-heading-actions{grid-column:1/-1;grid-row:3;display:flex;justify-self:stretch;align-self:start;gap:8px;width:100%;margin:0}
+.profile-layout-instagram .profile-heading-actions>button{flex:1;justify-content:center;min-width:0;margin:0}
+.profile-layout-instagram .profile-heading-actions .profile-main-edit-button{margin:0}
+@media(max-width:650px){
+ .profile-main.profile-layout-instagram{grid-template-columns:82px minmax(0,1fr);column-gap:13px;row-gap:12px}
+ .profile-layout-instagram .profile-heading-row .profile-avatar{width:76px;height:76px}
+ .profile-layout-instagram .profile-avatar-stack{width:76px;height:76px;top:0}
+ .profile-layout-instagram .profile-avatar-stack>.profile-avatar-frame{inset:-6px;width:88px;height:88px}
+ .profile-layout-instagram .profile-fields{grid-column:1/-1;grid-row:2;padding-top:0}
+ .profile-layout-instagram .profile-heading-actions{grid-column:1/-1;grid-row:3;gap:6px}
+ .profile-layout-instagram .profile-heading-actions>button{padding-left:8px;padding-right:8px}
+}
