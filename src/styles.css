@@ -925,3 +925,5 @@
 .dm-import-note>svg{color:var(--accent)}
 .dm-preview-disclaimer{font:10px/1.6 'DM Sans';color:var(--muted);margin:12px 2px 0}
 @media(max-width:760px){.instagram-dms-view{padding:25px 16px 40px;margin:0}.dm-workspace{grid-template-columns:1fr;min-height:0}.dm-thread-list{border-right:0;border-bottom:1px solid var(--line);padding:10px}.dm-thread-list-heading{padding-bottom:7px}.dm-thread-preview{max-width:100%}.dm-message-list{min-height:390px;padding:18px 13px}.dm-message-row{max-width:92%}.dm-page-heading h1{font-size:28px}}
+
+.dm-reaction-chip{align-self:flex-start;margin-top:-1px;padding:3px 7px;border:1px solid var(--line);border-radius:99px;background:var(--surface);font-size:12px;line-height:1}
