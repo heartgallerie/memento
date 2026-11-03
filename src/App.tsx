@@ -140,7 +140,8 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
  const [streamedText,setStreamedText]=useState('')
  const [activity,setActivity]=useState('Thinking')
  const [thinkingText,setThinkingText]=useState('')
- const [thinkingOpen,setThinkingOpen]=useState(false)\n const [editingMessageId,setEditingMessageId]=useState<number|null>(null)\n const [editingText,setEditingText]=useState('')
+ const [thinkingOpen,setThinkingOpen]=useState(false)
+ const [editingMessageId,setEditingMessageId]=useState<number|null>(null)\n const [editingText,setEditingText]=useState('')
  const [ollamaUrl,setOllamaUrl]=useState(()=>localStorage.getItem('memento-ollama-url')||'http://localhost:11434')
  const [models,setModels]=useState<string[]>([])
  const [selectedModel,setSelectedModel]=useState(()=>localStorage.getItem('memento-ollama-model')||'')
@@ -230,7 +231,8 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
     if(done)break
    }
    if(buffer.trim()){const chunk=JSON.parse(buffer);if(chunk.error)throw new Error(chunk.error);if(chunk.message?.thinking)setThinkingText(current=>current+chunk.message.thinking);answer+=chunk.message?.content||''}
-   const cleanAnswer=answer.replace(/<tool_call>[\\s\\S]*?<\\/tool_call>/gi,'').replace(/<function=[\\s\\S]*?<\\/function>/gi,'').trim()\n   setMessages(items=>[...items,{id:Date.now()+1,role:'memo',text:cleanAnswer||'I couldn’t complete that archive search. Please try asking again in a different way.'}])
+   const cleanAnswer=answer.replace(/<tool_call>[\\s\\S]*?<\\/tool_call>/gi,'').replace(/<function=[\\s\\S]*?<\\/function>/gi,'').trim()
+   setMessages(items=>[...items,{id:Date.now()+1,role:'memo',text:cleanAnswer||'I couldn’t complete that archive search. Please try asking again in a different way.'}])
    setStreamedText('');streamedTextRef.current='';setActivity('')
   }catch(error){
    if(error instanceof Error&&error.name==='AbortError'){
