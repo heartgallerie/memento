@@ -83,7 +83,8 @@ function CartiShelves(){
       <img src={selected.art} alt=""/><span className="shelf-case-lid-fallback">PLAYBOI CARTI</span><span className="shelf-case-edge"/>
      </button>
     </div>
-    <div className="shelf-case-controls"><button type="button" className="save-btn" onClick={()=>setOpened(v=>!v)}>{opened?'Close case':'Open case'}</button><span>{opened?'Drag the disc to spin it':'Tap the case to open it'}</span></div>
+   </div>
+   <div className="shelf-case-controls"><button type="button" className="save-btn" onClick={()=>setOpened(v=>!v)}>{opened?'Close case':'Open case'}</button><span>{opened?'Drag the disc to spin it':'Tap the case to open it'}</span></div>
     <p className="shelf-case-hint">The disc is interactive — drag it left or right to rotate.</p>
    </section>
   </div>}
