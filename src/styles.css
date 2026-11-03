@@ -1323,3 +1323,9 @@
 .memo-clear-chat{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
 .memo-clear-chat:hover:not(:disabled){color:var(--danger,var(--accent));border-color:currentColor;background:color-mix(in srgb,var(--danger,var(--accent)) 7%,transparent)}
 .memo-clear-chat:disabled{opacity:.45;cursor:not-allowed}
+
+
+/* Memo live activity labels */
+.memo-activity{display:flex;align-items:center;gap:7px;margin:0 0 7px;color:var(--muted);font:9px 'DM Mono',monospace;letter-spacing:.035em}
+.memo-activity-dot{width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px color-mix(in srgb,var(--accent) 45%,transparent);animation:memo-activity-pulse 1.2s ease-in-out infinite}
+@keyframes memo-activity-pulse{50%{opacity:.35;transform:scale(.78)}}
