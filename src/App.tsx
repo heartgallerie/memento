@@ -85,7 +85,7 @@ function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedC
 
 function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chats}:{memoText:string;setMemoText:(v:string)=>void;avatarColor:string;onOpenProfile:()=>void;entries:Entry[];chats:ImportedConversation[]}){
  const [rotation,setRotation]=useState({x:0,y:0,z:0})
- const [messages,setMessages]=useState<{id:number;role:'user'|'memo';text:string}[]>([])
+ const [messages,setMessages]=useState<{id:number;role:'user'|'memo';text:string}[]>(()=>{try{return JSON.parse(localStorage.getItem('memento-memo-chat')||'[]')}catch{return []}})
  const [streaming,setStreaming]=useState(false)
  const [streamedText,setStreamedText]=useState('')
  const [ollamaUrl,setOllamaUrl]=useState(()=>localStorage.getItem('memento-ollama-url')||'http://localhost:11434')
@@ -118,6 +118,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
   finally{setModelsLoading(false)}
  }
  useEffect(()=>{void loadModels()},[])
+ useEffect(()=>{localStorage.setItem('memento-memo-chat',JSON.stringify(messages))},[messages])
  useEffect(()=>{localStorage.setItem('memento-ollama-url',ollamaUrl)},[ollamaUrl])
  useEffect(()=>{if(selectedModel)localStorage.setItem('memento-ollama-model',selectedModel)},[selectedModel])
  useEffect(()=>{localStorage.setItem('memento-memo-journal',String(includeJournal))},[includeJournal])
@@ -177,6 +178,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
   </div>
   <div className="memo-heading"><div className="eyebrow"><Sparkles size={14}/> YOUR AI COMPANION</div><h1>What’s on your mind?</h1><p>Chat with a local Ollama model running on your computer.</p></div>
   <div className="memo-avatar-stage" onPointerMove={e=>{const r=e.currentTarget.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;setRotation({x:-y*24,y:x*24,z:x*10})}} onPointerLeave={()=>setRotation({x:0,y:0,z:0})}><Avatar className="memo-strobi" animation="idle" size="min(42vw, 210px)" ariaLabel="Strobi, Memo's avatar" style={avatarStyle}/><strong>Memo</strong><span>Your AI companion</span></div>
+  <div className="memo-chat-toolbar">{messages.length>0&&<button type="button" className="memo-clear-chat" onClick={()=>{if(streaming)abortControllerRef.current?.abort();setMessages([]);setStreamedText('');streamedTextRef.current='';localStorage.removeItem('memento-memo-chat')}} disabled={streaming}> <Trash2 size={14}/> Delete chat</button>}</div>
   <div className="memo-chat-log" aria-live="polite">{messages.map(message=><div key={message.id} className={'memo-chat-row '+message.role}><span className="memo-chat-name">{message.role==='memo'?'Memo':'You'}</span><div className="memo-chat-message"><p>{message.text}</p></div></div>)}{streaming&&<div className="memo-chat-row memo"><span className="memo-chat-name">Memo</span><div className="memo-chat-message"><p>{streamedText}<i className="memo-typing-caret"/></p></div></div>}</div>
   {!messages.length&&!streaming&&<div className="memo-quick-prompts">{quickPrompts.map(prompt=><button key={prompt} onClick={()=>void sendMessage(prompt)}>{prompt}</button>)}</div>}
   {settingsOpen&&<div className="memo-ollama-fields memo-ollama-popover">
