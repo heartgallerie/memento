@@ -102,6 +102,44 @@ function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedC
  return 'ARCHIVE CONTEXT (retrieved excerpts only; not the complete archive):\n\n'+sections.join('\n\n').slice(0,6500);
 }
 
+function MemoInline({text}:{text:string}){
+ const pattern=/\\*\\*([^*]+)\\*\\*|__([^_]+)__|\\*([^*]+)\\*|_([^_]+)_|`([^`]+)`/g;
+ const parts:ReactNode[]=[];let last=0,match:RegExpExecArray|null;
+ while((match=pattern.exec(text))!==null){
+  if(match.index>last)parts.push(text.slice(last,match.index));
+  const value=match[1]??match[2]??match[3]??match[4]??match[5];
+  if(match[1]!==undefined||match[2]!==undefined)parts.push(<strong key={match.index}>{value}</strong>);
+  else if(match[3]!==undefined||match[4]!==undefined)parts.push(<em key={match.index}>{value}</em>);
+  else parts.push(<code key={match.index}>{value}</code>);
+  last=pattern.lastIndex;
+ }
+ if(last<text.length)parts.push(text.slice(last));
+ return <>{parts}</>;
+}
+
+function MemoMarkdown({text}:{text:string}){
+ const lines=text.replace(/\\r\\n?/g,'\\n').split('\\n');
+ const blocks:ReactNode[]=[];let paragraph:string[]=[];let list:string[]=[];let listType:'ul'|'ol'|null=null;let quote:string[]=[];
+ const flushParagraph=()=>{if(paragraph.length){blocks.push(<p key={'p'+blocks.length}><MemoInline text={paragraph.join(' ')}/></p>);paragraph=[]}};
+ const flushList=()=>{if(list.length&&listType){const Tag=listType;blocks.push(<Tag key={'l'+blocks.length}>{list.map((item,index)=><li key={index}><MemoInline text={item}/></li>)}</Tag>)}list=[];listType=null};
+ const flushQuote=()=>{if(quote.length){blocks.push(<blockquote key={'q'+blocks.length}><MemoMarkdown text={quote.join('\\n')}/></blockquote>);quote=[]}};
+ for(const line of lines){
+  const trimmed=line.trim();
+  const quoteMatch=trimmed.match(/^>\\s?(.*)$/);
+  const unordered=trimmed.match(/^[-*+]\\s+(.+)$/);
+  const ordered=trimmed.match(/^\\d+[.)]\\s+(.+)$/);
+  if(quoteMatch){flushParagraph();flushList();quote.push(quoteMatch[1]);continue}
+  flushQuote();
+  if(unordered||ordered){flushParagraph();const nextType=unordered?'ul':'ol';if(listType&&listType!==nextType)flushList();listType=nextType;list.push((unordered||ordered)![1]);continue}
+  flushList();
+  if(!trimmed){flushParagraph();continue}
+  const heading=trimmed.match(/^(#{1,3})\\s+(.+)$/);
+  if(heading){flushParagraph();blocks.push(<strong className={'memo-md-heading memo-md-h'+heading[1].length} key={'h'+blocks.length}><MemoInline text={heading[2]}/></strong>);continue}
+  paragraph.push(trimmed);
+ }
+ flushParagraph();flushList();flushQuote();
+ return <div className="memo-markdown">{blocks}</div>;
+}
 function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chats}:{memoText:string;setMemoText:(v:string)=>void;avatarColor:string;onOpenProfile:()=>void;entries:Entry[];chats:ImportedConversation[]}){
  const [rotation,setRotation]=useState({x:0,y:0,z:0})
  const [messages,setMessages]=useState<{id:number;role:'user'|'memo';text:string}[]>(()=>{try{return JSON.parse(localStorage.getItem('memento-memo-chat')||'[]')}catch{return []}})
@@ -223,7 +261,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
   <div className="memo-heading"><div className="eyebrow"><Sparkles size={14}/> YOUR AI COMPANION</div><h1>What’s on your mind?</h1><p>Chat with a local Ollama model running on your computer.</p></div>
   <div className="memo-avatar-stage" onPointerMove={e=>{const r=e.currentTarget.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;setRotation({x:-y*24,y:x*24,z:x*10})}} onPointerLeave={()=>setRotation({x:0,y:0,z:0})}><Avatar className="memo-strobi" animation="idle" size="min(42vw, 210px)" ariaLabel="Strobi, Memo's avatar" style={avatarStyle}/><strong>Memo</strong><span>Your AI companion</span></div>
   <div className="memo-chat-toolbar">{messages.length>0&&<button type="button" className="memo-clear-chat" onClick={()=>{if(streaming)abortControllerRef.current?.abort();setMessages([]);setStreamedText('');streamedTextRef.current='';localStorage.removeItem('memento-memo-chat')}} disabled={streaming}> <Trash2 size={14}/> Delete chat</button>}</div>
-  <div className="memo-chat-log" aria-live="polite">{messages.map(message=><div key={message.id} className={'memo-chat-row '+message.role}><span className="memo-chat-name">{message.role==='memo'?'Memo':'You'}</span><div className="memo-chat-message"><p>{message.text}</p></div></div>)}{streaming&&<div className="memo-chat-row memo"><span className="memo-chat-name">Memo</span><div className="memo-chat-message">{(activity||thinkingText)&&<div className="memo-thinking-header"><button type="button" className="memo-thinking-toggle" onClick={()=>setThinkingOpen(value=>!value)} aria-expanded={thinkingOpen}><ChevronDown size={13} className={thinkingOpen?'is-open':''}/><span className="memo-shimmer-text">{thinkingText?'Thinking':activity}</span></button></div>}{thinkingOpen&&<div className="memo-thinking-content">{thinkingText||'Ollama did not return a separate thinking stream for this response. This model may not support visible thinking, or it may not expose it through the API.'}</div>}<p>{streamedText}{!activity&&!thinkingText&&<i className="memo-typing-caret"/>}</p></div></div>}</div>
+  <div className="memo-chat-log" aria-live="polite">{messages.map(message=><div key={message.id} className={'memo-chat-row '+message.role}><span className="memo-chat-name">{message.role==='memo'?'Memo':'You'}</span><div className="memo-chat-message"><MemoMarkdown text={message.text}/></div></div>)}{streaming&&<div className="memo-chat-row memo"><span className="memo-chat-name">Memo</span><div className="memo-chat-message">{(activity||thinkingText)&&<div className="memo-thinking-header"><button type="button" className="memo-thinking-toggle" onClick={()=>setThinkingOpen(value=>!value)} aria-expanded={thinkingOpen}><ChevronDown size={13} className={thinkingOpen?'is-open':''}/><span className="memo-shimmer-text">{thinkingText?'Thinking':activity}</span></button></div>}{thinkingOpen&&<div className="memo-thinking-content">{thinkingText||'Ollama did not return a separate thinking stream for this response. This model may not support visible thinking, or it may not expose it through the API.'}</div>}<MemoMarkdown text={streamedText}/>{!activity&&!thinkingText&&<i className="memo-typing-caret"/>}</div></div>}</div>
   {!messages.length&&!streaming&&<div className="memo-quick-prompts">{quickPrompts.map(prompt=><button key={prompt} onClick={()=>void sendMessage(prompt)}>{prompt}</button>)}</div>}
   {settingsOpen&&<div className="memo-ollama-fields memo-ollama-popover">
    <div className="memo-settings-heading"><strong>Ollama settings</strong><button type="button" onClick={()=>setSettingsOpen(false)} aria-label="Close settings">×</button></div>
