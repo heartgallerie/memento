@@ -1319,3 +1319,7 @@
 .memo-ollama-popover{width:min(100%,560px);margin:0 auto 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:0 8px 28px #00000012}
 .memo-settings-heading{display:flex;align-items:center;justify-content:space-between;color:var(--text);font:600 10px 'DM Sans'}
 .memo-settings-heading button{border:0;background:transparent;color:var(--muted);font-size:18px;cursor:pointer}
+.memo-chat-toolbar{display:flex;justify-content:flex-end;min-height:28px;margin:0 0 6px}
+.memo-clear-chat{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+.memo-clear-chat:hover:not(:disabled){color:var(--danger,var(--accent));border-color:currentColor;background:color-mix(in srgb,var(--danger,var(--accent)) 7%,transparent)}
+.memo-clear-chat:disabled{opacity:.45;cursor:not-allowed}
