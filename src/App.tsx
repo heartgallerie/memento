@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { CakeSlice, BookOpen, PenLine, CalendarDays, Search, UserRound, Settings, Sparkles, Plus, ImagePlus, ChevronLeft, ChevronRight, MoreHorizontal, Download, PanelLeftClose, PanelLeftOpen, Archive, Check, ArrowUpRight, FilePlus2, Bold, Italic, Underline, List, ListOrdered, Quote, Highlighter, X, Tag as TagIcon, Cloud, Upload, Sun, Moon, Palette, Trash2, Calendar as CalendarIcon, Folder, Bookmark, ChevronDown, MapPin, BadgeCheck, BarChart3, Pin, ExternalLink, Play, Pause, Paperclip, ArrowUp, AudioLines, Pencil, Instagram, Users, UserPlus, MessageCircle, Link2, AtSign, Globe, Music2, Youtube, Briefcase, LayoutTemplate } from 'lucide-react'
+import { CakeSlice, BookOpen, PenLine, CalendarDays, Search, UserRound, Settings, Sparkles, Plus, ImagePlus, ChevronLeft, ChevronRight, MoreHorizontal, Download, PanelLeftClose, PanelLeftOpen, Archive, Check, ArrowUpRight, FilePlus2, Bold, Italic, Underline, List, ListOrdered, Quote, Highlighter, X, Tag as TagIcon, Cloud, Upload, Sun, Moon, Palette, Trash2, Calendar as CalendarIcon, Folder, Bookmark, ChevronDown, MapPin, BadgeCheck, BarChart3, Pin, ExternalLink, Play, Pause, Paperclip, Ban, ArrowUp, AudioLines, Pencil, Instagram, Users, UserPlus, MessageCircle, Link2, AtSign, Globe, Music2, Youtube, Briefcase, LayoutTemplate } from 'lucide-react'
 
 import { createAvatar } from '@bible-strong/avatar-react'
 import '@bible-strong/avatar-react/styles.css'
@@ -333,9 +333,9 @@ ayoo, we finna continue this, think I need rerecord some of my lines sho
  return <section className="whatsapp-preview-view">
   <div className="eyebrow"><MessageCircle size={14}/> CHAT EXPORT <span className="dm-preview-tag">TEXT DOCUMENT</span></div>
   <div className="dm-page-heading"><div><h1>Matteø</h1><p>WhatsApp conversation · 10 August 2025 — 14 September 2026</p></div><span className="dm-thread-count">{messages.length} records</span></div>
-  <div className="wa-document">
-   <div className="wa-document-toolbar"><span>Matteø.txt</span><span>WhatsApp Chat · Plain text export</span></div>
-   <div className="wa-document-body">
+  <div className="wa-chat-shell">
+   <div className="wa-chat-topbar"><span className="wa-chat-avatar">M</span><div><strong>Matteø</strong><small>WhatsApp conversation</small></div><span className="wa-chat-export-label">TEXT EXPORT</span></div>
+   <div className="wa-chat-body">
     {visible.map(message=>{
      const dateChanged=message.date!==lastDate;lastDate=message.date;
      const attachment=message.body.match(/^(.+?) \(file attached\)$/);
@@ -344,7 +344,7 @@ ayoo, we finna continue this, think I need rerecord some of my lines sho
      const content=edited?message.body.replace(' <This message was edited>',''):message.body;
      return <div className="wa-record" key={message.id}>
       {dateChanged&&<div className="wa-date-heading">{message.dateLabel}</div>}
-      {message.system?<div className="wa-system">{content}</div>:<div className="wa-record-line"><time>{message.time}</time><strong className={message.sender==='you'?'wa-you':'wa-contact'}>{message.sender==='you'?'You':message.sender}:</strong><span className="wa-record-content">{attachment?<span className="wa-attachment"><Paperclip size={12}/>{attachment[1]}<small>attachment reference only</small></span>:url?<a href={url[0]} target="_blank" rel="noreferrer">{content}</a>:content}{edited&&<small className="wa-edited">edited</small>}</span></div>}
+      {message.system?<div className="wa-system">{content}</div>:message.body.trim()==='You deleted this message'&&message.sender==='you'?<div className="wa-chat-row outgoing"><div className="wa-chat-bubble wa-deleted"><span><Ban size={14}/><em>You deleted this message</em></span><time>{message.time}</time></div></div>:<div className={'wa-chat-row '+(message.sender==='you'?'outgoing':'incoming')}><div className="wa-chat-bubble"><div className="wa-chat-sender">{message.sender==='you'?'You':message.sender}</div><div className="wa-chat-text">{attachment?<span className="wa-attachment"><Paperclip size={13}/>{attachment[1]}<small>attachment reference only</small></span>:url?<a href={url[0]} target="_blank" rel="noreferrer">{content}</a>:content}{edited&&<small className="wa-edited">edited</small>}</div><time>{message.time}</time></div></div>}
      </div>
     })}
    </div>
