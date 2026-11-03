@@ -837,3 +837,22 @@
 .attachment-grid-item:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .attachment-grid-item:hover{border-color:var(--accent)}
 @media(max-width:520px){.attachment-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}}
+
+
+/* Keep Instagram identity content beside the avatar; actions stay on the next row. */
+.profile-main.profile-layout-instagram{grid-template-columns:112px minmax(0,1fr);column-gap:22px;row-gap:15px}
+.profile-layout-instagram .profile-heading-row{display:contents}
+.profile-layout-instagram .profile-avatar-stack{grid-column:1;grid-row:1;top:0;margin:0;align-self:start}
+.profile-layout-instagram .profile-fields{grid-column:2;grid-row:1;min-width:0;padding-top:3px}
+.profile-layout-instagram .profile-heading-actions{grid-column:1/-1;grid-row:2;justify-self:end;align-self:start;display:flex;gap:8px}
+.profile-layout-instagram .profile-heading-actions .profile-main-edit-button{margin-top:0}
+@media(max-width:650px){
+ .profile-main.profile-layout-instagram{grid-template-columns:82px minmax(0,1fr);column-gap:13px;row-gap:13px}
+ .profile-layout-instagram .profile-heading-row .profile-avatar{width:76px;height:76px}
+ .profile-layout-instagram .profile-avatar-stack{top:0}
+ .profile-layout-instagram .profile-fields{grid-column:2;grid-row:1;padding-top:0}
+ .profile-layout-instagram .profile-heading-actions{grid-column:1/-1;grid-row:2;justify-self:end;gap:5px}
+}
+
+/* Solid right-leaning hammer mark: pointed left poll, flat striking face on right. */
+.owner-mark svg{transform:rotate(9deg);transform-origin:50% 50%}
