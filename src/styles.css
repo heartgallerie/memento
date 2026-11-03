@@ -966,21 +966,21 @@
 .dm-platform-switch button{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);font:10px 'DM Sans';cursor:pointer}
 .dm-platform-switch button.active{background:var(--soft);border-color:color-mix(in srgb,var(--accent) 40%,var(--line));color:var(--text)}
 .whatsapp-preview-view{max-width:1120px;margin:48px auto;padding:0 38px 55px}
-.wa-document{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);box-shadow:0 8px 30px rgba(0,0,0,.035)}
-.wa-document-toolbar{display:flex;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel);font:9px 'DM Mono';color:var(--muted)}
-.wa-document-body{padding:20px 22px;font:11px/1.75 'DM Mono',monospace;color:var(--text);overflow-wrap:anywhere}
-.wa-date-heading{margin:18px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--line);font:600 10px 'DM Sans';color:var(--muted)}
-.wa-record{margin:1px 0}
-.wa-record-line{display:grid;grid-template-columns:66px minmax(72px,max-content) minmax(0,1fr);gap:8px;align-items:baseline}
-.wa-record-line time{font-size:9px;color:var(--muted);white-space:nowrap}
-.wa-record-line strong{font:600 10px 'DM Sans';white-space:nowrap}
-.wa-you{color:var(--accent)}
-.wa-contact{color:var(--text)}
-.wa-record-content{min-width:0;white-space:pre-wrap}
-.wa-record-content a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}
-.wa-system{margin:5px auto 9px;max-width:85%;padding:7px 12px;border-radius:5px;background:var(--panel);color:var(--muted);text-align:center;font:9px/1.6 'DM Sans'}
-.wa-attachment{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
-.wa-attachment small,.wa-edited{font:8px 'DM Sans';color:var(--muted);font-style:italic}
-.wa-edited{margin-left:7px}
-.wa-show-all{display:block;margin:0 auto 16px;padding:8px 13px;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--text);font:10px 'DM Sans';cursor:pointer}
-@media(max-width:760px){.dm-platform-switch{padding:0 16px;margin:18px auto -34px}.whatsapp-preview-view{padding:25px 16px 40px;margin:0}.wa-document-body{padding:14px 10px;font-size:10px}.wa-record-line{grid-template-columns:53px minmax(62px,max-content) minmax(0,1fr);gap:5px}.wa-record-line strong{font-size:9px}.wa-system{max-width:100%}.wa-document-toolbar{font-size:8px}}
+.wa-chat-shell{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);box-shadow:0 8px 30px rgba(0,0,0,.035)}
+.wa-chat-topbar{display:flex;align-items:center;gap:11px;padding:13px 17px;background:var(--surface);border-bottom:1px solid var(--line)}
+.wa-chat-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:white;font:600 13px 'DM Sans'}
+.wa-chat-topbar div{display:grid;gap:2px}.wa-chat-topbar strong{font:600 12px 'DM Sans';color:var(--text)}.wa-chat-topbar small{font:9px 'DM Sans';color:var(--muted)}
+.wa-chat-export-label{margin-left:auto;font:8px 'DM Mono';letter-spacing:.08em;color:var(--muted)}
+.wa-chat-body{padding:24px clamp(12px,4vw,42px);display:flex;flex-direction:column;gap:5px;min-height:300px;background:var(--background)}
+.wa-date-heading{align-self:center;margin:17px 0 12px;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font:9px 'DM Sans';color:var(--muted)}
+.wa-record{width:100%;display:flex;flex-direction:column}
+.wa-system{align-self:center;margin:7px auto 12px;max-width:85%;padding:8px 13px;border-radius:8px;background:var(--surface);border:1px solid var(--line);color:var(--muted);text-align:center;font:9px/1.6 'DM Sans'}
+.wa-chat-row{display:flex;width:100%}.wa-chat-row.incoming{justify-content:flex-start}.wa-chat-row.outgoing{justify-content:flex-end}
+.wa-chat-bubble{position:relative;max-width:min(78%,560px);padding:9px 10px 19px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:11px/1.55 'DM Sans';overflow-wrap:anywhere;box-shadow:0 1px 1px rgba(0,0,0,.025)}
+.wa-chat-row.outgoing .wa-chat-bubble{background:color-mix(in srgb,var(--accent) 9%,var(--surface));border-color:color-mix(in srgb,var(--accent) 20%,var(--line))}
+.wa-chat-sender{font:600 9px 'DM Sans';color:var(--accent);margin-bottom:3px}.wa-chat-row.outgoing .wa-chat-sender{display:none}
+.wa-chat-text{white-space:pre-wrap}.wa-chat-text a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}.wa-chat-bubble time{position:absolute;right:9px;bottom:4px;font:8px 'DM Mono';color:var(--muted)}
+.wa-attachment{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}.wa-attachment small,.wa-edited{font:8px 'DM Sans';color:var(--muted);font-style:italic}.wa-attachment small{margin-left:3px}.wa-edited{margin-left:7px}
+.wa-deleted{background:var(--panel)!important;border-style:dashed!important;color:var(--muted)!important}.wa-deleted>span{display:flex;align-items:center;gap:7px}.wa-deleted em{font-style:italic}
+.wa-show-all{display:block;margin:0 auto 16px;padding:8px 13px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--text);font:10px 'DM Sans';cursor:pointer}
+@media(max-width:760px){.dm-platform-switch{padding:0 16px;margin:18px auto -34px}.whatsapp-preview-view{padding:25px 16px 40px;margin:0}.wa-chat-body{padding:16px 10px}.wa-chat-bubble{max-width:88%;font-size:10px}.wa-chat-topbar{padding:11px 12px}.wa-chat-export-label{font-size:7px}.wa-system{max-width:100%}}
