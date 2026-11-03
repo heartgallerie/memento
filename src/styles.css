@@ -996,3 +996,14 @@
 .wa-link-preview small{font:8px 'DM Sans';color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
 .wa-link-preview>svg{flex:none;color:var(--muted)}
 @media(max-width:760px){.wa-link-preview{min-width:0;max-width:100%}.wa-link-preview small{max-width:190px}}
+
+.dm-empty-state{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;min-height:250px;padding:30px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center;background:var(--panel)}
+.dm-empty-state>strong{font:600 13px 'DM Sans';color:var(--text)}.dm-empty-state>span{font:10px/1.6 'DM Sans'}
+.chat-import-media{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px;max-width:300px}
+.chat-import-media-item{display:flex;align-items:center;justify-content:center;min-width:54px;max-width:190px;min-height:42px;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel);color:var(--muted);font:9px 'DM Sans'}
+.chat-import-media-item img{display:block;max-width:180px;max-height:180px;object-fit:cover}
+.chat-import-media-item video{display:block;max-width:220px;max-height:170px}
+.chat-import-media-item audio{width:220px;max-width:100%}
+.chat-import-media-item>span{display:flex;align-items:center;gap:6px;padding:8px}.chat-import-media-item small{display:block;font-size:8px}
+.wa-call-record>span{display:flex;align-items:center;gap:8px;color:var(--muted);font:10px 'DM Sans'}
+.wa-call-record>span svg{color:var(--accent)}
