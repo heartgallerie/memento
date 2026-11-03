@@ -558,12 +558,3 @@
 .sidebar-avatar-wrap .sidebar-profile-status-label{position:absolute;z-index:5;left:50%;top:-15px;transform:translateX(-50%);padding:2px 5px;border:1px solid var(--line);border-radius:999px;background:var(--panel);font:600 8px/1.2 'DM Sans';white-space:nowrap;color:#43b581;pointer-events:none}
 .sidebar-avatar-wrap .sidebar-profile-status-label.idle{color:#e3a923}
 .sidebar-card-avatar-wrap .sidebar-status-indicator{right:0;bottom:1px}
-
-
-/* Match the main profile presence badge, positioned above the avatar frame in sidebar surfaces. */
-.sidebar-avatar-wrap .profile-status-indicator,.sidebar-card-avatar-wrap .profile-status-indicator{top:-13px;left:50%;right:auto;bottom:auto;transform:translateX(-50%);width:25px;height:25px;border-color:var(--panel)}
-.sidebar-card-avatar-wrap .profile-status-indicator{border-color:var(--surface)}
-/* The animated frame is shown only for one pass; its final frame is copied back to the still canvas. */
-.avatar-frame-motion img{opacity:0}
-.avatar-frame-motion img.is-ready{opacity:1}
-.avatar-frame-motion.is-hovered canvas{visibility:hidden}
