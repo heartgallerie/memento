@@ -984,3 +984,15 @@
 .wa-deleted{background:var(--panel)!important;border-style:dashed!important;color:var(--muted)!important}.wa-deleted>span{display:flex;align-items:center;gap:7px}.wa-deleted em{font-style:italic}
 .wa-show-all{display:block;margin:0 auto 16px;padding:8px 13px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--text);font:10px 'DM Sans';cursor:pointer}
 @media(max-width:760px){.dm-platform-switch{padding:0 16px;margin:18px auto -34px}.whatsapp-preview-view{padding:25px 16px 40px;margin:0}.wa-chat-body{padding:16px 10px}.wa-chat-bubble{max-width:88%;font-size:10px}.wa-chat-topbar{padding:11px 12px}.wa-chat-export-label{font-size:7px}.wa-system{max-width:100%}}
+
+/* WhatsApp conversation switcher and shared-link preview cards */
+.wa-chat-tabs{display:flex;gap:6px;margin:0 0 13px}
+.wa-chat-tabs button{padding:7px 11px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);font:9px 'DM Sans';cursor:pointer}
+.wa-chat-tabs button.active{background:var(--soft);border-color:color-mix(in srgb,var(--accent) 42%,var(--line));color:var(--text)}
+.wa-link-preview{display:flex;align-items:center;gap:9px;min-width:205px;max-width:320px;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text)!important;text-decoration:none!important}
+.wa-link-icon{width:31px;height:31px;flex:none;display:grid;place-items:center;border-radius:6px;background:color-mix(in srgb,var(--accent) 13%,var(--surface));color:var(--accent)}
+.wa-link-preview>span:nth-child(2){display:grid;gap:3px;min-width:0;flex:1}
+.wa-link-preview strong{font:600 10px 'DM Sans';color:var(--text)}
+.wa-link-preview small{font:8px 'DM Sans';color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
+.wa-link-preview>svg{flex:none;color:var(--muted)}
+@media(max-width:760px){.wa-link-preview{min-width:0;max-width:100%}.wa-link-preview small{max-width:190px}}
