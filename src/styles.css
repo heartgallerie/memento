@@ -1119,3 +1119,11 @@
 .profile-avatar-stack>.profile-status-bubble{left:50%;bottom:calc(100% + 14px)}
 @keyframes profile-status-pop{from{opacity:0;transform:translateX(-50%) scale(.84)}to{opacity:1;transform:translateX(-50%) scale(1)}}
 .profile-status-remove{align-self:flex-start;border:0;background:transparent;color:var(--muted);font-size:12px;cursor:pointer;padding:2px 0}
+
+
+/* Let the status bubble escape the profile popover instead of clipping it. */
+.sidebar-profile-card{overflow:visible}
+.sidebar-profile-card>.sidebar-card-banner{border-radius:12px 12px 0 0}
+.sidebar-card-main,.sidebar-card-avatar-wrap{overflow:visible!important}
+.profile-view,.profile-main,.profile-heading-row,.profile-avatar-stack{overflow:visible!important}
+.profile-status-bubble{pointer-events:auto}
