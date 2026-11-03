@@ -560,34 +560,19 @@
 .sidebar-card-avatar-wrap .sidebar-status-indicator{right:0;bottom:1px}
 
 
-/* Keep presence indicators visible above avatar frames in both sidebar profile states. */
-.sidebar-avatar-wrap .profile-status-indicator,
-.sidebar-card-avatar-wrap .profile-status-indicator{
+/* Keep the persistent sidebar profile button's presence indicator above its avatar frame. */
+.sidebar-avatar-wrap .profile-status-indicator{
   z-index:6;
-  right:0;
-  bottom:0;
+  right:-1px;
+  bottom:-1px;
   width:16px;
   height:16px;
   border:3px solid var(--panel);
 }
-.sidebar-avatar-wrap .profile-status-indicator{
-  right:-1px;
-  bottom:-1px;
-}
-.sidebar-card-avatar-wrap .profile-status-indicator{
-  right:0;
-  bottom:0;
-  border-color:var(--surface);
-}
-.sidebar-avatar-wrap .profile-status-indicator.idle,
-.sidebar-card-avatar-wrap .profile-status-indicator.idle{
+.sidebar-avatar-wrap .profile-status-indicator.idle{
   background:var(--panel);
 }
-.sidebar-card-avatar-wrap .profile-status-indicator.idle{
-  background:var(--surface);
-}
-.sidebar-avatar-wrap .profile-status-indicator.idle svg,
-.sidebar-card-avatar-wrap .profile-status-indicator.idle svg{
+.sidebar-avatar-wrap .profile-status-indicator.idle svg{
   width:9px;
   height:9px;
 }
