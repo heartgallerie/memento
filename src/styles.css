@@ -1116,7 +1116,7 @@
 .profile-status-bubble:before{width:10px;height:10px;bottom:-8px;left:22px;right:auto}.profile-status-bubble:after{width:6px;height:6px;bottom:-16px;left:13px;right:auto}
 .profile-status-bubble img,.profile-status-bubble video{display:block;width:100%;max-width:100%;max-height:180px;object-fit:contain;border-radius:9px;background:var(--panel)}
 .sidebar-card-avatar-wrap .profile-status-bubble{left:50%;bottom:calc(100% + 12px);width:min(152px,calc(100vw - 56px));max-width:min(152px,calc(100vw - 56px));padding:8px 10px;gap:5px;font-size:11px} .sidebar-card-avatar-wrap .profile-status-bubble img,.sidebar-card-avatar-wrap .profile-status-bubble video{max-height:120px}
-.profile-avatar-stack>.profile-status-bubble{left:calc(50% + 12px);bottom:calc(100% + 14px)}
+.profile-avatar-stack>.profile-status-bubble{left:calc(50% + 32px);bottom:calc(100% + 14px)}
 @keyframes profile-status-pop{from{opacity:0;transform:translateX(-50%) scale(.84)}to{opacity:1;transform:translateX(-50%) scale(1)}}
 .profile-status-remove{align-self:flex-start;border:0;background:transparent;color:var(--muted);font-size:12px;cursor:pointer;padding:2px 0}
 
