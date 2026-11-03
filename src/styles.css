@@ -854,5 +854,5 @@
  .profile-layout-instagram .profile-heading-actions{grid-column:1/-1;grid-row:2;justify-self:end;gap:5px}
 }
 
-/* Solid right-leaning hammer mark: pointed left poll, flat striking face on right. */
-.owner-mark svg{transform:rotate(9deg);transform-origin:50% 50%}
+/* Hard-hat owner mark. */
+.owner-mark svg{transform:none;transform-origin:50% 50%}
