@@ -8,6 +8,9 @@ type Album = {
   disc?: string
   colors: [string, string]
   ink: string
+  creator?: string
+  detail?: string
+  link?: string
 }
 
 const ALBUMS: Album[] = [
@@ -103,14 +106,14 @@ function ShelfItem({ album, onOpen }: { album: Album; onOpen: (album: Album) => 
       onPointerLeave={() => setTilt({ x: 0, y: -22, active: false })} aria-label={`Open ${album.title} by Playboi Carti`}>
       <span className="cd-shelf-case-shadow"><CdCase album={album} size={size} rotX={tilt.x} rotY={tilt.y} dragging={tilt.active} /></span>
       <span className="cd-shelf-item-copy">
-        <strong>{album.title}</strong><span>PLAYBOI CARTI</span>
-        <small>{album.year} · {album.year === 2016 || album.year === 2017 ? 'MIXTAPE' : 'ALBUM'}</small>
+        <strong>{album.title}</strong><span>{album.creator || 'PLAYBOI CARTI'}</span>
+        <small>{album.detail || `${album.year} · ${album.year === 2016 || album.year === 2017 ? 'MIXTAPE' : 'ALBUM'}`}</small>
       </span>
     </button>
   )
 }
 
-function Viewer({ album, onClose }: { album: Album; onClose: () => void }) {
+function Viewer({ album, onClose, onRemove }: { album: Album; onClose: () => void; onRemove?: () => void }) {
   const [size, setSize] = useState(() => Math.min(330, (typeof window !== 'undefined' ? window.innerWidth : 400) * 0.62))
   const [rotation, setRotation] = useState({ x: -8, y: -24 })
   const [open, setOpen] = useState(false)
@@ -197,11 +200,13 @@ function Viewer({ album, onClose }: { album: Album; onClose: () => void }) {
           <CdCase album={album} size={size} rotX={rotation.x} rotY={rotation.y} open={open} discOut={discOut}
             discAngle={angle} dragging={dragging} onDiscDown={onDiscDown} discRef={discRef} />
         </div>
-        <div className="cd-shelf-viewer-meta"><strong>{album.title}</strong><span>PLAYBOI CARTI</span><small>{album.year}</small></div>
+        <div className="cd-shelf-viewer-meta"><strong>{album.title}</strong><span>{album.creator || 'PLAYBOI CARTI'}</span><small>{album.detail || album.year}</small></div>
         <div className="cd-shelf-controls">
           <button type="button" className={open ? 'is-active' : ''} onClick={toggleOpen}>{open ? 'Close case' : 'Open case'}</button>
           <button type="button" disabled={!open} className={discOut ? 'is-active' : ''} onClick={() => setDiscOut(value => !value)}>{discOut ? 'Put disc back' : 'Pull disc out'}</button>
           <button type="button" disabled={!open} onClick={spin}>Spin disc</button>
+          {album.link && <a className="cd-shelf-external-link" href={album.link} target="_blank" rel="noreferrer">Open on Roblox ↗</a>}
+          {onRemove && <button type="button" className="cd-shelf-remove" onClick={onRemove}>Remove from shelf</button>}
         </div>
         <p className="cd-shelf-hint">Drag to turn the case. Open it, then drag the disc to spin it.</p>
       </section>
@@ -243,40 +248,46 @@ async function fetchRobloxGame(input: string): Promise<RobloxGame> {
   }
 }
 
-function GameCase({ game, onOpen }: { game: RobloxGame; onOpen: (game: RobloxGame) => void }) {
-  const [tilt, setTilt] = useState({ x: 0, y: -10 })
-  return <button type="button" className="shelf-game-item" onClick={() => onOpen(game)}
-    onPointerMove={event => { if (event.pointerType === 'touch') return; const r = event.currentTarget.getBoundingClientRect(); const x = (event.clientX-r.left)/r.width-.5; const y=(event.clientY-r.top)/r.height-.5; setTilt({x:-y*13,y:x*24-10}) }}
-    onPointerLeave={() => setTilt({x:0,y:-10})}>
-    <span className="shelf-game-case" style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
-      <span className="shelf-game-cover">{game.image ? <img src={game.image} alt="" loading="lazy"/> : <span className="shelf-game-placeholder">ROBLOX</span>}</span>
-      <span className="shelf-game-side"/>
-    </span>
-    <span className="shelf-game-copy"><strong>{game.name}</strong><small><i/> {game.playing.toLocaleString()} playing</small></span>
-  </button>
+function gameAsAlbum(game: RobloxGame): Album {
+  return {
+    id: 'roblox-' + game.placeId,
+    title: game.name,
+    year: 0,
+    cover: game.image || '',
+    colors: ['#30303a', '#101014'],
+    ink: '#fff',
+    creator: 'ROBLOX EXPERIENCE',
+    detail: game.playing.toLocaleString() + ' PLAYING',
+    link: game.url,
+  }
 }
 
 function GamesShelf() {
-  const [games, setGames] = useState<RobloxGame[]>([])
+  const [games, setGames] = useState<RobloxGame[]>(() => {
+    try {
+      const saved = localStorage.getItem('memento-roblox-shelf')
+      return saved ? JSON.parse(saved) as RobloxGame[] : []
+    } catch { return [] }
+  })
   const [link, setLink] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [selected, setSelected] = useState<RobloxGame | null>(null)
+  const [selectedId, setSelectedId] = useState<number | null>(null)
 
   useEffect(() => {
-    try { const saved = localStorage.getItem('memento-roblox-shelf'); if (saved) setGames(JSON.parse(saved)) } catch { /* ignore invalid local data */ }
-  }, [])
-  useEffect(() => {
-    try { localStorage.setItem('memento-roblox-shelf', JSON.stringify(games)) } catch { /* storage may be unavailable */ }
+    try { localStorage.setItem('memento-roblox-shelf', JSON.stringify(games)) }
+    catch { /* storage may be unavailable */ }
   }, [games])
+
   const refreshCounts = useCallback(async () => {
     if (!games.length) return
     try {
       const response = await readRobloxJson('https://games.roblox.com/v1/games?universeIds=' + games.map(g => g.universeId).join(','))
       const counts = new Map<number, number>((response?.data || []).map((g: { id: number; playing: number }) => [g.id, Number(g.playing) || 0]))
       setGames(current => current.map(game => counts.has(game.universeId) ? { ...game, playing: counts.get(game.universeId)! } : game))
-    } catch { /* keep last known player counts if Roblox is temporarily unavailable */ }
+    } catch { /* preserve saved counts while Roblox is unavailable */ }
   }, [games])
+
   useEffect(() => {
     if (!games.length) return
     const timer = window.setInterval(refreshCounts, 60000)
@@ -296,6 +307,9 @@ function GamesShelf() {
     finally { setLoading(false) }
   }
 
+  const selectedGame = games.find(game => game.universeId === selectedId) || null
+  const selectedAlbum = selectedGame ? gameAsAlbum(selectedGame) : null
+
   return <div className="shelf-games">
     <form className="shelf-game-add" onSubmit={addGame}>
       <div><strong>Add a Roblox experience</strong><span>Paste a Roblox game link to add its cover and live player count.</span></div>
@@ -303,17 +317,10 @@ function GamesShelf() {
         <button type="submit" disabled={loading || !link.trim()}>{loading ? 'Adding…' : 'Add game'}</button></div>
       {error && <p role="alert">{error}</p>}
     </form>
-    {games.length ? <div className="shelf-game-grid">{games.map(game => <GameCase key={game.universeId} game={game} onOpen={setSelected}/>)}</div>
+    {games.length ? <div className="cd-shelf-grid">{games.map(game => <ShelfItem key={game.universeId} album={gameAsAlbum(game)} onOpen={() => setSelectedId(game.universeId}/>)}</div>
       : <div className="shelf-empty"><div className="shelf-empty-case"><span>ROBLOX</span></div><strong>Your game shelf is empty</strong><span>Add a Roblox experience using its link above.</span></div>}
-    {selected && <div className="shelf-game-modal" role="presentation" onMouseDown={event => {if(event.target===event.currentTarget)setSelected(null)}}>
-      <section role="dialog" aria-modal="true" aria-label={selected.name}>
-        <button type="button" className="shelf-game-modal-close" onClick={() => setSelected(null)} aria-label="Close">×</button>
-        {selected.image && <img className="shelf-game-modal-image" src={selected.image} alt=""/>}
-        <strong>{selected.name}</strong><span className="shelf-game-live"><i/>{selected.playing.toLocaleString()} playing right now</span>
-        <a href={selected.url} target="_blank" rel="noreferrer">Open on Roblox ↗</a>
-        <button type="button" className="shelf-game-remove" onClick={() => {setGames(current => current.filter(g => g.universeId !== selected.universeId));setSelected(null)}}>Remove from shelf</button>
-      </section>
-    </div>}
+    {selectedAlbum && <Viewer key={selectedAlbum.id} album={selectedAlbum} onClose={() => setSelectedId(null)}
+      onRemove={() => { setGames(current => current.filter(game => game.universeId !== selectedId)); setSelectedId(null) }}/>}
   </div>
 }
 
