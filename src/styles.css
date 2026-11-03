@@ -1028,3 +1028,51 @@
 .follow-account-avatar{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:var(--panel);color:var(--muted);font:11px 'DM Sans'}
 @media(max-width:760px){.follow-relationships{margin:0 auto;padding:25px 16px 40px}.follow-relationships .dm-page-heading h1{font-size:28px}.follow-filter-tabs{flex-wrap:wrap}}
 @media(max-width:620px){.follow-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.follow-filter-tabs{flex-direction:column}.follow-filter-tabs button{justify-content:space-between}}
+
+
+/* Instagram DM layout, message rendering and scroll regions */
+.dm-workspace{height:min(76vh,820px);min-height:570px;overflow:hidden;align-items:stretch}
+.dm-thread-list{min-height:0;height:100%;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.dm-conversation{height:100%;min-height:0;overflow:hidden}
+.dm-message-list{height:0;min-height:0;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.dm-message-group:has(.dm-date-divider){width:100%}
+.dm-date-divider{align-self:center;width:max-content;max-width:100%;margin:13px auto 15px}
+.dm-date-divider span{display:inline-block;text-align:center}
+.dm-bubble,.dm-thread-preview-copy,.dm-conversation-header{font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+.dm-bubble{unicode-bidi:plaintext;overflow-wrap:anywhere;word-break:normal}
+.dm-voice-card{display:flex;align-items:center;gap:11px;min-width:min(260px,65vw);padding:11px 13px;border:1px solid var(--line);border-radius:14px 14px 14px 4px;background:var(--panel)}
+.dm-message-row.outgoing .dm-voice-card{border-color:color-mix(in srgb,var(--accent) 25%,var(--line));border-radius:14px 14px 4px 14px;background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
+.dm-voice-icon{width:35px;height:35px;flex:none;display:grid;place-items:center;border-radius:50%;background:color-mix(in srgb,var(--accent) 15%,var(--surface));color:var(--accent)}
+.dm-voice-card>div{display:grid;gap:5px;min-width:0;flex:1}
+.dm-voice-card strong{font:600 10px 'DM Sans',system-ui,sans-serif;color:var(--text)}
+.dm-voice-card small{font:8px 'DM Sans',system-ui,sans-serif;color:var(--muted)}
+.dm-voice-card .chat-import-media{margin:0;max-width:100%}
+.dm-voice-card .chat-import-media-item{border:0;background:transparent;min-height:0;width:100%}
+.dm-voice-card .chat-import-media-item audio{width:100%;min-width:190px;height:34px}
+.dm-attachment-label{display:flex;align-items:center;gap:7px;color:var(--muted)}
+.follow-account-list.mutual-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:9px;padding:10px;border:1px solid var(--line);border-radius:8px;overflow:visible}
+.follow-account-list.mutual-grid>a{min-width:0;border:1px solid var(--line);border-radius:7px;padding:11px;background:var(--panel)}
+.follow-account-list.mutual-grid>a:last-child{border-bottom:1px solid var(--line)}
+.follow-account-list.mutual-grid>a>svg{margin-left:auto;flex:none}
+@media(max-width:760px){
+ .dm-workspace{height:calc(100dvh - 250px);min-height:480px;grid-template-columns: minmax(125px,34%) minmax(0,1fr)}
+ .dm-thread-list{border-right:1px solid var(--line);border-bottom:0;padding:9px 6px}
+ .dm-thread-preview{gap:6px;padding:9px 5px}
+ .dm-thread-avatar{width:29px;height:29px;font-size:11px}
+ .dm-thread-preview-copy strong{font-size:10px}
+ .dm-thread-preview-copy span{font-size:9px}
+ .dm-message-list{min-height:0;padding:15px 9px}
+ .dm-message-row .dm-bubble{max-width:calc(100vw - 205px)}
+ .dm-voice-card{min-width:0;max-width:100%;padding:8px}
+ .dm-voice-card .chat-import-media-item audio{min-width:120px}
+ .follow-account-list.mutual-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:7px;padding:8px}
+}
+@media(max-width:520px){
+ .dm-workspace{height:calc(100dvh - 225px);min-height:440px;grid-template-columns:minmax(112px,32%) minmax(0,1fr)}
+ .dm-conversation-header{height:55px;padding:0 9px;gap:7px}
+ .dm-conversation-header strong{font-size:10px}
+ .dm-conversation-header>div span{font-size:8px}
+ .dm-message-row .dm-bubble{max-width:calc(100vw - 180px);font-size:11px;padding:8px 9px}
+ .dm-message-line{gap:3px}
+ .dm-message-line time{font-size:7px}
+}
