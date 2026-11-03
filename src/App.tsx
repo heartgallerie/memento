@@ -97,8 +97,8 @@ function InstagramDMPreview(){
   {id:'saintdiva_',name:'saintdiva_',initial:'S',preview:'how? 😭',lastTime:'5:06 PM',messages:[
    {date:'July 11, 2026',time:'11:59 PM',sender:'you',kind:'story',url:'https://www.instagram.com/stories/heartgallerie/3939181734599866009'},
    {date:'July 12, 2026',time:'1:42 PM',sender:'you',kind:'story',url:'https://www.instagram.com/stories/heartgallerie/3939532729755984497'},
-   {date:'July 12, 2026',time:'2:01 PM',sender:'saintdiva_',kind:'unavailable',reaction:'❤️'},
    {date:'July 12, 2026',time:'2:01 PM',sender:'saintdiva_',kind:'text',text:"Parker's homage?"},
+   {date:'July 12, 2026',time:'2:02 PM',sender:'saintdiva_',kind:'unavailable',reaction:'❤️'},
    {date:'July 12, 2026',time:'5:06 PM',sender:'you',kind:'text',text:'how? 😭'}
   ]},
   {id:'vasthearts',name:'vasthearts',initial:'V',preview:'yeah nah i didnt know u said ts…',lastTime:'10:25 PM',messages:[
