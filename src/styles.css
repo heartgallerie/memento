@@ -1008,6 +1008,11 @@
 .wa-call-record>span{display:flex;align-items:center;gap:8px;color:var(--muted);font:10px 'DM Sans'}
 .wa-call-record>span svg{color:var(--accent)}
 
+.follow-relationships{width:100%;max-width:1120px;margin:48px auto;padding:0 38px 55px;box-sizing:border-box;min-width:0}
+.follow-relationships .dm-page-heading{width:100%;margin:13px 0 28px}
+.follow-relationships .follow-account-list{width:100%;min-width:0}
+.follow-relationships .follow-account-list>a{min-width:0;overflow-wrap:anywhere}
+.follow-relationships .follow-account-list>a strong{min-width:0;overflow-wrap:anywhere}
 .follow-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}
 .follow-stats>div{display:flex;flex-direction:column;gap:5px;padding:14px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
 .follow-stats strong{font:600 21px 'DM Sans';color:var(--text)}.follow-stats span{font:10px 'DM Sans';color:var(--muted)}
@@ -1021,4 +1026,5 @@
 .follow-account-list>a:last-child{border-bottom:0}.follow-account-list>a:hover{background:var(--panel)}
 .follow-account-list>a>svg{margin-left:auto;color:var(--muted)}
 .follow-account-avatar{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:var(--panel);color:var(--muted);font:11px 'DM Sans'}
+@media(max-width:760px){.follow-relationships{margin:0 auto;padding:25px 16px 40px}.follow-relationships .dm-page-heading h1{font-size:28px}.follow-filter-tabs{flex-wrap:wrap}}
 @media(max-width:620px){.follow-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.follow-filter-tabs{flex-direction:column}.follow-filter-tabs button{justify-content:space-between}}
