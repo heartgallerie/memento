@@ -22,7 +22,7 @@ function styleDisplayName(value:string,style:string){
 
 function AvatarFrame({src,className=""}:{src:string;className?:string}){
  const [hovered,setHovered]=useState(false),[hoverCycle,setHoverCycle]=useState(0),[animatedReady,setAnimatedReady]=useState(false)
- const canvasRef=useRef<HTMLCanvasElement>(null),animationRef=useRef<HTMLImageElement>(null),timerRef=useRef<number|undefined>(undefined),startTimeRef=useRef(0)
+ const canvasRef=useRef<HTMLCanvasElement>(null),animationRef=useRef<HTMLImageElement>(null),timerRef=useRef<number|undefined>(undefined)
  const drawStill=(image:HTMLImageElement)=>{const canvas=canvasRef.current;if(!canvas)return;canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;canvas.getContext('2d')?.drawImage(image,0,0)}
  useEffect(()=>{const image=new Image();image.onload=()=>drawStill(image);image.src=src;return()=>{image.onload=null;if(timerRef.current)window.clearTimeout(timerRef.current)}},[src])
  const getAnimationDuration=async()=>{
@@ -31,9 +31,9 @@ function AvatarFrame({src,className=""}:{src:string;className?:string}){
    return frames>1&&total>0?total:1200
   }catch{return 1200}
  }
- const startAnimation=()=>{if(timerRef.current)window.clearTimeout(timerRef.current);startTimeRef.current=performance.now();setAnimatedReady(false);setHoverCycle(v=>v+1);setHovered(true)}
+ const startAnimation=()=>{if(timerRef.current)window.clearTimeout(timerRef.current);setAnimatedReady(false);setHoverCycle(v=>v+1);setHovered(true)}
  const finishAnimation=()=>{const image=animationRef.current;if(image&&image.complete)drawStill(image);setHovered(false);setAnimatedReady(false)}
- useEffect(()=>{if(!hovered||!animatedReady)return;let cancelled=false;void getAnimationDuration().then(duration=>{if(!cancelled)timerRef.current=window.setTimeout(finishAnimation,Math.max(0,duration-(performance.now()-startTimeRef.current)))});return()=>{cancelled=true;if(timerRef.current)window.clearTimeout(timerRef.current)}},[hovered,animatedReady,hoverCycle])
+ useEffect(()=>{if(!hovered||!animatedReady)return;let cancelled=false;void getAnimationDuration().then(duration=>{if(!cancelled)timerRef.current=window.setTimeout(finishAnimation,duration)});return()=>{cancelled=true;if(timerRef.current)window.clearTimeout(timerRef.current)}},[hovered,animatedReady,hoverCycle])
  return <span className={"avatar-frame-motion "+(hovered?"is-hovered ":"")+className} onMouseEnter={startAnimation} onMouseLeave={()=>{if(timerRef.current)window.clearTimeout(timerRef.current);if(hovered)finishAnimation()}} aria-hidden="true"><canvas ref={canvasRef}/>{hovered&&<img ref={animationRef} key={hoverCycle} className={animatedReady?"is-ready":""} src={src} onLoad={()=>setAnimatedReady(true)} alt="" draggable={false}/>}</span>
 }
 
