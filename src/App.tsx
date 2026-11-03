@@ -144,7 +144,7 @@ async function parseInstagramFiles(files:File[],batch:string,ownNames:string[],s
     messages.push({id:batch+'-'+folder+'-'+i,...parts,sender,outgoing:isInstagramOwnSender(sender,own),isAI:normalizedSender(sender)==='metaai',kind:media.length?'media':url?'link':textValue?'text':'system',text:textValue,url,media,reaction:reaction?.reaction,reactionBy:reaction?.actor})
    }
   }
-  const cleanedParticipants=participants.map(cleanInstagramText),name=cleanInstagramText(title||cleanedParticipants.find(x=>!own.has(normalizedSender(x)))||cleanedParticipants[0]||'Instagram conversation')
+  const cleanedParticipants=participants.map(cleanInstagramText),groupName=cleanedParticipants.length>2?cleanedParticipants.filter(x=>!own.has(normalizedSender(x))).slice(0,3).join(', '):'',name=cleanInstagramText(title||groupName||cleanedParticipants.find(x=>!own.has(normalizedSender(x)))||cleanedParticipants[0]||'Instagram conversation')
   messages.sort((x,y)=>x.timestamp-y.timestamp);output.push({id:'instagram-'+batch+'-'+folder,batch,platform:'instagram',name,participants:cleanedParticipants,messages})
  }
  return output
