@@ -192,7 +192,7 @@ function InstagramDMPreview({chats}:{chats:ImportedConversation[]}){
  const allSenders=Array.from(new Set(chats.flatMap(c=>[...(c.participants||[]),...c.messages.map(m=>m.sender)]).map(clean).filter(x=>x&&x!=='Unknown')));
  const matchingSender=allSenders.find(x=>{const n=normalizedSender(x);return n&&[...own].some(o=>o===n||o.startsWith(n)||n.startsWith(o))});
  const selectedOwn=normalizedOwn||normalizedSender(matchingSender||'');
- const isOutgoing=(m:ImportedMessage)=>{const sender=normalizedSender(clean(m.sender));return !!sender&&(selectedOwn?sender===selectedOwn:isInstagramOwnSender(sender,own))};
+ const isOutgoing=(m:ImportedMessage)=>{const sender=normalizedSender(clean(m.sender));if(!sender)return false;if(normalizedOwn)return sender===normalizedOwn;if(typeof m.outgoing==='boolean')return m.outgoing;return isInstagramOwnSender(sender,own)};
  const matches=(c:ImportedConversation)=>{const q=query.trim().toLocaleLowerCase();if(!q)return true;return conversationTitle(c).toLocaleLowerCase().includes(q)||c.messages.some(m=>[clean(m.sender),messageText(m),clean(m.url||''),...(m.media||[]).map(x=>clean(x.name))].join(' ').toLocaleLowerCase().includes(q))};
  const visibleChats=chats.filter(matches);
  useEffect(()=>{if(query.trim()&&visibleChats.length&&!visibleChats.some(c=>c.id===active))setActive(visibleChats[0].id)},[query,active,visibleChats]);
