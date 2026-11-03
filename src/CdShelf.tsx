@@ -248,7 +248,7 @@ function GameCase({ game, onOpen }: { game: RobloxGame; onOpen: (game: RobloxGam
   return <button type="button" className="shelf-game-item" onClick={() => onOpen(game)}
     onPointerMove={event => { if (event.pointerType === 'touch') return; const r = event.currentTarget.getBoundingClientRect(); const x = (event.clientX-r.left)/r.width-.5; const y=(event.clientY-r.top)/r.height-.5; setTilt({x:-y*13,y:x*24-10}) }}
     onPointerLeave={() => setTilt({x:0,y:-10})}>
-    <span className="shelf-game-case" style={{transform:\`rotateX(\${tilt.x}deg) rotateY(\${tilt.y}deg)\`}}>
+    <span className="shelf-game-case" style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
       <span className="shelf-game-cover">{game.image ? <img src={game.image} alt="" loading="lazy"/> : <span className="shelf-game-placeholder">ROBLOX</span>}</span>
       <span className="shelf-game-side"/>
     </span>
