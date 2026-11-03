@@ -143,7 +143,7 @@ function InstagramDMPreview(){
 
 
 function WhatsAppChatPreview(){
- const transcript=\`2025/08/10, 20:45 - Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them. *Learn more*
+ const transcript=`2025/08/10, 20:45 - Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them. *Learn more*
 2025/08/10, 20:45 - ‎: yo
 2025/08/10, 20:46 - Matteø: yo
 2025/08/10, 20:48 - ‎: is this Lil teen forever young
@@ -315,7 +315,7 @@ ayoo, we finna continue this, think I need rerecord some of my lines sho
 2026/08/14, 22:03 - ‎: PTT-20260814-WA0039.opus (file attached)
 2026/08/14, 22:13 - Matteø: PTT-20260814-WA0041.opus (file attached)
 2026/08/14, 22:23 - ‎: aweh
-2026/09/14, 21:06 - ‎: You deleted this message\`;
+2026/09/14, 21:06 - ‎: You deleted this message`;
  const parsed=transcript.split('\n').map((line,index)=>{
   const match=line.match(/^(\d{4}\/\d{2}\/\d{2}), (\d{2}:\d{2}) - (?:(.*?): )?(.*)$/);
   if(!match)return null;
