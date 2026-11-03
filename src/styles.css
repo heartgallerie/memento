@@ -576,3 +576,14 @@
   width:9px;
   height:9px;
 }
+
+
+/* Avatar frame fallback and animation must never stack visibly. */
+.avatar-frame-motion.is-hovered canvas{visibility:visible}
+.avatar-frame-motion.is-hovered:has(img.is-ready) canvas{visibility:hidden}
+
+/* Presence dots sit above the frame without changing the popout card's layout. */
+.sidebar-avatar-wrap .profile-status-indicator,
+.sidebar-card-avatar-wrap .profile-status-indicator{
+  z-index:6;
+}
