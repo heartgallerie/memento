@@ -182,6 +182,7 @@ function InstagramDMPreview({chats}:{chats:ImportedConversation[]}){
  const ownNames=[localStorage.getItem('memento.instagramUsername')||'',localStorage.getItem('memento.instagramDisplayName')||'',localStorage.getItem('memento.username')||'',localStorage.getItem('memento.displayName')||''];
  const own=new Set(ownNames.map(normalizedSender).filter(Boolean)),normalizedOwn=normalizedSender(ownSender);
  const clean=(v:string)=>cleanInstagramText(v||''),messageText=(m:ImportedMessage)=>clean(m.text||'').replace(/^(?:shared an attachment|you sent an attachment|.+ sent an attachment)\\.?\\s*/i,'').trim(),thread=chats.find(x=>x.id===active);
+ const threadParticipants=thread?.participants?.length?thread.participants:Array.from(new Set((thread?.messages||[]).map(m=>clean(m.sender)).filter(x=>x&&x!=='Unknown')));
  const allSenders=Array.from(new Set(chats.flatMap(c=>[...(c.participants||[]),...c.messages.map(m=>m.sender)]).map(clean).filter(x=>x&&x!=='Unknown')));
  const matchingSender=allSenders.find(x=>{const n=normalizedSender(x);return n&&[...own].some(o=>o===n||o.startsWith(n)||n.startsWith(o))});
  const selectedOwn=normalizedOwn||normalizedSender(matchingSender||'');
@@ -204,8 +205,8 @@ function InstagramDMPreview({chats}:{chats:ImportedConversation[]}){
     {!visibleChats.length&&<div className="dm-search-empty">No matching conversations or messages.</div>}
    </aside>
    <article className="dm-conversation">
-    <header className="dm-conversation-header"><span className="dm-thread-avatar large">{clean(thread.name).slice(0,1)||'?'}</span><div><strong>{clean(thread.name)}</strong><span>{(thread.participants?.length||0)>2?'Group conversation · '+thread.participants!.length+' participants':'Instagram conversation'}</span></div></header>
-    {(thread.participants?.length||0)>2&&<div className="dm-participant-strip"><span>MEMBERS</span>{thread.participants!.map((person,i)=><span className={'dm-participant-chip'+(normalizedSender(person)==='metaai'?' ai':'')} key={person+'-'+i}>{normalizedSender(person)==='metaai'&&<Bot size={11}/>} {clean(person)}{normalizedSender(person)==='metaai'?' · AI':''}</span>)}</div>}
+    <header className="dm-conversation-header"><span className="dm-thread-avatar large">{clean(thread.name).slice(0,1)||'?'}</span><div><strong>{clean(thread.name)}</strong><span>{threadParticipants.length>2?'Group conversation · '+thread.participants!.length+' participants':'Instagram conversation'}</span></div></header>
+    {(thread.participants?.length||0)>2&&<div className="dm-participant-strip"><span>MEMBERS</span>{threadParticipants.map((person,i)=><span className={'dm-participant-chip'+(normalizedSender(person)==='metaai'?' ai':'')} key={person+'-'+i}>{normalizedSender(person)==='metaai'&&<Bot size={11}/>} {clean(person)}{normalizedSender(person)==='metaai'?' · AI':''}</span>)}</div>}
     <div className="dm-message-list">
      {messages.map(m=>{const changed=m.date!==previousDate;previousDate=m.date;const outgoing=isOutgoing(m),isAI=m.isAI||normalizedSender(clean(m.sender))==='metaai',text=messageText(m),url=clean(m.url||'');return <div className={'dm-message-group '+(outgoing?'outgoing':'incoming')+(isAI?' ai':'')} key={m.id}>
       {changed&&<div className="dm-date-divider"><span>{m.date}</span></div>}
