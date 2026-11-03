@@ -59,16 +59,35 @@ function MemoProfile({avatarColor,onBack}:{avatarColor:string;onBack:()=>void}){
 
 function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedConversation[],includeJournal:boolean,includeDMs:boolean){
  const ignored=new Set(['about','after','again','also','been','being','does','from','have','here','into','just','like','make','more','most','much','only','other','over','same','some','that','them','then','there','these','they','this','those','through','what','when','where','which','while','with','would','your','you','tell','know','remember','find','show','talk']);
- const terms=[...new Set((question.toLocaleLowerCase().match(/[\p{L}\p{N}]{3,}/gu)||[]).filter(term=>!ignored.has(term)))].slice(0,12);
+ const normalizedQuestion=question.toLocaleLowerCase().replace(/(\d{1,2})(?:st|nd|rd|thn|th|n)\b/g,'$1');
+ const monthNames=['january','february','march','april','may','june','july','august','september','october','november','december'];
+ const monthPattern='('+monthNames.join('|')+')';
+ const datePatterns=[
+  new RegExp('\\b'+monthPattern+'\\s+(\\d{1,2})(?:,?\\s+(\\d{4}))?\\b','i'),
+  new RegExp('\\b(\\d{1,2})\\s+'+monthPattern+'(?:\\s+(\\d{4}))?\\b','i')
+ ];
+ let requestedDate:string|null=null;
+ for(let i=0;i<datePatterns.length&&!requestedDate;i++){
+  const match=normalizedQuestion.match(datePatterns[i]);
+  if(!match)continue;
+  const monthFirst=i===0;
+  const month=monthNames.indexOf((monthFirst?match[1]:match[2]).toLowerCase());
+  const day=Number(monthFirst?match[2]:match[1]);
+  const year=Number((monthFirst?match[3]:match[3])||new Date().getFullYear());
+  const check=new Date(year,month,day);
+  if(month>=0&&day>=1&&day<=31&&check.getFullYear()===year&&check.getMonth()===month&&check.getDate()===day)requestedDate=year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+ }
+ const terms=[...new Set((normalizedQuestion.match(/[\p{L}\p{N}]{3,}/gu)||[]).filter(term=>!ignored.has(term)))].slice(0,12);
  const score=(value:string)=>{const text=value.toLocaleLowerCase();return terms.reduce((total,term)=>total+(text.includes(term)?(text.split(term).length-1)*2:0),0)};
  const sections:string[]=[];
  if(includeJournal){
-  const candidates=entries.filter(entry=>!entry.draft).map(entry=>({entry,body:plain(entry.body).replace(/\s+/g,' ').trim(),score:score(entry.title+' '+entry.tags.join(' ')+' '+plain(entry.body))})).filter(item=>!terms.length||item.score>0);
+  const candidates=entries.filter(entry=>!entry.draft&&(!requestedDate||entry.date===requestedDate)).map(entry=>({entry,body:plain(entry.body).replace(/\s+/g,' ').trim(),score:score(entry.date+' '+entry.title+' '+entry.tags.join(' ')+' '+plain(entry.body))+(requestedDate&&entry.date===requestedDate?100:0)})).filter(item=>requestedDate?item.entry.date===requestedDate:(!terms.length||item.score>0));
   candidates.sort((a,b)=>b.score-a.score||b.entry.date.localeCompare(a.entry.date));
-  const chosen=candidates.slice(0,5);
-  if(chosen.length)sections.push('JOURNAL ENTRIES\n'+chosen.map(({entry,body})=>'[Entry: '+(entry.title.trim()||'Untitled')+' | Date: '+entry.date+' | Tags: '+(entry.tags.join(', ')||'none')+']\n'+body.slice(0,1700)).join('\n\n'));
+  const chosen=candidates.slice(0,requestedDate?1:3);
+  if(chosen.length)sections.push('JOURNAL ENTRIES\n'+chosen.map(({entry,body})=>'[Entry: '+(entry.title.trim()||'Untitled')+' | Date: '+entry.date+' | Tags: '+(entry.tags.join(', ')||'none')+']\n'+body.slice(0,1300)).join('\n\n'));
+  else if(requestedDate)sections.push('JOURNAL DATE LOOKUP\nNo non-draft journal entry dated '+requestedDate+' was found in the currently loaded journal entries. Do not invent an entry or ask the user to confirm whether it exists. Explain that no saved entry for that date was found.');
  }
- if(includeDMs){
+ if(includeDMs&&!requestedDate){
   const candidates:{thread:ImportedConversation;message:ImportedConversation['messages'][number];text:string;score:number}[]=[];
   for(const thread of chats)for(const message of thread.messages){
    const content=[message.text||'',message.url||'',message.reaction||''].filter(Boolean).join(' ').replace(/\s+/g,' ').trim();
@@ -76,11 +95,11 @@ function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedC
    if((!terms.length&&message.text?.trim())||relevance>0)candidates.push({thread,message,text:content,score:relevance});
   }
   candidates.sort((a,b)=>b.score-a.score||b.message.timestamp-a.message.timestamp);
-  const chosen=candidates.slice(0,14);
+  const chosen=candidates.slice(0,8);
   if(chosen.length)sections.push('IMPORTED DIRECT MESSAGES\n'+chosen.map(({thread,message,text})=>'['+thread.platform.toUpperCase()+' | Conversation: '+thread.name+' | '+message.date+' '+message.time+' | Sender: '+message.sender+']\n'+(text||'['+message.kind+' message]')).join('\n\n'));
  }
  if(!sections.length)return 'ARCHIVE CONTEXT: No relevant saved journal entries or imported DM messages were found for this question. Do not assume that the archive is empty; the selected sources may be disabled or the search terms may not match.';
- return 'ARCHIVE CONTEXT (retrieved excerpts only; not the complete archive):\n\n'+sections.join('\n\n').slice(0,12500);
+ return 'ARCHIVE CONTEXT (retrieved excerpts only; not the complete archive):\n\n'+sections.join('\n\n').slice(0,6500);
 }
 
 function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chats}:{memoText:string;setMemoText:(v:string)=>void;avatarColor:string;onOpenProfile:()=>void;entries:Entry[];chats:ImportedConversation[]}){
@@ -140,7 +159,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
     model:selectedModel,stream:true,
     messages:[
      {role:'system',content:systemPrompt},
-     ...nextMessages.map(message=>({role:message.role==='memo'?'assistant':'user',content:message.text}))
+     ...nextMessages.slice(-8).map(message=>({role:message.role==='memo'?'assistant':'user',content:message.text}))
     ]
    }),signal:controller.signal})
    if(!response.ok){const detail=await response.text();throw new Error(detail||'Ollama returned HTTP '+response.status)}
