@@ -6,6 +6,7 @@ import { createAvatar } from '@bible-strong/avatar-react'
 import '@bible-strong/avatar-react/styles.css'
 import strobiDefinition from '../avatar-export/strobi.avatar.json'
 import type { CSSProperties as ReactCSSProperties, ReactNode } from 'react'
+import CdShelf from './CdShelf'
 
 
 function styleDisplayName(value:string,style:string){
@@ -60,37 +61,7 @@ const cartiAlbums=[
  {title:'MUSIC',year:'2025',kind:'ALBUM',art:'https://coverartarchive.org/release/63c43988-5c32-47d4-a36b-9691281e7bdc/front-500',tone:'#d9d5cf'},
  {title:'In Abundance',year:'2016',kind:'MIXTAPE',art:'https://coverartarchive.org/release/8e5ecbe3-7eb7-4012-942c-39bf73de26ff/front-500',tone:'#8b8b8b'}
 ]
-function CartiShelves(){
- const [selected,setSelected]=useState<typeof cartiAlbums[number]|null>(null),[opened,setOpened]=useState(false),[discRotation,setDiscRotation]=useState(0),dragX=useRef<number|null>(null)
- useEffect(()=>{if(!selected)return;const onKey=(e:KeyboardEvent)=>{if(e.key==='Escape'){setSelected(null);setOpened(false)}};window.addEventListener('keydown',onKey);return()=>window.removeEventListener('keydown',onKey)},[selected])
- const close=()=>{setSelected(null);setOpened(false);setDiscRotation(0)}
- return <section className="carti-shelves">
-  <div className="shelves-heading"><div><span className="eyebrow">THE COLLECTION</span><h2>Shelves</h2><p>A little collection of Carti records.</p></div><span className="shelves-count">{cartiAlbums.length} records</span></div>
-  <div className="shelves-grid">{cartiAlbums.map(album=><button type="button" className="shelf-album-card" key={album.title} onClick={()=>{setSelected(album);setOpened(false);setDiscRotation(0)}}>
-   <span className="shelf-album-art" style={{'--album-tone':album.tone} as ReactCSSProperties}><img src={album.art} alt={album.title+' album cover'} loading="lazy" onError={e=>{e.currentTarget.style.display='none'}}/><span className="shelf-art-fallback">PLAYBOI<br/>CARTI</span><i className="shelf-art-gloss"/></span>
-   <span className="shelf-album-copy"><strong>{album.title}</strong><small>PLAYBOI CARTI</small><small>{album.year} · {album.kind}</small></span>
-  </button>)}</div>
-  {selected&&<div className="shelf-modal-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)close()}}>
-   <section className="shelf-modal" role="dialog" aria-modal="true" aria-label={selected.title+' CD case'}>
-    <header className="shelf-modal-header"><div><span className="eyebrow">NOW VIEWING</span><strong>{selected.title}</strong><small>PLAYBOI CARTI · {selected.year}</small></div><button type="button" className="shelf-modal-close" onClick={close} aria-label="Close"><X size={18}/></button></header>
-    <div className="shelf-case-stage">
-     <div className={'shelf-jewel-case'+(opened?' is-open':'')}>
-      <div className="shelf-case-tray"><div className="shelf-disc" role="slider" aria-label="Rotate CD" aria-valuemin={0} aria-valuemax={359} aria-valuenow={((discRotation%360)+360)%360} tabIndex={0} style={{transform:'translate(-50%,-50%) rotate('+discRotation+'deg)'}} onPointerDown={e=>{dragX.current=e.clientX;e.currentTarget.setPointerCapture(e.pointerId)}} onPointerMove={e=>{if(dragX.current!==null){setDiscRotation(v=>v+(e.clientX-dragX.current!)*1.25);dragX.current=e.clientX}}} onPointerUp={()=>{dragX.current=null}} onPointerCancel={()=>{dragX.current=null}} onKeyDown={e=>{if(e.key==='ArrowLeft')setDiscRotation(v=>v-12);if(e.key==='ArrowRight')setDiscRotation(v=>v+12)}}>
-       <img className="shelf-disc-art" src={selected.art} alt="" draggable={false}/><span className="shelf-disc-shine"/><span className="shelf-disc-label"><small>{selected.title}</small><i>PLAYBOI CARTI</i></span><span className="shelf-disc-hole"/>
-      </div><span className="shelf-case-hub"/>
-     </div>
-     <button type="button" className="shelf-case-lid" onClick={()=>setOpened(v=>!v)} aria-label={opened?'Close CD case':'Open CD case'}>
-      <img src={selected.art} alt=""/><span className="shelf-case-lid-fallback">PLAYBOI CARTI</span><span className="shelf-case-edge"/>
-     </button>
-    </div>
-   </div>
-   <div className="shelf-case-controls"><button type="button" className="save-btn" onClick={()=>setOpened(v=>!v)}>{opened?'Close case':'Open case'}</button><span>{opened?'Drag the disc to spin it':'Tap the case to open it'}</span></div>
-    <p className="shelf-case-hint">The disc is interactive — drag it left or right to rotate.</p>
-   </section>
-  </div>}
- </section>
-}
-
+function CartiShelves(){ return <CdShelf/> }
 function MemoProfile({avatarColor,onBack}:{avatarColor:string;onBack:()=>void}){const Avatar=useMemo(()=>createAvatar({...strobiDefinition,colors:{...strobiDefinition.colors,body:avatarColor}}),[avatarColor]);return <section className="profile-view memo-public-profile"><div className="memo-public-banner" style={{background:`linear-gradient(125deg,color-mix(in srgb,${avatarColor} 40%,#111827),${avatarColor} 55%,color-mix(in srgb,${avatarColor} 65%,#ffffff))`}}></div><div className="profile-main"><div className="profile-heading-row"><div className="memo-profile-real-avatar"><Avatar size="92px" ariaLabel="Memo's avatar"/></div><button className="profile-edit-button" onClick={onBack}>Back to Memo</button></div><div className="profile-fields"><strong className="profile-name-display">Memo <VerifiedBadge size={18}/></strong><span className="profile-handle-display">@memo</span><p className="profile-bio">Your AI companion. Here to help you revisit memories, connect ideas, and make sense of the things you write.</p><div className="profile-stats"><strong>0 <span>Posts</span></strong><strong>0 <span>Following</span></strong><strong>0 <span>Followers</span></strong></div></div><div className="profile-tabs"><button className="active">Posts</button></div><div className="profile-feed"><article className="profile-post"><div className="memo-profile-post-avatar"><Avatar size="38px" ariaLabel="Memo's avatar"/></div><div className="post-content"><div className="post-byline"><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo</span><i>·</i><time>just now</time></div><h3>A little space to think.</h3><div className="post-body"><p>I’m here to help you explore your journal, find connections between entries, and prepare edits for your approval. My chat is still being built.</p></div></div></article></div></div></section>}
 
 function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile}:{memoText:string;setMemoText:(v:string)=>void;avatarColor:string;onOpenProfile:()=>void}){
