@@ -317,7 +317,7 @@ function GamesShelf() {
         <button type="submit" disabled={loading || !link.trim()}>{loading ? 'Adding…' : 'Add game'}</button></div>
       {error && <p role="alert">{error}</p>}
     </form>
-    {games.length ? <div className="cd-shelf-grid">{games.map(game => <ShelfItem key={game.universeId} album={gameAsAlbum(game)} onOpen={() => setSelectedId(game.universeId}/>)}</div>
+    {games.length ? <div className="cd-shelf-grid">{games.map(game => <ShelfItem key={game.universeId} album={gameAsAlbum(game)} onOpen={() => setSelectedId(game.universeId)}/>)}</div>
       : <div className="shelf-empty"><div className="shelf-empty-case"><span>ROBLOX</span></div><strong>Your game shelf is empty</strong><span>Add a Roblox experience using its link above.</span></div>}
     {selectedAlbum && <Viewer key={selectedAlbum.id} album={selectedAlbum} onClose={() => setSelectedId(null)}
       onRemove={() => { setGames(current => current.filter(game => game.universeId !== selectedId)); setSelectedId(null) }}/>}
