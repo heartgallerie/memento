@@ -1329,3 +1329,13 @@
 .memo-activity{display:flex;align-items:center;gap:7px;margin:0 0 7px;color:var(--muted);font:9px 'DM Mono',monospace;letter-spacing:.035em}
 .memo-activity-dot{width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px color-mix(in srgb,var(--accent) 45%,transparent);animation:memo-activity-pulse 1.2s ease-in-out infinite}
 @keyframes memo-activity-pulse{50%{opacity:.35;transform:scale(.78)}}
+
+/* Memo expandable model thinking */
+.memo-thinking-header{display:flex;align-items:center;min-height:17px;margin:0 0 7px}
+.memo-thinking-toggle{display:inline-flex;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--muted);font:9px 'DM Mono',monospace;cursor:pointer}
+.memo-thinking-toggle svg{transition:transform .2s ease}
+.memo-thinking-toggle svg.is-open{transform:rotate(180deg)}
+.memo-shimmer-text{color:transparent;background:linear-gradient(100deg,var(--muted) 15%,var(--text) 35%,var(--muted) 55%);background-size:220% 100%;background-clip:text;-webkit-background-clip:text;animation:memo-thinking-shimmer 2s linear infinite}
+@keyframes memo-thinking-shimmer{to{background-position-x:-220%}}
+.memo-thinking-content{max-height:220px;overflow:auto;margin:0 0 9px;padding:8px 10px;border-left:1px solid var(--line);color:var(--muted);font:10px/1.65 'DM Sans',sans-serif;white-space:pre-wrap}
+@media(prefers-reduced-motion:reduce){.memo-shimmer-text{animation:none;background:none;color:var(--muted)}}
