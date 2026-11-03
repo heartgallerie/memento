@@ -45,7 +45,7 @@ function CdCase({
 }) {
   const depth = Math.round(size * 0.11)
   const diameter = size * 0.88
-  const face = (extra: CSSProperties): React.CSSProperties => ({
+  const face = (extra: CSSProperties): CSSProperties => ({
     position: 'absolute', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', ...extra,
   })
   const plastic = 'linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.025) 40%, rgba(0,0,0,.25))'
@@ -91,7 +91,7 @@ function CdCase({
 function ShelfItem({ album, onOpen }: { album: Album; onOpen: (album: Album) => void }) {
   const [tilt, setTilt] = useState({ x: 0, y: -22, active: false })
   const size = 174
-  const onMove = (event: React.PointerEvent<HTMLButtonElement>) => {
+  const onMove = (event: PointerEvent<HTMLButtonElement>) => {
     if (event.pointerType === 'touch') return
     const rect = event.currentTarget.getBoundingClientRect()
     const px = (event.clientX - rect.left) / rect.width - 0.5
@@ -145,18 +145,18 @@ function Viewer({ album, onClose }: { album: Album; onClose: () => void }) {
     return () => cancelAnimationFrame(frame)
   }, [])
 
-  const pointerAngle = (event: React.PointerEvent<HTMLDivElement>) => {
+  const pointerAngle = (event: PointerEvent<HTMLDivElement>) => {
     const rect = discRef.current?.getBoundingClientRect()
     if (!rect) return 0
     return Math.atan2(event.clientY - (rect.top + rect.height / 2), event.clientX - (rect.left + rect.width / 2)) * 180 / Math.PI
   }
-  const onDiscDown = (event: React.PointerEvent<HTMLDivElement>) => {
+  const onDiscDown = (event: PointerEvent<HTMLDivElement>) => {
     event.stopPropagation()
     event.currentTarget.setPointerCapture(event.pointerId)
     discDrag.current = { last: pointerAngle(event) }
     velocity.current = 0
   }
-  const onDiscMove = (event: React.PointerEvent<HTMLDivElement>) => {
+  const onDiscMove = (event: PointerEvent<HTMLDivElement>) => {
     if (!discDrag.current) return
     const current = pointerAngle(event)
     let delta = current - discDrag.current.last
@@ -167,12 +167,12 @@ function Viewer({ album, onClose }: { album: Album; onClose: () => void }) {
     velocity.current = delta
     setAngle(angleRef.current)
   }
-  const onStageDown = (event: React.PointerEvent<HTMLDivElement>) => {
+  const onStageDown = (event: PointerEvent<HTMLDivElement>) => {
     caseDrag.current = { x: event.clientX, y: event.clientY, rx: rotation.x, ry: rotation.y }
     setDragging(true)
     event.currentTarget.setPointerCapture(event.pointerId)
   }
-  const onStageMove = (event: React.PointerEvent<HTMLDivElement>) => {
+  const onStageMove = (event: PointerEvent<HTMLDivElement>) => {
     if (discDrag.current) { onDiscMove(event); return }
     const start = caseDrag.current
     if (!start) return
