@@ -58,7 +58,7 @@ function CartiShelves(){ return <CdShelf/> }
 function MemoProfile({avatarColor,onBack}:{avatarColor:string;onBack:()=>void}){const Avatar=useMemo(()=>createAvatar({...strobiDefinition,colors:{...strobiDefinition.colors,body:avatarColor}}),[avatarColor]);return <section className="profile-view memo-public-profile"><div className="memo-public-banner" style={{background:`linear-gradient(125deg,color-mix(in srgb,${avatarColor} 40%,#111827),${avatarColor} 55%,color-mix(in srgb,${avatarColor} 65%,#ffffff))`}}></div><div className="profile-main"><div className="profile-heading-row"><div className="memo-profile-real-avatar"><Avatar size="92px" ariaLabel="Memo's avatar"/></div><button className="profile-edit-button" onClick={onBack}>Back to Memo</button></div><div className="profile-fields"><strong className="profile-name-display">Memo <VerifiedBadge size={18}/></strong><span className="profile-handle-display">@memo</span><p className="profile-bio">Your AI companion. Here to help you revisit memories, connect ideas, and make sense of the things you write.</p><div className="profile-stats"><strong>0 <span>Posts</span></strong><strong>0 <span>Following</span></strong><strong>0 <span>Followers</span></strong></div></div><div className="profile-tabs"><button className="active">Posts</button></div><div className="profile-feed"><article className="profile-post"><div className="memo-profile-post-avatar"><Avatar size="38px" ariaLabel="Memo's avatar"/></div><div className="post-content"><div className="post-byline"><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo</span><i>·</i><time>just now</time></div><h3>A little space to think.</h3><div className="post-body"><p>I’m here to help you explore your journal, find connections between entries, and prepare edits for your approval. My chat is still being built.</p></div></div></article></div></div></section>}
 
 function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedConversation[],includeJournal:boolean,includeDMs:boolean){
- const wantsEarliest=/\\b(earliest|oldest|first|very first)\\b/i.test(question)&&/\\b(entries?|journal|written|dated)\\b/i.test(question);
+ const wantsEarliest=/\b(earliest|oldest|first|very first)\b/i.test(question)&&/\b(entries?|journal|written|dated)\b/i.test(question);
  const ignored=new Set(['about','after','again','also','been','being','does','from','have','here','into','just','like','make','more','most','much','only','other','over','same','some','that','them','then','there','these','they','this','those','through','what','when','where','which','while','with','would','your','you','tell','know','remember','find','show','talk']);
  const normalizedQuestion=question.toLocaleLowerCase().replace(/(\d{1,2})(?:st|nd|rd|thn|th|n)\b/g,'$1');
  const monthNames=['january','february','march','april','may','june','july','august','september','october','november','december'];
@@ -141,7 +141,8 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
  const [activity,setActivity]=useState('Thinking')
  const [thinkingText,setThinkingText]=useState('')
  const [thinkingOpen,setThinkingOpen]=useState(false)
- const [editingMessageId,setEditingMessageId]=useState<number|null>(null)\n const [editingText,setEditingText]=useState('')
+ const [editingMessageId,setEditingMessageId]=useState<number|null>(null)
+ const [editingText,setEditingText]=useState('')
  const [ollamaUrl,setOllamaUrl]=useState(()=>localStorage.getItem('memento-ollama-url')||'http://localhost:11434')
  const [models,setModels]=useState<string[]>([])
  const [selectedModel,setSelectedModel]=useState(()=>localStorage.getItem('memento-ollama-model')||'')
@@ -178,9 +179,9 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
  useEffect(()=>{localStorage.setItem('memento-memo-journal',String(includeJournal))},[includeJournal])
  useEffect(()=>{localStorage.setItem('memento-memo-dms',String(includeDMs))},[includeDMs])
  useEffect(()=>{if(!memoText&&composerRef.current)composerRef.current.style.height='auto'},[memoText])
- const sendMessage=async(raw:string)=>{
+ const sendMessage=async(raw:string,history:{id:number;role:'user'|'memo';text:string}[]=messages)=>{
   const text=raw.trim();if(!text||streaming)return
-  const nextMessages=[...messages,{id:Date.now(),role:'user' as const,text}]
+  const nextMessages=[...history,{id:Date.now(),role:'user' as const,text}]
   setMessages(nextMessages);setMemoText('');setStreaming(true);setStreamedText('');setActivity('Preparing your archive');setThinkingText('');setThinkingOpen(false);setConnectionError('')
   const base=ollamaUrl.trim().replace(/\/+$/,'')
   const controller=new AbortController()
@@ -231,7 +232,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
     if(done)break
    }
    if(buffer.trim()){const chunk=JSON.parse(buffer);if(chunk.error)throw new Error(chunk.error);if(chunk.message?.thinking)setThinkingText(current=>current+chunk.message.thinking);answer+=chunk.message?.content||''}
-   const cleanAnswer=answer.replace(/<tool_call>[\\s\\S]*?<\\/tool_call>/gi,'').replace(/<function=[\\s\\S]*?<\\/function>/gi,'').trim()
+   const cleanAnswer=answer.replace(/<tool_call>[\\s\\S]*?<\/tool_call>/gi,'').replace(/<function=[\\s\\S]*?<\/function>/gi,'').trim()
    setMessages(items=>[...items,{id:Date.now()+1,role:'memo',text:cleanAnswer||'I couldn’t complete that archive search. Please try asking again in a different way.'}])
    setStreamedText('');streamedTextRef.current='';setActivity('')
   }catch(error){
