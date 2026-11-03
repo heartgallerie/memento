@@ -107,7 +107,8 @@ const loadChatData=async()=>{const db=await chatDataDB();return new Promise<Impo
 const saveChatData=async(chats:ImportedConversation[])=>{const db=await chatDataDB();await new Promise<void>((resolve,reject)=>{const tx=db.transaction('chats','readwrite');tx.objectStore('chats').put(chats,'all');tx.oncomplete=()=>{resolve();db.close()};tx.onerror=()=>{reject(tx.error);db.close()};tx.onabort=()=>{reject(tx.error||new Error('Chat storage aborted'));db.close()}})}
 const stripDirection=(v:string)=>v.replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/g,'').trim()
 const decodeEntities=(v:string)=>v.replace(/&(#x[0-9a-f]+|#\d+|amp|lt|gt|quot|apos);/gi,(whole,code:string)=>{if(code[0]==='#'){const n=code[1]?.toLowerCase()==='x'?parseInt(code.slice(2),16):parseInt(code.slice(1),10);return Number.isFinite(n)&&n>=0&&n<=0x10ffff?String.fromCodePoint(n):whole}return ({amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"} as Record<string,string>)[code.toLowerCase()]||whole})
-const repairInstagramMojibake=(value:string)=>value.replace(/[^\\u0100-\\uFFFF]+/g,run=>{if(!/[ÃÂÐÑðáâãäåæçèéêëìíîïñòóôõöùúûüýþÿ]/i.test(run)&&!/[\\u0080-\\u009f]/.test(run))return run;try{return new TextDecoder('utf-8').decode(Uint8Array.from(run,ch=>ch.charCodeAt(0)&255))}catch{return run}})\nconst cleanInstagramText=(value:string)=>repairInstagramMojibake(decodeEntities(value.replace(/\\\\u([0-9a-f]{4})/gi,(_,hex)=>String.fromCharCode(parseInt(hex,16))).replace(/\\\\n/g,'\n').replace(/\\\\r/g,'\r'))).normalize('NFC')
+const repairInstagramMojibake=(value:string)=>value.replace(/[\u0000-\u00FF]+/g,run=>{if(!/[ÃÂÐÑðáâãäåæçèéêëìíîïñòóôõöùúûüýþÿ]/i.test(run)&&!/[\u0080-\u009f]/.test(run))return run;try{return new TextDecoder('utf-8').decode(Uint8Array.from(run,ch=>ch.charCodeAt(0)&255))}catch{return run}})
+const cleanInstagramText=(value:string)=>repairInstagramMojibake(decodeEntities(value.replace(/\\u([0-9a-f]{4})/gi,(_,hex)=>String.fromCharCode(parseInt(hex,16))).replace(/\\n/g,'\n').replace(/\\r/g,'\r'))).normalize('NFC')
 const normalizedSender=(value:string)=>value.normalize('NFKC').toLocaleLowerCase().replace(/^@/,'').replace(/[\s._-]+/g,'').replace(/[^\p{L}\p{N}]/gu,'')
 const isInstagramOwnSender=(sender:string,own:Set<string>)=>{const value=normalizedSender(sender);return value==='you'||value==='youraccount'||[...own].some(name=>{const candidate=normalizedSender(name);return candidate&&(value===candidate||value.startsWith(candidate)||candidate.startsWith(value))})}
 const relPath=(f:File)=>((f as File&{webkitRelativePath?:string}).webkitRelativePath||f.name).replace(/\\/g,'/')
@@ -140,13 +141,11 @@ async function parseInstagramFiles(files:File[],batch:string,ownNames:string[],s
     if(/^(?:liked a message|.+ wasn't notified about this message because .+ quiet mode\.?|.+ was not notified about this message because .+ quiet mode\.?)$/i.test(rawContent))continue
     const placeholder=/^(?:shared an attachment|you sent an attachment|.+ sent an attachment)\.?$/i,content=placeholder.test(rawContent)?'':rawContent,textValue=[content,shareText].filter(Boolean).join('\n').trim()
     if(!textValue&&!url&&!media.length&&!reaction)continue
-    if(!textValue&&!url&&!media.length&&!reaction)continue
     messages.push({id:batch+'-'+folder+'-'+i,...parts,sender,outgoing:isInstagramOwnSender(sender,own),kind:media.length?'media':url?'link':textValue?'text':'system',text:textValue,url,media,reaction:reaction?.reaction,reactionBy:reaction?.actor})
    }
   }
   const cleanedParticipants=participants.map(cleanInstagramText),name=cleanInstagramText(title||cleanedParticipants.find(x=>!own.has(normalizedSender(x)))||cleanedParticipants[0]||'Instagram conversation')
   messages.sort((x,y)=>x.timestamp-y.timestamp);output.push({id:'instagram-'+batch+'-'+folder,batch,platform:'instagram',name,participants:cleanedParticipants,messages})
-  messages.sort((x,y)=>x.timestamp-y.timestamp);output.push({id:'instagram-'+batch+'-'+folder,batch,platform:'instagram',name,messages})
  }
  return output
 }
