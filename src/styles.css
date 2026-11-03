@@ -734,3 +734,50 @@
 .instagram-preview-copy>a{display:inline-flex;align-items:center;gap:5px;width:max-content;margin-top:5px;color:var(--accent);font-size:10px;text-decoration:none}
 .instagram-social-note{margin:12px 0 0;font-size:9px;line-height:1.55;color:var(--muted)}
 @media(max-width:650px){.instagram-social-panel{padding:13px}.instagram-social-fields{grid-template-columns:1fr}.instagram-social-fields>label:nth-child(3),.instagram-social-counts{grid-column:auto}.instagram-social-counts{grid-template-columns:1fr 1fr}}
+
+
+/* Profile action hover states and Socials navigation. */
+.profile-heading-actions .profile-main-edit-button{display:flex;align-items:center;gap:6px;margin-top:12px}
+.profile-heading-actions .profile-main-edit-button:hover{border-color:var(--accent);color:var(--accent)}
+.section-back-button{display:inline-flex;align-items:center;gap:5px;margin:0 0 17px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:600 10px 'DM Sans';cursor:pointer;transition:color .15s,border-color .15s}
+.section-back-button:hover{border-color:var(--accent);color:var(--accent)}
+.profile-edit-heading-actions{display:flex;align-items:center;gap:8px;flex:none}
+.profile-edit-heading-actions .save-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 13px}
+.profile-edit-heading-actions .profile-edit-button{margin:0}
+
+/* Gradient owner mark beside the profile's verified badge. */
+.owner-mark{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:none;vertical-align:middle}
+.owner-mark svg{display:block;width:100%;height:100%;filter:drop-shadow(0 1px 3px color-mix(in srgb,var(--accent) 35%,transparent))}
+.profile-name-display .owner-mark{margin-left:2px}
+
+/* Occupation is the first item in the Twitter-style profile detail row. */
+.profile-details>span{display:inline-flex;align-items:center;gap:5px}
+
+/* Profile tabs animate like page changes and retain their icon alignment. */
+.profile-tabs button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.profile-tab-transition{animation:pageFadeIn .24s ease both;min-height:80px}
+@media(prefers-reduced-motion:reduce){.profile-tab-transition{animation:none}}
+
+/* All-media thumbnails fill their tile without inheriting a white image canvas. */
+.all-media-preview{background:transparent}
+.all-media-preview img,.all-media-preview video{object-fit:cover;background:transparent}
+
+/* Suggested people use the same compact identity card structure as the sidebar profile popout. */
+.people-suggestions{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start;margin-top:16px}
+.people-profile-card{position:relative;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.people-card-banner{height:68px;background-size:cover;background-position:center}
+.people-card-main{position:relative;display:flex;flex-direction:column;align-items:flex-start;padding:0 13px 13px}
+.people-card-identity{display:flex;align-items:flex-end;gap:10px;width:100%;min-width:0;margin-top:-25px}
+.people-card-avatar-wrap{position:relative;width:56px;height:56px;flex:none;padding:3px;border:2px solid var(--surface);border-radius:50%;background:var(--surface);overflow:visible}
+.people-card-avatar{width:46px;height:46px;display:grid;place-items:center;border-radius:50%;font:600 13px 'DM Sans'}
+.people-card-avatar.rose{background:#f2dfe4;color:#986b78}.people-card-avatar.blue{background:#dce8f3;color:#587895}.people-card-avatar.gold{background:#f0e7d4;color:#9a8050}.people-card-avatar.lilac{background:#e9e0f1;color:#816b9a}.people-card-avatar.green{background:#dfeadf;color:#638166}.people-card-avatar.slate{background:#e1e5e8;color:#687780}
+.people-card-avatar-wrap .people-card-frame{position:absolute;inset:-5px;width:calc(100% + 10px);height:calc(100% + 10px)}
+.people-card-nameplate-wrap{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;min-height:45px;padding-bottom:4px}
+.people-card-nameplate{position:absolute;z-index:0;left:-5px;top:-9px;width:min(190px,100%);height:48px;object-fit:contain;object-position:left center;pointer-events:none}
+.people-card-nameplate-wrap>strong,.people-card-nameplate-wrap>span{position:relative;z-index:1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.people-card-nameplate-wrap>strong{font:600 12px 'DM Sans';color:var(--text)}
+.people-card-nameplate-wrap>span{margin-top:2px;font:10px 'DM Sans';color:var(--muted)}
+.people-card-bio{min-height:32px;margin:12px 0 13px;color:var(--muted);font:10px/1.5 'DM Sans'}
+.people-card-actions{display:flex;justify-content:flex-end;width:100%;margin-top:auto}
+.people-card-actions .people-add-button{min-width:88px}
+@media(max-width:650px){.people-suggestions{grid-template-columns:1fr;gap:11px}.people-card-banner{height:60px}.profile-edit-heading-actions{gap:6px}.profile-edit-heading-actions .profile-edit-button,.profile-edit-heading-actions .save-btn{padding:8px 10px}}
