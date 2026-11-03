@@ -82,7 +82,7 @@ function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedC
  const score=(value:string)=>{const text=value.toLocaleLowerCase();return terms.reduce((total,term)=>total+(text.includes(term)?(text.split(term).length-1)*2:0),0)};
  const sections:string[]=[];
  if(includeJournal){
-  const candidates=entries.filter(entry=>!entry.draft&&(!requestedDate||entry.date===requestedDate)).map(entry=>({entry,body:plain(entry.body).replace(/\s+/g,' ').trim(),score:score(entry.date+' '+entry.title+' '+entry.tags.join(' ')+' '+plain(entry.body))+(requestedDate&&entry.date===requestedDate?100:0)})).filter(item=>requestedDate?item.entry.date===requestedDate:(!terms.length||item.score>0));
+  const candidates=entries.filter(entry=>!entry.draft&&(!requestedDate||entry.date===requestedDate)).map(entry=>({entry,body:plain(entry.body).replace(/\s+/g,' ').trim(),score:score(entry.date+' '+entry.title+' '+entry.tags.join(' ')+' '+plain(entry.body))+(requestedDate&&entry.date===requestedDate?100:0)})).filter(item=>requestedDate?item.entry.date===requestedDate:(wantsEarliest||!terms.length||item.score>0));
   candidates.sort((a,b)=>wantsEarliest?a.entry.date.localeCompare(b.entry.date):b.score-a.score||b.entry.date.localeCompare(a.entry.date));
   const chosen=candidates.slice(0,requestedDate?1:wantsEarliest?5:3);
   if(chosen.length)sections.push('JOURNAL ENTRIES\n'+chosen.map(({entry,body})=>'[Entry: '+(entry.title.trim()||'Untitled')+' | Date: '+entry.date+' | Tags: '+(entry.tags.join(', ')||'none')+']\n'+body.slice(0,1300)).join('\n\n'));
@@ -228,7 +228,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
     const {value,done}=await reader.read()
     if(value)buffer+=decoder.decode(value,{stream:!done})
     const lines=buffer.split('\n');buffer=lines.pop()||''
-    for(const line of lines){if(!line.trim())continue;const chunk=JSON.parse(line);if(chunk.error)throw new Error(chunk.error);const thought=chunk.message?.thinking||'';if(thought)setThinkingText(current=>current+thought);const token=chunk.message?.content||'';if(token){answer+=token;streamedTextRef.current=answer;setActivity('');setStreamedText(answer)}}
+    for(const line of lines){if(!line.trim())continue;const chunk=JSON.parse(line);if(chunk.error)throw new Error(chunk.error);const thought=chunk.message?.thinking||'';if(thought)setThinkingText(current=>current+thought);const token=chunk.message?.content||'';if(token){answer+=token;streamedTextRef.current=answer;setActivity('');setStreamedText(/<tool_call>|<function=/i.test(answer)?'':answer)}}
     if(done)break
    }
    if(buffer.trim()){const chunk=JSON.parse(buffer);if(chunk.error)throw new Error(chunk.error);if(chunk.message?.thinking)setThinkingText(current=>current+chunk.message.thinking);answer+=chunk.message?.content||''}
