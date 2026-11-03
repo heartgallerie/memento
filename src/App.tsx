@@ -68,7 +68,7 @@ function CartiShelves(){
   <div className="shelves-heading"><div><span className="eyebrow">THE COLLECTION</span><h2>Shelves</h2><p>A little collection of Carti records.</p></div><span className="shelves-count">{cartiAlbums.length} records</span></div>
   <div className="shelves-grid">{cartiAlbums.map(album=><button type="button" className="shelf-album-card" key={album.title} onClick={()=>{setSelected(album);setOpened(false);setDiscRotation(0)}}>
    <span className="shelf-album-art" style={{'--album-tone':album.tone} as ReactCSSProperties}><img src={album.art} alt={album.title+' album cover'} loading="lazy" onError={e=>{e.currentTarget.style.display='none'}}/><span className="shelf-art-fallback">PLAYBOI<br/>CARTI</span><i className="shelf-art-gloss"/></span>
-   <span className="shelf-album-copy"><strong>{album.title}</strong><small>{album.year} · {album.kind}</small></span>
+   <span className="shelf-album-copy"><strong>{album.title}</strong><small>PLAYBOI CARTI</small><small>{album.year} · {album.kind}</small></span>
   </button>)}</div>
   {selected&&<div className="shelf-modal-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)close()}}>
    <section className="shelf-modal" role="dialog" aria-modal="true" aria-label={selected.title+' CD case'}>
@@ -76,7 +76,7 @@ function CartiShelves(){
     <div className="shelf-case-stage">
      <div className={'shelf-jewel-case'+(opened?' is-open':'')}>
       <div className="shelf-case-tray"><div className="shelf-disc" role="slider" aria-label="Rotate CD" aria-valuemin={0} aria-valuemax={359} aria-valuenow={((discRotation%360)+360)%360} tabIndex={0} style={{transform:'translate(-50%,-50%) rotate('+discRotation+'deg)'}} onPointerDown={e=>{dragX.current=e.clientX;e.currentTarget.setPointerCapture(e.pointerId)}} onPointerMove={e=>{if(dragX.current!==null){setDiscRotation(v=>v+(e.clientX-dragX.current!)*1.25);dragX.current=e.clientX}}} onPointerUp={()=>{dragX.current=null}} onPointerCancel={()=>{dragX.current=null}} onKeyDown={e=>{if(e.key==='ArrowLeft')setDiscRotation(v=>v-12);if(e.key==='ArrowRight')setDiscRotation(v=>v+12)}}>
-       <span className="shelf-disc-shine"/><span className="shelf-disc-label"><Music2 size={17}/><small>{selected.title}</small><i>PLAYBOI CARTI</i></span><span className="shelf-disc-hole"/>
+       <img className="shelf-disc-art" src={selected.art} alt="" draggable={false}/><span className="shelf-disc-shine"/><span className="shelf-disc-label"><small>{selected.title}</small><i>PLAYBOI CARTI</i></span><span className="shelf-disc-hole"/>
       </div><span className="shelf-case-hub"/>
      </div>
      <button type="button" className="shelf-case-lid" onClick={()=>setOpened(v=>!v)} aria-label={opened?'Close CD case':'Open CD case'}>
