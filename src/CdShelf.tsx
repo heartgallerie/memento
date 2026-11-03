@@ -103,7 +103,7 @@ function ShelfItem({ album, onOpen }: { album: Album; onOpen: (album: Album) => 
   }
   return (
     <button type="button" className="cd-shelf-item" onClick={() => onOpen(album)} onPointerMove={onMove}
-      onPointerLeave={() => setTilt({ x: 0, y: -22, active: false })} aria-label={`Open ${album.title} by Playboi Carti`}>
+      onPointerLeave={() => setTilt({ x: 0, y: -22, active: false })} aria-label={`Open ${album.title}${album.creator ? `, ${album.creator}` : ', by Playboi Carti'}`}>
       <span className="cd-shelf-case-shadow"><CdCase album={album} size={size} rotX={tilt.x} rotY={tilt.y} dragging={tilt.active} /></span>
       <span className="cd-shelf-item-copy">
         <strong>{album.title}</strong><span>{album.creator || 'PLAYBOI CARTI'}</span>
