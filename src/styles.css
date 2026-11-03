@@ -587,3 +587,17 @@
 .sidebar-card-avatar-wrap .profile-status-indicator{
   z-index:6;
 }
+
+
+/* Compact presence dots on both sidebar profile cards. */
+.sidebar-avatar-wrap .profile-status-indicator,
+.sidebar-card-avatar-wrap .profile-status-indicator{
+  width:12px;
+  height:12px;
+  border-width:2px;
+}
+.sidebar-avatar-wrap .profile-status-indicator.idle svg,
+.sidebar-card-avatar-wrap .profile-status-indicator.idle svg{
+  width:6px;
+  height:6px;
+}
