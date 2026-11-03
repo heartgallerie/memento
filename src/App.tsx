@@ -59,28 +59,28 @@ function MemoProfile({avatarColor,onBack}:{avatarColor:string;onBack:()=>void}){
 
 function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedConversation[],includeJournal:boolean,includeDMs:boolean){
  const ignored=new Set(['about','after','again','also','been','being','does','from','have','here','into','just','like','make','more','most','much','only','other','over','same','some','that','them','then','there','these','they','this','those','through','what','when','where','which','while','with','would','your','you','tell','know','remember','find','show','talk']);
- const terms=[...new Set((question.toLocaleLowerCase().match(/[\\p{L}\\p{N}]{3,}/gu)||[]).filter(term=>!ignored.has(term)))].slice(0,12);
+ const terms=[...new Set((question.toLocaleLowerCase().match(/[\p{L}\p{N}]{3,}/gu)||[]).filter(term=>!ignored.has(term)))].slice(0,12);
  const score=(value:string)=>{const text=value.toLocaleLowerCase();return terms.reduce((total,term)=>total+(text.includes(term)?(text.split(term).length-1)*2:0),0)};
  const sections:string[]=[];
  if(includeJournal){
-  const candidates=entries.filter(entry=>!entry.draft).map(entry=>({entry,body:plain(entry.body).replace(/\\s+/g,' ').trim(),score:score(entry.title+' '+entry.tags.join(' ')+' '+plain(entry.body))})).filter(item=>!terms.length||item.score>0);
+  const candidates=entries.filter(entry=>!entry.draft).map(entry=>({entry,body:plain(entry.body).replace(/\s+/g,' ').trim(),score:score(entry.title+' '+entry.tags.join(' ')+' '+plain(entry.body))})).filter(item=>!terms.length||item.score>0);
   candidates.sort((a,b)=>b.score-a.score||b.entry.date.localeCompare(a.entry.date));
   const chosen=candidates.slice(0,5);
-  if(chosen.length)sections.push('JOURNAL ENTRIES\\n'+chosen.map(({entry,body})=>'[Entry: '+(entry.title.trim()||'Untitled')+' | Date: '+entry.date+' | Tags: '+(entry.tags.join(', ')||'none')+']\\n'+body.slice(0,1700)).join('\\n\\n'));
+  if(chosen.length)sections.push('JOURNAL ENTRIES\n'+chosen.map(({entry,body})=>'[Entry: '+(entry.title.trim()||'Untitled')+' | Date: '+entry.date+' | Tags: '+(entry.tags.join(', ')||'none')+']\n'+body.slice(0,1700)).join('\n\n'));
  }
  if(includeDMs){
   const candidates:{thread:ImportedConversation;message:ImportedConversation['messages'][number];text:string;score:number}[]=[];
   for(const thread of chats)for(const message of thread.messages){
-   const content=[message.text||'',message.url||'',message.reaction||''].filter(Boolean).join(' ').replace(/\\s+/g,' ').trim();
+   const content=[message.text||'',message.url||'',message.reaction||''].filter(Boolean).join(' ').replace(/\s+/g,' ').trim();
    const relevance=score(thread.name+' '+message.sender+' '+content);
    if((!terms.length&&message.text?.trim())||relevance>0)candidates.push({thread,message,text:content,score:relevance});
   }
   candidates.sort((a,b)=>b.score-a.score||b.message.timestamp-a.message.timestamp);
   const chosen=candidates.slice(0,14);
-  if(chosen.length)sections.push('IMPORTED DIRECT MESSAGES\\n'+chosen.map(({thread,message,text})=>'['+thread.platform.toUpperCase()+' | Conversation: '+thread.name+' | '+message.date+' '+message.time+' | Sender: '+message.sender+']\\n'+(text||'['+message.kind+' message]')).join('\\n\\n'));
+  if(chosen.length)sections.push('IMPORTED DIRECT MESSAGES\n'+chosen.map(({thread,message,text})=>'['+thread.platform.toUpperCase()+' | Conversation: '+thread.name+' | '+message.date+' '+message.time+' | Sender: '+message.sender+']\n'+(text||'['+message.kind+' message]')).join('\n\n'));
  }
  if(!sections.length)return 'ARCHIVE CONTEXT: No relevant saved journal entries or imported DM messages were found for this question. Do not assume that the archive is empty; the selected sources may be disabled or the search terms may not match.';
- return 'ARCHIVE CONTEXT (retrieved excerpts only; not the complete archive):\\n\\n'+sections.join('\\n\\n').slice(0,12500);
+ return 'ARCHIVE CONTEXT (retrieved excerpts only; not the complete archive):\n\n'+sections.join('\n\n').slice(0,12500);
 }
 
 function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chats}:{memoText:string;setMemoText:(v:string)=>void;avatarColor:string;onOpenProfile:()=>void;entries:Entry[];chats:ImportedConversation[]}){
