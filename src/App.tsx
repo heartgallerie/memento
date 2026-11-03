@@ -127,16 +127,17 @@ async function parseFollowFiles(files:File[]){
 async function parseInstagramFiles(files:File[],batch:string,ownNames:string[],saveMedia:(f:File,id:string)=>Promise<void>){
  const paths=files.map(relPath),mediaIndex=buildMediaIndex(files),groups=new Map<string,File[]>()
  files.forEach((f,i)=>{const p=paths[i].split('/'),ix=p.findIndex(x=>x.toLowerCase()==='inbox');if(ix>=0&&p[ix+1]&&/^message_\d+\.json$/i.test(f.name))groups.set(p[ix+1],[...(groups.get(p[ix+1])||[]),f])})
- const output:ImportedConversation[]=[]
- for(const [folder,jsons] of groups){jsons.sort((x,y)=>Number(x.name.match(/\d+/)?.[0]||0)-Number(y.name.match(/\d+/)?.[0]||0));let title='',participants:string[]=[];const all:any[]=[]
-  for(const file of jsons){const d=JSON.parse(await file.text());title=title||d.title||'';participants=participants.length?participants:(d.participants||[]).map((p:any)=>p.name).filter(Boolean);all.push(...(d.messages||[]))}
-  const own=new Set(ownNames.map(x=>x.toLowerCase()).filter(Boolean)),name=title||participants.find(x=>!own.has(x.toLowerCase()))||participants[0]||'Instagram conversation'
+ const output:ImportedConversation[]=[],own=new Set(ownNames.map(x=>x.toLowerCase()).filter(Boolean))
+ for(const [folder,jsons] of groups){jsons.sort((x,y)=>Number(x.name.match(/\d+/)?.[0]||0)-Number(y.name.match(/\d+/)?.[0]||0));let title='',participants:string[]=[],messageIndex=0
   const messages:ImportedMessage[]=[]
-  for(let i=0;i<all.length;i++){const m=all[i]||{},parts=stampParts(Number(m.timestamp_ms)||Date.now()),media:ChatMedia[]=[]
-   for(const key of ['photos','videos','audio_files','gifs','files'])for(const item of (Array.isArray(m[key])?m[key]:m[key]?[m[key]]:[])){const uri=typeof item==='string'?item:item?.uri;if(!uri)continue;const file=findMediaFile(mediaIndex,uri),id=batch+'-'+folder+'-'+i+'-'+media.length;if(file){await saveMedia(file,id);media.push({id,name:file.name,type:mediaType(file)})}else media.push({id:'',name:baseName(uri),type:key==='videos'?'video':key==='audio_files'?'audio':key==='gifs'?'image/gif':'image'})}
-   const share=m.share||{},content=typeof m.content==='string'?m.content:Array.isArray(m.content)?m.content.map((x:any)=>x?.text||'').filter(Boolean).join('\n'):'',url=share.link||content.match(/https?:\/\/\S+/)?.[0],reaction=m.reactions?.[0],textValue=[content,share.share_text].filter(Boolean).join('\n').trim()
-   messages.push({id:batch+'-'+folder+'-'+i,...parts,sender:m.sender_name||'Unknown',kind:media.length?'media':url?'link':textValue?'text':'system',text:textValue,url,media,reaction:reaction?.reaction,reactionBy:reaction?.actor})
+  for(const file of jsons){const d=JSON.parse(await file.text());title=title||d.title||'';participants=participants.length?participants:(d.participants||[]).map((p:any)=>p.name).filter(Boolean)
+   for(const m of (Array.isArray(d.messages)?d.messages:[])){const i=messageIndex++,parts=stampParts(Number(m?.timestamp_ms)||Date.now()),media:ChatMedia[]=[]
+    for(const key of ['photos','videos','audio_files','gifs','files'])for(const item of (Array.isArray(m?.[key])?m[key]:m?.[key]?[m[key]]:[])){const uri=typeof item==='string'?item:item?.uri;if(!uri)continue;const file=findMediaFile(mediaIndex,uri),id=batch+'-'+folder+'-'+i+'-'+media.length;if(file){await saveMedia(file,id);media.push({id,name:file.name,type:mediaType(file)})}else media.push({id:'',name:baseName(uri),type:key==='videos'?'video':key==='audio_files'?'audio':key==='gifs'?'image/gif':'image'})}
+    const share=m?.share||{},content=typeof m?.content==='string'?m.content:Array.isArray(m?.content)?m.content.map((x:any)=>x?.text||'').filter(Boolean).join('\n'):'',url=share.link||content.match(/https?:\/\/\S+/)?.[0],reaction=m?.reactions?.[0],textValue=[content,share.share_text].filter(Boolean).join('\n').trim()
+    messages.push({id:batch+'-'+folder+'-'+i,...parts,sender:m?.sender_name||'Unknown',kind:media.length?'media':url?'link':textValue?'text':'system',text:textValue,url,media,reaction:reaction?.reaction,reactionBy:reaction?.actor})
+   }
   }
+  const name=title||participants.find(x=>!own.has(x.toLowerCase()))||participants[0]||'Instagram conversation'
   messages.sort((x,y)=>x.timestamp-y.timestamp);output.push({id:'instagram-'+batch+'-'+folder,batch,platform:'instagram',name,messages})
  }
  return output
