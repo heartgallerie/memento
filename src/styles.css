@@ -438,7 +438,7 @@
 .sidebar-status-indicator.idle svg{stroke:#e3a923;fill:#e3a923}
 .sidebar-user-copy{display:grid;gap:3px;min-width:0;flex:1}
 .sidebar-user-copy>span{font:10px 'DM Sans';color:var(--muted)}
-.sidebar-profile-card{position:fixed;left:12px;bottom:82px;z-index:1000;width:210px;max-width:calc(100vw - 32px);overflow:hidden;border:1px solid var(--line);border-radius:13px;background:var(--surface);box-shadow:0 12px 35px #0003;opacity:0;transform:translateY(10px) scale(.96);visibility:hidden;pointer-events:none;transform-origin:bottom left;transition:opacity .18s ease,transform .22s cubic-bezier(.2,.8,.2,1),visibility .22s}
+.sidebar-profile-card{position:fixed;left:12px;bottom:82px;z-index:1000;width:244px;max-width:calc(100vw - 32px);overflow:hidden;border:1px solid var(--line);border-radius:13px;background:var(--surface);box-shadow:0 12px 35px #0003;opacity:0;transform:translateY(10px) scale(.96);visibility:hidden;pointer-events:none;transform-origin:bottom left;transition:opacity .18s ease,transform .22s cubic-bezier(.2,.8,.2,1),visibility .22s}
 .sidebar-card-banner{height:76px;background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 35%,var(--soft)),var(--panel));background-size:cover;background-position:center}
 .sidebar-card-main{position:relative;display:flex;flex-direction:column;align-items:flex-start;padding:0 14px 14px}
 .sidebar-card-avatar-wrap{width:54px;height:54px;margin-top:-27px;margin-bottom:8px;padding:3px;border-radius:50%;background:var(--surface)}
@@ -455,7 +455,7 @@
 
 
 /* Match the account popover to the actual sidebar width (244px incl. padding). */
-.sidebar-profile-card{width:210px;max-width:calc(100vw - 32px)}
+.sidebar-profile-card{width:244px;max-width:calc(100vw - 32px)}
 .sidebar-profile-card .sidebar-card-banner{height:64px}
 .sidebar-card-main{padding-left:12px;padding-right:12px}
 .post-actions .post-open-entry-button{display:grid;place-items:center;width:32px;height:32px;min-width:32px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--accent);box-shadow:none;cursor:pointer;transition:background .15s,color .15s}
@@ -1113,9 +1113,9 @@
 .profile-avatar-stack,.sidebar-card-avatar-wrap{position:relative;overflow:visible!important}
 .profile-status-bubble{position:absolute;z-index:30;bottom:calc(100% + 13px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:flex-start;gap:7px;width:max-content;max-width:min(230px,70vw);padding:10px 13px;border:1px solid color-mix(in srgb,var(--text) 12%,transparent);border-radius:15px;background:color-mix(in srgb,var(--surface) 91%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--text);font-size:12px;font-weight:500;line-height:1.45;text-align:left;overflow-wrap:anywhere;box-shadow:0 5px 20px rgba(0,0,0,.16);animation:profile-status-pop .24s cubic-bezier(.175,.885,.32,1.275)}
 .profile-status-bubble:before,.profile-status-bubble:after{content:"";position:absolute;border-radius:50%;background:var(--surface);border:1px solid color-mix(in srgb,var(--text) 10%,transparent)}
-.profile-status-bubble:before{width:10px;height:10px;bottom:-8px;right:22px}.profile-status-bubble:after{width:6px;height:6px;bottom:-16px;right:13px}
-.profile-status-bubble img,.profile-status-bubble video{display:block;width:100%;max-width:204px;max-height:180px;object-fit:contain;border-radius:9px;background:var(--panel)}
-.sidebar-card-avatar-wrap .profile-status-bubble{left:50%;bottom:calc(100% + 12px);max-width:210px}
+.profile-status-bubble:before{width:10px;height:10px;bottom:-8px;left:22px;right:auto}.profile-status-bubble:after{width:6px;height:6px;bottom:-16px;left:13px;right:auto}
+.profile-status-bubble img,.profile-status-bubble video{display:block;width:100%;max-width:100%;max-height:180px;object-fit:contain;border-radius:9px;background:var(--panel)}
+.sidebar-card-avatar-wrap .profile-status-bubble{left:50%;bottom:calc(100% + 12px);width:min(218px,calc(100vw - 56px));max-width:min(218px,calc(100vw - 56px))}
 .profile-avatar-stack>.profile-status-bubble{left:50%;bottom:calc(100% + 14px)}
 @keyframes profile-status-pop{from{opacity:0;transform:translateX(-50%) scale(.84)}to{opacity:1;transform:translateX(-50%) scale(1)}}
 .profile-status-remove{align-self:flex-start;border:0;background:transparent;color:var(--muted);font-size:12px;cursor:pointer;padding:2px 0}
