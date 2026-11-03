@@ -60,29 +60,93 @@ function MemoProfile({avatarColor,onBack}:{avatarColor:string;onBack:()=>void}){
 function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile}:{memoText:string;setMemoText:(v:string)=>void;avatarColor:string;onOpenProfile:()=>void}){
  const [rotation,setRotation]=useState({x:0,y:0,z:0})
  const [messages,setMessages]=useState<{id:number;role:'user'|'memo';text:string}[]>([])
- const [typing,setTyping]=useState('')
- const [typed,setTyped]=useState('')
+ const [streaming,setStreaming]=useState(false)
+ const [streamedText,setStreamedText]=useState('')
+ const [ollamaUrl,setOllamaUrl]=useState(()=>localStorage.getItem('memento-ollama-url')||'http://localhost:11434')
+ const [models,setModels]=useState<string[]>([])
+ const [selectedModel,setSelectedModel]=useState(()=>localStorage.getItem('memento-ollama-model')||'')
+ const [modelsLoading,setModelsLoading]=useState(false)
+ const [connectionError,setConnectionError]=useState('')
+ const [settingsOpen,setSettingsOpen]=useState(false)
  const Avatar=useMemo(()=>createAvatar({...strobiDefinition,colors:{...strobiDefinition.colors,body:avatarColor}}),[avatarColor])
  const avatarStyle={transform:`perspective(700px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) rotateZ(${rotation.z}deg)`} as ReactCSSProperties
- useEffect(()=>{
-  if(!typing)return
-  let index=0
-  const timer=window.setInterval(()=>{index++;setTyped(typing.slice(0,index));if(index>=typing.length){window.clearInterval(timer);setMessages(items=>[...items,{id:Date.now(),role:'memo',text:typing}]);setTyping('');setTyped('')}},22)
-  return()=>window.clearInterval(timer)
- },[typing])
- const sendMessage=(raw:string)=>{
-  const text=raw.trim();if(!text||typing)return
-  setMessages(items=>[...items,{id:Date.now(),role:'user',text}]);setMemoText('')
-  const normalized=text.toLowerCase().replace(/[?!.,]/g,'').trim()
-  let response=''
-  if(/^(hi|hey|hello|hii|hiya|yo|sup)$/.test(normalized))response='Hey! It’s nice to meet you. What’s on your mind?'
-  else if(/^(who are you|what are you|who is memo)$/.test(normalized))response="I’m Memo, your AI companion inside Memento. I’m here to help you revisit your memories, explore your journal, and connect ideas across your personal archive. I’m still a demo right now, so I can respond to a few preset messages, but I’m not connected to a live AI model yet."
-  else if(/^(what can you do|help|what do you do)$/.test(normalized))response="I’m being designed to help you search your archive, reflect on past entries, find connections, and prepare edits for your approval. Those archive and AI features aren’t connected yet."
-  else response="I’m still learning how to respond to that. For now, try asking who I am or what I can do — those demo responses are ready."
-  setTyping(response)
+ const loadModels=async()=>{
+  setModelsLoading(true);setConnectionError('')
+  const base=ollamaUrl.trim().replace(/\/+$/,'')
+  try{
+   const response=await fetch(base+'/api/tags')
+   if(!response.ok)throw new Error('Ollama returned HTTP '+response.status)
+   const data=await response.json()
+   const names=(data.models||[]).map((model:{name?:string;model?:string})=>model.name||model.model).filter(Boolean) as string[]
+   setModels(names)
+   if(!names.length)throw new Error('Ollama is reachable, but no models are installed.')
+   const saved=localStorage.getItem('memento-ollama-model')
+   setSelectedModel(current=>names.includes(current)?current:saved&&names.includes(saved)?saved:names[0])
+   localStorage.setItem('memento-ollama-url',base)
+  }catch(error){setModels([]);setConnectionError(error instanceof Error?error.message:'Could not connect to Ollama.');}
+  finally{setModelsLoading(false)}
+ }
+ useEffect(()=>{void loadModels()},[])
+ useEffect(()=>{localStorage.setItem('memento-ollama-url',ollamaUrl)},[ollamaUrl])
+ useEffect(()=>{if(selectedModel)localStorage.setItem('memento-ollama-model',selectedModel)},[selectedModel])
+ const sendMessage=async(raw:string)=>{
+  const text=raw.trim();if(!text||streaming)return
+  const nextMessages=[...messages,{id:Date.now(),role:'user' as const,text}]
+  setMessages(nextMessages);setMemoText('');setStreaming(true);setStreamedText('');setConnectionError('')
+  const base=ollamaUrl.trim().replace(/\/+$/,'')
+  try{
+   if(!selectedModel)throw new Error('Choose an installed Ollama model first.')
+   const response=await fetch(base+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    model:selectedModel,stream:true,
+    messages:[
+     {role:'system',content:'You are Memo, the AI companion inside Memento, a personal journal and memory archive. Be natural, thoughtful, concise, and honest. You can chat with the user, but do not claim to have searched their journal or personal archive unless that information is included in the conversation.'},
+     ...nextMessages.map(message=>({role:message.role==='memo'?'assistant':'user',content:message.text}))
+    ]
+   })})
+   if(!response.ok){const detail=await response.text();throw new Error(detail||'Ollama returned HTTP '+response.status)}
+   if(!response.body)throw new Error('Ollama did not return a streaming response.')
+   const reader=response.body.getReader(),decoder=new TextDecoder()
+   let buffer='',answer=''
+   while(true){
+    const {value,done}=await reader.read()
+    if(value)buffer+=decoder.decode(value,{stream:!done})
+    const lines=buffer.split('\n');buffer=lines.pop()||''
+    for(const line of lines){if(!line.trim())continue;const chunk=JSON.parse(line);if(chunk.error)throw new Error(chunk.error);const token=chunk.message?.content||'';if(token){answer+=token;setStreamedText(answer)}}
+    if(done)break
+   }
+   if(buffer.trim()){const chunk=JSON.parse(buffer);if(chunk.error)throw new Error(chunk.error);answer+=chunk.message?.content||''}
+   setMessages(items=>[...items,{id:Date.now()+1,role:'memo',text:answer||'(The model returned an empty response.)'}])
+   setStreamedText('')
+  }catch(error){
+   const message=error instanceof Error?error.message:'Unknown Ollama connection error'
+   setConnectionError(message)
+   setMessages(items=>[...items,{id:Date.now()+1,role:'memo',text:'I couldn’t get a response from Ollama. Check the connection and selected model in the settings above.'}])
+   setStreamedText('')
+  }finally{setStreaming(false)}
  }
  const quickPrompts=messages.length?['Who are you?','What can you do?']:['Hi','Who are you?']
- return <section className="memo-view"><div className="memo-profile-link" onClick={onOpenProfile} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" ")onOpenProfile()}}><div className="memo-profile-avatar"><Avatar size="38px" ariaLabel="Memo avatar"/></div><div><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo · AI companion</span></div><button onClick={e=>{e.stopPropagation();onOpenProfile()}}>View profile <ArrowUpRight size={13}/></button></div><div className="memo-heading"><div className="eyebrow"><Sparkles size={14}/> YOUR AI COMPANION</div><h1>What’s on your mind?</h1><p>Get to know Memo. These are preset demo responses, not a live AI connection.</p></div><div className="memo-avatar-stage" onPointerMove={e=>{const r=e.currentTarget.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;setRotation({x:-y*24,y:x*24,z:x*10})}} onPointerLeave={()=>setRotation({x:0,y:0,z:0})}><Avatar className="memo-strobi" animation="idle" size="min(42vw, 210px)" ariaLabel="Strobi, Memo's avatar" style={avatarStyle}/><strong>Memo</strong><span>Your AI companion</span></div><div className="memo-chat-log" aria-live="polite">{messages.map(message=><div key={message.id} className={'memo-chat-message '+message.role}><span>{message.role==='memo'?'Memo':'You'}</span><p>{message.text}</p></div>)}{typing&&<div className="memo-chat-message memo"><span>Memo</span><p>{typed}<i className="memo-typing-caret"/></p></div>}</div>{!messages.length&&!typing&&<div className="memo-quick-prompts">{quickPrompts.map(prompt=><button key={prompt} onClick={()=>sendMessage(prompt)}>{prompt}</button>)}</div>}<div className="memo-composer"><button className="memo-add-button" aria-label="Add attachment" title="Add attachment" disabled><Plus size={19}/></button><input value={memoText} onChange={e=>setMemoText(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(memoText)}}} placeholder="Message Memo…" disabled={!!typing}/><button className="memo-send-button" aria-label="Send message" title="Send message" disabled={!memoText.trim()||!!typing} onClick={()=>sendMessage(memoText)}><ArrowUp size={19}/></button></div><p className="fine-print">Memo’s replies are preset for this prototype. Live AI and archive search are planned for a later milestone.</p></section>
+ return <section className="memo-view">
+  <div className="memo-profile-link" onClick={onOpenProfile} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" ")onOpenProfile()}}>
+   <div className="memo-profile-avatar"><Avatar size="38px" ariaLabel="Memo avatar"/></div>
+   <div><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo · AI companion</span></div>
+   <button onClick={e=>{e.stopPropagation();onOpenProfile()}}>View profile <ArrowUpRight size={13}/></button>
+  </div>
+  <div className="memo-heading"><div className="eyebrow"><Sparkles size={14}/> YOUR AI COMPANION</div><h1>What’s on your mind?</h1><p>Chat with a local Ollama model running on your computer.</p></div>
+  <div className="memo-ollama-settings">
+   <button className="memo-ollama-toggle" onClick={()=>setSettingsOpen(value=>!value)} aria-expanded={settingsOpen}><span><strong>Ollama connection</strong><small>{selectedModel||'No model selected'} · {models.length?models.length+' models found':'not connected'}</small></span><span>{settingsOpen?'Hide settings':'Settings'}</span></button>
+   {settingsOpen&&<div className="memo-ollama-fields">
+    <label>Ollama address<input value={ollamaUrl} onChange={e=>setOllamaUrl(e.target.value)} placeholder="http://localhost:11434" spellCheck={false}/></label>
+    <label>Model<select value={selectedModel} onChange={e=>setSelectedModel(e.target.value)} disabled={!models.length}><option value="">Select a model</option>{models.map(model=><option key={model} value={model}>{model}</option>)}</select></label>
+    <button onClick={()=>void loadModels()} disabled={modelsLoading}>{modelsLoading?'Checking…':'Refresh models'}</button>
+    {connectionError&&<p role="alert">{connectionError}</p>}
+   </div>}
+  </div>
+  <div className="memo-avatar-stage" onPointerMove={e=>{const r=e.currentTarget.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;setRotation({x:-y*24,y:x*24,z:x*10})}} onPointerLeave={()=>setRotation({x:0,y:0,z:0})}><Avatar className="memo-strobi" animation="idle" size="min(42vw, 210px)" ariaLabel="Strobi, Memo's avatar" style={avatarStyle}/><strong>Memo</strong><span>Your AI companion</span></div>
+  <div className="memo-chat-log" aria-live="polite">{messages.map(message=><div key={message.id} className={'memo-chat-message '+message.role}><span>{message.role==='memo'?'Memo':'You'}</span><p>{message.text}</p></div>)}{streaming&&<div className="memo-chat-message memo"><span>Memo</span><p>{streamedText}<i className="memo-typing-caret"/></p></div>}</div>
+  {!messages.length&&!streaming&&<div className="memo-quick-prompts">{quickPrompts.map(prompt=><button key={prompt} onClick={()=>void sendMessage(prompt)}>{prompt}</button>)}</div>}
+  <div className="memo-composer"><button className="memo-add-button" aria-label="Add attachment" title="Add attachment" disabled><Plus size={19}/></button><input value={memoText} onChange={e=>setMemoText(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();void sendMessage(memoText)}}} placeholder="Message Memo…" disabled={streaming}/><button className="memo-send-button" aria-label="Send message" title="Send message" disabled={!memoText.trim()||streaming} onClick={()=>void sendMessage(memoText)}>{streaming?'…':<ArrowUp size={19}/>}</button></div>
+  <p className="fine-print">Responses are generated by {selectedModel||'your selected Ollama model'} on your local Ollama server. Memo does not have access to your journal entries yet.</p>
+ </section>
 }
 type Attachment = { id:string; name:string; type:string; size:number }
 type ImportRecord = { id:string; fileName:string; importedAt:number; count:number }
