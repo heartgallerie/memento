@@ -1275,3 +1275,9 @@
 .shelf-game-modal section>a{padding:8px 13px;border:1px solid var(--line);border-radius:6px;color:var(--text);font:10px 'DM Sans',sans-serif;text-decoration:none}
 .shelf-game-remove{border:0;background:none;color:var(--muted);font:9px 'DM Sans',sans-serif;text-decoration:underline;cursor:pointer}
 @media(max-width:520px){.shelf-game-input-row{flex-direction:column}.shelf-game-input-row button{min-height:36px}.shelf-game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.shelf-game-case{width: min(148px,85%)}}
+
+/* Roblox game viewer actions share the music CD viewer controls */
+.cd-shelf-controls .cd-shelf-external-link,
+.cd-shelf-controls .cd-shelf-remove{display:inline-flex;align-items:center;justify-content:center;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font:500 10px 'DM Sans',sans-serif;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.cd-shelf-controls .cd-shelf-external-link:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--panel))}
+.cd-shelf-controls .cd-shelf-remove{color:var(--muted)}
