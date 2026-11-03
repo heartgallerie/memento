@@ -1130,3 +1130,51 @@
 .sidebar-card-main,.sidebar-card-avatar-wrap{overflow:visible!important}
 .profile-view,.profile-main,.profile-heading-row,.profile-avatar-stack{overflow:visible!important}
 .profile-status-bubble{pointer-events:auto}
+
+
+/* Playboi Carti CD shelves */
+.carti-shelves{width:100%;padding:25px 0 45px}
+.shelves-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin:0 0 21px}
+.shelves-heading h2{margin:5px 0 4px;color:var(--text);font:600 23px 'DM Sans',sans-serif;letter-spacing:-.04em}
+.shelves-heading p{margin:0;color:var(--muted);font:11px/1.5 'DM Sans',sans-serif}
+.shelves-count{padding:5px 8px;border:1px solid var(--line);border-radius:5px;color:var(--muted);font:9px 'DM Mono',monospace;white-space:nowrap}
+.shelves-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:23px 17px}
+.shelf-album-card{display:flex;min-width:0;flex-direction:column;gap:9px;padding:0;border:0;background:transparent;text-align:left;cursor:pointer;color:var(--text)}
+.shelf-album-art{position:relative;display:block;width:100%;aspect-ratio:1;overflow:hidden;border:1px solid color-mix(in srgb,var(--text) 13%,transparent);border-radius:4px;background:var(--album-tone,#777);box-shadow:0 5px 14px rgba(0,0,0,.13);transition:transform .22s,box-shadow .22s}
+.shelf-album-card:hover .shelf-album-art{transform:translateY(-4px);box-shadow:0 10px 22px rgba(0,0,0,.2)}
+.shelf-album-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shelf-art-fallback{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:#fff;font:700 20px/1.1 'DM Sans',sans-serif;letter-spacing:-.06em}
+.shelf-art-gloss{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 35%,transparent 70%,rgba(0,0,0,.12));pointer-events:none}
+.shelf-album-copy{display:grid;gap:4px;min-width:0}
+.shelf-album-copy strong{overflow:hidden;color:var(--text);font:600 11px 'DM Sans',sans-serif;text-overflow:ellipsis;white-space:nowrap}
+.shelf-album-copy small{color:var(--muted);font:8px 'DM Mono',monospace;letter-spacing:.04em}
+.shelf-modal-backdrop{position:fixed;inset:0;z-index:1500;display:grid;place-items:center;padding:20px;background:rgba(8,8,10,.72);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);animation:shelf-modal-fade .2s ease}
+.shelf-modal{width:min(590px,100%);max-height:min(90vh,800px);overflow:auto;padding:19px 22px 22px;border:1px solid color-mix(in srgb,var(--text) 15%,transparent);border-radius:13px;background:var(--surface);color:var(--text);box-shadow:0 25px 90px rgba(0,0,0,.38)}
+.shelf-modal-header{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.shelf-modal-header>div{display:grid;gap:4px}
+.shelf-modal-header strong{font:600 16px 'DM Sans',sans-serif}
+.shelf-modal-header small{color:var(--muted);font:8px 'DM Mono',monospace;letter-spacing:.08em}
+.shelf-modal-close{display:grid;place-items:center;width:33px;height:33px;border:1px solid var(--line);border-radius:50%;background:var(--panel);color:var(--text);cursor:pointer}
+.shelf-case-stage{position:relative;display:grid;place-items:center;min-height:370px;margin:10px auto 0;perspective:1200px;overflow:visible}
+.shelf-jewel-case{position:relative;width:min(280px,68vw);aspect-ratio:1;transform-style:preserve-3d;transform:translateX(0);transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.shelf-case-tray{position:absolute;inset:0;overflow:hidden;border:1px solid rgba(255,255,255,.48);border-radius:5px;background:linear-gradient(145deg,#d7d9da,#8b8e92 48%,#c7c9ca);box-shadow:0 13px 35px rgba(0,0,0,.3),inset 0 0 0 5px rgba(255,255,255,.12)}
+.shelf-case-tray:before{content:"";position:absolute;inset:8px;border:1px solid rgba(40,40,40,.24);border-radius:3px;pointer-events:none}
+.shelf-case-hub{position:absolute;left:50%;top:50%;width:29px;height:29px;transform:translate(-50%,-50%);border:5px solid #b8babd;border-radius:50%;background:#686b70;box-shadow:inset 0 0 0 2px #e0e1e2;z-index:2}
+.shelf-disc{position:absolute;left:50%;top:50%;width:83%;aspect-ratio:1;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.75);border-radius:50%;background:repeating-conic-gradient(from 0deg,#d9dcde 0deg 5deg,#aeb2b6 7deg 12deg,#e7e8e9 15deg 20deg);box-shadow:0 3px 12px rgba(0,0,0,.3),inset 0 0 0 1px rgba(0,0,0,.15);touch-action:none;cursor:grab;z-index:1}
+.shelf-disc:active{cursor:grabbing}
+.shelf-disc-shine{position:absolute;inset:7%;border-radius:50%;background:conic-gradient(from 30deg,transparent,rgba(255,255,255,.75),transparent 23%,rgba(130,170,190,.35),transparent 55%,rgba(255,255,255,.5),transparent);pointer-events:none}
+.shelf-disc-label{position:absolute;left:50%;top:50%;display:grid;place-items:center;gap:3px;width:37%;aspect-ratio:1;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.6);border-radius:50%;background:radial-gradient(circle,#f5f5f4 0 45%,#b7b9bc 47% 51%,#e9e9e8 53%);color:#292a2b;text-align:center;pointer-events:none}
+.shelf-disc-label svg{width:16px;height:16px}
+.shelf-disc-label small{max-width:85%;overflow:hidden;font:600 7px 'DM Sans',sans-serif;text-overflow:ellipsis;white-space:nowrap}
+.shelf-disc-label i{font:5px 'DM Mono',monospace;font-style:normal;letter-spacing:.06em}
+.shelf-disc-hole{position:absolute;left:50%;top:50%;width:8px;height:8px;transform:translate(-50%,-50%);border:1px solid #777;border-radius:50%;background:#ddd;pointer-events:none}
+.shelf-case-lid{position:absolute;inset:0;z-index:3;display:block;overflow:hidden;padding:0;border:1px solid rgba(255,255,255,.65);border-radius:5px;background:#aaa;transform-origin:left center;transform:rotateY(0deg) translateZ(2px);backface-visibility:visible;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.2,.7,.2,1);box-shadow:0 8px 20px rgba(0,0,0,.25);cursor:pointer}
+.shelf-jewel-case.is-open .shelf-case-lid{transform:rotateY(-128deg) translateZ(2px)}
+.shelf-case-lid img{display:block;width:100%;height:100%;object-fit:cover}
+.shelf-case-lid-fallback{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:700 20px 'DM Sans',sans-serif;letter-spacing:-.06em}
+.shelf-case-edge{position:absolute;inset:0;border:7px solid rgba(255,255,255,.12);pointer-events:none}
+.shelf-case-controls{display:flex;align-items:center;justify-content:center;gap:13px;margin-top:4px}
+.shelf-case-controls>span,.shelf-case-hint{color:var(--muted);font:9px 'DM Sans',sans-serif}
+.shelf-case-hint{margin:11px 0 0;text-align:center}
+@keyframes shelf-modal-fade{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){.carti-shelves{padding-top:18px}.shelves-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.shelf-modal{padding:16px 14px 19px}.shelf-case-stage{min-height:320px}.shelf-jewel-case{width:min(250px,72vw)}.shelf-case-controls{flex-direction:column;gap:8px}}
