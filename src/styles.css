@@ -1007,3 +1007,18 @@
 .chat-import-media-item>span{display:flex;align-items:center;gap:6px;padding:8px}.chat-import-media-item small{display:block;font-size:8px}
 .wa-call-record>span{display:flex;align-items:center;gap:8px;color:var(--muted);font:10px 'DM Sans'}
 .wa-call-record>span svg{color:var(--accent)}
+
+.follow-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}
+.follow-stats>div{display:flex;flex-direction:column;gap:5px;padding:14px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.follow-stats strong{font:600 21px 'DM Sans';color:var(--text)}.follow-stats span{font:10px 'DM Sans';color:var(--muted)}
+.follow-filter-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 12px}
+.follow-filter-tabs button{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--muted);font:10px 'DM Sans';cursor:pointer}
+.follow-filter-tabs button.active{background:var(--panel);border-color:var(--accent);color:var(--text)}
+.follow-filter-tabs button span{padding:2px 5px;border-radius:4px;background:var(--line);font-size:9px}
+.follow-search{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--text);font:11px 'DM Sans';outline:none}
+.follow-account-list{display:flex;flex-direction:column;margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.follow-account-list>a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--text);text-decoration:none;font:11px 'DM Sans'}
+.follow-account-list>a:last-child{border-bottom:0}.follow-account-list>a:hover{background:var(--panel)}
+.follow-account-list>a>svg{margin-left:auto;color:var(--muted)}
+.follow-account-avatar{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:var(--panel);color:var(--muted);font:11px 'DM Sans'}
+@media(max-width:620px){.follow-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.follow-filter-tabs{flex-direction:column}.follow-filter-tabs button{justify-content:space-between}}
