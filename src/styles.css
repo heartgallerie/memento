@@ -1293,3 +1293,18 @@
 .memo-quick-prompts button{border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text);padding:8px 13px;font:10px 'DM Sans';cursor:pointer}
 .memo-quick-prompts button:hover{border-color:var(--accent);color:var(--accent)}
 .memo-composer .memo-send-button:disabled{background:var(--soft);color:var(--muted);cursor:not-allowed;opacity:.75}
+
+/* Memo chat uses the page's natural scroll instead of an independently scrolling message pane. */
+.memo-chat-log{max-height:none;overflow:visible;overscroll-behavior:initial}
+.memo-ollama-settings{width:min(100%,560px);margin:0 auto 20px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.memo-ollama-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border:0;background:transparent;color:var(--text);text-align:left;cursor:pointer}
+.memo-ollama-toggle>span:first-child{display:grid;gap:4px}
+.memo-ollama-toggle strong{font:600 10px 'DM Sans'}
+.memo-ollama-toggle small{font:9px 'DM Mono';color:var(--muted)}
+.memo-ollama-toggle>span:last-child{font:9px 'DM Sans';color:var(--accent)}
+.memo-ollama-fields{display:grid;gap:10px;padding:12px 13px 14px;border-top:1px solid var(--line)}
+.memo-ollama-fields label{display:grid;gap:5px;color:var(--muted);font:9px 'DM Mono'}
+.memo-ollama-fields input,.memo-ollama-fields select{width:100%;min-width:0;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:10px 'DM Sans'}
+.memo-ollama-fields button{justify-self:start;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--text);font:10px 'DM Sans';cursor:pointer}
+.memo-ollama-fields button:disabled{opacity:.5;cursor:wait}
+.memo-ollama-fields [role=alert]{margin:0;color:var(--danger,#d66);font:10px/1.5 'DM Sans'}
