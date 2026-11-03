@@ -209,17 +209,135 @@ function Viewer({ album, onClose }: { album: Album; onClose: () => void }) {
   )
 }
 
+type ShelfCategory = 'Music' | 'Games' | 'Movies' | 'Anime' | 'Shows' | 'Books'
+type RobloxGame = { placeId: string; universeId: number; name: string; playing: number; image: string; url: string }
+
+const CATEGORIES: ShelfCategory[] = ['Music', 'Games', 'Movies', 'Anime', 'Shows', 'Books']
+const ROBLOX_PROXY = 'https://proxy.cors.dev/'
+const readRobloxJson = async (url: string) => {
+  const response = await fetch(ROBLOX_PROXY + url)
+  if (!response.ok) throw new Error('Roblox returned an error. Try again in a moment.')
+  return response.json()
+}
+const getPlaceId = (input: string) => {
+  let url: URL
+  try { url = new URL(input.trim()) } catch { throw new Error('Paste a valid Roblox game link.') }
+  if (!/(^|\.)roblox\.com$/i.test(url.hostname)) throw new Error('That link does not look like a Roblox game URL.')
+  const match = url.pathname.match(/\/games\/(\d+)/i)
+  if (!match) throw new Error('Use a link in the format roblox.com/games/123456789/...') 
+  return match[1]
+}
+async function fetchRobloxGame(input: string): Promise<RobloxGame> {
+  const placeId = getPlaceId(input)
+  const universe = await readRobloxJson('https://apis.roblox.com/universes/v1/places/' + placeId + '/universe')
+  if (!universe?.universeId) throw new Error('Could not find that Roblox experience.')
+  const [details, icons] = await Promise.all([
+    readRobloxJson('https://games.roblox.com/v1/games?universeIds=' + universe.universeId),
+    readRobloxJson('https://thumbnails.roblox.com/v1/games/icons?universeIds=' + universe.universeId + '&size=512x512&format=Png&isCircular=false'),
+  ])
+  const game = details?.data?.[0]
+  if (!game) throw new Error('Roblox did not return details for that experience.')
+  return {
+    placeId, universeId: universe.universeId, name: game.name, playing: Number(game.playing) || 0,
+    image: icons?.data?.[0]?.imageUrl || '', url: 'https://www.roblox.com/games/' + placeId,
+  }
+}
+
+function GameCase({ game, onOpen }: { game: RobloxGame; onOpen: (game: RobloxGame) => void }) {
+  const [tilt, setTilt] = useState({ x: 0, y: -10 })
+  return <button type="button" className="shelf-game-item" onClick={() => onOpen(game)}
+    onPointerMove={event => { if (event.pointerType === 'touch') return; const r = event.currentTarget.getBoundingClientRect(); const x = (event.clientX-r.left)/r.width-.5; const y=(event.clientY-r.top)/r.height-.5; setTilt({x:-y*13,y:x*24-10}) }}
+    onPointerLeave={() => setTilt({x:0,y:-10})}>
+    <span className="shelf-game-case" style={{transform:\`rotateX(\${tilt.x}deg) rotateY(\${tilt.y}deg)\`}}>
+      <span className="shelf-game-cover">{game.image ? <img src={game.image} alt="" loading="lazy"/> : <span className="shelf-game-placeholder">ROBLOX</span>}</span>
+      <span className="shelf-game-side"/>
+    </span>
+    <span className="shelf-game-copy"><strong>{game.name}</strong><small><i/> {game.playing.toLocaleString()} playing</small></span>
+  </button>
+}
+
+function GamesShelf() {
+  const [games, setGames] = useState<RobloxGame[]>([])
+  const [link, setLink] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [selected, setSelected] = useState<RobloxGame | null>(null)
+
+  useEffect(() => {
+    try { const saved = localStorage.getItem('memento-roblox-shelf'); if (saved) setGames(JSON.parse(saved)) } catch { /* ignore invalid local data */ }
+  }, [])
+  useEffect(() => {
+    try { localStorage.setItem('memento-roblox-shelf', JSON.stringify(games)) } catch { /* storage may be unavailable */ }
+  }, [games])
+  const refreshCounts = useCallback(async () => {
+    if (!games.length) return
+    try {
+      const response = await readRobloxJson('https://games.roblox.com/v1/games?universeIds=' + games.map(g => g.universeId).join(','))
+      const counts = new Map<number, number>((response?.data || []).map((g: { id: number; playing: number }) => [g.id, Number(g.playing) || 0]))
+      setGames(current => current.map(game => counts.has(game.universeId) ? { ...game, playing: counts.get(game.universeId)! } : game))
+    } catch { /* keep last known player counts if Roblox is temporarily unavailable */ }
+  }, [games])
+  useEffect(() => {
+    if (!games.length) return
+    const timer = window.setInterval(refreshCounts, 60000)
+    return () => window.clearInterval(timer)
+  }, [games.length, refreshCounts])
+
+  const addGame = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const game = await fetchRobloxGame(link)
+      if (games.some(existing => existing.universeId === game.universeId)) throw new Error('That game is already on your shelf.')
+      setGames(current => [...current, game])
+      setLink('')
+    } catch (err) { setError(err instanceof Error ? err.message : 'Could not add that game.') }
+    finally { setLoading(false) }
+  }
+
+  return <div className="shelf-games">
+    <form className="shelf-game-add" onSubmit={addGame}>
+      <div><strong>Add a Roblox experience</strong><span>Paste a Roblox game link to add its cover and live player count.</span></div>
+      <div className="shelf-game-input-row"><input value={link} onChange={event => setLink(event.target.value)} placeholder="https://www.roblox.com/games/…" aria-label="Roblox game link"/>
+        <button type="submit" disabled={loading || !link.trim()}>{loading ? 'Adding…' : 'Add game'}</button></div>
+      {error && <p role="alert">{error}</p>}
+    </form>
+    {games.length ? <div className="shelf-game-grid">{games.map(game => <GameCase key={game.universeId} game={game} onOpen={setSelected}/>)}</div>
+      : <div className="shelf-empty"><div className="shelf-empty-case"><span>ROBLOX</span></div><strong>Your game shelf is empty</strong><span>Add a Roblox experience using its link above.</span></div>}
+    {selected && <div className="shelf-game-modal" role="presentation" onMouseDown={event => {if(event.target===event.currentTarget)setSelected(null)}}>
+      <section role="dialog" aria-modal="true" aria-label={selected.name}>
+        <button type="button" className="shelf-game-modal-close" onClick={() => setSelected(null)} aria-label="Close">×</button>
+        {selected.image && <img className="shelf-game-modal-image" src={selected.image} alt=""/>}
+        <strong>{selected.name}</strong><span className="shelf-game-live"><i/>{selected.playing.toLocaleString()} playing right now</span>
+        <a href={selected.url} target="_blank" rel="noreferrer">Open on Roblox ↗</a>
+        <button type="button" className="shelf-game-remove" onClick={() => {setGames(current => current.filter(g => g.universeId !== selected.universeId));setSelected(null)}}>Remove from shelf</button>
+      </section>
+    </div>}
+  </div>
+}
+
+function EmptyMediaShelf({ category }: { category: ShelfCategory }) {
+  const initials: Record<ShelfCategory,string> = {Music:'CD',Games:'GAME',Movies:'FILM',Anime:'ANIME',Shows:'TV',Books:'BOOK'}
+  return <div className="shelf-empty"><div className="shelf-empty-case"><span>{initials[category]}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>There's nothing here yet. This shelf is ready for your collection.</span></div>
+}
+
 export default function CdShelf() {
+  const [category, setCategory] = useState<ShelfCategory>('Music')
   const [selected, setSelected] = useState<Album | null>(null)
   const close = useCallback(() => setSelected(null), [])
-  return (
-    <section className="cd-shelf">
-      <div className="cd-shelf-heading">
-        <div><span className="eyebrow">THE COLLECTION</span><h2>Shelves</h2><p>A little collection of Carti records.</p></div>
-        <span className="cd-shelf-count">{ALBUMS.length} records</span>
-      </div>
-      <div className="cd-shelf-grid">{ALBUMS.map(album => <ShelfItem key={album.id} album={album} onOpen={setSelected} />)}</div>
-      {selected && <Viewer key={selected.id} album={selected} onClose={close} />}
-    </section>
-  )
+  return <section className="cd-shelf">
+    <div className="cd-shelf-heading"><div><span className="eyebrow">THE COLLECTION</span><h2>Shelves</h2><p>A little space for the things you enjoy.</p></div></div>
+    <nav className="shelf-category-tabs" aria-label="Shelf categories">
+      {CATEGORIES.map(item => <button type="button" key={item} className={category===item?'active':''} onClick={() => {setCategory(item);setSelected(null)}}>{item}</button>)}
+    </nav>
+    {category === 'Music' ? <>
+      <div className="cd-shelf-subheading"><strong>Music</strong><span>{ALBUMS.length} records</span></div>
+      <div className="cd-shelf-grid">{ALBUMS.map(album => <ShelfItem key={album.id} album={album} onOpen={setSelected}/>)}</div>
+      {selected && <Viewer key={selected.id} album={selected} onClose={close}/>}
+    </> : category === 'Games' ? <>
+      <div className="cd-shelf-subheading"><strong>Games</strong><span>ROBLOX EXPERIENCES</span></div>
+      <GamesShelf/>
+    </> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
+  </section>
 }
