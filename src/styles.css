@@ -781,3 +781,32 @@
 .people-card-actions{display:flex;justify-content:flex-end;width:100%;margin-top:auto}
 .people-card-actions .people-add-button{min-width:88px}
 @media(max-width:650px){.people-suggestions{grid-template-columns:1fr;gap:11px}.people-card-banner{height:60px}.profile-edit-heading-actions{gap:6px}.profile-edit-heading-actions .profile-edit-button,.profile-edit-heading-actions .save-btn{padding:8px 10px}}
+
+
+/* Keep Instagram's profile header layout separate from the journal-entry feed. */
+.profile-main.profile-layout-instagram>.profile-tabs,
+.profile-main.profile-layout-instagram>.profile-tab-transition{grid-column:1/-1;width:100%;min-width:0}
+.profile-main.profile-layout-instagram>.profile-tab-transition>.profile-feed{display:grid;width:100%;grid-column:1/-1}
+.profile-main.profile-layout-instagram .profile-post{display:flex;align-items:flex-start;width:100%;min-width:0;padding:17px 0;border-bottom:1px solid var(--line)}
+.profile-main.profile-layout-instagram .profile-post .post-content{min-width:0;flex:1}
+.profile-main.profile-layout-instagram .profile-post .post-byline{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.profile-main.profile-layout-instagram .profile-post .post-body{width:100%;min-width:0}
+
+/* People is a vertical list, matching the compact sidebar account card without a banner. */
+.people-suggestions{display:grid;grid-template-columns:minmax(0,1fr);gap:0;margin-top:16px}
+.people-profile-card{position:relative;min-width:0;overflow:visible;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+.people-card-main{display:flex;flex-direction:row;align-items:center;gap:13px;min-width:0;padding:15px 2px}
+.people-card-banner{display:none}
+.people-card-avatar-wrap{position:relative;width:54px;height:54px;flex:none;padding:3px;border-radius:50%;background:var(--surface);overflow:visible}
+.people-card-avatar{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;font:600 15px 'DM Sans'}
+.people-card-avatar.rose{background:#f2dfe4;color:#986b78}.people-card-avatar.blue{background:#dce8f3;color:#587895}.people-card-avatar.gold{background:#f0e7d4;color:#9a8050}.people-card-avatar.lilac{background:#e9e0f1;color:#816b9a}.people-card-avatar.green{background:#dfeadf;color:#638166}.people-card-avatar.slate{background:#e1e5e8;color:#687780}
+.people-card-avatar-wrap .people-card-frame{position:absolute;inset:-5px;width:calc(100% + 10px);height:calc(100% + 10px)}
+.people-card-copy{display:flex;flex-direction:column;align-items:flex-start;flex:1;min-width:0}
+.people-card-nameplate-wrap{position:relative;display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:0;padding:0}
+.people-card-nameplate{position:absolute;z-index:0;left:-5px;top:-8px;width:min(190px,100%);height:43px;object-fit:contain;object-position:left center;pointer-events:none}
+.people-card-nameplate-wrap>strong,.people-card-nameplate-wrap>span{position:relative;z-index:1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.people-card-nameplate-wrap>strong{font:600 12px 'DM Sans';color:var(--text)}
+.people-card-nameplate-wrap>span{margin-top:2px;font:10px 'DM Sans';color:var(--muted)}
+.people-card-bio{margin:5px 0 0;color:var(--muted);font:10px/1.5 'DM Sans';overflow-wrap:anywhere}
+.people-profile-card>.people-card-main>.people-add-button{flex:none;min-width:75px}
+@media(max-width:650px){.people-card-main{gap:11px;padding:13px 0}.people-card-avatar-wrap{width:48px;height:48px}.people-card-avatar{width:42px;height:42px}.people-profile-card>.people-card-main>.people-add-button{min-width:67px;padding:7px 8px}}
