@@ -133,7 +133,7 @@ async function parseWhatsAppFiles(files:File[],batch:string,saveMedia:(f:File,id
   for(const line of lines){const m=line.match(re);if(!m){if(raw.length)raw[raw.length-1].body+='\n'+line;continue}
    const [,ds,ts,rest]=m;let d:Date;if(/^\d{4}/.test(ds)){const [y,mo,day]=ds.split(/[/-]/).map(Number);d=new Date(y,mo-1,day)}else{const [day,mo,y]=ds.split(/[/-]/).map(Number);d=new Date(y<100?2000+y:y,mo-1,day)}
    const tm=ts.match(/(\d{1,2}):(\d{2}).*?(AM|PM)?/i),h=Number(tm?.[1]||0),min=Number(tm?.[2]||0),h24=tm?.[3]?(h%12+(tm[3].toUpperCase()==='PM'?12:0)):h;d.setHours(h24,min,0,0)
-   const colon=rest.indexOf(': '),sender=colon>=0?stripDirection(rest.slice(0,colon)):'',body=decodeEntities(stripDirection(colon>=0?rest.slice(colon+2):rest)),call=(!sender&&!body.trim())||/\b(?:voice|video)?\s*call\b/i.test(body)
+   const colon=rest.indexOf(': '),sender=colon>=0?stripDirection(rest.slice(0,colon)):'',rawBody=colon>=0?rest.slice(colon+2):rest,exportCall=/^\s*:\s*(?:&#x20;|&#32;|&nbsp;)?\s*$/i.test(stripDirection(rest)),body=decodeEntities(stripDirection(rawBody)),call=exportCall||(!sender&&!body.trim())||/\b(?:voice|video)?\s*call\b/i.test(body)
    raw.push({date:d.toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'}),time:ts,sender:sender||'you',body,stamp:d.getTime(),system:colon<0&&!call,call})
   }
   const messages:ImportedMessage[]=[]
