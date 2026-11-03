@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject, type FormEvent } from 'react'
 
 type Album = {
   id: string
@@ -283,7 +283,7 @@ function GamesShelf() {
     return () => window.clearInterval(timer)
   }, [games.length, refreshCounts])
 
-  const addGame = async (event: React.FormEvent<HTMLFormElement>) => {
+  const addGame = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
     setLoading(true)
