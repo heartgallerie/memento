@@ -1107,3 +1107,15 @@
 .dm-sender-label.ai span{padding:2px 5px;border:1px solid var(--line);border-radius:4px;font-size:7px;letter-spacing:.08em}
 .dm-message-row.ai .dm-message-content{max-width:min(78%,560px)}
 @media(max-width:760px){.dm-participant-strip{gap:5px;padding:8px}.dm-message-row.ai .dm-message-content{max-width:88%}}
+
+
+/* Floating profile status bubble */
+.profile-avatar-stack,.sidebar-card-avatar-wrap{position:relative;overflow:visible!important}
+.profile-status-bubble{position:absolute;z-index:30;bottom:calc(100% + 13px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:flex-start;gap:7px;width:max-content;max-width:min(230px,70vw);padding:10px 13px;border:1px solid color-mix(in srgb,var(--text) 12%,transparent);border-radius:15px;background:color-mix(in srgb,var(--surface) 91%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--text);font-size:12px;font-weight:500;line-height:1.45;text-align:left;overflow-wrap:anywhere;box-shadow:0 5px 20px rgba(0,0,0,.16);animation:profile-status-pop .24s cubic-bezier(.175,.885,.32,1.275)}
+.profile-status-bubble:before,.profile-status-bubble:after{content:"";position:absolute;border-radius:50%;background:var(--surface);border:1px solid color-mix(in srgb,var(--text) 10%,transparent)}
+.profile-status-bubble:before{width:10px;height:10px;bottom:-8px;right:22px}.profile-status-bubble:after{width:6px;height:6px;bottom:-16px;right:13px}
+.profile-status-bubble img,.profile-status-bubble video{display:block;width:100%;max-width:204px;max-height:180px;object-fit:contain;border-radius:9px;background:var(--panel)}
+.sidebar-card-avatar-wrap .profile-status-bubble{left:50%;bottom:calc(100% + 12px);max-width:210px}
+.profile-avatar-stack>.profile-status-bubble{left:50%;bottom:calc(100% + 14px)}
+@keyframes profile-status-pop{from{opacity:0;transform:translateX(-50%) scale(.84)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.profile-status-remove{align-self:flex-start;border:0;background:transparent;color:var(--muted);font-size:12px;cursor:pointer;padding:2px 0}
