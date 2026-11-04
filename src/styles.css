@@ -1558,3 +1558,41 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .prompt-placeholder-card strong{color:var(--text);font-size:13px}
 .prompt-placeholder-card span{font-size:10px}
 @media(max-width:650px){.profile-new-post-fab{right:18px;bottom:18px;width:49px;height:49px}.profile-pill-edit-row{grid-template-columns:1fr 1fr}.profile-pill-edit-row .icon-btn{grid-column:2;justify-self:end}.profile-interest-pill{font-size:10px}.top-search{width:min(100%,58vw)}}
+
+
+/* Journal polish: centred search, custom tag controls, and lightweight entry paging */
+.topbar{position:relative}
+.top-search.top-search-centered{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,52vw);height:38px;border-radius:999px;padding:0 15px;background:var(--surface);transition:border-color .18s,box-shadow .18s,background .18s}
+.top-search.top-search-centered:hover{border-color:color-mix(in srgb,var(--accent) 58%,var(--line));box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 10%,transparent),0 0 18px color-mix(in srgb,var(--accent) 22%,transparent)}
+.top-search.top-search-centered:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent),0 0 24px color-mix(in srgb,var(--accent) 28%,transparent)}
+.top-search.top-search-centered input{font-size:11px}
+.journal-heading-title{display:flex;align-items:center;gap:9px;min-width:0}
+.journal-heading-title h1{margin:10px 0 4px}
+.journal-entry-count{width:25px;height:25px;flex:none;display:inline-grid;place-items:center;margin-top:4px;padding:0 5px;border-radius:50%;background:var(--accent);color:#fff;font:600 9px 'DM Mono';font-variant-numeric:tabular-nums;box-shadow:0 2px 9px color-mix(in srgb,var(--accent) 24%,transparent)}
+.entry-tags .tag-picker-select{appearance:none;-webkit-appearance:none;min-height:30px;padding:5px 28px 5px 11px;border:1px solid color-mix(in srgb,var(--accent) 32%,var(--line));border-radius:999px;background:var(--surface);color:var(--accent);font:600 10px 'DM Sans';cursor:pointer;outline:none;transition:background .16s,border-color .16s,box-shadow .16s}
+.entry-tags .tag-picker-select:hover,.entry-tags .tag-picker-select:focus{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface));box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 11%,transparent)}
+.entry-tags .tag-picker-select option{background:var(--surface);color:var(--text)}
+.tag-color-control{width:25px;height:25px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line);border-radius:50%;background:var(--surface);cursor:pointer}
+.tag-color-control input{width:36px;height:36px;padding:0;border:0;background:transparent;cursor:pointer}
+.managed-tag{display:flex;align-items:center;gap:8px}
+.managed-tag .tag{margin-right:auto}
+.managed-tag>button{margin-left:0}
+.load-more-entries{display:block;width:100%;margin:12px 0 4px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--accent);font:600 10px 'DM Sans';cursor:pointer;transition:border-color .16s,background .16s}
+.load-more-entries:hover{border-color:var(--accent);background:var(--soft)}
+/* The activity chips share a row instead of stacking. */
+.profile-activity-pills{display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%;margin:13px 0 2px}
+.profile-activity-pills .profile-interest-pills{display:contents}
+.profile-activity-pills .profile-interest-pill{max-width:100%}
+.profile-activity-pills .youtube-now-playing{margin:0;flex:none}
+/* A soft animated sky preview, independent of the user's accent colour. */
+.weather-example-pill{position:relative;isolation:isolate;display:flex;align-items:center;min-width:176px;max-width:100%;height:38px;overflow:hidden;padding:0 13px;border:1px solid #c5e5f8;border-radius:999px;background:linear-gradient(180deg,#72b8eb 0%,#a8d9f4 43%,#e8f7ff 100%);color:#174d70;box-shadow:0 3px 12px #7bbbe533}
+.weather-example-pill:before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.22),transparent 55%);opacity:.9}
+.weather-example-pill:after{content:"";position:absolute;z-index:-1;left:-12%;right:-12%;bottom:-19px;height:31px;background:radial-gradient(ellipse 32px 20px at 13% 60%,#fff 95%,transparent 100%),radial-gradient(ellipse 43px 25px at 30% 70%,#f8fdff 95%,transparent 100%),radial-gradient(ellipse 38px 22px at 52% 62%,#fff 95%,transparent 100%),radial-gradient(ellipse 48px 27px at 74% 70%,#f9fdff 95%,transparent 100%),radial-gradient(ellipse 34px 21px at 91% 60%,#fff 95%,transparent 100%);animation:weather-cloud-drift 9s ease-in-out infinite alternate}
+.weather-sky{display:flex;align-items:baseline;gap:8px;font:700 13px 'DM Sans';color:#174d70;text-shadow:0 1px 0 #ffffff70}
+.weather-sky small{font:500 9px 'DM Sans';color:#235d7d}
+@keyframes weather-cloud-drift{from{transform:translateX(-4px)}to{transform:translateX(7px)}}
+.youtube-link-preview{position:relative;width:min(100%,560px);aspect-ratio:16/9;margin:12px 0 8px;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#080808;box-shadow:0 4px 16px #0002}
+.youtube-link-preview iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.read-entry-body .youtube-link-preview{margin-top:14px}
+@media(max-width:700px){.top-search.top-search-centered{width:min(54vw,360px);height:35px;padding:0 11px}.journal-entry-count{width:22px;height:22px;font-size:8px}.profile-activity-pills{gap:6px}}
+@media(prefers-reduced-motion:reduce){.weather-example-pill:after{animation:none}}
