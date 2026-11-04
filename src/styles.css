@@ -1398,3 +1398,6 @@
 @media(max-width:650px){.memo-view .memo-profile-link{top:6px}.memo-view .memo-composer{bottom:6px;width:100%}.memo-profile-note{left:calc(50% + 16px)}}
 /* Nudge the owner's profile note bubble a little lower. */
 .profile-note-bubble{top:-75px!important}
+.memo-shared-entry-link,.memo-shared-shelf{display:flex;align-items:center;gap:9px;width:100%;margin:7px 0;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--text);text-align:left;text-decoration:none;cursor:pointer}
+.memo-shared-entry-link>span,.memo-shared-shelf>span{display:grid;gap:3px;min-width:0;flex:1}.memo-shared-entry-link strong,.memo-shared-shelf strong{font:600 10px 'DM Sans'}.memo-shared-entry-link small,.memo-shared-shelf small{font:9px 'DM Mono';color:var(--muted)}
+.memo-shared-entry-link:hover,.memo-shared-shelf:hover{border-color:var(--accent)}.memo-shared-shelf img{width:48px;height:48px;object-fit:cover;border-radius:5px}.memo-shared-image{display:grid;gap:6px;max-width:min(100%,360px);margin:8px 0;padding:6px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font:9px 'DM Sans';text-align:left;cursor:pointer}.memo-shared-image img{display:block;max-width:100%;max-height:280px;object-fit:contain;border-radius:6px}.memo-shared-image span{padding:2px 4px}
