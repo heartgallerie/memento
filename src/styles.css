@@ -1411,3 +1411,26 @@
 
 /* Shared Unicode and custom emoji rendering */
 .memento-custom-emoji{display:inline-block;width:1.35em;height:1.35em;max-width:2.2em;object-fit:contain;vertical-align:-0.3em;margin:0 .035em;user-select:none}
+
+
+/* Tweet-style composer for profile posts (stored as ordinary journal entries) */
+.profile-post-composer-overlay{position:fixed;inset:0;z-index:2500;display:flex;align-items:flex-start;justify-content:center;padding:12vh 18px 30px;background:#11182780;backdrop-filter:blur(4px)}
+.profile-post-composer{width:min(100%,590px);overflow:hidden;border:1px solid var(--line);border-radius:15px;background:var(--surface);box-shadow:0 24px 80px #00000035;color:var(--text);animation:pageFadeIn .16s ease both}
+.profile-post-composer-header{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 17px;border-bottom:1px solid var(--line)}
+.profile-post-composer-header strong{font:600 13px 'DM Sans'}
+.profile-post-composer-header button{width:30px;height:30px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:var(--muted);cursor:pointer}
+.profile-post-composer-header button:hover{background:var(--soft);color:var(--text)}
+.profile-post-composer-body{display:flex;gap:12px;padding:18px 18px 12px;min-height:190px}
+.profile-post-composer-body>.post-avatar{position:relative}
+.profile-post-composer-input{flex:1;min-width:0}
+.profile-post-composer-identity{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:1px 0 10px}
+.profile-post-composer-identity strong{font-size:11px;color:var(--text)}
+.profile-post-composer-identity span{font-size:10px;color:var(--muted)}
+.profile-post-composer-input textarea{display:block;width:100%;min-height:135px;resize:vertical;border:0;outline:0;background:transparent;color:var(--text);font:14px/1.65 'DM Sans';padding:0}
+.profile-post-composer-input textarea::placeholder{color:var(--muted)}
+.profile-post-composer-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 17px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--surface) 90%,var(--soft))}
+.profile-post-composer-footer>span{font:10px 'DM Sans';color:var(--muted)}
+.profile-post-composer-footer>div{display:flex;align-items:center;gap:13px}
+.profile-post-composer-footer small{font:10px 'DM Mono';color:var(--muted);font-variant-numeric:tabular-nums}
+.profile-post-composer-footer .save-btn{border-radius:999px;padding:8px 17px;font-size:11px}
+@media(max-width:600px){.profile-post-composer-overlay{padding:8vh 10px 20px}.profile-post-composer{border-radius:13px}.profile-post-composer-body{padding:15px 13px 10px;gap:9px}.profile-post-composer-footer{padding:10px 13px}.profile-post-composer-footer>span{max-width:58%;line-height:1.4}}
