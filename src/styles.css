@@ -1380,3 +1380,19 @@
 /* Keep the profile note bubble offset to the right and above the avatar frame. */
 .profile-avatar-stack>.profile-status-bubble{left:calc(50% + 76px)!important;z-index:1000!important}
 .profile-avatar-stack>.profile-avatar-frame{z-index:3!important}
+
+/* Memo page: keep the profile shortcut and composer in view while browsing the conversation. */
+.memo-view .memo-profile-link{position:sticky;top:12px;z-index:50;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.memo-view .memo-composer{position:sticky;bottom:12px;z-index:60;width:min(100%,680px);align-self:center;margin:18px auto 10px;box-shadow:0 8px 28px #00000020}
+.memo-view{padding-bottom:24px}
+.memo-profile-note{position:absolute;z-index:20;left:calc(50% + 20px);top:-28px;transform:translateX(-50%);max-width:210px;width:max-content;padding:7px 11px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font:10px/1.4 'DM Sans';box-shadow:0 4px 16px #00000025}
+.memo-profile-frame{position:absolute;z-index:3;inset:-9px;width:110px;height:110px;object-fit:contain;pointer-events:none}
+.memo-profile-controls{display:grid;gap:15px;margin:20px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.memo-profile-controls>label{display:grid;gap:6px;font:600 10px 'DM Sans';color:var(--text)}
+.memo-profile-controls input,.memo-post-create textarea,.memo-post-edit textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font:11px/1.5 'DM Sans';resize:vertical}
+.memo-frame-picker{display:grid;gap:9px}.memo-frame-picker>strong{font:600 10px 'DM Sans'}
+.memo-post-create{display:grid;gap:9px;margin:15px 0;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.memo-post-create .save-btn{justify-self:end}.memo-authored-post{position:relative}.memo-post-actions,.memo-post-edit>div{display:flex;gap:7px;margin-top:10px}
+.memo-post-actions button,.memo-post-edit>div button{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:9px 'DM Sans';cursor:pointer}
+.memo-post-actions .danger-option{color:var(--danger,var(--accent))}.memo-post-frame{position:absolute;inset:-4px;width:46px;height:46px;object-fit:contain;pointer-events:none}
+@media(max-width:650px){.memo-view .memo-profile-link{top:6px}.memo-view .memo-composer{bottom:6px;width:100%}.memo-profile-note{left:calc(50% + 16px)}}
