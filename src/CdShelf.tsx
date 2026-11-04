@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject, type FormEvent } from 'react'
 
-type Album = {
+export type Album = {
   id: string
   title: string
   year: number
@@ -13,7 +13,7 @@ type Album = {
   link?: string
 }
 
-const ALBUMS: Album[] = [
+export const ALBUMS: Album[] = [
   { id: 'playboi-carti', title: 'Playboi Carti', year: 2017, cover: 'https://coverartarchive.org/release/0d70a1d7-5465-4fa6-8520-9891527fbe6e/front-500', colors: ['#e9e9e9', '#8b9096'], ink: '#111' },
   { id: 'die-lit', title: 'Die Lit', year: 2018, cover: 'https://coverartarchive.org/release/c8cf2491-a79c-4b08-a2a8-9f365bb06047/front-500', colors: ['#ff58a8', '#35081f'], ink: '#fff' },
   { id: 'whole-lotta-red', title: 'Whole Lotta Red', year: 2020, cover: 'https://coverartarchive.org/release/c918c647-aa05-486d-8422-4f9c1751c9fc/front-500', colors: ['#e60f0f', '#2a0000'], ink: '#fff' },
