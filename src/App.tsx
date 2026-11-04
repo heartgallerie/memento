@@ -5,6 +5,7 @@ import { Bot, PhoneCall, CakeSlice, BookOpen, PenLine, CalendarDays, Search, Use
 import type { CSSProperties as ReactCSSProperties, ReactNode } from 'react'
 import CdShelf from './CdShelf'
 import { ALBUMS as MEMO_SHELF_ALBUMS } from './CdShelf'
+import { EmojiText, replaceEmojiShortcodes } from './emoji'
 
 
 function styleDisplayName(value:string,style:string){
@@ -49,7 +50,7 @@ function PageTransition({pageKey,children}:{pageKey:string;children:ReactNode}){
 
 function VerifiedBadge({size=16}:{size?:number}){return <BadgeCheck size={size} fill="var(--verified-color,var(--accent))" stroke="var(--surface)" strokeWidth={2.8} className="verified-badge" aria-label="Verified"/>}
 
-function ProfileStatusBubble({note,media}:{note:string;media:string}){if(!note.trim()&&!media.trim())return null;const isVideo=/\.(mp4|webm|mov)(\?|$)/i.test(media)||/^data:video\//i.test(media);return <div className="profile-status-bubble" role="note">{note.trim()&&<span>{note}</span>}{media.trim()&&(isVideo?<video src={media} controls playsInline preload="metadata"/>:<img src={media} alt="Status" loading="lazy"/>)}</div>}
+function ProfileStatusBubble({note,media}:{note:string;media:string}){if(!note.trim()&&!media.trim())return null;const isVideo=/\.(mp4|webm|mov)(\?|$)/i.test(media)||/^data:video\//i.test(media);return <div className="profile-status-bubble" role="note">{note.trim()&&<span><EmojiText text={note}/></span>}{media.trim()&&(isVideo?<video src={media} controls playsInline preload="metadata"/>:<img src={media} alt="Status" loading="lazy"/>)}</div>}
 
 
 type MemoCompanionProps={size:string;color:string;ariaLabel:string;className?:string;interactive?:boolean}
@@ -174,7 +175,7 @@ function MemoProfile({avatarColor,onBack,note,setNote,frame,setFrame,posts,setPo
  const writePost=()=>{const text=window.prompt('Write a post as Memo');if(text?.trim())setPosts(items=>[{id:String(Date.now()),text:text.trim(),createdAt:Date.now()},...items])}
  const editPost=(post:MemoPost)=>{const text=window.prompt('Edit Memo post',post.text);if(text?.trim())setPosts(items=>items.map(item=>item.id===post.id?{...item,text:text.trim()}:item))}
  const deletePost=(id:string)=>{if(window.confirm('Delete this Memo post?'))setPosts(items=>items.filter(item=>item.id!==id))}
- return <section className="profile-view memo-public-profile"><div className="memo-public-banner" style={{background:'linear-gradient(125deg,color-mix(in srgb,'+avatarColor+' 40%,#111827),'+avatarColor+' 55%,color-mix(in srgb,'+avatarColor+' 65%,#ffffff))'}}></div><div className="profile-main"><div className="profile-heading-row"><div className="memo-profile-real-avatar"><MemoCompanion size="92px" color={avatarColor} ariaLabel="Memo avatar"/>{frame&&<img className="memo-profile-frame" src={frame} alt=""/>}{note&&<div className="memo-profile-note">{note}</div>}</div><button className="profile-edit-button" onClick={onBack}>Back to Memo</button></div><div className="profile-fields"><strong className="profile-name-display">Memo <VerifiedBadge size={18}/></strong><span className="profile-handle-display">@memo</span><p className="profile-bio">Your AI companion. Here to help you revisit memories, connect ideas, and make sense of the things you write.</p><div className="profile-stats"><strong>{posts.length} <span>Posts</span></strong><strong>0 <span>Following</span></strong><strong>0 <span>Followers</span></strong></div></div><div className="memo-profile-controls"><label>Memo's note bubble<input value={note} maxLength={100} onChange={e=>setNote(e.target.value)} placeholder="A little thought from Memo…"/></label><div className="memo-frame-picker"><strong>Memo's profile frame</strong><div className="profile-decoration-options profile-frame-options"><button type="button" className={!frame?'decoration-option selected':'decoration-option'} onClick={()=>setFrame('')}><span className="decoration-none">×</span><small>None</small></button>{profileFrameAssets.map(file=>{const src='/avatar-frames/'+encodeURIComponent(file);return <button type="button" key={file} className={frame===src?'decoration-option selected':'decoration-option'} title={file} onClick={()=>setFrame(src)}><img src={src} alt=""/></button>})}</div></div></div><div className="profile-tabs"><button className="active">Posts</button></div><div className="memo-post-create"><button className="save-btn" onClick={writePost}><Plus size={14}/> Write a post as Memo</button></div><div className="profile-feed">{posts.map(post=><article className="profile-post memo-authored-post" key={post.id}><div className="memo-profile-post-avatar"><MemoCompanion size="38px" color={avatarColor} ariaLabel="Memo avatar"/>{frame&&<img className="memo-post-frame" src={frame} alt=""/>}</div><div className="post-content"><div className="post-byline"><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo</span><i>·</i><time>{new Date(post.createdAt).toLocaleDateString()}</time></div><div className="post-body"><p>{post.text}</p></div><div className="memo-post-actions"><button type="button" onClick={()=>editPost(post)}><Pencil size={13}/> Edit</button><button type="button" className="danger-option" onClick={()=>deletePost(post.id)}><Trash2 size={13}/> Delete</button></div></div></article>)}{posts.length===0&&<p className="muted">Memo hasn't posted anything yet.</p>}</div></div></section>
+ return <section className="profile-view memo-public-profile"><div className="memo-public-banner" style={{background:'linear-gradient(125deg,color-mix(in srgb,'+avatarColor+' 40%,#111827),'+avatarColor+' 55%,color-mix(in srgb,'+avatarColor+' 65%,#ffffff))'}}></div><div className="profile-main"><div className="profile-heading-row"><div className="memo-profile-real-avatar"><MemoCompanion size="92px" color={avatarColor} ariaLabel="Memo avatar"/>{frame&&<img className="memo-profile-frame" src={frame} alt=""/>}{note&&<div className="memo-profile-note"><EmojiText text={note}/></div>}</div><button className="profile-edit-button" onClick={onBack}>Back to Memo</button></div><div className="profile-fields"><strong className="profile-name-display">Memo <VerifiedBadge size={18}/></strong><span className="profile-handle-display">@memo</span><p className="profile-bio">Your AI companion. Here to help you revisit memories, connect ideas, and make sense of the things you write.</p><div className="profile-stats"><strong>{posts.length} <span>Posts</span></strong><strong>0 <span>Following</span></strong><strong>0 <span>Followers</span></strong></div></div><div className="memo-profile-controls"><label>Memo's note bubble<input value={note} maxLength={100} onChange={e=>setNote(e.target.value)} placeholder="A little thought from Memo…"/></label><div className="memo-frame-picker"><strong>Memo's profile frame</strong><div className="profile-decoration-options profile-frame-options"><button type="button" className={!frame?'decoration-option selected':'decoration-option'} onClick={()=>setFrame('')}><span className="decoration-none">×</span><small>None</small></button>{profileFrameAssets.map(file=>{const src='/avatar-frames/'+encodeURIComponent(file);return <button type="button" key={file} className={frame===src?'decoration-option selected':'decoration-option'} title={file} onClick={()=>setFrame(src)}><img src={src} alt=""/></button>})}</div></div></div><div className="profile-tabs"><button className="active">Posts</button></div><div className="memo-post-create"><button className="save-btn" onClick={writePost}><Plus size={14}/> Write a post as Memo</button></div><div className="profile-feed">{posts.map(post=><article className="profile-post memo-authored-post" key={post.id}><div className="memo-profile-post-avatar"><MemoCompanion size="38px" color={avatarColor} ariaLabel="Memo avatar"/>{frame&&<img className="memo-post-frame" src={frame} alt=""/>}</div><div className="post-content"><div className="post-byline"><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo</span><i>·</i><time>{new Date(post.createdAt).toLocaleDateString()}</time></div><div className="post-body"><p>{post.text}</p></div><div className="memo-post-actions"><button type="button" onClick={()=>editPost(post)}><Pencil size={13}/> Edit</button><button type="button" className="danger-option" onClick={()=>deletePost(post.id)}><Trash2 size={13}/> Delete</button></div></div></article>)}{posts.length===0&&<p className="muted">Memo hasn't posted anything yet.</p>}</div></div></section>
 }
 
 function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedConversation[],includeJournal:boolean,includeDMs:boolean){
@@ -223,15 +224,12 @@ function buildMemoArchiveContext(question:string,entries:Entry[],chats:ImportedC
  return 'ARCHIVE CONTEXT (retrieved excerpts only; not the complete archive):\n\n'+sections.join('\n\n').slice(0,6500);
 }
 
-const emojiShortcodes:Record<string,string>={sob:'😭',cry:'😢',crying:'😢',joy:'😂',laugh:'🤣',lol:'😂',smile:'😊',happy:'😄',blush:'☺️',heart:'❤️',love:'❤️',broken_heart:'💔',sparkles:'✨',sparkle:'✨',star:'⭐',eyes:'👀',skull:'💀',fire:'🔥',angry:'😠',rage:'😡',sad:'🙁',pleading:'🥺',plead:'🥺',pray:'🙏',thumbsup:'👍',thumbs_up:'👍',wave:'👋',thinking:'🤔',wink:'😉',kiss:'😘',cool:'😎',sweat:'😅',cry_laugh:'😂',clap:'👏',party:'🥳',hundred:'💯',check:'✅',warning:'⚠️',cat:'🐱',dog:'🐶',moon:'🌙',sun:'☀️',flower:'🌸',heart_eyes:'😍'};
-function replaceEmojiShortcodes(value:string){return value.replace(/:([a-z0-9_+-]+):/gi,(match,name)=>emojiShortcodes[name.toLowerCase()]||match)}
-
 function MemoInline({text,entries=[],onOpenEntry=()=>{},attachmentUrls={}}:{text:string;entries?:Entry[];onOpenEntry?:(entry:Entry)=>void;attachmentUrls?:Record<string,string>}){
  text=replaceEmojiShortcodes(text);
  const pattern=/\[\[entry:(\d+)\]\]|\[\[image:([^\]]+)\]\]|\[\[shelf:([^\]]+)\]\]|\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
  const parts:ReactNode[]=[];let last=0,match:RegExpExecArray|null;
  while((match=pattern.exec(text))!==null){
-  if(match.index>last)parts.push(text.slice(last,match.index));
+  if(match.index>last)parts.push(<EmojiText key={'emoji'+match.index} text={text.slice(last,match.index)}/>);
   if(match[1]){const entry=entries.find(item=>item.id===Number(match[1]));parts.push(entry?<button className="memo-shared-entry-link" key={match.index} onClick={()=>onOpenEntry(entry)}><BookOpen size={13}/><span><strong>{entry.title.trim()||'Untitled entry'}</strong><small>{entry.date} · Open journal entry</small></span><ArrowUpRight size={13}/></button>:<span key={match.index}>[Entry unavailable]</span>)}
   else if(match[2]){const id=match[2];const item=entries.flatMap(entry=>(entry.attachments||[]).map(attachment=>({entry,attachment}))).find(value=>value.attachment.id===id);const src=attachmentUrls[id];parts.push(src&&item&&item.attachment.type.startsWith('image/')?<button className="memo-shared-image" key={match.index} onClick={()=>onOpenEntry(item.entry)}><img src={src} alt={item.attachment.name}/><span>{item.entry.title||item.attachment.name}</span></button>:<span key={match.index}>[Image unavailable]</span>)}
   else if(match[3]){const album=MEMO_SHELF_ALBUMS.find(item=>item.id===match[3]);parts.push(album?<a className="memo-shared-shelf" key={match.index} href={album.link||'#'} target={album.link?'_blank':undefined} rel={album.link?'noreferrer':undefined}><img src={album.cover} alt=""/><span><strong>{album.title}</strong><small>{album.year} · {album.creator||'Playboi Carti'}</small></span><ArrowUpRight size={13}/></a>:<span key={match.index}>[Shelf item unavailable]</span>)}
@@ -240,7 +238,7 @@ function MemoInline({text,entries=[],onOpenEntry=()=>{},attachmentUrls={}}:{text
   else parts.push(<em key={match.index}>{match[7]}</em>);
   last=pattern.lastIndex;
  }
- if(last<text.length)parts.push(text.slice(last));
+ if(last<text.length)parts.push(<EmojiText key={'emoji-tail'} text={text.slice(last)}/>);
  return <>{parts}</>;
 }
 
@@ -432,7 +430,7 @@ const plain=(html:string)=>html.replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').r
 function parseCSV(text:string){const rows:string[][]=[];let row:string[]=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const ch=text[i];if(quoted){if(ch==='"'&&text[i+1]==='"'){cell+='"';i++}else if(ch==='"')quoted=false;else cell+=ch}else if(ch==='"')quoted=true;else if(ch===','){row.push(cell);cell=''}else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell=''}else if(ch!=='\r')cell+=ch}if(cell.length||row.length){row.push(cell);rows.push(row)}return rows.filter(r=>r.some(v=>v.trim()))}
 const csvEscape=(v:string)=>v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>')
 function parseQuery(q:string){const filters:{tag:string[];before:string[];year:number[];terms:string[]}={tag:[],before:[],year:[],terms:[]};const re=/"([^"]+)"|(\S+)/g;let m:RegExpExecArray|null;while((m=re.exec(q))){const t=m[1]||m[2];if(t.startsWith('tag:'))filters.tag.push(t.slice(4).toLowerCase());else if(t.startsWith('before:'))filters.before.push(t.slice(7));else if(t.startsWith('year:'))filters.year.push(Number(t.slice(5)));else filters.terms.push(t.toLowerCase())}return filters}
-function Highlight({text,terms}:{text:string;terms:string[]}){if(!terms.length)return <>{text}</>;const escaped=terms.filter(Boolean).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));if(!escaped.length)return <>{text}</>;const re=new RegExp('('+escaped.join('|')+')','ig');return <>{text.split(re).map((part,i)=>terms.some(t=>part.toLowerCase()===t)?<mark key={i}>{part}</mark>:part)}</>}
+function Highlight({text,terms}:{text:string;terms:string[]}){if(!terms.length)return <EmojiText text={text}/>;const escaped=terms.filter(Boolean).map(x=>x.replace(/[.*+?^${}|[\]\\]/g,'\\$&'));if(!escaped.length)return <EmojiText text={text}/>;const re=new RegExp('('+escaped.join('|')+')','ig');return <>{text.split(re).map((part,i)=>terms.some(t=>part.toLowerCase()===t)?<mark key={i}><EmojiText text={part}/></mark>:<EmojiText key={i} text={part}/>)}</>}
 
 type ChatMedia={id:string;name:string;type:string}
 type ImportedMessage={id:string;date:string;time:string;timestamp:number;sender:string;outgoing?:boolean;isAI?:boolean;kind:'text'|'link'|'media'|'call'|'system';text?:string;url?:string;media?:ChatMedia[];reaction?:string;reactionBy?:string}
@@ -552,7 +550,7 @@ function InstagramDMPreview({chats}:{chats:ImportedConversation[]}){
        {!outgoing&&<span className={'dm-mini-avatar'+(isAI?' ai':'')}>{isAI?<Bot size={13}/>:clean(m.sender).slice(0,1)||'?'}</span>}
        <div className="dm-message-content">{(thread.participants?.length||0)>2&&!outgoing&&<div className={'dm-sender-label'+(isAI?' ai':'')}>{clean(m.sender)}{isAI&&<span>AI</span>}</div>}<div className="dm-message-line">
         {outgoing&&<time>{m.time}</time>}
-        {url?<div className="dm-share-stack"><a className="dm-shared-story" href={url} target="_blank" rel="noreferrer"><span className="dm-story-preview"><ExternalLink size={17}/></span><span><strong>{/instagram\.com\/(?:reel|p)\//i.test(url)?'Shared Instagram post':'Shared link'}</strong><small>{(()=>{try{return new URL(url).hostname.replace(/^www\./,'')}catch{return url}})()}</small></span></a>{text&&<div className="dm-bubble">{text}</div>}</div>:m.media?.some(x=>x.type==='audio')?<div className="dm-voice-card"><span className="dm-voice-icon"><AudioLines size={18}/></span><div><strong>Voice message</strong><small>Audio attachment</small><ImportedMedia items={m.media.filter(x=>x.type==='audio')}/></div></div>:m.media?.length?<div className="dm-bubble dm-attachment-label"><Paperclip size={13}/> Attachment</div>:text?<div className="dm-bubble">{text}</div>:null}
+        {url?<div className="dm-share-stack"><a className="dm-shared-story" href={url} target="_blank" rel="noreferrer"><span className="dm-story-preview"><ExternalLink size={17}/></span><span><strong>{/instagram\.com\/(?:reel|p)\//i.test(url)?'Shared Instagram post':'Shared link'}</strong><small>{(()=>{try{return new URL(url).hostname.replace(/^www\./,'')}catch{return url}})()}</small></span></a>{text&&<div className="dm-bubble"><EmojiText text={text}/></div>}</div>:m.media?.some(x=>x.type==='audio')?<div className="dm-voice-card"><span className="dm-voice-icon"><AudioLines size={18}/></span><div><strong>Voice message</strong><small>Audio attachment</small><ImportedMedia items={m.media.filter(x=>x.type==='audio')}/></div></div>:m.media?.length?<div className="dm-bubble dm-attachment-label"><Paperclip size={13}/> Attachment</div>:text?<div className="dm-bubble"><EmojiText text={text}/></div>:null}
         {!outgoing&&<time>{m.time}</time>}
        </div>
        {!!m.media?.length&&m.media.some(x=>x.type!=='audio')&&<ImportedMedia items={m.media.filter(x=>x.type!=='audio')}/>}
@@ -574,6 +572,23 @@ function DirectMessagesPreview({chats,followData}:{chats:ImportedConversation[];
 
 
 export default function App(){
+  useEffect(()=>{
+    const handleShortcodes=(event:Event)=>{
+      const target=event.target;
+      if(!(target instanceof HTMLInputElement||target instanceof HTMLTextAreaElement))return;
+      if(target instanceof HTMLInputElement&&!['text','search','url','tel'].includes(target.type))return;
+      const before=target.value;
+      const start=target.selectionStart??before.length;
+      const next=replaceEmojiShortcodes(before);
+      if(next===before)return;
+      const setter=Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target),'value')?.set;
+      setter?.call(target,next);
+      const nextPosition=replaceEmojiShortcodes(before.slice(0,start)).length;
+      try{target.setSelectionRange(nextPosition,nextPosition)}catch{}
+    };
+    document.addEventListener('input',handleShortcodes,true);
+    return()=>document.removeEventListener('input',handleShortcodes,true);
+  },[]);
  const [entries,setEntries]=useState<Entry[]>(()=>{try{return JSON.parse(localStorage.getItem('memento.entries')||'null')||sample}catch{return sample}})
  const [tags,setTags]=useState<string[]>(()=>{try{return JSON.parse(localStorage.getItem('memento.tags')||'null')||['personal','reflection','notes','creative']}catch{return ['personal','reflection','notes','creative']}})
  const [activeId,setActiveId]=useState<number>(0),[isEditing,setIsEditing]=useState(false),[section,setSection]=useState(localStorage.getItem('memento.section')||'Journal'),[query,setQuery]=useState('')
