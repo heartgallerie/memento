@@ -59,77 +59,97 @@ function MemoCompanion({size,color,ariaLabel,className='',interactive=false}:Mem
   const canvas=canvasRef.current
   const ctx=canvas?.getContext('2d')
   if(!canvas||!ctx)return
-  const pixelRatio=Math.min(window.devicePixelRatio||1,2)
+  const ratio=Math.min(window.devicePixelRatio||1,2)
   const dimension=180
-  canvas.width=dimension*pixelRatio
-  canvas.height=dimension*pixelRatio
-  ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0)
+  canvas.width=dimension*ratio
+  canvas.height=dimension*ratio
+  ctx.setTransform(ratio,0,0,ratio,0,0)
   const raw=color.replace('#','').trim()
   const normalized=raw.length===3?raw.split('').map(v=>v+v).join(''):raw
-  const value=parseInt(normalized,16)
-  const base=Number.isFinite(value)?[(value>>16)&255,(value>>8)&255,value&255]:[133,164,205]
-  const shade=(target:number,amount:number)=>base.map(v=>Math.round(v+(target-v)*amount))
-  const css=(v:number[])=>'rgb('+v.join(',')+')'
-  const light=css(shade(255,.28)),middle=css(base),dark=css(shade(24,.2))
-  const start=performance.now()
-  let nextBlink=start+1700+Math.random()*2200,blinkStart=-1
-  let lookX=0,lookY=0,frame=0
+  const parsed=parseInt(normalized,16)
+  const accent=Number.isFinite(parsed)?[(parsed>>16)&255,(parsed>>8)&255,parsed&255]:[133,164,205]
+  const accentColor='rgb('+accent.join(',')+')'
+  const started=performance.now()
+  let nextBlink=started+1600+Math.random()*1900
+  let blinkStarted=-1
+  let frame=0
+  let gazeX=0,gazeY=0
   const draw=(now:number)=>{
-   const t=(now-start)/1000
-   if(now>=nextBlink){blinkStart=now;nextBlink=now+2300+Math.random()*2600}
-   const blinkProgress=blinkStart<0?0:Math.max(0,1-(now-blinkStart)/165)
-   const blink=Math.sin(blinkProgress*Math.PI)
-   const targetX=interactive?pointerRef.current.x:0,targetY=interactive?pointerRef.current.y:0
-   lookX+=(targetX-lookX)*.13;lookY+=(targetY-lookY)*.13
-   const pressed=pointerRef.current.pressedAt?Math.max(0,1-(now-pointerRef.current.pressedAt)/430):0
+   const elapsed=(now-started)/1000
+   if(now>=nextBlink){blinkStarted=now;nextBlink=now+2200+Math.random()*3200}
+   const blink=blinkStarted<0?0:Math.max(0,1-(now-blinkStarted)/155)
+   const targetX=interactive?pointerRef.current.x:Math.sin(elapsed*.37)*.08
+   const targetY=interactive?pointerRef.current.y:Math.sin(elapsed*.53)*.05
+   gazeX+=(targetX-gazeX)*.105
+   gazeY+=(targetY-gazeY)*.105
+   const pressed=pointerRef.current.pressedAt?Math.max(0,1-(now-pointerRef.current.pressedAt)/420):0
    if(pressed===0)pointerRef.current.pressedAt=0
-   const breath=Math.sin(t*1.75)
+   const breath=Math.sin(elapsed*1.8)
+   const R=dimension*.3,rx=R*1.14,ry=R*.88
    ctx.clearRect(0,0,dimension,dimension)
    ctx.save()
-   ctx.translate(90,91+Math.sin(t*1.5)*1.8)
-   ctx.rotate(lookX*.025)
-   ctx.scale(1-pressed*.075-breath*.006,1+pressed*.12+breath*.012)
-   ctx.fillStyle='rgba(12,18,28,.13)'
-   ctx.beginPath();ctx.ellipse(0,61,34,7,0,0,Math.PI*2);ctx.fill()
-   ctx.fillStyle=dark
-   ctx.beginPath()
-   ctx.ellipse(-18,53,10,7,-.18,0,Math.PI*2)
-   ctx.ellipse(19,53,10,7,.18,0,Math.PI*2)
-   ctx.fill()
-   ctx.lineCap='round';ctx.lineWidth=9;ctx.strokeStyle=dark
-   ctx.beginPath()
-   ctx.moveTo(-42,17);ctx.quadraticCurveTo(-54,26,-47,36)
-   ctx.moveTo(42,17);ctx.quadraticCurveTo(54,26,47,36)
-   ctx.stroke()
+   ctx.translate(dimension/2,dimension/2+Math.sin(elapsed*1.5)*.8)
+   ctx.rotate(gazeX*.018)
+   ctx.scale(1+pressed*.055-breath*.003,1-pressed*.075+breath*.006)
    const body=new Path2D()
-   body.moveTo(0,-57)
-   body.bezierCurveTo(28,-58,49,-36,50,-7)
-   body.bezierCurveTo(53,22,38,49,12,58)
-   body.bezierCurveTo(-12,66,-42,48,-50,20)
-   body.bezierCurveTo(-59,-10,-42,-43,-17,-54)
-   body.bezierCurveTo(-11,-57,-5,-58,0,-57)
+   const exponent=2/2.7
+   for(let i=0;i<=80;i++){
+    const angle=i/80*Math.PI*2
+    const c=Math.cos(angle),s=Math.sin(angle)
+    const x=rx*(c>=0?Math.pow(c,exponent):-Math.pow(-c,exponent))
+    const y=ry*(s>=0?Math.pow(s,exponent):-Math.pow(-s,exponent))
+    if(i===0)body.moveTo(x,y);else body.lineTo(x,y)
+   }
    body.closePath()
-   const gradient=ctx.createLinearGradient(-36,-58,35,59)
-   gradient.addColorStop(0,light);gradient.addColorStop(.48,middle);gradient.addColorStop(1,dark)
-   ctx.shadowColor='rgba(12,18,28,.2)';ctx.shadowBlur=13;ctx.shadowOffsetY=6
-   ctx.fillStyle=gradient;ctx.fill(body)
-   ctx.shadowColor='transparent';ctx.lineWidth=1.5;ctx.strokeStyle='rgba(255,255,255,.25)';ctx.stroke(body)
-   ctx.save();ctx.clip(body)
-   const shine=ctx.createRadialGradient(-19,-35,1,-19,-35,42)
-   shine.addColorStop(0,'rgba(255,255,255,.42)');shine.addColorStop(1,'rgba(255,255,255,0)')
-   ctx.fillStyle=shine;ctx.fillRect(-60,-65,120,125)
-   ctx.fillStyle='rgba(255,151,177,.5)';ctx.beginPath()
-   ctx.ellipse(-29,19,8,4.5,0,0,Math.PI*2);ctx.ellipse(29,19,8,4.5,0,0,Math.PI*2);ctx.fill()
+   const surface=ctx.createLinearGradient(rx*.7,-ry*.85,-rx*.8,ry*.9)
+   surface.addColorStop(0,'#f3f3f5')
+   surface.addColorStop(1,'#c9cbd1')
+   ctx.fillStyle=surface
+   ctx.shadowColor='rgba(18,22,30,.16)'
+   ctx.shadowBlur=13
+   ctx.shadowOffsetY=5
+   ctx.fill(body)
+   ctx.shadowColor='transparent'
+   ctx.save()
+   ctx.clip(body)
+   const tint=ctx.createLinearGradient(0,ry,0,-ry)
+   tint.addColorStop(0,accentColor+'22')
+   tint.addColorStop(1,accentColor+'00')
+   ctx.fillStyle=tint
+   ctx.fillRect(-rx,-ry,rx*2,ry*2)
+   const highlight=ctx.createRadialGradient(rx*.34,-ry*.46,0,rx*.34,-ry*.46,R*.42)
+   highlight.addColorStop(0,'rgba(255,255,255,.5)')
+   highlight.addColorStop(1,'rgba(255,255,255,0)')
+   ctx.fillStyle=highlight
+   ctx.fillRect(-rx,-ry,rx*2,ry*2)
+   ctx.restore()
+   ctx.save()
+   ctx.clip(body)
+   ctx.fillStyle='#1a1412'
    for(const side of [-1,1]){
-    ctx.save();ctx.translate(side*16,-5);ctx.scale(1,Math.max(.06,1-blink*.96))
-    ctx.fillStyle='rgba(255,255,255,.96)';ctx.beginPath();ctx.ellipse(0,0,7.8,10.2,0,0,Math.PI*2);ctx.fill()
-    ctx.fillStyle='#28313e';ctx.beginPath();ctx.arc(lookX*3.1,lookY*2.5,4.9,0,Math.PI*2);ctx.fill()
-    ctx.fillStyle='rgba(255,255,255,.95)';ctx.beginPath();ctx.arc(lookX*3.1-1.5,lookY*2.5-2,1.7,0,Math.PI*2);ctx.fill()
+    const yaw=side*.37+gazeX*.62
+    const pitch=-.12+gazeY*.5
+    const cp=Math.cos(pitch)
+    if(Math.cos(yaw)*cp<=.04)continue
+    const ex=Math.sin(yaw)*rx
+    const ey=-Math.sin(pitch)*ry
+    const fx=Math.max(.18,Math.cos(yaw))
+    const fy=Math.max(.18,cp)
+    const eyeW=R*.25
+    const eyeH=R*.27
+    const open=Math.max(.06,1-blink)
+    const h=Math.max(eyeH*open,eyeW*.3)
+    ctx.save()
+    ctx.translate(ex,ey)
+    ctx.scale(fx,fy)
+    const radius=Math.min(eyeW/2,h/2)
+    ctx.beginPath()
+    ctx.roundRect(-eyeW/2,-h/2,eyeW,h,radius)
+    ctx.fill()
     ctx.restore()
    }
-   ctx.strokeStyle='#28313e';ctx.lineWidth=2;ctx.lineCap='round';ctx.beginPath()
-   ctx.moveTo(-5,20);ctx.quadraticCurveTo(0,24,5,20);ctx.stroke()
-   ctx.restore();ctx.restore()
+   ctx.restore()
+   ctx.restore()
   }
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if(reduced){draw(performance.now());return}
@@ -144,7 +164,6 @@ function MemoCompanion({size,color,ariaLabel,className='',interactive=false}:Mem
  }
  return <div className={'memo-companion '+className} style={{width:size,height:size}} role="img" aria-label={ariaLabel} onPointerMove={interactive?handlePointerMove:undefined} onPointerLeave={interactive?()=>{pointerRef.current.x=0;pointerRef.current.y=0}:undefined} onPointerDown={interactive?()=>{pointerRef.current.pressedAt=performance.now()}:undefined}><canvas ref={canvasRef} aria-hidden="true"/></div>
 }
-
 function CartiShelves(){ return <CdShelf/> }
 function MemoProfile({avatarColor,onBack}:{avatarColor:string;onBack:()=>void}){return <section className="profile-view memo-public-profile"><div className="memo-public-banner" style={{background:`linear-gradient(125deg,color-mix(in srgb,${avatarColor} 40%,#111827),${avatarColor} 55%,color-mix(in srgb,${avatarColor} 65%,#ffffff))`}}></div><div className="profile-main"><div className="profile-heading-row"><div className="memo-profile-real-avatar"><MemoCompanion size="92px" color={avatarColor} ariaLabel="Memo's avatar"/></div><button className="profile-edit-button" onClick={onBack}>Back to Memo</button></div><div className="profile-fields"><strong className="profile-name-display">Memo <VerifiedBadge size={18}/></strong><span className="profile-handle-display">@memo</span><p className="profile-bio">Your AI companion. Here to help you revisit memories, connect ideas, and make sense of the things you write.</p><div className="profile-stats"><strong>0 <span>Posts</span></strong><strong>0 <span>Following</span></strong><strong>0 <span>Followers</span></strong></div></div><div className="profile-tabs"><button className="active">Posts</button></div><div className="profile-feed"><article className="profile-post"><div className="memo-profile-post-avatar"><MemoCompanion size="38px" color={avatarColor} ariaLabel="Memo's avatar"/></div><div className="post-content"><div className="post-byline"><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo</span><i>·</i><time>just now</time></div><h3>A little space to think.</h3><div className="post-body"><p>I’m here to help you explore your journal, find connections between entries, and prepare edits for your approval. My chat is still being built.</p></div></div></article></div></div></section>}
 
@@ -343,7 +362,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,entries,chat
    <button onClick={e=>{e.stopPropagation();onOpenProfile()}}>View profile <ArrowUpRight size={13}/></button>
   </div>
   <div className="memo-heading"><div className="eyebrow"><Sparkles size={14}/> YOUR AI COMPANION</div><h1>What’s on your mind?</h1><p>Chat with a local Ollama model running on your computer.</p></div>
-  <div className="memo-avatar-stage"><MemoCompanion className="memo-strobi" interactive size="min(42vw, 210px)" color={avatarColor} ariaLabel="Memo, your AI companion"/><strong>Memo</strong><span>Your AI companion</span></div>
+  <div className="memo-avatar-stage"><MemoCompanion className="memo-main-companion" interactive size="min(42vw, 210px)" color={avatarColor} ariaLabel="Memo, your AI companion"/><strong>Memo</strong><span>Your AI companion</span></div>
   <div className="memo-chat-toolbar">{messages.length>0&&<button type="button" className="memo-clear-chat" onClick={()=>{if(streaming)abortControllerRef.current?.abort();setMessages([]);setStreamedText('');streamedTextRef.current='';localStorage.removeItem('memento-memo-chat')}} disabled={streaming}> <Trash2 size={14}/> Delete chat</button>}</div>
   <div className="memo-chat-log" aria-live="polite">{messages.map((message,index)=><div key={message.id} className={'memo-chat-row '+message.role}><span className="memo-chat-name">{message.role==='memo'?'Memo':'You'}</span>{editingMessageId===message.id?<div className="memo-edit-prompt"><textarea value={editingText} onChange={e=>setEditingText(e.target.value)} rows={3}/><div><button type="button" onClick={()=>{const history=messages.slice(0,index);setMessages(history);setEditingMessageId(null);void sendMessage(editingText,history)}} disabled={!editingText.trim()||streaming}>Save & resend</button><button type="button" onClick={()=>setEditingMessageId(null)}>Cancel</button></div></div>:<div className="memo-chat-message"><MemoMarkdown text={message.text}/></div>}<div className="memo-message-actions">{message.role==='user'?<button type="button" title="Edit and resend" onClick={()=>{setEditingMessageId(message.id);setEditingText(message.text)}} disabled={streaming}><Pencil size={12}/> Edit</button>:<button type="button" title="Regenerate response" onClick={()=>{const previousUser=messages.slice(0,index).reverse().find(item=>item.role==='user');if(!previousUser||streaming)return;const history=messages.slice(0,messages.findIndex(item=>item.id===previousUser.id));setMessages(history);void sendMessage(previousUser.text,history)}} disabled={streaming||!messages.slice(0,index).some(item=>item.role==='user')}><Sparkles size={12}/> Regenerate</button>}<button type="button" title="Delete message" onClick={()=>setMessages(items=>items.filter(item=>item.id!==message.id))} disabled={streaming}><Trash2 size={12}/> Delete</button></div></div>)}{streaming&&<div className="memo-chat-row memo"><span className="memo-chat-name">Memo</span><div className="memo-live-content">{(activity||thinkingText)&&<div className="memo-thinking-header"><button type="button" className="memo-thinking-toggle" onClick={()=>setThinkingOpen(value=>!value)} aria-expanded={thinkingOpen}><ChevronDown size={13} className={thinkingOpen?'is-open':''}/><span className="memo-shimmer-text">{thinkingText?'Thinking':activity}</span></button></div>}{thinkingOpen&&<div className="memo-thinking-content">{thinkingText||'Ollama did not return a separate thinking stream for this response. This model may not support visible thinking, or it may not expose it through the API.'}</div>}<MemoMarkdown text={streamedText}/>{!activity&&!thinkingText&&<i className="memo-typing-caret"/>}</div></div>}</div>
   {!messages.length&&!streaming&&<div className="memo-quick-prompts">{quickPrompts.map(prompt=><button key={prompt} onClick={()=>void sendMessage(prompt)}>{prompt}</button>)}</div>}
