@@ -54,6 +54,19 @@ export function replaceEmojiShortcodes(value: string) {
   )
 }
 
+
+export function renderEmojiShortcodesInHtml(html: string) {
+  return html.replace(/>([^<>]+)</g, (_match, content: string) => {
+    const rendered = content.replace(/:([a-z0-9_+-]+):/gi, (token, rawName: string) => {
+      const name = rawName.toLowerCase()
+      const src = customEmojiImages[name]
+      if (src) return `<img class="memento-custom-emoji" src="${src}" alt=":${name}:" title=":${name}:" draggable="false"/>`
+      return emojiShortcodes[name] || token
+    })
+    return `>${rendered}<`
+  })
+}
+
 export function EmojiText({ text, className }: { text: string; className?: string }) {
   const pattern = /:([a-z0-9_+-]+):/gi
   const parts: ReactNode[] = []
