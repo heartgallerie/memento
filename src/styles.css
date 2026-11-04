@@ -2361,3 +2361,26 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   .profile-activity-pills .lastfm-track-copy>.lastfm-track-name.is-scrolling,
   .profile-activity-pills .lastfm-track-copy>.lastfm-track-artist.is-scrolling{animation:none}
 }
+
+
+/* Keep profile-card pronouns inline with the display name. */
+.sidebar-card-main>.sidebar-card-display-name{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px}
+.sidebar-card-main>.sidebar-card-display-name .profile-pronouns{font-size:10px;line-height:1.2;white-space:nowrap}
+
+/* Pinned posts use a quiet icon-and-text marker, not a badge. */
+.profile-post.is-pinned-profile-post .profile-pinned-label{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  width:max-content;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  color:var(--muted);
+  font:600 9px 'DM Sans';
+  letter-spacing:0;
+}
+.profile-post.is-pinned-profile-post .profile-pinned-label svg{color:var(--accent);flex:none}
