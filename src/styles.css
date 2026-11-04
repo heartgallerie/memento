@@ -1396,3 +1396,5 @@
 .memo-post-actions button,.memo-post-edit>div button{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:9px 'DM Sans';cursor:pointer}
 .memo-post-actions .danger-option{color:var(--danger,var(--accent))}.memo-post-frame{position:absolute;inset:-4px;width:46px;height:46px;object-fit:contain;pointer-events:none}
 @media(max-width:650px){.memo-view .memo-profile-link{top:6px}.memo-view .memo-composer{bottom:6px;width:100%}.memo-profile-note{left:calc(50% + 16px)}}
+/* Nudge the owner's profile note bubble a little lower. */
+.profile-note-bubble{top:-75px!important}
