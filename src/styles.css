@@ -1893,3 +1893,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .tag-picker-create button:disabled{opacity:.4;cursor:not-allowed}
 .read-entry-tags{margin-top:18px}
 @media(prefers-reduced-motion:reduce){.profile-interest-pill{transition:none}}
+
+
+/* Keep the sidebar account popover above journal cards and their hover layers. */
+.sidebar{z-index:1100}
+.sidebar-profile-card{z-index:1200}
