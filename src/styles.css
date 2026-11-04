@@ -2041,3 +2041,59 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(prefers-reduced-motion:reduce){
  .sidebar-activity-card,.sidebar-activity-card *,.profile-activity-pills .lastfm-track-copy *{transition:none!important;animation:none!important}
 }
+
+
+/* Final alignment fixes for Last.fm and the sidebar music card. */
+.profile-activity-pills .lastfm-track-copy{
+  display:flex!important;
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+  align-items:center!important;
+  gap:5px!important;
+  min-width:0;
+  white-space:nowrap;
+}
+.profile-activity-pills .lastfm-track-name,
+.profile-activity-pills .lastfm-track-artist{
+  display:block;
+  flex:0 1 auto;
+  width:auto;
+  min-width:0;
+  white-space:nowrap;
+}
+.profile-activity-pills .lastfm-track-name{max-width:min(210px,52vw)}
+.profile-activity-pills .lastfm-track-artist{max-width:min(125px,30vw)}
+.profile-activity-pills .lastfm-track-name.is-scrolling,
+.profile-activity-pills .lastfm-track-artist.is-scrolling{
+  display:flex;
+  flex:0 1 auto;
+  width:max-content;
+  max-width:none;
+}
+.sidebar-activity-card.is-collapsed{
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.sidebar-activity-card.is-collapsed .sidebar-activity-heading{
+  display:flex;
+  width:100%;
+  box-sizing:border-box;
+}
+.sidebar-activity-card.is-collapsed .sidebar-activity-toggle{
+  position:static;
+  flex:0 0 23px;
+  margin-left:auto;
+  transform:none;
+  align-self:center;
+}
+.sidebar-activity-card.is-collapsed .sidebar-activity-toggle svg{
+  transform:rotate(-90deg);
+}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-artwork{
+  border-radius:10px;
+}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-artwork img{
+  border-radius:9px;
+  animation:none;
+}
