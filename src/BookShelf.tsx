@@ -120,7 +120,7 @@ function BookViewer({ book, onClose, onEdit, onRemove }: { book: Book; onClose:(
 
 function Editor({ initial, mode, onClose, onSave }: { initial: Partial<Book>; mode:'search'|'manual'; onClose:()=>void; onSave:(book:Book)=>void }) {
   const [tab,setTab]=useState<'search'|'manual'>(mode)
-  const [query,setQuery]=useState(initial.title || '')
+  const [query,setQuery]=useState([initial.title,initial.author].filter(Boolean).join(' '))
   const [kind,setKind]=useState<BookKind>(initial.kind || 'book')
   const [title,setTitle]=useState(initial.title || '')
   const [author,setAuthor]=useState(initial.author || '')
