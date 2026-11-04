@@ -2251,3 +2251,113 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(prefers-reduced-motion:reduce){
   .sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track.is-scrolling{animation:none}
 }
+
+
+/* Final Last.fm refinements: independent title/artist tickers and tighter cover spacing. */
+.sidebar-activity-artwork{border:0}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-copy{
+  display:flex;
+  flex:1 1 0;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:2px;
+  width:0;
+  min-width:0;
+  max-width:none;
+  overflow:hidden;
+  white-space:nowrap;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track,
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-artist{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track>span,
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-artist>span{
+  display:block;
+  width:100%;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track.is-scrolling,
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-artist.is-scrolling{
+  display:flex;
+  width:max-content;
+  max-width:none;
+  min-width:0;
+  gap:28px;
+  overflow:visible;
+  animation:memento-activity-marquee 14s linear infinite;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track.is-scrolling>span,
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-artist.is-scrolling>span{
+  display:block;
+  flex:none;
+  width:auto;
+  overflow:visible;
+  max-width:none;
+  text-overflow:clip;
+}
+.profile-activity-pills .lastfm-now-playing{gap:4px}
+.profile-activity-pills .lastfm-track-copy{
+  display:flex;
+  flex-direction:row;
+  align-items:baseline;
+  justify-content:flex-start;
+  gap:5px;
+  min-width:0;
+  max-width:calc(100vw - 190px);
+  overflow:hidden;
+  white-space:nowrap;
+}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist{
+  display:block;
+  position:relative;
+  flex:0 1 auto;
+  min-width:0;
+  width:auto;
+  max-width:100%;
+  overflow:hidden;
+  white-space:nowrap;
+}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name:before,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist:before{content:none}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name>strong,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist>span{
+  display:block;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name.is-scrolling,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist.is-scrolling{
+  display:flex;
+  flex:0 0 auto;
+  width:max-content;
+  max-width:none;
+  gap:24px;
+  animation:memento-activity-marquee 14s linear infinite;
+}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name.is-scrolling>strong,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist.is-scrolling>span{
+  flex:none;
+  max-width:none;
+  overflow:visible;
+  text-overflow:clip;
+}
+@media(prefers-reduced-motion:reduce){
+  .sidebar-activity-music .sidebar-activity-collapsed-track.is-scrolling,
+  .sidebar-activity-music .sidebar-activity-collapsed-artist.is-scrolling,
+  .profile-activity-pills .lastfm-track-copy>.lastfm-track-name.is-scrolling,
+  .profile-activity-pills .lastfm-track-copy>.lastfm-track-artist.is-scrolling{animation:none}
+}
