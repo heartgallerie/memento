@@ -1376,3 +1376,7 @@
 .memo-companion canvas{display:block;width:100%;height:100%;overflow:visible}
 .memo-avatar-stage .memo-companion{cursor:default}
 .memo-avatar-stage .memo-companion:active{cursor:pointer}
+
+/* Keep the profile note bubble offset to the right and above the avatar frame. */
+.profile-avatar-stack>.profile-status-bubble{left:calc(50% + 76px)!important;z-index:1000!important}
+.profile-avatar-stack>.profile-avatar-frame{z-index:3!important}
