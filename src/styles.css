@@ -1738,3 +1738,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .settings-about-card strong{font:600 14px "DM Sans",sans-serif;color:var(--text);}
 .settings-about-card span{font:12px "DM Sans",sans-serif;color:var(--muted);}
 .settings-about-card b{font-weight:600;color:var(--accent);}
+
+/* Tighter profile pill spacing while keeping the bio clear of profile details. */
+.profile-bio{margin:10px 0 0}
+.profile-activity-pills{margin:5px 0 2px}
