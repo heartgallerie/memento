@@ -5,7 +5,7 @@ import { Bot, PhoneCall, CakeSlice, BookOpen, PenLine, CalendarDays, Search, Use
 import type { CSSProperties as ReactCSSProperties, ReactNode } from 'react'
 import CdShelf from './CdShelf'
 import { ALBUMS as MEMO_SHELF_ALBUMS } from './CdShelf'
-import { EmojiText, replaceEmojiShortcodes } from './emoji'
+import { EmojiText, emojiShortcodes, customEmojiImages, replaceEmojiShortcodes } from './emoji'
 
 
 function styleDisplayName(value:string,style:string){
@@ -575,11 +575,21 @@ export default function App(){
   useEffect(()=>{
     const handleShortcodes=(event:Event)=>{
       const target=event.target;
+      if(target instanceof HTMLElement&&target.isContentEditable){
+        const selection=document.getSelection(),node=selection?.anchorNode;
+        if(!selection||!selection.isCollapsed||!node||node.nodeType!==Node.TEXT_NODE||!target.contains(node))return;
+        const offset=selection.anchorOffset,text=node.textContent||'',match=text.slice(0,offset).match(/:([a-z0-9_+-]+):$/i);
+        if(!match)return;
+        const name=match[1].toLowerCase(),src=customEmojiImages[name],unicode=emojiShortcodes[name];
+        if(!src&&!unicode)return;
+        const range=document.createRange();range.setStart(node,offset-match[0].length);range.setEnd(node,offset);range.deleteContents();
+        const inserted:Node=src?Object.assign(document.createElement('img'),{src,alt:match[0],title:match[0],draggable:false,className:'memento-custom-emoji'}):document.createTextNode(unicode!);
+        range.insertNode(inserted);range.setStartAfter(inserted);range.collapse(true);selection.removeAllRanges();selection.addRange(range);
+        return;
+      }
       if(!(target instanceof HTMLInputElement||target instanceof HTMLTextAreaElement))return;
       if(target instanceof HTMLInputElement&&!['text','search','url','tel'].includes(target.type))return;
-      const before=target.value;
-      const start=target.selectionStart??before.length;
-      const next=replaceEmojiShortcodes(before);
+      const before=target.value,start=target.selectionStart??before.length,next=replaceEmojiShortcodes(before);
       if(next===before)return;
       const setter=Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target),'value')?.set;
       setter?.call(target,next);
