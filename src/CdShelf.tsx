@@ -332,13 +332,11 @@ function EmptyMediaShelf({ category }: { category: ShelfCategory }) {
 
 export default function CdShelf() {
   const [category, setCategory] = useState<ShelfCategory>('Music')
+  const [categoryMenuOpen, setCategoryMenuOpen] = useState(false)
   const [selected, setSelected] = useState<Album | null>(null)
   const close = useCallback(() => setSelected(null), [])
   return <section className="cd-shelf">
-    <div className="cd-shelf-heading"><div><span className="eyebrow">THE COLLECTION</span><h2>Shelves</h2><p>A little space for the things you enjoy.</p></div></div>
-    <nav className="shelf-category-tabs" aria-label="Shelf categories">
-      {CATEGORIES.map(item => <button type="button" key={item} className={category===item?'active':''} onClick={() => {setCategory(item);setSelected(null)}}>{item}</button>)}
-    </nav>
+    <div className="cd-shelf-heading"><div><span className="eyebrow">THE COLLECTION</span><div className="cd-shelf-category-control"><button type="button" className="cd-shelf-category-trigger" aria-haspopup="menu" aria-expanded={categoryMenuOpen} onClick={() => setCategoryMenuOpen(value => !value)}><h2>{category}</h2><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></button>{categoryMenuOpen&&<div className="media-type-menu cd-shelf-category-menu" role="menu">{CATEGORIES.map(item=><button type="button" role="menuitem" key={item} className={category===item?'active':''} onClick={()=>{setCategory(item);setSelected(null);setCategoryMenuOpen(false)}}>{item}</button>)}</div>}</div><p>A little space for the things you enjoy.</p></div></div>
     {category === 'Music' ? <>
       <div className="cd-shelf-subheading"><strong>Music</strong><span>{ALBUMS.length} records</span></div>
       <div className="cd-shelf-grid">{ALBUMS.map(album => <ShelfItem key={album.id} album={album} onOpen={setSelected}/>)}</div>
