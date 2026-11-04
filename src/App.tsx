@@ -113,8 +113,8 @@ function MemoCompanion({size,color,ariaLabel,className='',interactive=false}:Mem
    ctx.save()
    ctx.clip(body)
    const tint=ctx.createLinearGradient(0,ry,0,-ry)
-   tint.addColorStop(0,accentColor+'22')
-   tint.addColorStop(1,accentColor+'00')
+   tint.addColorStop(0,'rgba('+accent.join(',')+',.13)')
+   tint.addColorStop(1,'rgba('+accent.join(',')+',0)')
    ctx.fillStyle=tint
    ctx.fillRect(-rx,-ry,rx*2,ry*2)
    const highlight=ctx.createRadialGradient(rx*.34,-ry*.46,0,rx*.34,-ry*.46,R*.42)
