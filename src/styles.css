@@ -2459,3 +2459,29 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-artist::before{
   margin-right:2px;
 }
+
+
+/* Last.fm music pill: static single-line text with ellipsis, never a marquee. */
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist{
+  display:block!important;
+  flex:0 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+  animation:none!important;
+}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name>strong,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist>span{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+  animation:none!important;
+}
