@@ -397,7 +397,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,onOpenEntry,
 type Attachment = { id:string; name:string; type:string; size:number }
 type ImportRecord = { id:string; fileName:string; importedAt:number; count:number }
 type Entry = { id:number; title:string; date:string; body:string; tags:string[]; importedBatch?:string; attachments?:Attachment[]; folderId?:string; bookmarked?:boolean; createdAt?:number; draft?:boolean }
-type WikiArticle = { id:string; title:string; category:string; summary:string; body:string; createdAt:number; updatedAt:number }
+type WikiArticle = { id:string; title:string; category:string; summary:string; body:string; imageUrl?:string; imageCredit?:string; createdAt:number; updatedAt:number }
 type SocialAccount = { id:string; platform:string; handle:string; url:string }
 type DMMessage = { date:string; time:string; sender:string; kind:'story'|'link'|'reel'|'text'|'unavailable'; text?:string; url?:string; reaction?:string; reactionBy?:string }
 type DMThread = { id:string; name:string; initial:string; preview:string; lastTime:string; verified?:boolean; messages:DMMessage[] }
@@ -624,9 +624,9 @@ The tower stands beside the River Seine on the Champ de Mars, in the 7th arrondi
 - **Designed by:** Eiffel et Cie, with contributions from Maurice Koechlin, Émile Nouguier and Stephen Sauvestre
 - **Built for:** 1889 Exposition Universelle
 - **Height:** About 330 metres, including antennas
-- **Material:** Wrought iron`,createdAt:Date.now(),updatedAt:Date.now()};
+- **Material:** Wrought iron`,imageUrl:'https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel_Tower_and_Champ-de-Mars_panorama,_April_2008.jpg?width=1600',imageCredit:'Photo: Alexandre Duret-Lutz · CC BY-SA 2.0 · Wikimedia Commons',createdAt:Date.now(),updatedAt:Date.now()};
  const [entries,setEntries]=useState<Entry[]>(()=>{try{return JSON.parse(localStorage.getItem('memento.entries')||'null')||sample}catch{return sample}})
- const [wikiArticles,setWikiArticles]=useState<WikiArticle[]>(()=>{try{const saved=JSON.parse(localStorage.getItem('memento.wikiArticles')||'null');return Array.isArray(saved)&&saved.length?saved:[wikiSeed]}catch{return [wikiSeed]}}),[selectedWikiId,setSelectedWikiId]=useState(''),[wikiEditorOpen,setWikiEditorOpen]=useState(false),[wikiEditingId,setWikiEditingId]=useState(''),[wikiTitle,setWikiTitle]=useState(''),[wikiCategory,setWikiCategory]=useState('Place'),[wikiSummary,setWikiSummary]=useState(''),[wikiBody,setWikiBody]=useState('')
+ const [wikiArticles,setWikiArticles]=useState<WikiArticle[]>(()=>{try{const saved=JSON.parse(localStorage.getItem('memento.wikiArticles')||'null');return Array.isArray(saved)&&saved.length?saved.map((article:WikiArticle)=>article.id==='eiffel-tower'&&!article.imageUrl?{...article,imageUrl:wikiSeed.imageUrl,imageCredit:wikiSeed.imageCredit}:article):[wikiSeed]}catch{return [wikiSeed]}}),[selectedWikiId,setSelectedWikiId]=useState(''),[wikiEditorOpen,setWikiEditorOpen]=useState(false),[wikiEditingId,setWikiEditingId]=useState(''),[wikiTitle,setWikiTitle]=useState(''),[wikiCategory,setWikiCategory]=useState('Place'),[wikiSummary,setWikiSummary]=useState(''),[wikiBody,setWikiBody]=useState(''),[wikiImageUrl,setWikiImageUrl]=useState(''),[wikiImageCredit,setWikiImageCredit]=useState('')
  const [tags,setTags]=useState<string[]>(()=>{try{return JSON.parse(localStorage.getItem('memento.tags')||'null')||['personal','reflection','notes','creative']}catch{return ['personal','reflection','notes','creative']}}),[tagColors,setTagColors]=useState<Record<string,string>>(()=>{try{return JSON.parse(localStorage.getItem('memento.tagColors')||'{}')}catch{return {}}})
  const [activeId,setActiveId]=useState<number>(0),[isEditing,setIsEditing]=useState(false),[section,setSection]=useState(localStorage.getItem('memento.section')||'Journal'),[query,setQuery]=useState(''),[selectedDMChatId,setSelectedDMChatId]=useState('')
  const [profilePostOpen,setProfilePostOpen]=useState(false),[profilePostText,setProfilePostText]=useState(''),[profilePostAttachments,setProfilePostAttachments]=useState<Attachment[]>([]),[profilePostTags,setProfilePostTags]=useState<string[]>([])
@@ -746,7 +746,7 @@ The tower stands beside the River Seine on the Champ de Mars, in the 7th arrondi
   results.push(...sections);
   return results.sort((a,b)=>b.score-a.score).slice(0,9);
  },[query,searchableEntries,importedChats]);
- const openWikiEditor=(article?:WikiArticle)=>{setWikiEditingId(article?.id||'');setWikiTitle(article?.title||'');setWikiCategory(article?.category||'Place');setWikiSummary(article?.summary||'');setWikiBody(article?.body||'');setWikiEditorOpen(true)};
+ const openWikiEditor=(article?:WikiArticle)=>{setWikiEditingId(article?.id||'');setWikiTitle(article?.title||'');setWikiCategory(article?.category||'Place');setWikiSummary(article?.summary||'');setWikiBody(article?.body||'');setWikiImageUrl(article?.imageUrl||'');setWikiImageCredit(article?.imageCredit||'');setWikiEditorOpen(true)};
  const saveWikiArticle=()=>{const cleanTitle=wikiTitle.trim();if(!cleanTitle)return;const now=Date.now(),imageUrl=wikiImageUrl.trim(),imageCredit=wikiImageCredit.trim();if(wikiEditingId){setWikiArticles(items=>items.map(item=>item.id===wikiEditingId?{...item,title:cleanTitle,category:wikiCategory,summary:wikiSummary.trim(),body:wikiBody,imageUrl,imageCredit,updatedAt:now}:item));setSelectedWikiId(wikiEditingId)}else{const article:WikiArticle={id:'wiki-'+now,title:cleanTitle,category:wikiCategory,summary:wikiSummary.trim(),body:wikiBody,imageUrl,imageCredit,createdAt:now,updatedAt:now};setWikiArticles(items=>[article,...items]);setSelectedWikiId(article.id)}setWikiEditorOpen(false)};
  const highlightTerms=[...filters.terms,...filters.tag.map(t=>t)]
  return <div className="app-shell">
