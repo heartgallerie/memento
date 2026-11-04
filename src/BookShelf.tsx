@@ -192,16 +192,11 @@ function Editor({ initial, mode, onClose, onSave }: { initial: Partial<Book>; mo
 export default function BookShelf() {
   const [collection,setCollection]=useState<'All'|'Shakespeare'|'Death Note'|'My books'>('All')
   const [selected,setSelected]=useState<Book|null>(null)
-  const [customBooks,setCustomBooks]=useState<Book[]>([])
-  const [edits,setEdits]=useState<Record<string,Book>>({})
+  const [savedShelf]=useState<SavedShelf>(()=>{try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const parsed=JSON.parse(raw) as SavedShelf;return {customBooks:Array.isArray(parsed.customBooks)?parsed.customBooks:[],edits:parsed.edits||{}}}}catch{/* Ignore malformed local shelf data. */}return {customBooks:[],edits:{}}})
+  const [customBooks,setCustomBooks]=useState<Book[]>(savedShelf.customBooks)
+  const [edits,setEdits]=useState<Record<string,Book>>(savedShelf.edits)
   const [editor,setEditor]=useState<{targetId:string|null;mode:'search'|'manual';initial:Partial<Book>}|null>(null)
   const close=useCallback(()=>setSelected(null),[])
-  useEffect(()=>{
-    try{
-      const saved=localStorage.getItem(STORAGE_KEY)
-      if(saved){const parsed=JSON.parse(saved) as SavedShelf;setCustomBooks(Array.isArray(parsed.customBooks)?parsed.customBooks:[]);setEdits(parsed.edits||{})}
-    }catch{ /* Ignore malformed local shelf data and keep the built-in collection. */ }
-  },[])
   useEffect(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify({customBooks,edits} satisfies SavedShelf))}catch{ /* Storage may be unavailable or full. */ }},[customBooks,edits])
   const books=[...ALL_BOOKS.map(book=>edits[book.id]||book),...customBooks]
   const visible=collection==='Shakespeare'?books.filter(book=>SHAKESPEARE.some(base=>base.id===book.id)):collection==='Death Note'?books.filter(book=>DEATH_NOTE.some(base=>base.id===book.id)):collection==='My books'?customBooks:books
