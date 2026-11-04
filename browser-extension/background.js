@@ -17,18 +17,19 @@ async function saveState() {
 }
 
 function currentState() {
-  return [...playingByTab.values()]
-    .filter(item => item.title && Date.now() - item.updatedAt < 15000)
-    .sort((a, b) => b.updatedAt - a.updatedAt)[0]?.title || "";
+  const current = [...playingByTab.entries()]
+    .filter(([, item]) => item.title && Date.now() - item.updatedAt < 15000)
+    .sort((a, b) => b[1].updatedAt - a[1].updatedAt)[0];
+  return current ? { title: current[1].title, tabId: current[0] } : { title: "", tabId: null };
 }
 
 async function broadcast() {
   await restoreState();
-  const title = currentState();
+  const state = currentState();
   const tabs = await chrome.tabs.query({});
   await Promise.all(tabs.map(tab => tab.id == null
     ? Promise.resolve()
-    : chrome.tabs.sendMessage(tab.id, { type: "memento-youtube-state", title }).catch(() => {})));
+    : chrome.tabs.sendMessage(tab.id, { type: "memento-youtube-state", title: state.title, tabId: state.tabId }).catch(() => {})));
 }
 
 async function injectIntoExistingTabs() {
@@ -50,7 +51,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     restoreState().then(async () => {
       const id = sender.tab.id;
       if (typeof message.title === "string" && message.title.trim()) {
-        playingByTab.set(id, { title: message.title.trim(), updatedAt: Date.now() });
+        playingByTab.set(id, { title: message.title.trim(), url: sender.tab.url || "", updatedAt: Date.now() });
       } else {
         playingByTab.delete(id);
       }
@@ -59,8 +60,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   }
   if (message?.type === "memento-youtube-get") {
-    restoreState().then(() => sendResponse({ title: currentState() }));
+    restoreState().then(() => sendResponse(currentState()));
     return true;
+  }
+  if (message?.type === "memento-youtube-open-tab") {
+    restoreState().then(async () => {
+      const state = currentState();
+      if (state.tabId == null) return;
+      const tab = await chrome.tabs.get(state.tabId).catch(() => null);
+      if (!tab) return;
+      await chrome.tabs.update(state.tabId, { active: true }).catch(() => {});
+      if (tab.windowId != null) await chrome.windows.update(tab.windowId, { focused: true }).catch(() => {});
+    });
   }
 });
 
