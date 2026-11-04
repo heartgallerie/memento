@@ -1989,3 +1989,55 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-youtube-content{overflow:hidden}
 .sidebar-youtube-content .sidebar-activity-track{overflow:hidden}
 @media(prefers-reduced-motion:reduce){.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-copy.is-scrolling{animation:none}}
+
+
+/* Correct the nested Last.fm ticker layout: keep title and artist on separate,
+   independently clipped rows instead of applying the old inline-pill rules. */
+.profile-activity-pills .lastfm-track-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;min-width:0;max-width:min(300px,calc(100vw - 150px));overflow:hidden;white-space:normal}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist{display:block;position:relative;min-width:0;width:100%;max-width:100%;overflow:hidden;white-space:nowrap}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name:before,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist:before{content:none}
+.profile-activity-pills .lastfm-track-copy .lastfm-track-name>strong,
+.profile-activity-pills .lastfm-track-copy .lastfm-track-artist>span{display:block;max-width:none;overflow:visible;text-overflow:clip;white-space:nowrap}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name.is-scrolling,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist.is-scrolling{display:flex;width:max-content;max-width:none;gap:26px;animation:memento-activity-marquee 14s linear infinite}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name.is-scrolling>strong,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist.is-scrolling>span{flex:none}
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-name:hover,
+.profile-activity-pills .lastfm-track-copy>.lastfm-track-artist:hover{animation-play-state:paused}
+.profile-activity-pills .lastfm-now-playing{gap:8px;min-width:0}
+.profile-activity-pills .lastfm-now-playing.is-collapsed{width:30px;min-width:30px;max-width:30px;justify-content:center}
+.profile-activity-pills .lastfm-now-playing.is-collapsed .lastfm-cover-trigger{width:22px;height:22px}
+.profile-activity-pills .lastfm-now-playing.is-collapsed .lastfm-cover-trigger img{width:22px;height:22px;animation:lastfm-cover-spin 12s linear infinite}
+
+/* Sidebar music pill: artwork replaces the note icon when compact; arrow stays
+   anchored to the far edge, and the card morphs as one cohesive surface. */
+.sidebar-activity-card{transition:width .48s cubic-bezier(.22,1,.36,1),max-width .48s cubic-bezier(.22,1,.36,1),min-height .42s cubic-bezier(.22,1,.36,1),padding .42s cubic-bezier(.22,1,.36,1),gap .38s cubic-bezier(.22,1,.36,1),border-radius .48s cubic-bezier(.22,1,.36,1),box-shadow .38s ease,filter .38s ease}
+.sidebar-activity-heading{position:relative;min-height:24px;transition:gap .38s cubic-bezier(.22,1,.36,1),min-height .38s ease}
+.sidebar-activity-icon,.sidebar-activity-label,.sidebar-activity-artwork,.sidebar-activity-collapsed-art,.sidebar-activity-copy,.sidebar-activity-toggle{transition:opacity .24s ease,transform .42s cubic-bezier(.22,1,.36,1),width .42s cubic-bezier(.22,1,.36,1),height .42s cubic-bezier(.22,1,.36,1),margin .42s cubic-bezier(.22,1,.36,1)}
+.sidebar-activity-collapsed-art{display:none;flex:none;width:22px;height:22px;overflow:hidden;border:1px solid #ffffffa0;border-radius:50%;box-shadow:0 1px 6px #0004}
+.sidebar-activity-collapsed-art img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;animation:lastfm-cover-spin 12s linear infinite}
+.sidebar-activity-card.is-collapsed .sidebar-activity-heading{justify-content:flex-start;gap:8px;width:100%;min-height:22px;padding-right:27px;overflow:visible}
+.sidebar-activity-card.is-collapsed .sidebar-activity-icon{display:none;opacity:0;transform:scale(.55)}
+.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-art{display:block;opacity:1;transform:scale(1)}
+.sidebar-activity-card.is-collapsed .sidebar-activity-label{display:none;opacity:0;transform:translateX(-5px)}
+.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-copy{display:flex;flex:1;min-width:0;max-width:100%;opacity:1;transform:translateX(0);white-space:nowrap}
+.sidebar-activity-card.is-collapsed .sidebar-activity-toggle{position:absolute;right:0;top:50%;margin:0;transform:translateY(-50%);display:grid;width:23px;height:23px;border:0;background:transparent}
+.sidebar-activity-card.is-collapsed .sidebar-activity-toggle svg{transform:rotate(-90deg)}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-collapsed-art{display:none;opacity:0;transform:scale(.6)}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-toggle{margin-left:auto;transform:rotate(0)}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-toggle svg{transform:rotate(0)}
+.sidebar-activity-card.is-collapsed .sidebar-activity-music-content{max-height:0;opacity:0;transform:translateY(-10px) scale(.94);margin-top:-4px;gap:0}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-music-content{max-height:64px;opacity:1;transform:translateY(0) scale(1);margin-top:0}
+.sidebar-activity-card.is-collapsed .sidebar-activity-artwork{width:0;height:0;opacity:0;transform:scale(.45);margin:0}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-artwork{width:38px;height:38px;opacity:1;transform:scale(1)}
+.sidebar-activity-card.is-collapsed .sidebar-activity-copy{opacity:0;transform:translateX(-8px) scale(.98)}
+.sidebar-activity-card:not(.is-collapsed) .sidebar-activity-copy{opacity:1;transform:translateX(0) scale(1)}
+.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-copy{overflow:hidden}
+.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-copy.is-scrolling{display:flex;gap:26px;width:max-content;max-width:none;min-width:100%;animation:memento-activity-marquee 13s linear infinite}
+.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-copy.is-scrolling>span{flex:none}
+.sidebar-activity-card.is-collapsed .sidebar-activity-toggle:hover{background:color-mix(in srgb,var(--activity-text,#fff) 20%,transparent);border-radius:50%}
+@media(prefers-reduced-motion:reduce){
+ .sidebar-activity-card,.sidebar-activity-card *,.profile-activity-pills .lastfm-track-copy *{transition:none!important;animation:none!important}
+}
