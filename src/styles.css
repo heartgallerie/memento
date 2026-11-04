@@ -2170,3 +2170,84 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .sidebar-activity-music .sidebar-activity-track.is-scrolling,
  .sidebar-activity-music .sidebar-activity-detail.is-scrolling{animation:none}
 }
+
+
+/* Keep compact music text inside its own lane, never over the album art. */
+.sidebar-activity-music.is-collapsed .sidebar-activity-heading{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  overflow:hidden;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-art{
+  flex:0 0 22px;
+  width:22px;
+  height:22px;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-copy{
+  display:block;
+  flex:1 1 0;
+  width:0;
+  min-width:0;
+  max-width:none;
+  overflow:hidden;
+  white-space:nowrap;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track:not(.is-scrolling)>span{
+  display:block;
+  width:100%;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track.is-scrolling{
+  display:flex;
+  width:max-content;
+  max-width:none;
+  min-width:0;
+  gap:30px;
+  overflow:visible;
+  animation:memento-activity-marquee 14s linear infinite;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track.is-scrolling>span{
+  display:block;
+  flex:none;
+  overflow:visible;
+  max-width:none;
+}
+.profile-activity-pills{
+  justify-content:flex-start;
+  align-items:flex-start;
+  min-width:0;
+}
+.profile-activity-pills .lastfm-now-playing{
+  align-self:flex-start;
+  justify-content:flex-start;
+  width:fit-content;
+  max-width:min(100%,380px);
+  flex:0 1 auto;
+}
+.profile-activity-pills .lastfm-track-copy{
+  flex:0 1 auto;
+  width:auto;
+  min-width:0;
+  max-width:calc(100vw - 190px);
+}
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling){
+  width:auto;
+  max-width:100%;
+}
+@media(prefers-reduced-motion:reduce){
+  .sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track.is-scrolling{animation:none}
+}
