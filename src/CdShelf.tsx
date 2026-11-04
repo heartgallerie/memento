@@ -1,3 +1,4 @@
+import BookShelf from './BookShelf'
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject, type FormEvent } from 'react'
 
 export type Album = {
@@ -345,6 +346,6 @@ export default function CdShelf() {
     </> : category === 'Games' ? <>
       <div className="cd-shelf-subheading"><strong>Games</strong><span>ROBLOX EXPERIENCES</span></div>
       <GamesShelf/>
-    </> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
+    </> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
   </section>
 }
