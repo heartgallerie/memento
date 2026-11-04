@@ -1981,3 +1981,11 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(prefers-reduced-motion:reduce){
  .sidebar-activity-track.is-scrolling,.sidebar-activity-detail.is-scrolling,.profile-interest-value.is-scrolling,.lastfm-track-name.is-scrolling,.lastfm-track-artist.is-scrolling{animation:none}
 }
+
+.sidebar-activity-copy{overflow:hidden}
+.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-copy.is-scrolling{display:flex;gap:26px;width:max-content;max-width:none;min-width:100%;animation:memento-activity-marquee 13s linear infinite}
+.sidebar-activity-collapsed-copy.is-scrolling>span{flex:none}
+.sidebar-activity-card.is-collapsed .sidebar-activity-heading{overflow:hidden}
+.sidebar-youtube-content{overflow:hidden}
+.sidebar-youtube-content .sidebar-activity-track{overflow:hidden}
+@media(prefers-reduced-motion:reduce){.sidebar-activity-card.is-collapsed .sidebar-activity-collapsed-copy.is-scrolling{animation:none}}
