@@ -2123,3 +2123,50 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(prefers-reduced-motion:reduce){
  .profile-activity-pills .lastfm-track-line.is-scrolling{animation:none}
 }
+
+
+/* Final layout pass: constrain both music surfaces to their parent and let
+   only the inner text track scroll. This prevents flex children from pushing
+   the artwork or the card beyond its available width. */
+.profile-activity-pills{min-width:0;max-width:100%}
+.profile-activity-pills .lastfm-now-playing{display:flex;box-sizing:border-box;width:min(100%,380px);max-width:100%;min-width:0;flex:0 1 380px;overflow:hidden}
+.profile-activity-pills .lastfm-cover-trigger{flex:0 0 22px}
+.profile-activity-pills .lastfm-track-copy{display:block;flex:1 1 0;width:0;min-width:0;max-width:none;overflow:hidden}
+.profile-activity-pills .lastfm-track-line{display:flex;align-items:center;width:100%;min-width:0;max-width:100%;overflow:hidden;white-space:nowrap}
+.profile-activity-pills .lastfm-track-line>span{display:inline-flex;align-items:center;flex:0 1 auto;min-width:0;max-width:100%;overflow:hidden;white-space:nowrap}
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling)>span{width:100%}
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling) strong,
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling) .lastfm-inline-artist{overflow:hidden;text-overflow:ellipsis}
+.profile-activity-pills .lastfm-track-line.is-scrolling{display:flex;width:max-content;max-width:none;min-width:0;overflow:visible;gap:32px}
+.profile-activity-pills .lastfm-track-line.is-scrolling>span{flex:none;max-width:none;overflow:visible}
+.profile-activity-pills .lastfm-track-line.is-scrolling strong,
+.profile-activity-pills .lastfm-track-line.is-scrolling .lastfm-inline-artist{overflow:visible;text-overflow:clip}
+
+.sidebar-activity-music{box-sizing:border-box;width:100%;max-width:100%;min-width:0;overflow:hidden}
+.sidebar-activity-music .sidebar-activity-heading{display:flex;align-items:center;box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:hidden}
+.sidebar-activity-music .sidebar-activity-label{flex:0 0 auto;white-space:nowrap}
+.sidebar-activity-music .sidebar-activity-collapsed-art{flex:0 0 22px}
+.sidebar-activity-music .sidebar-activity-collapsed-copy{flex:1 1 0;width:0;min-width:0;max-width:none;overflow:hidden;white-space:nowrap}
+.sidebar-activity-music .sidebar-activity-collapsed-copy:not(.is-scrolling)>span{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sidebar-activity-music .sidebar-activity-collapsed-copy.is-scrolling{display:flex;flex:0 0 auto;width:max-content;min-width:0;max-width:none;gap:30px;overflow:visible;animation:memento-activity-marquee 14s linear infinite}
+.sidebar-activity-music .sidebar-activity-collapsed-copy.is-scrolling>span{display:block;flex:none;max-width:none;overflow:visible}
+.sidebar-activity-music .sidebar-activity-music-content{display:flex;box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:hidden}
+.sidebar-activity-music .sidebar-activity-artwork{flex:0 0 38px}
+.sidebar-activity-music .sidebar-activity-copy{flex:1 1 0;width:0;min-width:0;max-width:100%;overflow:hidden}
+.sidebar-activity-music .sidebar-activity-track,
+.sidebar-activity-music .sidebar-activity-detail{display:block;width:100%;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sidebar-activity-music .sidebar-activity-track.is-scrolling,
+.sidebar-activity-music .sidebar-activity-detail.is-scrolling{display:flex;width:max-content;max-width:none;gap:28px;overflow:visible;animation:memento-activity-marquee 14s linear infinite}
+.sidebar-activity-music .sidebar-activity-track.is-scrolling>span,
+.sidebar-activity-music .sidebar-activity-detail.is-scrolling>span{flex:none;max-width:none;overflow:visible}
+.sidebar-activity-music.is-collapsed{display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0}
+.sidebar-activity-music.is-collapsed .sidebar-activity-heading{width:100%;min-width:0;max-width:100%;gap:8px;overflow:hidden}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-copy{flex:1 1 0;width:0;min-width:0;max-width:none}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-copy.is-scrolling{flex:0 0 auto;width:max-content;min-width:0}
+.sidebar-activity-music.is-collapsed .sidebar-activity-music-content{width:0;max-height:0;overflow:hidden}
+@media(prefers-reduced-motion:reduce){
+ .profile-activity-pills .lastfm-track-line.is-scrolling,
+ .sidebar-activity-music .sidebar-activity-collapsed-copy.is-scrolling,
+ .sidebar-activity-music .sidebar-activity-track.is-scrolling,
+ .sidebar-activity-music .sidebar-activity-detail.is-scrolling{animation:none}
+}
