@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Bot, PhoneCall, CakeSlice, BookOpen, PenLine, CalendarDays, Search, UserRound, Settings, Sparkles, Plus, ImagePlus, ChevronLeft, ChevronRight, MoreHorizontal, Download, PanelLeftClose, PanelLeftOpen, Archive, Check, ArrowUpRight, FilePlus2, Bold, Italic, Underline, List, ListOrdered, Quote, Highlighter, X, Tag as TagIcon, Cloud, Upload, Sun, Moon, Palette, Trash2, Calendar as CalendarIcon, Folder, Bookmark, ChevronDown, MapPin, BadgeCheck, BarChart3, Pin, ExternalLink, Play, Pause, Paperclip, Ban, ArrowUp, AudioLines, Pencil, Instagram, Users, UserPlus, MessageCircle, Link2, AtSign, Globe, Music2, Youtube, Briefcase, LayoutTemplate } from 'lucide-react'
 
 import type { CSSProperties as ReactCSSProperties, ReactNode } from 'react'
