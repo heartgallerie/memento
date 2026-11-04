@@ -2097,3 +2097,29 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   border-radius:9px;
   animation:none;
 }
+
+
+/* Last.fm pill: keep the complete title + artist on one line until it
+   genuinely needs to scroll, rather than truncating the title early. */
+.profile-activity-pills .lastfm-track-copy{display:block;flex:1;min-width:0;max-width:min(320px,calc(100vw - 150px));overflow:hidden;white-space:nowrap}
+.profile-activity-pills .lastfm-track-line{display:inline-flex;align-items:center;gap:28px;width:max-content;max-width:100%;white-space:nowrap}
+.profile-activity-pills .lastfm-track-line>span{display:inline-flex;align-items:center;flex:none;white-space:nowrap}
+.profile-activity-pills .lastfm-track-line strong{font-weight:700;white-space:nowrap}
+.profile-activity-pills .lastfm-inline-artist{font-weight:500;opacity:.78;white-space:nowrap}
+.profile-activity-pills .lastfm-track-line.is-scrolling{min-width:100%;max-width:none;animation:memento-activity-marquee 15s linear infinite}
+.profile-activity-pills .lastfm-track-line:hover{animation-play-state:paused}
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling){width:100%;overflow:hidden;text-overflow:ellipsis}
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling)>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling) strong,
+.profile-activity-pills .lastfm-track-line:not(.is-scrolling) .lastfm-inline-artist{overflow:hidden;text-overflow:ellipsis}
+
+/* The music activity card itself is the disclosure control; no separate
+   chevron button or reserved arrow space. */
+.sidebar-activity-music{cursor:pointer}
+.sidebar-activity-music .sidebar-activity-toggle{display:none!important}
+.sidebar-activity-music .sidebar-activity-heading{padding-right:0!important}
+.sidebar-activity-music.is-collapsed .sidebar-activity-heading{padding-right:0!important}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-copy{max-width:calc(100% - 30px)}
+@media(prefers-reduced-motion:reduce){
+ .profile-activity-pills .lastfm-track-line.is-scrolling{animation:none}
+}
