@@ -2438,3 +2438,24 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
 }
+
+
+/* Remove the artificial percentage split so the artist sits immediately
+   after the actual title width, rather than in a reserved second column. */
+.sidebar-activity-music.is-collapsed .sidebar-activity-music .sidebar-activity-collapsed-copy,
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-copy{
+  gap:3px!important;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-track{
+  flex:0 1 auto!important;
+  width:auto!important;
+  max-width:62%!important;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-artist{
+  flex:0 1 auto!important;
+  width:auto!important;
+  max-width:38%!important;
+}
+.sidebar-activity-music.is-collapsed .sidebar-activity-collapsed-artist::before{
+  margin-right:2px;
+}
