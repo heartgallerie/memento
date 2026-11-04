@@ -72,7 +72,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return;
       }
       const tab = await chrome.tabs.get(requestedId).catch(() => null);
-      if (!tab || !/^https:\/\/(www\\.)?youtube\\.com\//i.test(tab.url || "")) {
+      if (!tab || !/^https:\/\/(www\.)?youtube\.com\//i.test(tab.url || "")) {
         sendResponse({ ok: false, reason: "The YouTube tab is no longer available." });
         return;
       }
