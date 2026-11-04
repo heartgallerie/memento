@@ -4,18 +4,24 @@ if (!globalThis.__mementoAppBridgeInstalled) {
 
   chrome.runtime.onMessage.addListener(message => {
     if (message?.type === "memento-youtube-state") {
-      window.postMessage({ source: "memento-youtube-bridge", title: message.title || "" }, location.origin);
+      window.postMessage({ source: "memento-youtube-bridge", title: message.title || "", tabId: message.tabId ?? null }, location.origin);
     }
   });
 
   window.addEventListener("message", event => {
     if (event.source !== window || event.origin !== location.origin ||
-        event.data?.source !== "memento-app" || event.data?.type !== "youtube-state-request") return;
+        event.data?.source !== "memento-app") return;
+
+    if (event.data?.type === "youtube-open-tab") {
+      try { chrome.runtime.sendMessage({ type: "memento-youtube-open-tab" }); } catch {}
+      return;
+    }
+    if (event.data?.type !== "youtube-state-request") return;
 
     try {
       chrome.runtime.sendMessage({ type: "memento-youtube-get" }, response => {
         if (chrome.runtime.lastError) return;
-        window.postMessage({ source: "memento-youtube-bridge", title: response?.title || "" }, location.origin);
+        window.postMessage({ source: "memento-youtube-bridge", title: response?.title || "", tabId: response?.tabId ?? null }, location.origin);
       });
     } catch {}
   });
