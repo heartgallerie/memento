@@ -1767,3 +1767,47 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .cd-shelf-category-trigger[aria-expanded=true] svg{transform:rotate(180deg)}
 .cd-shelf-category-menu{top:calc(100% + 5px);left:0;right:auto;min-width:145px}
 .cd-shelf-category-menu button.active{background:var(--soft);color:var(--accent)}
+
+
+/* Shelves use the same category dropdown interaction as the Media tab. */
+.media-type-menu button.active{background:var(--soft);color:var(--accent);font-weight:700}
+
+/* Profile heading actions expand from icon-only controls on hover/focus. */
+.profile-heading-actions .profile-action-expand{
+  width:36px;height:36px;min-width:36px;flex:none;display:inline-flex;align-items:center;justify-content:flex-start;
+  gap:0;overflow:hidden;padding:0 9px;margin:0;border-radius:999px;white-space:nowrap;
+  transition:width .2s ease,gap .2s ease,color .16s,border-color .16s,background .16s;
+}
+.profile-heading-actions .profile-action-expand>svg{width:16px;height:16px;flex:none}
+.profile-heading-actions .profile-action-expand>span{
+  display:inline-block;max-width:0;margin:0;overflow:hidden;opacity:0;
+  font:600 10px 'DM Sans';transition:max-width .2s ease,opacity .16s ease;
+}
+.profile-heading-actions .profile-socials-button:hover,
+.profile-heading-actions .profile-socials-button:focus-visible,
+.profile-heading-actions .profile-main-edit-button:hover,
+.profile-heading-actions .profile-main-edit-button:focus-visible{
+  width:104px;gap:7px;padding-left:10px;padding-right:12px;
+}
+.profile-heading-actions .profile-main-edit-button:hover,
+.profile-heading-actions .profile-main-edit-button:focus-visible{width:119px}
+.profile-heading-actions .profile-action-expand:hover>span,
+.profile-heading-actions .profile-action-expand:focus-visible>span{max-width:90px;opacity:1}
+@media(prefers-reduced-motion:reduce){
+  .profile-heading-actions .profile-action-expand,
+  .profile-heading-actions .profile-action-expand>span{transition:none}
+}
+
+/* Verified badge preference is presented as a real on/off switch. */
+.profile-verified-toggle{
+  position:relative;width:40px;height:23px;flex:none;padding:0;border:1px solid var(--line);
+  border-radius:999px;background:var(--soft);cursor:pointer;transition:background .18s,border-color .18s;
+}
+.profile-verified-toggle>span{
+  position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;
+  background:var(--muted);transition:transform .18s,background .18s;
+}
+.profile-verified-toggle.active{background:var(--accent);border-color:var(--accent)}
+.profile-verified-toggle.active>span{transform:translateX(17px);background:#fff}
+.profile-verified-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.profile-verified-toggle,.profile-verified-toggle>span{transition:none}}
