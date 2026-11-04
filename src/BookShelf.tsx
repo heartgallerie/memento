@@ -11,7 +11,6 @@ const SHAKESPEARE: Book[] = [
 ]
 const DEATH_NOTE: Book[] = Array.from({ length: 13 }, (_, i) => {
   const number = i + 1
-  const titles = ['Boredom','Confluence','Hard Run','Love','Whiteout','Give-and-Take','零','Target','Contact','Deletion','One','Finis','How to Read']
   return {
     id: 'death-note-' + number, title: number === 13 ? 'Death Note: How to Read' : 'Death Note, Vol. ' + number,
     author: number === 13 ? 'Tsugumi Ohba & Takeshi Obata' : 'Tsugumi Ohba · Takeshi Obata',
@@ -33,7 +32,7 @@ function BookObject({ book, size, rotation = 0, turned = 0, dragging = false }: 
   return <div style={{ width:size,height,position:'relative',transformStyle:'preserve-3d',transform:'rotateX(-7deg) rotateY('+rotation+'deg)',transition:dragging?'none':'transform .55s ease' }}>
     <div style={face({inset:0,transform:'translateZ('+(-depth/2)+'px) rotateY(180deg)',background:book.colors[1]})}/>
     <div style={face({inset:0,transform:'translateZ('+(-depth/2+1)+'px)',background:'#e9e0ce'})}/>
-    <div style={face({width:depth,height,left:-depth/2,transform:'rotateY(-90deg)',background:'linear-gradient(90deg,'+book.colors[0]+','+book.colors[1]+')',backfaceVisibility:'visible'})}/>
+    <div style={face({width:depth,height,left:-depth/2,transform:'rotateY(-90deg)',background:'linear-gradient(90deg,'+book.colors[0]+','+book.colors[1]+')',backfaceVisibility:'visible',display:'flex',alignItems:'center',justifyContent:'center',overflow:'hidden',color:'#fff',font:'600 8px Georgia,serif',letterSpacing:'.03em',writingMode:'vertical-rl',textAlign:'center',textShadow:'0 1px 2px #000'})}><span style={{maxHeight:'90%',overflow:'hidden'}}>{book.title}</span></div>
     <div style={face({width:depth,height,left:size-depth/2,transform:'rotateY(90deg)',background:'repeating-linear-gradient(90deg,#f5f0e6 0 1px,#cfc7b6 1px 2px)',backfaceVisibility:'visible'})}/>
     <div style={face({width:size,height:depth,top:-depth/2,transform:'rotateX(90deg)',background:'#ded6c5',backfaceVisibility:'visible'})}/>
     <div style={face({width:size,height:depth,top:height-depth/2,transform:'rotateX(-90deg)',background:'#ded6c5',backfaceVisibility:'visible'})}/>
