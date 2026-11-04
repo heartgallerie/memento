@@ -13,7 +13,7 @@ if (!globalThis.__mementoAppBridgeInstalled) {
         event.data?.source !== "memento-app") return;
 
     if (event.data?.type === "youtube-open-tab") {
-      try { chrome.runtime.sendMessage({ type: "memento-youtube-open-tab" }); } catch {}
+      try { chrome.runtime.sendMessage({ type: "memento-youtube-open-tab", tabId: Number.isInteger(event.data.tabId) ? event.data.tabId : null }); } catch {}
       return;
     }
     if (event.data?.type !== "youtube-state-request") return;
