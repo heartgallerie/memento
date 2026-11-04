@@ -1758,3 +1758,12 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @keyframes appDialogFade{from{opacity:0}to{opacity:1}}
 @keyframes appDialogIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.app-dialog-overlay,.app-dialog{animation:none}}
+
+.cd-shelf-category-control{position:relative;display:inline-flex;align-items:center}
+.cd-shelf-category-trigger{display:inline-flex;align-items:center;gap:8px;padding:0;border:0;background:transparent;color:var(--text);cursor:pointer}
+.cd-shelf-category-trigger h2{margin:5px 0 4px;color:var(--text);font:600 23px 'DM Sans',sans-serif;letter-spacing:-.04em}
+.cd-shelf-category-trigger svg{width:15px;height:15px;margin-top:3px;fill:none;stroke:var(--muted);stroke-width:1.7;transition:transform .18s,color .18s}
+.cd-shelf-category-trigger:hover svg{color:var(--accent)}
+.cd-shelf-category-trigger[aria-expanded=true] svg{transform:rotate(180deg)}
+.cd-shelf-category-menu{top:calc(100% + 5px);left:0;right:auto;min-width:145px}
+.cd-shelf-category-menu button.active{background:var(--soft);color:var(--accent)}
