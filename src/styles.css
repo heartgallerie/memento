@@ -1742,3 +1742,19 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 /* Tighter profile pill spacing while keeping the bio clear of profile details. */
 .profile-bio{margin:10px 0 0}
 .profile-activity-pills{margin:5px 0 2px}
+
+/* Native-feeling Memento dialogs for confirmations, naming and import feedback. */
+.app-dialog-overlay{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:rgba(8,10,16,.58);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);animation:appDialogFade .16s ease both}
+.app-dialog{width:min(420px,100%);padding:21px;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 24px 80px #0005;animation:appDialogIn .2s cubic-bezier(.2,.8,.2,1) both}
+.app-dialog-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.app-dialog-heading h2{margin:5px 0 0;color:var(--text);font:600 18px 'DM Sans',sans-serif}
+.app-dialog>p{margin:13px 0 17px;color:var(--muted);font:12px/1.65 'DM Sans',sans-serif;overflow-wrap:anywhere}
+.app-dialog-input{display:block;width:100%;box-sizing:border-box;margin:0 0 17px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg,var(--surface));color:var(--text);font:12px 'DM Sans',sans-serif;outline:none}
+.app-dialog-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}
+.app-dialog-actions{display:flex;justify-content:flex-end;gap:8px}
+.app-dialog-actions>button{min-height:34px;padding:0 13px}
+.app-dialog-actions .danger-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,#dc5555 40%,transparent);border-radius:8px;background:#c7474720;color:#d85b5b;font:600 11px 'DM Sans',sans-serif;cursor:pointer}
+.app-dialog-actions button:disabled{opacity:.45;cursor:not-allowed}
+@keyframes appDialogFade{from{opacity:0}to{opacity:1}}
+@keyframes appDialogIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.app-dialog-overlay,.app-dialog{animation:none}}
