@@ -65,13 +65,26 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   if (message?.type === "memento-youtube-open-tab") {
     restoreState().then(async () => {
-      const state = currentState();
-      if (state.tabId == null) return;
-      const tab = await chrome.tabs.get(state.tabId).catch(() => null);
-      if (!tab) return;
-      await chrome.tabs.update(state.tabId, { active: true }).catch(() => {});
-      if (tab.windowId != null) await chrome.windows.update(tab.windowId, { focused: true }).catch(() => {});
-    });
+      const requestedId = Number.isInteger(message.tabId) ? message.tabId : currentState().tabId;
+      const playing = requestedId == null ? null : playingByTab.get(requestedId);
+      if (requestedId == null || !playing || Date.now() - playing.updatedAt >= 15000) {
+        sendResponse({ ok: false, reason: "No active YouTube tab was found." });
+        return;
+      }
+      const tab = await chrome.tabs.get(requestedId).catch(() => null);
+      if (!tab || !/^https:\/\/(www\\.)?youtube\\.com\//i.test(tab.url || "")) {
+        sendResponse({ ok: false, reason: "The YouTube tab is no longer available." });
+        return;
+      }
+      try {
+        await chrome.tabs.update(requestedId, { active: true });
+        if (tab.windowId != null) await chrome.windows.update(tab.windowId, { focused: true });
+        sendResponse({ ok: true });
+      } catch (error) {
+        sendResponse({ ok: false, reason: String(error) });
+      }
+    }).catch(error => sendResponse({ ok: false, reason: String(error) }));
+    return true;
   }
 });
 
