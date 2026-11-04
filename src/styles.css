@@ -1434,3 +1434,20 @@
 .profile-post-composer-footer small{font:10px 'DM Mono';color:var(--muted);font-variant-numeric:tabular-nums}
 .profile-post-composer-footer .save-btn{border-radius:999px;padding:8px 17px;font-size:11px}
 @media(max-width:600px){.profile-post-composer-overlay{padding:8vh 10px 20px}.profile-post-composer{border-radius:13px}.profile-post-composer-body{padding:15px 13px 10px;gap:9px}.profile-post-composer-footer{padding:10px 13px}.profile-post-composer-footer>span{max-width:58%;line-height:1.4}}
+
+
+/* 3D book collection within the existing profile Shelves > Books tab */
+.book-shelf{width:100%;padding:4px 0 24px}
+.book-shelf-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 15px}
+.book-shelf-toolbar>div{display:flex;align-items:baseline;gap:9px}.book-shelf-toolbar>div strong{font:600 12px 'DM Sans';color:var(--text)}.book-shelf-toolbar>div span{font:9px 'DM Mono';color:var(--muted)}
+.book-shelf-toolbar nav{display:flex;gap:5px;flex-wrap:wrap}.book-shelf-toolbar nav button{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);font:9px 'DM Sans';cursor:pointer}.book-shelf-toolbar nav button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--panel));color:var(--text)}
+.book-shelf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px 8px;justify-items:center}
+.book-shelf-item{all:unset;box-sizing:border-box;width:100%;min-width:0;display:flex;align-items:center;gap:12px;padding:13px 8px;border-radius:9px;cursor:pointer;perspective:900px;transition:background .15s}
+.book-shelf-item:hover{background:var(--soft)}.book-shelf-object{display:block;flex:0 0 76px;height:108px;filter:drop-shadow(7px 10px 8px #0005);transform:scale(.68);transform-origin:left center;margin-right:-30px}
+.book-shelf-copy{min-width:0;display:grid;gap:5px;text-align:left}.book-shelf-copy strong{color:var(--text);font:600 10px/1.35 'DM Sans';overflow-wrap:anywhere}.book-shelf-copy small{color:var(--muted);font:8px/1.4 'DM Mono';overflow-wrap:anywhere}
+.book-viewer-overlay{position:fixed;inset:0;z-index:1700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:55px 15px 20px;background:#080809eF;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.book-viewer-close{position:absolute;top:18px;right:18px;width:36px;height:36px;border:1px solid #ffffff25;border-radius:50%;background:#ffffff12;color:#fff;font:24px 'DM Sans';cursor:pointer}
+.book-viewer-stage{width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;perspective:1400px;user-select:none}
+.book-viewer-meta{display:grid;gap:4px;text-align:center}.book-viewer-meta strong{color:#f2f2f2;font:22px Georgia,serif}.book-viewer-meta span{color:#aaa;font:11px 'DM Sans'}.book-viewer-meta small,.book-viewer-hint{color:#777;font:10px 'DM Sans'}
+.book-viewer-controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.book-viewer-controls button:disabled{opacity:.35;cursor:default}
+@media(max-width:560px){.book-shelf-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.book-shelf-item{gap:5px;padding:10px 3px}.book-shelf-object{flex-basis:65px;transform:scale(.58);margin-right:-32px}.book-shelf-copy strong{font-size:9px}.book-viewer-meta strong{font-size:18px}}
