@@ -32,7 +32,7 @@ export const emojiShortcodes: Record<string, string> = {
   skull:'💀',fire:'🔥',angry:'😠',rage:'😡',sad:'🙁',pleading:'🥺',plead:'🥺',
   pray:'🙏',thumbsup:'👍',thumbs_up:'👍',thumbsdown:'👎',wave:'👋',thinking:'🤔',
   wink:'😉',kiss:'😘',kissing_heart:'😘',cool:'😎',sweat:'😅',cry_laugh:'😂',
-  clap:'👏',party:'🥳',tada:'🎉',hundred:'💯',check:'✅',warning:'⚠️',
+  clap:'👏',party:'🥳',tada:'🎉',hundred:'💯','100':'💯',check:'✅',warning:'⚠️','+1':'👍','-1':'👎',
   cat:'🐱',smiley_cat:'😺',heart_eyes_cat:'😻',dog:'🐶',panda:'🐼',rabbit:'🐰',
   moon:'🌙',sun:'☀️',flower:'🌸',cherry_blossom:'🌸',rose:'🌹',tulip:'🌷',
   butterfly:'🦋',bee:'🐝',rainbow:'🌈',cloud:'☁️',cloudy:'🌥️',snowflake:'❄️',
@@ -40,11 +40,11 @@ export const emojiShortcodes: Record<string, string> = {
   peach:'🍑',apple:'🍎',sparkling_heart:'💖',two_hearts:'💕',revolving_hearts:'💞',
   gift:'🎁',balloon:'🎈',music:'🎵',headphones:'🎧',camera:'📷',film:'🎬',
   computer:'💻',phone:'📱',zzz:'💤',sleeping:'😴',scream:'😱',surprised:'😮',
-  neutral_face:'😐',expressionless:'😑',unamused:'😒',relieved:'😌',thinking_face:'🤔',
+  neutral_face:'😐',expressionless:'😑',unamused:'😒',relieved:'😌',thinking_face:'🤔',rofl:'🤣',rolling_on_the_floor_laughing:'🤣',grinning:'😀',smirk:'😏',pensive:'😔',disappointed:'😞',frowning:'😦',sweat_smile:'😅',sunglasses:'😎',nerd:'🤓',shushing_face:'🤫',zipper_mouth:'🤐',hand_over_mouth:'🤭',melting_face:'🫠',saluting_face:'🫡',face_holding_back_tears:'🥹',hugging_face:'🤗',partying_face:'🥳',clown:'🤡',ghost:'👻',alien:'👽',robot:'🤖',
   upside_down:'🙃',upside_down_face:'🙃',skull_and_crossbones:'☠️',poop:'💩',
   ok_hand:'👌',ok:'👌',clap_hands:'👏',muscle:'💪',pray_hands:'🙏',
   eyes2:'👀',handshake:'🤝',peace:'✌️',v:'✌️',rocket:'🚀',sparkling:'✨',
-  x:'❌',cross:'❌',no:'🚫',heartpulse:'💗',heartbeat:'💓',orange_heart:'🧡',
+  x:'❌',cross:'❌',no:'🚫',heart_on_fire:'❤️‍🔥',mending_heart:'❤️‍🩹',smiling_face_with_3_hearts:'🥰',heartpulse:'💗',heartbeat:'💓',orange_heart:'🧡',
   yellow_heart:'💛',green_heart:'💚',brown_heart:'🤎',gift_heart:'💝',
 }
 
