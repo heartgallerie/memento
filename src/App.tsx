@@ -151,18 +151,21 @@ function MemoCompanion({size,color,ariaLabel,className='',interactive=false}:Mem
    ctx.restore()
    ctx.restore()
   }
+  const handleGlobalPointerMove=(event:PointerEvent)=>{
+   pointerRef.current.x=Math.max(-1,Math.min(1,(event.clientX/window.innerWidth)*2-1))
+   pointerRef.current.y=Math.max(-1,Math.min(1,1-(event.clientY/window.innerHeight)*2))
+  }
+  if(interactive)window.addEventListener('pointermove',handleGlobalPointerMove,{passive:true})
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if(reduced){draw(performance.now());return}
+  if(reduced){
+   draw(performance.now())
+   return ()=>{if(interactive)window.removeEventListener('pointermove',handleGlobalPointerMove)}
+  }
   const tick=(now:number)=>{draw(now);frame=requestAnimationFrame(tick)}
   frame=requestAnimationFrame(tick)
-  return ()=>cancelAnimationFrame(frame)
+  return ()=>{cancelAnimationFrame(frame);if(interactive)window.removeEventListener('pointermove',handleGlobalPointerMove)}
  },[color,interactive])
- const handlePointerMove=(event:ReactPointerEvent<HTMLDivElement>)=>{
-  const rect=event.currentTarget.getBoundingClientRect()
-  pointerRef.current.x=Math.max(-1,Math.min(1,(event.clientX-(rect.left+rect.width/2))/(rect.width*.42)))
-  pointerRef.current.y=Math.max(-1,Math.min(1,-(event.clientY-(rect.top+rect.height/2))/(rect.height*.42)))
- }
- return <div className={'memo-companion '+className} style={{width:size,height:size}} role="img" aria-label={ariaLabel} onPointerMove={interactive?handlePointerMove:undefined} onPointerLeave={interactive?()=>{pointerRef.current.x=0;pointerRef.current.y=0}:undefined} onPointerDown={interactive?()=>{pointerRef.current.pressedAt=performance.now()}:undefined}><canvas ref={canvasRef} aria-hidden="true"/></div>
+ return <div className={'memo-companion '+className} style={{width:size,height:size}} role="img" aria-label={ariaLabel} onPointerDown={interactive?()=>{pointerRef.current.pressedAt=performance.now()}:undefined}><canvas ref={canvasRef} aria-hidden="true"/></div>
 }
 function CartiShelves(){ return <CdShelf/> }
 function MemoProfile({avatarColor,onBack}:{avatarColor:string;onBack:()=>void}){return <section className="profile-view memo-public-profile"><div className="memo-public-banner" style={{background:`linear-gradient(125deg,color-mix(in srgb,${avatarColor} 40%,#111827),${avatarColor} 55%,color-mix(in srgb,${avatarColor} 65%,#ffffff))`}}></div><div className="profile-main"><div className="profile-heading-row"><div className="memo-profile-real-avatar"><MemoCompanion size="92px" color={avatarColor} ariaLabel="Memo's avatar"/></div><button className="profile-edit-button" onClick={onBack}>Back to Memo</button></div><div className="profile-fields"><strong className="profile-name-display">Memo <VerifiedBadge size={18}/></strong><span className="profile-handle-display">@memo</span><p className="profile-bio">Your AI companion. Here to help you revisit memories, connect ideas, and make sense of the things you write.</p><div className="profile-stats"><strong>0 <span>Posts</span></strong><strong>0 <span>Following</span></strong><strong>0 <span>Followers</span></strong></div></div><div className="profile-tabs"><button className="active">Posts</button></div><div className="profile-feed"><article className="profile-post"><div className="memo-profile-post-avatar"><MemoCompanion size="38px" color={avatarColor} ariaLabel="Memo's avatar"/></div><div className="post-content"><div className="post-byline"><strong>Memo <VerifiedBadge size={14}/></strong><span>@memo</span><i>·</i><time>just now</time></div><h3>A little space to think.</h3><div className="post-body"><p>I’m here to help you explore your journal, find connections between entries, and prepare edits for your approval. My chat is still being built.</p></div></div></article></div></div></section>}
