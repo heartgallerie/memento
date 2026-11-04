@@ -334,7 +334,6 @@ export default function CdShelf({ category }: { category: ShelfCategory }) {
   const [selected, setSelected] = useState<Album | null>(null)
   const close = useCallback(() => setSelected(null), [])
   return <section className="cd-shelf">
-    <div className="cd-shelf-heading"><div><span className="eyebrow">THE COLLECTION</span><h2>Shelves</h2><p>A little space for the things you enjoy.</p></div></div>
     {category === 'Music' ? <>
       <div className="cd-shelf-subheading"><strong>Music</strong><span>{ALBUMS.length} records</span></div>
       <div className="cd-shelf-grid">{ALBUMS.map(album => <ShelfItem key={album.id} album={album} onOpen={setSelected}/>)}</div>
