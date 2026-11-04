@@ -1870,13 +1870,13 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 /* A clearer pinned treatment in the profile feed. */
 .profile-post.is-pinned-profile-post{margin:12px 0;padding:17px 16px 15px 18px;border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-left:3px solid var(--accent);border-radius:13px;background:linear-gradient(115deg,color-mix(in srgb,var(--accent) 7%,var(--surface)),var(--surface) 62%);box-shadow:0 5px 20px color-mix(in srgb,var(--accent) 7%,transparent)}
-.profile-post.is-pinned-profile-post .profile-pinned-label{position:static;display:inline-flex;width:max-content;margin:0 0 9px 47px;padding:4px 8px;border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,var(--surface));font:700 8px 'DM Mono';letter-spacing:.08em}
-.profile-post.is-pinned-profile-post .post-content{padding-top:0}
+.profile-post.is-pinned-profile-post .profile-pinned-label{position:absolute;top:8px;left:66px;display:inline-flex;width:max-content;margin:0;padding:4px 8px;border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,var(--surface));font:700 8px 'DM Mono';letter-spacing:.08em}
+.profile-post.is-pinned-profile-post .post-content{padding-top:17px}
 .profile-post.is-pinned-profile-post .post-topline{align-items:center}
 .profile-post.is-pinned-profile-post .post-body{margin-top:8px}
 
 /* Profile pills collapse to their icon only when multiple pills are present. */
-.profile-interest-pill,.weather-example-pill{appearance:none;-webkit-appearance:none;font-family:inherit;cursor:pointer}
+.profile-interest-pill,.weather-example-pill{appearance:none;-webkit-appearance:none;font-family:inherit;cursor:pointer}.youtube-now-playing{cursor:pointer}
 .profile-interest-pill{transition:width .2s ease,padding .2s ease,background .2s,border-color .2s;min-height:30px;align-items:center}
 .profile-interest-pill>svg{margin:0}
 .profile-interest-pill.is-collapsed,.weather-example-pill.is-collapsed,.lastfm-now-playing.is-collapsed,.youtube-now-playing.is-collapsed{width:30px;min-width:30px;max-width:30px;height:30px;min-height:30px;padding:0;gap:0;justify-content:center;border-radius:50%;flex:0 0 30px}
