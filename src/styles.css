@@ -1902,21 +1902,30 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 /* Live activity cards in the sidebar profile popover */
 .sidebar-card-activities{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:12px}
-.sidebar-activity-card{position:relative;isolation:isolate;display:flex;flex-direction:column;gap:3px;width:100%;min-width:0;overflow:hidden;padding:10px 11px;border:1px solid #ffffff55;border-radius:12px;color:#fff;box-shadow:inset 0 1px 0 #ffffff55,0 4px 16px #0002,0 0 18px color-mix(in srgb,var(--activity-c2) 30%,transparent);backdrop-filter:blur(13px) saturate(155%);-webkit-backdrop-filter:blur(13px) saturate(155%);animation:sidebar-activity-glow 7s ease-in-out infinite alternate;transition:padding .2s ease,gap .2s ease,box-shadow .25s ease}
+.sidebar-activity-card{position:relative;isolation:isolate;display:flex;flex-direction:column;gap:6px;width:100%;min-width:0;overflow:hidden;padding:10px 11px;border:1px solid #ffffff55;border-radius:12px;color:var(--activity-text,#fff);box-shadow:inset 0 1px 0 #ffffff55,0 4px 16px #0002,0 0 18px color-mix(in srgb,var(--activity-c2) 30%,transparent);backdrop-filter:blur(13px) saturate(155%);-webkit-backdrop-filter:blur(13px) saturate(155%);animation:sidebar-activity-glow 7s ease-in-out infinite alternate;transition:width .22s ease,height .22s ease,padding .2s ease,gap .2s ease,border-radius .22s ease,box-shadow .25s ease;cursor:pointer}
 .sidebar-activity-card:before{content:"";position:absolute;z-index:-2;inset:-45%;background:radial-gradient(ellipse at 18% 28%,color-mix(in srgb,var(--activity-c1) 95%,transparent),transparent 48%),radial-gradient(ellipse at 82% 72%,color-mix(in srgb,var(--activity-c2) 95%,transparent),transparent 50%),radial-gradient(ellipse at 55% 8%,color-mix(in srgb,var(--activity-c3) 90%,transparent),transparent 48%);background-size:140% 140%;animation:sidebar-activity-liquid 16s ease-in-out infinite alternate}
 .sidebar-activity-card:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(125deg,#ffffff40,transparent 42%,#ffffff16 75%,transparent);pointer-events:none}
 .sidebar-activity-youtube{--activity-c1:#ff3b54;--activity-c2:#b51e67;--activity-c3:#ff8b55;background:linear-gradient(120deg,#e52e48,#9d225f,#ed694e)}
 .sidebar-activity-music{background:linear-gradient(120deg,var(--activity-c1),var(--activity-c2),var(--activity-c3))}
-.sidebar-activity-heading{display:flex;align-items:center;gap:7px;min-width:0}
-.sidebar-activity-icon{display:grid;place-items:center;flex:none;width:23px;height:23px;border:1px solid #ffffff55;border-radius:50%;background:#ffffff25;color:#fff}
-.sidebar-activity-label{min-width:0;font:700 9px/1.2 'DM Sans';letter-spacing:.045em;text-transform:uppercase;color:#ffffffd9}
-.sidebar-activity-toggle{display:grid;place-items:center;flex:none;width:23px;height:23px;margin-left:auto;padding:0;border:1px solid #ffffff55;border-radius:50%;background:#ffffff20;color:#fff;cursor:pointer;transition:transform .2s,background .2s}
-.sidebar-activity-toggle:hover{background:#ffffff40}
+.sidebar-activity-heading{display:flex;align-items:center;gap:6px;min-width:0}
+.sidebar-activity-icon{display:grid;place-items:center;flex:none;width:19px;height:19px;border:1px solid color-mix(in srgb,var(--activity-text,#fff) 35%,transparent);border-radius:50%;background:color-mix(in srgb,var(--activity-text,#fff) 15%,transparent);color:var(--activity-text,#fff)}
+.sidebar-activity-label{min-width:0;font:700 9px/1.2 'DM Sans';letter-spacing:.045em;text-transform:uppercase;color:var(--activity-text,#fff)}
+.sidebar-activity-toggle{display:grid;place-items:center;flex:none;width:23px;height:23px;margin-left:auto;padding:0;border:1px solid color-mix(in srgb,var(--activity-text,#fff) 35%,transparent);border-radius:50%;background:color-mix(in srgb,var(--activity-text,#fff) 14%,transparent);color:var(--activity-text,#fff);cursor:pointer;transition:transform .2s,background .2s}
+.sidebar-activity-toggle:hover{background:color-mix(in srgb,var(--activity-text,#fff) 25%,transparent)}
+.sidebar-activity-card.is-collapsed .sidebar-activity-toggle{display:none}
 .sidebar-activity-card.is-collapsed .sidebar-activity-toggle svg{transform:rotate(-90deg)}
-.sidebar-activity-track{max-width:100%;overflow:hidden;color:#fff;font:700 11px/1.35 'DM Sans';text-overflow:ellipsis;white-space:nowrap}
-.sidebar-activity-detail{overflow:hidden;color:#ffffffc9;font:500 9px/1.35 'DM Sans';text-overflow:ellipsis;white-space:nowrap}
-.sidebar-activity-card.is-collapsed{gap:0;padding-top:7px;padding-bottom:7px}
-.sidebar-activity-card.is-collapsed .sidebar-activity-track,.sidebar-activity-card.is-collapsed .sidebar-activity-detail{display:none}
+.sidebar-activity-track{max-width:100%;overflow:hidden;color:var(--activity-text,#fff);font:700 11px/1.35 'DM Sans';text-overflow:ellipsis;white-space:nowrap}
+.sidebar-activity-detail{overflow:hidden;color:var(--activity-subtext,#ffffffc9);font:500 9px/1.35 'DM Sans';text-overflow:ellipsis;white-space:nowrap}
+.sidebar-activity-music-content{display:flex;align-items:center;gap:9px;min-width:0}
+.sidebar-activity-artwork{position:relative;display:block;flex:none;width:38px;height:38px;overflow:hidden;border:1px solid #ffffff75;border-radius:50%;box-shadow:0 2px 10px #0003,0 0 12px color-mix(in srgb,var(--activity-c2) 45%,transparent)}
+.sidebar-activity-artwork img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;animation:sidebar-album-spin 30s linear infinite}
+.sidebar-activity-copy{display:flex;flex:1;flex-direction:column;gap:2px;min-width:0}
+.sidebar-activity-card.is-collapsed{width:38px;height:38px;min-height:38px;gap:0;padding:0;align-items:center;justify-content:center;border-radius:50%;cursor:pointer}
+.sidebar-activity-card.is-collapsed .sidebar-activity-heading{justify-content:center;width:100%;height:100%}
+.sidebar-activity-card.is-collapsed .sidebar-activity-icon{width:100%;height:100%;border:0;background:transparent}
+.sidebar-activity-card.is-collapsed .sidebar-activity-label,.sidebar-activity-card.is-collapsed .sidebar-activity-music-content{display:none}
+.sidebar-activity-card.is-collapsed .sidebar-activity-icon svg{width:16px;height:16px}
+@keyframes sidebar-album-spin{to{transform:rotate(360deg)}}
 @keyframes sidebar-activity-liquid{0%{transform:translate(-3%,-2%) rotate(0deg) scale(1)}50%{transform:translate(3%,2%) rotate(7deg) scale(1.08)}100%{transform:translate(-1%,4%) rotate(-5deg) scale(1.02)}}
 @keyframes sidebar-activity-glow{from{box-shadow:inset 0 1px 0 #ffffff55,0 4px 14px #0002,0 0 12px color-mix(in srgb,var(--activity-c2) 22%,transparent)}to{box-shadow:inset 0 1px 0 #ffffff70,0 5px 18px #0003,0 0 23px color-mix(in srgb,var(--activity-c2) 38%,transparent)}}
 @media(prefers-reduced-motion:reduce){.sidebar-activity-card,.sidebar-activity-card:before{animation:none}}
