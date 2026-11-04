@@ -1853,3 +1853,43 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .journal-entry-count.is-long{font-size:15px;letter-spacing:-.05em}
 @media(max-width:700px){.journal-entry-count,.journal-entry-count.is-long{width:auto;height:auto;font-size:15px}.profile-heading-actions{transform:translateY(9px)}}
 @media(prefers-reduced-motion:reduce){.entry-hover-actions,.profile-post-more{transition:none}}
+
+
+/* Anchor global search directly beneath the centered search control. */
+.global-search-results{position:fixed;top:72px;left:50%;transform:translateX(-50%);width:min(440px,52vw);max-height:min(68vh,560px)}
+@media(max-width:620px){.global-search-results{top:66px;width:min(94vw,440px)}}
+
+/* Pinned journal notes are visual duplicates; their original entries remain in place. */
+.journal-pinned-clones{display:grid;gap:7px;margin:0 0 13px}
+.pinned-entry-clone .entry-card{padding:13px 78px 13px 14px!important;border:1px solid color-mix(in srgb,var(--accent) 38%,var(--line));border-left:3px solid var(--accent);border-radius:12px;background:linear-gradient(110deg,color-mix(in srgb,var(--accent) 9%,var(--surface)),var(--surface) 68%);box-shadow:0 4px 16px color-mix(in srgb,var(--accent) 8%,transparent)}
+.pinned-entry-clone .entry-card:hover{border-color:color-mix(in srgb,var(--accent) 55%,var(--line));box-shadow:0 7px 22px color-mix(in srgb,var(--accent) 13%,transparent)}
+.pinned-clone-label{display:flex;align-items:center;gap:5px;margin:0 0 7px;color:var(--accent);font:700 8px 'DM Mono';letter-spacing:.13em}
+.pinned-entry-clone .entry-card>strong{display:block;margin:3px 0 5px}
+.pinned-entry-clone .entry-card>p{margin:5px 0 0}
+.pinned-entry-clone .entry-hover-actions{opacity:1;pointer-events:auto;transform:none}
+
+/* A clearer pinned treatment in the profile feed. */
+.profile-post.is-pinned-profile-post{margin:12px 0;padding:17px 16px 15px 18px;border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-left:3px solid var(--accent);border-radius:13px;background:linear-gradient(115deg,color-mix(in srgb,var(--accent) 7%,var(--surface)),var(--surface) 62%);box-shadow:0 5px 20px color-mix(in srgb,var(--accent) 7%,transparent)}
+.profile-post.is-pinned-profile-post .profile-pinned-label{position:static;display:inline-flex;width:max-content;margin:0 0 9px 47px;padding:4px 8px;border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,var(--surface));font:700 8px 'DM Mono';letter-spacing:.08em}
+.profile-post.is-pinned-profile-post .post-content{padding-top:0}
+.profile-post.is-pinned-profile-post .post-topline{align-items:center}
+.profile-post.is-pinned-profile-post .post-body{margin-top:8px}
+
+/* Profile pills collapse to their icon only when multiple pills are present. */
+.profile-interest-pill,.weather-example-pill{appearance:none;-webkit-appearance:none;font-family:inherit;cursor:pointer}
+.profile-interest-pill{transition:width .2s ease,padding .2s ease,background .2s,border-color .2s;min-height:30px;align-items:center}
+.profile-interest-pill>svg{margin:0}
+.profile-interest-pill.is-collapsed,.weather-example-pill.is-collapsed,.lastfm-now-playing.is-collapsed,.youtube-now-playing.is-collapsed{width:30px;min-width:30px;max-width:30px;height:30px;min-height:30px;padding:0;gap:0;justify-content:center;border-radius:50%;flex:0 0 30px}
+.profile-interest-pill.is-collapsed>span,.weather-example-pill.is-collapsed>.weather-sky,.lastfm-now-playing.is-collapsed .lastfm-track-copy,.youtube-now-playing.is-collapsed .youtube-track-window{display:none}
+.weather-example-pill.is-collapsed>svg{display:block;flex:none}
+.lastfm-now-playing.is-collapsed .lastfm-cover-trigger{width:20px;height:20px}
+.youtube-now-playing.is-collapsed{justify-content:center}
+.lastfm-now-playing:hover{box-shadow:inset 0 1px 0 #ffffffa8,0 0 0 2px color-mix(in srgb,var(--lastfm-c2) 22%,transparent),0 0 20px color-mix(in srgb,var(--lastfm-c2) 52%,transparent),0 5px 18px color-mix(in srgb,var(--lastfm-c1) 35%,transparent);filter:saturate(1.12)}
+.lastfm-cover-trigger{pointer-events:none}
+.profile-interest-pill:hover,.weather-example-pill:hover,.youtube-now-playing:hover{filter:brightness(1.04);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 10%,transparent),0 4px 15px color-mix(in srgb,var(--accent) 17%,transparent)}
+.tag-picker-create{display:flex;align-items:center;gap:5px;padding:6px;border-top:1px solid var(--line)}
+.tag-picker-create input{min-width:0;width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--text);font:10px 'DM Sans'}
+.tag-picker-create button{width:27px;height:27px;flex:none;display:grid;place-items:center;border:0;border-radius:6px;background:var(--accent);color:white;cursor:pointer}
+.tag-picker-create button:disabled{opacity:.4;cursor:not-allowed}
+.read-entry-tags{margin-top:18px}
+@media(prefers-reduced-motion:reduce){.profile-interest-pill{transition:none}}
