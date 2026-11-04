@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment, type ReactNode } from 'react'
 
 import helloKitty from '../custom-emojis/hello-kitty-fbnujaer33.png'
 import helloKittyAlt from '../custom-emojis/hello-kitty-lukxhnroe6t.png'
@@ -56,7 +56,7 @@ export function replaceEmojiShortcodes(value: string) {
 
 export function EmojiText({ text, className }: { text: string; className?: string }) {
   const pattern = /:([a-z0-9_+-]+):/gi
-  const parts: React.ReactNode[] = []
+  const parts: ReactNode[] = []
   let last = 0
   let match: RegExpExecArray | null
   while ((match = pattern.exec(text)) !== null) {
@@ -67,7 +67,7 @@ export function EmojiText({ text, className }: { text: string; className?: strin
     if (src) {
       parts.push(<img key={match.index} className="memento-custom-emoji" src={src} alt={`:${name}:`} title={`:${name}:`} draggable={false}/>)
     } else if (unicode) {
-      parts.push(<React.Fragment key={match.index}>{unicode}</React.Fragment>)
+      parts.push(<Fragment key={match.index}>{unicode}</Fragment>)
     } else {
       parts.push(match[0])
     }
