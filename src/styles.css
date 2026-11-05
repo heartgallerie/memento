@@ -2762,3 +2762,23 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .profile-scroll-top:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
 @media(max-width:600px){.profile-scroll-top{right:17px;bottom:80px;width:40px;height:40px}.wall-message-modal{padding:17px 15px 20px}.wall-message-modal>p{margin-left:0}}
 @media(prefers-reduced-motion:reduce){.profile-scroll-top,.wall-message-open{transition:none;animation:none}}
+
+
+/* Only genuinely long profile posts receive the blurred fold. */
+.profile-post-body.is-collapsed{max-height:190px;overflow:hidden}
+.profile-post-body.is-collapsed:after{content:"";position:absolute;right:0;bottom:0;left:0;height:68px;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--surface) 94%);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.profile-post-body.is-expanded{max-height:none;overflow:visible}
+.wall-message-card.is-pinned{background:color-mix(in srgb,var(--accent) 4%,transparent)}
+.wall-message-pinned-icon{margin-left:auto;flex:none;color:var(--accent)}
+.wall-message-bookmarked{display:inline-flex;align-items:center;gap:4px;margin:9px 0 0 44px;color:var(--accent);font:600 9px 'DM Sans','Jdecked Twemoji'}
+.wall-message-page{width:min(100%,720px);margin:0 auto;padding:10px 0 70px}
+.wall-message-back{display:inline-flex;align-items:center;gap:5px;margin:0 0 22px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--muted);font:500 11px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+.wall-message-back:hover{border-color:var(--accent);color:var(--text)}
+.wall-message-full{padding:24px 25px;border:1px solid var(--line);border-radius:13px;background:var(--surface)}
+.wall-message-full>p{margin:24px 0 25px;color:var(--text);font:13px/1.9 'DM Sans','Jdecked Twemoji';white-space:pre-wrap;overflow-wrap:anywhere}
+.wall-message-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:17px;border-top:1px solid var(--line)}
+.wall-message-actions button{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--muted);font:500 10px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+.wall-message-actions button:hover,.wall-message-actions button.active{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--panel))}
+.lastfm-cd-modal{background:radial-gradient(ellipse at 18% 24%,color-mix(in srgb,var(--lastfm-cd-c1) 34%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 82% 78%,color-mix(in srgb,var(--lastfm-cd-c2) 34%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 55% 8%,color-mix(in srgb,var(--lastfm-cd-c3) 30%,transparent) 0%,transparent 55%),linear-gradient(125deg,var(--surface),color-mix(in srgb,var(--surface) 82%,var(--lastfm-cd-c2)),var(--surface));background-size:190% 190%,180% 180%,210% 210%,100% 100%;background-position:0% 0%,100% 100%,50% 0%,center;animation:lastfm-liquid-flow 36s ease-in-out infinite alternate,lastfm-cd-pop .32s cubic-bezier(.2,.8,.2,1) both}
+@media(max-width:600px){.wall-message-page{padding:4px 0 60px}.wall-message-full{padding:19px 16px}}
+@media(prefers-reduced-motion:reduce){.lastfm-cd-modal{animation:none}}
