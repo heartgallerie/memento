@@ -2807,3 +2807,58 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .journal-layout.entry-fullscreen .editor-area:has(.entry-read-content){padding:0 clamp(18px,4vw,52px) 56px}
 .journal-layout.entry-fullscreen .editor-area:has(.entry-read-content) .entry-read-content{margin-top:42px}
 @media(max-width:640px){.editor-area:has(.entry-read-content){padding:0 12px 36px}.editor-area:has(.entry-read-content) .editor-toolbar{margin:0 -12px;padding:0 12px}.editor-area:has(.entry-read-content) .entry-read-content{margin-top:22px;padding:25px 19px;border-radius:12px}.editor-area:has(.entry-read-content) .entry-comments{padding:0 2px}}
+
+
+/* Comment deletion controls */
+.entry-comment{display:flex;align-items:flex-start;gap:10px}
+.entry-comment-copy{flex:1;min-width:0}
+.comment-delete-button{display:inline-flex;align-items:center;justify-content:center;gap:5px;flex:none;width:29px;height:29px;margin-top:1px;border:1px solid var(--border);border-radius:7px;background:transparent;color:var(--muted);cursor:pointer}
+.comment-delete-button:hover{border-color:#c66d6d;color:#c66d6d;background:color-mix(in srgb,#c66d6d 8%,transparent)}
+.wall-delete-button{color:#c66d6d!important}
+.wall-delete-button:hover{border-color:#c66d6d!important;background:color-mix(in srgb,#c66d6d 8%,var(--panel))!important}
+
+/* Personal glossary */
+.glossary-view{width:min(100%,900px);margin:54px auto;padding:0 34px 80px}
+.glossary-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:30px}
+.glossary-heading h1{margin:8px 0 6px;font:500 clamp(32px,5vw,46px) 'Playfair Display','Jdecked Twemoji';letter-spacing:-.035em}
+.glossary-heading p{margin:0;color:var(--muted);font-size:12px}
+.glossary-composer{display:grid;gap:14px;margin:0 0 25px;padding:22px;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:0 12px 35px #00000008}
+.glossary-composer-heading{display:flex;align-items:center;gap:9px;color:var(--text);font-size:13px}
+.glossary-composer-heading svg{color:var(--accent)}
+.glossary-composer label{display:grid;gap:6px;color:var(--muted);font-size:10px;font-weight:600;letter-spacing:.04em}
+.glossary-composer label span{display:inline;color:var(--muted);font-weight:400}
+.glossary-composer input,.glossary-composer textarea,.glossary-search input{width:100%;min-width:0;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);padding:11px 12px;font:12px/1.6 'DM Sans','Jdecked Twemoji';outline:none;resize:vertical}
+.glossary-composer input:focus,.glossary-composer textarea:focus,.glossary-search:focus-within{border-color:var(--accent)}
+.glossary-composer-actions{display:flex;justify-content:flex-end;gap:8px}
+.glossary-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px;color:var(--muted);font:10px 'DM Mono','Jdecked Twemoji'}
+.glossary-search{display:flex;align-items:center;gap:9px;width:min(100%,420px);padding:0 11px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--muted)}
+.glossary-search input{border:0;background:transparent;padding:10px 0;outline:none}
+.glossary-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.glossary-card{display:flex;align-items:center;gap:13px;min-width:0;padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);text-align:left;cursor:pointer;transition:border-color .15s,transform .15s}
+.glossary-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.glossary-card-letter{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:11px;background:color-mix(in srgb,var(--accent) 12%,var(--surface));color:var(--accent);font:500 18px 'Playfair Display','Jdecked Twemoji'}
+.glossary-card-copy{display:grid;gap:5px;min-width:0;flex:1}
+.glossary-card-copy strong{font:500 16px 'Playfair Display','Jdecked Twemoji'}
+.glossary-card-copy>span{display:-webkit-box;overflow:hidden;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:var(--muted);font-size:10px;line-height:1.6}
+.glossary-card>svg{flex:none;color:var(--muted)}
+.glossary-empty{display:flex;flex-direction:column;align-items:center;gap:9px;padding:65px 20px;border:1px dashed var(--border);border-radius:14px;color:var(--muted);text-align:center}
+.glossary-empty>svg{color:var(--accent)}
+.glossary-empty strong{color:var(--text);font:500 17px 'Playfair Display','Jdecked Twemoji'}
+.glossary-empty span{font-size:11px}
+.glossary-detail{width:min(100%,720px);margin:0 auto;padding:clamp(22px,5vw,48px);border:1px solid var(--border);border-radius:15px;background:var(--surface)}
+.glossary-back{display:inline-flex;align-items:center;gap:5px;margin-bottom:34px;padding:0;border:0;background:transparent;color:var(--muted);font:11px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+.glossary-detail-label{color:var(--accent);font:600 9px 'DM Mono','Jdecked Twemoji';letter-spacing:.14em}
+.glossary-detail h2{margin:10px 0 20px;color:var(--text);font:500 clamp(32px,5vw,48px) 'Playfair Display','Jdecked Twemoji';overflow-wrap:anywhere}
+.glossary-definition{margin:0;color:var(--text);font:14px/1.9 'DM Sans','Jdecked Twemoji';white-space:pre-wrap;overflow-wrap:anywhere}
+.glossary-notes{margin-top:28px;padding:16px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.glossary-notes>span{color:var(--muted);font:600 9px 'DM Mono','Jdecked Twemoji';letter-spacing:.12em}
+.glossary-notes p{margin:7px 0 0;color:var(--text);font-size:12px;line-height:1.8;white-space:pre-wrap}
+.glossary-detail-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:34px;padding-top:15px;border-top:1px solid var(--border);color:var(--muted);font-size:10px}
+.glossary-detail-footer .comment-delete-button{width:auto;padding:0 9px}
+
+/* Daily mood markers and selector */
+.calendar-day-mood{display:block;margin-top:-6px;font-size:14px;line-height:1}
+.day-cell:has(.calendar-day-mood){gap:5px}
+.calendar-mood-picker{display:flex;align-items:center;gap:10px;margin-top:12px;color:var(--muted);font-size:10px}
+.calendar-mood-picker select{max-width:180px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+@media(max-width:640px){.glossary-view{margin:32px auto;padding:0 15px 55px}.glossary-heading{align-items:flex-start;flex-direction:column}.glossary-list{grid-template-columns:1fr}.glossary-composer{padding:16px}.calendar-mood-picker{align-items:flex-start;flex-direction:column;gap:6px}.calendar-mood-picker select{max-width:100%}}
