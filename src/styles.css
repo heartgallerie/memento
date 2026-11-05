@@ -2667,3 +2667,33 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .profile-edit-modal input,.profile-edit-modal textarea{background:color-mix(in srgb,var(--bg) 66%,transparent);border-color:color-mix(in srgb,var(--line) 72%,transparent)}
 .profile-note-editor{background:color-mix(in srgb,var(--surface) 62%,transparent);border-color:color-mix(in srgb,var(--line) 72%,transparent)}
 @media(prefers-reduced-transparency:reduce){.profile-edit-overlay,.profile-edit-modal{backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+
+/* Reaction rows now show only the reactions already attached to an entry. */
+.entry-reactions{align-items:center}
+.entry-reactions-empty{color:var(--muted);font-size:11px}
+.entry-reaction-options{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.entry-reaction{cursor:pointer}
+.entry-reaction.selected{border-color:color-mix(in srgb,var(--accent) 65%,var(--border));background:color-mix(in srgb,var(--accent) 15%,var(--surface))}
+.entry-reaction-picker-wrap,.entry-reaction-picker{display:none!important}
+
+/* Storage breakdown in Settings. */
+.storage-usage-panel{display:grid;gap:15px;padding:14px 0 3px}
+.storage-usage-total{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface)}
+.storage-usage-total>div{display:grid;gap:4px}
+.storage-usage-total>div>span{font:700 9px 'DM Mono';letter-spacing:.1em;color:var(--muted)}
+.storage-usage-total>div>strong{font:600 22px 'DM Sans';color:var(--text);font-variant-numeric:tabular-nums}
+.storage-usage-list{display:grid;gap:13px}
+.storage-usage-row{display:grid;gap:6px}
+.storage-usage-row>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.storage-usage-row>div:first-child span{font-size:11px;color:var(--text)}
+.storage-usage-row>div:first-child strong{font:600 11px 'DM Sans';color:var(--muted);font-variant-numeric:tabular-nums}
+.storage-usage-track{height:5px;border-radius:99px;background:var(--surface-hover);overflow:hidden}
+.storage-usage-track i{display:block;height:100%;border-radius:inherit;background:var(--accent);min-width:0}
+.storage-usage-browser{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
+.storage-usage-browser strong{color:var(--text);font-weight:600}
+.storage-usage-browser small{font-size:10px}
+.storage-usage-loading{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:11px}
+.profile-activity-pills .lastfm-now-playing{justify-content:flex-start!important;gap:9px;padding-left:3px;text-align:left}
+.profile-activity-pills .lastfm-cover-trigger{flex:0 0 22px;margin:0 1px 0 0}
+.profile-activity-pills .lastfm-track-copy{flex:1 1 auto}
