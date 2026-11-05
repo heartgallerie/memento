@@ -7,6 +7,7 @@ import pinkBow from '../custom-emojis/pink-bow-qzncwquzfzd.png'
 import wingKitty from '../custom-emojis/hello-kitty-with-wings-uaqro87c4ng.png'
 import gunKitty from '../custom-emojis/hello-kitty-whit-a-gun-abpawe9qyud.png'
 import sleepKitty from '../custom-emojis/hello-kitty-sleep-rbx5ide1ve.png'
+import bartSkull from '../custom-emojis/05484ad0-0abd-4093-aebb-9d8b8481a9f6.png'
 import onesieKitty from '../custom-emojis/my-melody-hello-kitty-emoji-xnqrqhcuyf.png'
 import ash from '../custom-emojis/tortie-munchkin-cat-sitting-7atxencxtuz.png'
 import cherryKitty from '../custom-emojis/hello-kitty-with-cherry-roy1mu6qjkp.png'
@@ -22,6 +23,7 @@ export const customEmojiImages: Record<string, string> = {
   onesiekitty: onesieKitty,
   ash,
   cherrykitty: cherryKitty,
+  bartskull: bartSkull,
 }
 
 export const emojiShortcodes: Record<string, string> = {
