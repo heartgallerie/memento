@@ -2697,3 +2697,31 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .profile-activity-pills .lastfm-now-playing{justify-content:flex-start!important;gap:9px;padding-left:3px;text-align:left}
 .profile-activity-pills .lastfm-cover-trigger{flex:0 0 22px;margin:0 1px 0 0}
 .profile-activity-pills .lastfm-track-copy{flex:1 1 auto}
+
+
+/* Explicit music markers, typed reactions and letter-style journal entries. */
+.explicit-track-badge{display:inline-grid;place-items:center;flex:none;width:13px;height:13px;margin-left:5px;border:1px solid currentColor;border-radius:2px;font:700 8px/1 'DM Sans',sans-serif;vertical-align:middle;opacity:.78}
+.lastfm-track-copy .explicit-track-badge{margin-left:6px}
+.sidebar-activity-track .explicit-track-badge,.sidebar-activity-collapsed-track .explicit-track-badge{margin-left:5px}
+.lastfm-cd-info .explicit-track-badge{margin-left:7px;transform:translateY(-2px)}
+.entry-reaction.is-text{width:auto;min-width:34px;max-width:min(260px,65vw);padding:0 10px;font:500 11px/1.25 'DM Sans',sans-serif;overflow-wrap:anywhere;white-space:normal}
+.entry-card-reactions span.is-text{display:inline-flex;align-items:center;min-width:0;max-width:180px;padding:3px 8px;font:500 10px/1.3 'DM Sans',sans-serif;overflow-wrap:anywhere;white-space:normal}
+.entry-reaction-text-form{display:flex;gap:6px;margin:0 0 12px}
+.entry-reaction-text-form input{flex:1;min-width:0;padding:8px 9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font:11px 'DM Sans',sans-serif;outline:none}
+.entry-reaction-text-form input:focus{border-color:var(--accent)}
+.entry-reaction-text-form button{padding:0 11px;border:1px solid var(--border);border-radius:8px;background:var(--surface-hover);color:var(--text);font:600 10px 'DM Sans',sans-serif;cursor:pointer}
+.entry-reaction-text-form button:disabled{opacity:.4;cursor:default}
+.entry-format-menu-label{display:grid;gap:6px;padding:8px 10px 10px;color:var(--muted);font:600 10px 'DM Sans',sans-serif}
+.entry-format-menu-label select{width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);font:11px 'DM Sans',sans-serif}
+.letter-entry-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 18px}
+.letter-entry-fields label{display:grid;gap:6px;color:var(--muted);font:600 10px 'DM Sans',sans-serif}
+.letter-entry-fields input{box-sizing:border-box;width:100%;min-width:0;padding:10px 11px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);font:12px 'DM Sans',sans-serif;outline:none}
+.letter-entry-fields input:focus{border-color:var(--accent)}
+.letter-entry-heading{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:0 0 34px;padding:0 0 20px;border-bottom:1px solid var(--border)}
+.letter-entry-heading>div{display:grid;gap:7px;min-width:0}
+.letter-entry-heading>div>span{color:var(--muted);font:700 9px 'DM Mono',monospace;letter-spacing:.13em}
+.letter-entry-heading strong{color:var(--text);font:500 15px/1.45 Georgia,serif;overflow-wrap:anywhere}
+.entry-read-content.letter-entry{max-width:760px;margin-inline:auto;padding:clamp(22px,5vw,58px);background:var(--surface);border:1px solid var(--border);border-radius:13px;box-shadow:0 12px 36px rgba(0,0,0,.035)}
+.letter-entry .read-entry-title{font-family:Georgia,serif;font-weight:500;letter-spacing:-.025em}
+.letter-entry .read-entry-body{font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.9}
+@media(max-width:600px){.letter-entry-fields,.letter-entry-heading{grid-template-columns:1fr;gap:12px}.entry-read-content.letter-entry{padding:22px 18px}}
