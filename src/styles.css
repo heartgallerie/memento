@@ -2675,7 +2675,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .entry-reaction-options{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .entry-reaction{cursor:pointer}
 .entry-reaction.selected{border-color:color-mix(in srgb,var(--accent) 65%,var(--border));background:color-mix(in srgb,var(--accent) 15%,var(--surface))}
-.entry-reaction-picker-wrap,.entry-reaction-picker{display:none!important}
+.entry-reaction-picker-wrap{position:relative;display:inline-flex}.entry-reaction-picker{display:block}
 
 /* Storage breakdown in Settings. */
 .storage-usage-panel{display:grid;gap:15px;padding:14px 0 3px}
