@@ -2725,3 +2725,40 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .letter-entry .read-entry-title{font-family:Georgia,serif;font-weight:500;letter-spacing:-.025em}
 .letter-entry .read-entry-body{font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.9}
 @media(max-width:600px){.letter-entry-fields,.letter-entry-heading{grid-template-columns:1fr;gap:12px}.entry-read-content.letter-entry{padding:22px 18px}}
+
+
+/* Profile posts expand in place, with a soft blurred fade at the fold. */
+.profile-post-body{position:relative;min-width:0}
+.profile-post-body.is-collapsed{max-height:190px;overflow:hidden}
+.profile-post-body.is-collapsed:after{content:"";position:absolute;right:0;bottom:0;left:0;height:68px;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--bg) 94%);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.profile-post-read-more{display:inline-flex;align-items:center;margin:5px 0 2px;padding:0;border:0;background:transparent;color:var(--accent);font:600 11px 'DM Sans','Jdecked Twemoji',sans-serif;cursor:pointer}
+.profile-post-read-more:hover{text-decoration:underline}
+.profile-feed-loading{display:flex;justify-content:center;padding:18px 0}
+.profile-feed-loading button{padding:9px 15px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:600 11px 'DM Sans','Jdecked Twemoji',sans-serif;cursor:pointer}
+.profile-feed-loading button:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Profile wall: example visitor notes and an expanded reading view. */
+.profile-wall{display:grid;gap:0}
+.wall-message-card{position:relative;display:block;width:100%;padding:17px 3px 15px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);text-align:left;cursor:pointer}
+.wall-message-card:hover .wall-message-open{opacity:1;transform:translate(0,0)}
+.wall-message-heading{display:flex;align-items:center;gap:10px;min-width:0}
+.wall-message-avatar{display:grid;place-items:center;width:34px;height:34px;flex:none;border:1px solid var(--line);border-radius:50%;background:var(--soft);color:var(--accent);font:600 10px 'DM Sans','Jdecked Twemoji'}
+.wall-message-avatar.anonymous{background:var(--panel);color:var(--muted)}
+.wall-message-author{display:grid;gap:3px;min-width:0}
+.wall-message-author strong{color:var(--text);font:600 11px 'DM Sans','Jdecked Twemoji'}
+.wall-message-author time{color:var(--muted);font:10px 'DM Sans','Jdecked Twemoji'}
+.wall-message-open{margin-left:auto;flex:none;color:var(--muted);opacity:.5;transform:translate(-3px,3px);transition:opacity .15s,transform .15s}
+.wall-message-preview{position:relative;margin:12px 0 0 44px;color:var(--text);font:12px/1.7 'DM Sans','Jdecked Twemoji';white-space:pre-wrap;overflow-wrap:anywhere}
+.wall-message-preview.is-long{max-height:104px;overflow:hidden;mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%)}
+.wall-message-read-more{display:block;margin:5px 0 0 44px;color:var(--accent);font:600 10px 'DM Sans','Jdecked Twemoji'}
+.wall-message-overlay{position:fixed;inset:0;z-index:2600;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(8,10,16,.52);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.wall-message-modal{width:min(100%,560px);max-height:min(78vh,720px);overflow:auto;padding:20px 22px 24px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--text);box-shadow:0 24px 80px #0004;animation:pageFadeIn .16s ease both}
+.wall-message-modal>header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+.wall-message-modal>header>span{color:var(--muted);font:700 9px 'DM Mono','Jdecked Twemoji';letter-spacing:.12em}
+.wall-message-modal>header button{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:50%;background:transparent;color:var(--muted);cursor:pointer}
+.wall-message-modal>header button:hover{background:var(--soft);color:var(--text)}
+.wall-message-modal>p{margin:20px 0 0 44px;color:var(--text);font:13px/1.85 'DM Sans','Jdecked Twemoji';white-space:pre-wrap;overflow-wrap:anywhere}
+.profile-scroll-top{position:fixed;right:28px;bottom:28px;z-index:1450;display:grid;place-items:center;width:43px;height:43px;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--surface) 88%,transparent);color:var(--text);box-shadow:0 5px 22px #0002;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;animation:pageFadeIn .16s ease both}
+.profile-scroll-top:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+@media(max-width:600px){.profile-scroll-top{right:17px;bottom:18px;width:40px;height:40px}.wall-message-modal{padding:17px 15px 20px}.wall-message-modal>p{margin-left:0}}
+@media(prefers-reduced-motion:reduce){.profile-scroll-top,.wall-message-open{transition:none;animation:none}}
