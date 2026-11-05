@@ -2758,7 +2758,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .wall-message-modal>header button{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:50%;background:transparent;color:var(--muted);cursor:pointer}
 .wall-message-modal>header button:hover{background:var(--soft);color:var(--text)}
 .wall-message-modal>p{margin:20px 0 0 44px;color:var(--text);font:13px/1.85 'DM Sans','Jdecked Twemoji';white-space:pre-wrap;overflow-wrap:anywhere}
-.profile-scroll-top{position:fixed;right:28px;bottom:28px;z-index:1450;display:grid;place-items:center;width:43px;height:43px;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--surface) 88%,transparent);color:var(--text);box-shadow:0 5px 22px #0002;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;animation:pageFadeIn .16s ease both}
+.profile-scroll-top{position:fixed;right:28px;bottom:98px;z-index:1450;display:grid;place-items:center;width:43px;height:43px;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--surface) 88%,transparent);color:var(--text);box-shadow:0 5px 22px #0002;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;animation:pageFadeIn .16s ease both}
 .profile-scroll-top:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
-@media(max-width:600px){.profile-scroll-top{right:17px;bottom:18px;width:40px;height:40px}.wall-message-modal{padding:17px 15px 20px}.wall-message-modal>p{margin-left:0}}
+@media(max-width:600px){.profile-scroll-top{right:17px;bottom:80px;width:40px;height:40px}.wall-message-modal{padding:17px 15px 20px}.wall-message-modal>p{margin-left:0}}
 @media(prefers-reduced-motion:reduce){.profile-scroll-top,.wall-message-open{transition:none;animation:none}}
