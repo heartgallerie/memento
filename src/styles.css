@@ -2749,7 +2749,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .wall-message-author time{color:var(--muted);font:10px 'DM Sans','Jdecked Twemoji'}
 .wall-message-open{margin-left:auto;flex:none;color:var(--muted);opacity:.5;transform:translate(-3px,3px);transition:opacity .15s,transform .15s}
 .wall-message-preview{position:relative;margin:12px 0 0 44px;color:var(--text);font:12px/1.7 'DM Sans','Jdecked Twemoji';white-space:pre-wrap;overflow-wrap:anywhere}
-.wall-message-preview.is-long{max-height:104px;overflow:hidden;mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%)}
+.wall-message-preview.is-long{position:relative;max-height:104px;overflow:hidden}.wall-message-preview.is-long:after{content:"";position:absolute;right:0;bottom:0;left:0;height:42px;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--bg) 95%);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 .wall-message-read-more{display:block;margin:5px 0 0 44px;color:var(--accent);font:600 10px 'DM Sans','Jdecked Twemoji'}
 .wall-message-overlay{position:fixed;inset:0;z-index:2600;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(8,10,16,.52);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .wall-message-modal{width:min(100%,560px);max-height:min(78vh,720px);overflow:auto;padding:20px 22px 24px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--text);box-shadow:0 24px 80px #0004;animation:pageFadeIn .16s ease both}
