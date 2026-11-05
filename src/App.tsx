@@ -403,6 +403,15 @@ type WikiArticle = { id:string; title:string; category:string; summary:string; b
 type SocialAccount = { id:string; platform:string; handle:string; url:string }
 type DMMessage = { date:string; time:string; sender:string; kind:'story'|'link'|'reel'|'text'|'unavailable'; text?:string; url?:string; reaction?:string; reactionBy?:string }
 type DMThread = { id:string; name:string; initial:string; preview:string; lastTime:string; verified?:boolean; messages:DMMessage[] }
+type WallMessage={id:string;name:string;anonymous?:boolean;text:string;createdAt:number}
+const wallMessages:WallMessage[]=[
+ {id:'wall-1',name:'Mika Sato',text:'your profile feels like finding an old photo album in a little second-hand shop. i mean that in the nicest way. the music you share always sends me down a rabbit hole too.',createdAt:Date.now()-1000*60*42},
+ {id:'wall-2',name:'Anonymous',anonymous:true,text:'just wanted to say that your little archive inspired me to start keeping track of ordinary days. i always thought memories had to be big moments, but lately i have been writing down tiny things too. the weather, what i listened to on the way home, a conversation i almost forgot. it is nice having somewhere to put all of that.',createdAt:Date.now()-1000*60*60*5},
+ {id:'wall-3',name:'Noah Ellis',text:'we should trade playlists again sometime. still have that one you sent me saved.',createdAt:Date.now()-1000*60*60*26},
+ {id:'wall-4',name:'Anonymous',anonymous:true,text:'this is such a lovely corner of the internet. i hope you keep making things and documenting them, even when it feels like nobody is looking. someone always finds the things that matter to them eventually.',createdAt:Date.now()-1000*60*60*51},
+ {id:'wall-5',name:'Jules Park',text:'the layout is so nice. especially the little details in the journal and the music section.',createdAt:Date.now()-1000*60*60*24*4},
+ {id:'wall-6',name:'Ren Akiyama',text:'i was going through your posts and ended up reading way more than i planned to. there is something comforting about seeing someone collect fragments of their life without trying to make every single thing look perfect. keep the wall open, i like leaving little notes here.',createdAt:Date.now()-1000*60*60*24*9}
+]
 const suggestedPeople = [
  {id:'mika',name:'Mika Sato',handle:'@mikarchive',bio:'film photos, little cafés & old records',initials:'MS',tone:'rose'},
  {id:'noah',name:'Noah Ellis',handle:'@noahafterhours',bio:'collecting sounds and documenting places',initials:'NE',tone:'blue'},
