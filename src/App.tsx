@@ -895,3 +895,5 @@ The tower stands beside the River Seine on the Champ de Mars, in the 7th arrondi
   </main>
  </div>
 }
+
+export default App;
