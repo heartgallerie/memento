@@ -2785,3 +2785,25 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 .wall-bookmarks-section{margin-top:28px;padding-top:19px;border-top:1px solid var(--line)}
 .wall-bookmarks-section>h3{margin:0 0 7px;color:var(--muted);font:700 9px 'DM Mono','Jdecked Twemoji';letter-spacing:.12em;text-transform:uppercase}
+
+
+/* Wall previews use the same 420-character trigger and 190px fold as profile posts. */
+.wall-message-preview.is-long{max-height:190px;overflow:hidden}
+.wall-message-preview.is-long:after{height:68px}
+.wall-message-full>p{white-space:pre-wrap;overflow-wrap:anywhere}
+.wall-message-reactions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:24px 0 18px;padding-top:16px;border-top:1px solid var(--line)}
+.wall-message-reactions .entry-reactions-label{font:600 10px 'DM Sans','Jdecked Twemoji';color:var(--muted)}
+.wall-message-comments{margin-top:12px}
+.wall-message-full .wall-message-actions{margin-top:22px}
+
+/* Refined journal reader: a centred page with a quieter toolbar and better spacing. */
+.editor-area:has(.entry-read-content){padding:0 clamp(18px,4vw,52px) 56px;background:var(--bg)}
+.editor-area:has(.entry-read-content) .editor-toolbar{position:sticky;top:0;z-index:4;margin:0 calc(clamp(18px,4vw,52px)*-1);padding:0 clamp(18px,4vw,52px);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.editor-area:has(.entry-read-content) .entry-read-content{box-sizing:border-box;width:min(100%,820px);max-width:820px;margin:48px auto 0;padding:clamp(28px,5vw,64px);border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 18px 55px rgba(0,0,0,.045)}
+.editor-area:has(.entry-read-content) .read-entry-title{font-size:clamp(30px,4vw,42px);line-height:1.18;margin-bottom:28px}
+.editor-area:has(.entry-read-content) .read-entry-body{font-size:14px;line-height:2.05;min-height:0}
+.editor-area:has(.entry-read-content) .entry-reactions,.editor-area:has(.entry-read-content) .read-entry-tags{width:min(100%,820px);margin-left:auto;margin-right:auto}
+.editor-area:has(.entry-read-content) .entry-comments{width:min(100%,820px);margin:18px auto 0;padding:0 clamp(4px,1vw,12px)}
+.journal-layout.entry-fullscreen .editor-area:has(.entry-read-content){padding:0 clamp(18px,4vw,52px) 56px}
+.journal-layout.entry-fullscreen .editor-area:has(.entry-read-content) .entry-read-content{margin-top:42px}
+@media(max-width:640px){.editor-area:has(.entry-read-content){padding:0 12px 36px}.editor-area:has(.entry-read-content) .editor-toolbar{margin:0 -12px;padding:0 12px}.editor-area:has(.entry-read-content) .entry-read-content{margin-top:22px;padding:25px 19px;border-radius:12px}.editor-area:has(.entry-read-content) .entry-comments{padding:0 2px}}
