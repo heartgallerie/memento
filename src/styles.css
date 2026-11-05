@@ -2500,7 +2500,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   display:block!important;min-width:0!important;max-width:100%!important;overflow:hidden!important;
   white-space:nowrap!important;text-overflow:ellipsis!important;animation:none!important;
 }
-.profile-activity-pills .youtube-now-playing{margin:12px 0 3px}
+.profile-activity-pills .youtube-now-playing{margin:0}
 .profile-activity-pills .youtube-track-window{max-width:min(320px,calc(100vw - 100px));text-overflow:ellipsis}
 .profile-activity-pills .youtube-track-content{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .profile-activity-pills .youtube-track-content>span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2611,8 +2611,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 
 /* Journal picker now lives beside the journal heading */
-.journal-heading-switcher{position:relative;display:flex;align-items:center;margin-top:7px;flex:none}
-.journal-heading-switcher>.journal-switcher-trigger{width:27px;height:27px;display:grid;place-items:center;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--muted);cursor:pointer}
+.journal-heading-switcher{position:relative;display:flex;align-items:center;margin:0;flex:none}
+.journal-heading-switcher>.journal-switcher-trigger{position:static;transform:none;right:auto;top:auto;width:27px;height:27px;display:grid;place-items:center;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--muted);cursor:pointer}
 .journal-heading-switcher>.journal-switcher-trigger:hover{border-color:var(--accent);color:var(--accent);background:var(--surface-hover)}
 .journal-heading-menu{position:absolute;top:calc(100% + 7px);left:0;z-index:40;width:205px;margin:0;padding:6px;box-shadow:0 12px 32px #0002}
 .entry-card-reactions{display:flex;align-items:center;gap:5px;margin:0 0 9px}
