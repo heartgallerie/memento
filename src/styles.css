@@ -2782,3 +2782,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .lastfm-cd-modal{background:radial-gradient(ellipse at 18% 24%,color-mix(in srgb,var(--lastfm-cd-c1) 34%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 82% 78%,color-mix(in srgb,var(--lastfm-cd-c2) 34%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 55% 8%,color-mix(in srgb,var(--lastfm-cd-c3) 30%,transparent) 0%,transparent 55%),linear-gradient(125deg,var(--surface),color-mix(in srgb,var(--surface) 82%,var(--lastfm-cd-c2)),var(--surface));background-size:190% 190%,180% 180%,210% 210%,100% 100%;background-position:0% 0%,100% 100%,50% 0%,center;animation:lastfm-liquid-flow 36s ease-in-out infinite alternate,lastfm-cd-pop .32s cubic-bezier(.2,.8,.2,1) both}
 @media(max-width:600px){.wall-message-page{padding:4px 0 60px}.wall-message-full{padding:19px 16px}}
 @media(prefers-reduced-motion:reduce){.lastfm-cd-modal{animation:none}}
+
+.wall-bookmarks-section{margin-top:28px;padding-top:19px;border-top:1px solid var(--line)}
+.wall-bookmarks-section>h3{margin:0 0 7px;color:var(--muted);font:700 9px 'DM Mono','Jdecked Twemoji';letter-spacing:.12em;text-transform:uppercase}
