@@ -2655,3 +2655,15 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .journal-layout.entry-fullscreen .entry-read-content,.journal-layout.entry-fullscreen .entry-comments{width:100%}
 .entry-fullscreen-toggle{flex:none}
 @media(max-width:640px){.entry-reactions{align-items:flex-start}.entry-reactions-label{width:100%}.journal-layout.entry-fullscreen .editor-content{padding:20px 16px 48px}}
+
+
+/* Keep the native colour dialog from re-rendering the full profile editor
+   for every intermediate colour value, and give the editor a glass surface. */
+.profile-note-swatches button{transition:none}
+.profile-note-swatches button:hover{transform:none}
+.profile-note-swatches button.selected{transition:outline-color .12s}
+.profile-edit-overlay{background:rgba(8,10,16,.34);backdrop-filter:blur(13px) saturate(135%);-webkit-backdrop-filter:blur(13px) saturate(135%)}
+.profile-edit-modal{background:color-mix(in srgb,var(--surface) 76%,transparent);border-color:color-mix(in srgb,var(--line) 65%,rgba(255,255,255,.45));backdrop-filter:blur(24px) saturate(155%);-webkit-backdrop-filter:blur(24px) saturate(155%);box-shadow:0 24px 80px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.22)}
+.profile-edit-modal input,.profile-edit-modal textarea{background:color-mix(in srgb,var(--bg) 66%,transparent);border-color:color-mix(in srgb,var(--line) 72%,transparent)}
+.profile-note-editor{background:color-mix(in srgb,var(--surface) 62%,transparent);border-color:color-mix(in srgb,var(--line) 72%,transparent)}
+@media(prefers-reduced-transparency:reduce){.profile-edit-overlay,.profile-edit-modal{backdrop-filter:none;-webkit-backdrop-filter:none}}
