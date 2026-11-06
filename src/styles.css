@@ -3401,3 +3401,16 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .entry-footnote-modal>footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 .entry-footnote-modal>footer button{cursor:pointer}
 .entry-footnote-modal>footer .choice{background:var(--surface);color:var(--muted);border:1px solid var(--line)}
+
+
+/* Memo profile post composer and confirmation. */
+.memo-post-dialog-overlay{position:fixed;z-index:6100;inset:0;display:grid;place-items:center;padding:20px;background:#1118;backdrop-filter:blur(8px)}
+.memo-post-dialog{width:min(470px,100%);padding:23px;border:1px solid var(--line);border-radius:15px;background:var(--surface);box-shadow:0 22px 75px #0003}
+.memo-post-dialog>header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.memo-post-dialog h2{margin:7px 0 0;color:var(--text);font:500 23px 'Playfair Display','Jdecked Twemoji'}
+.memo-post-dialog>textarea{display:block;width:100%;min-height:120px;margin-top:17px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;outline-color:var(--accent);background:var(--bg);color:var(--text);font:12px/1.6 'DM Sans','Jdecked Twemoji';resize:vertical}
+.memo-post-dialog>p{color:var(--muted);font-size:11px;line-height:1.6}
+.memo-post-dialog>footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.memo-post-dialog>footer button{cursor:pointer}
+.memo-post-dialog>footer .choice{border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.memo-post-delete-dialog h2{margin:9px 0 5px}
