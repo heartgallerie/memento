@@ -120,7 +120,7 @@ function ShelfItem({ album, onOpen }: { album: Album; onOpen: (album: Album) => 
   )
 }
 
-function Viewer({ album, onClose, onRemove }: { album: Album; onClose: () => void; onRemove?: () => void }) {
+function Viewer({ album, onClose, onRemove, onEdit }: { album: Album; onClose: () => void; onRemove?: () => void; onEdit?: () => void }) {
   const ratio = album.ratio || 1
   const [size, setSize] = useState(() => Math.max(140, Math.min(330, (typeof window !== 'undefined' ? window.innerWidth : 400) * 0.62, ((typeof window !== 'undefined' ? window.innerHeight : 750) - 250) / (ratio + 0.55))))
   const [rotation, setRotation] = useState({ x: -8, y: -24 })
@@ -214,7 +214,7 @@ function Viewer({ album, onClose, onRemove }: { album: Album; onClose: () => voi
           <button type="button" disabled={!open} className={discOut ? 'is-active' : ''} onClick={() => setDiscOut(value => !value)}>{discOut ? 'Put disc back' : 'Pull disc out'}</button>
           <button type="button" disabled={!open} onClick={spin}>Spin disc</button>
           {album.link && <a className="cd-shelf-external-link" href={album.link} target="_blank" rel="noreferrer">Open on Roblox ↗</a>}
-          {onRemove && <button type="button" className="cd-shelf-remove" onClick={onRemove}>Remove from shelf</button>}
+          {onEdit && <button type="button" onClick={onEdit}>Edit details</button>}{onRemove && <button type="button" className="cd-shelf-remove" onClick={onRemove}>Remove from shelf</button>}
         </div>
         <p className="cd-shelf-hint">Drag to turn the case. Open it, then drag the disc to spin it.</p>
       </section>
@@ -338,7 +338,7 @@ type TMDBShelfResult = {
   release_date?:string; first_air_date?:string; poster_path?:string|null; backdrop_path?:string|null
 }
 const TMDB_POSTER='https://image.tmdb.org/t/p/w500'
-function MovieTvShelf({category}:{category:'Movies'|'Shows'}){
+function MovieTvShelf({category}:{category:'Movies'|'Shows'|'Anime'}){
   const mediaType=category==='Movies'?'movie':'tv'
   const storageKey='memento.shelf.'+mediaType
   const [items,setItems]=useState<Album[]>(()=>{try{return JSON.parse(localStorage.getItem(storageKey)||'[]') as Album[]}catch{return []}})
@@ -346,7 +346,7 @@ function MovieTvShelf({category}:{category:'Movies'|'Shows'}){
   const [results,setResults]=useState<TMDBShelfResult[]>([])
   const [loading,setLoading]=useState(false)
   const [error,setError]=useState('')
-  const [selected,setSelected]=useState<Album|null>(null)
+  const [selected,setSelected]=useState<Album|null>(null),[editing,setEditing]=useState<Album|null>(null),[showManual,setShowManual]=useState(false)
   const apiKey=localStorage.getItem('memento.tmdbKey')||''
   useEffect(()=>{localStorage.setItem(storageKey,JSON.stringify(items))},[items,storageKey])
   const search=async(event:FormEvent<HTMLFormElement>)=>{
@@ -363,22 +363,28 @@ function MovieTvShelf({category}:{category:'Movies'|'Shows'}){
       setResults((data.results||[]).slice(0,12))
     }catch(err){setError(err instanceof Error?err.message:'Could not search TMDB.')}finally{setLoading(false)}
   }
+  const saveManual=(event:FormEvent<HTMLFormElement>)=>{event.preventDefault();if(!editing?.title.trim())return;setItems(old=>old.some(item=>item.id===editing.id)?old.map(item=>item.id===editing.id?editing: item):[...old,editing]);setEditing(null);setShowManual(false)}
+  const blank=():Album=>({id:'custom-'+Date.now(),title:'',year:new Date().getFullYear(),cover:'',colors:['#34465d','#10141c'],ink:'#fff',creator:'',detail:'',link:'',ratio:1.4})
   const add=(result:TMDBShelfResult)=>{
     const title=result.title||result.name||'Untitled'
     const date=result.release_date||result.first_air_date||''
-    const item:Album={id:'tmdb-'+mediaType+'-'+result.id,tmdbId:result.id,mediaType,title,year:Number(date.slice(0,4))||0,cover:result.poster_path?TMDB_POSTER+result.poster_path:'',colors:category==='Movies'?['#34465d','#10141c']:['#385b45','#0b1510'],ink:'#fff',creator:category==='Movies'?'FILM':'TV SERIES',detail:date.slice(0,4)||category.toUpperCase(),ratio:1.4}
+    const item:Album={id:'tmdb-'+mediaType+'-'+result.id,tmdbId:result.id,mediaType,title,year:Number(date.slice(0,4))||0,cover:result.poster_path?TMDB_POSTER+result.poster_path:'',colors:category==='Movies'?['#34465d','#10141c']:['#385b45','#0b1510'],ink:'#fff',creator:category==='Movies'?'FILM':category==='Anime'?'ANIME':'TV SERIES',detail:date.slice(0,4)||category.toUpperCase(),ratio:1.4}
     setItems(current=>current.some(existing=>existing.id===item.id)?current:[...current,item])
     setResults(current=>current.filter(existing=>existing.id!==result.id))
   }
   return <div className="media-case-shelf">
-    <div className="media-case-toolbar"><form onSubmit={search}><input value={query} onChange={event=>setQuery(event.target.value)} placeholder={'Search '+category.toLowerCase()+' on TMDB…'}/><button type="submit" disabled={loading||!query.trim()}>{loading?'Searching…':'Search TMDB'}</button></form><span>{items.length} {items.length===1?'title':'titles'}</span></div>
+    <div className="media-case-toolbar"><form onSubmit={search}><input value={query} onChange={event=>setQuery(event.target.value)} placeholder={'Search '+category.toLowerCase()+' on TMDB…'}/><button type="submit" disabled={loading||!query.trim()}>{loading?'Searching…':'Search TMDB'}</button></form><button type="button" onClick={()=>{setEditing(blank());setShowManual(true)}}>＋ Add manually</button><span>{items.length} {items.length===1?'title':'titles'}</span></div>
     {error&&<p className="media-case-error" role="alert">{error}</p>}
     {results.length>0&&<div className="media-case-results"><div className="media-case-results-heading"><strong>Search results</strong><button type="button" onClick={()=>setResults([])}>Clear</button></div><div className="media-case-results-grid">{results.map(result=><article key={result.id}><img src={result.poster_path?TMDB_POSTER+result.poster_path:''} alt="" onError={event=>{event.currentTarget.style.visibility='hidden'}}/><div><strong>{result.title||result.name}</strong><small>{(result.release_date||result.first_air_date||'').slice(0,4)||'Release date unknown'}</small><button type="button" onClick={()=>add(result)}>＋ Add to shelf</button></div></article>)}</div></div>}
     {items.length?<div className="cd-shelf-grid">{items.map(item=><ShelfItem key={item.id} album={item} onOpen={setSelected}/>)}</div>:<div className="shelf-empty"><div className="shelf-empty-case"><span>{category==='Movies'?'FILM':'TV'}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>Search TMDB above to add {category.toLowerCase()} to your collection.</span></div>}
-    {selected&&<Viewer key={selected.id} album={selected} onClose={()=>setSelected(null)} onRemove={()=>{setItems(current=>current.filter(item=>item.id!==selected.id));setSelected(null)}}/>}
+    {selected&&<Viewer key={selected.id} album={selected} onClose={()=>setSelected(null)} onEdit={()=>{setEditing(selected);setSelected(null);setShowManual(true)}} onRemove={()=>{setItems(current=>current.filter(item=>item.id!==selected.id));setSelected(null)}}/>}{showManual&&editing&&<AlbumEditor album={editing} category={category} onChange={setEditing} onClose={()=>{setShowManual(false);setEditing(null)}} onSave={saveManual}/ >}
     <p className="media-case-attribution">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
   </div>
 }
+
+function AlbumEditor({album,category,onChange,onClose,onSave}:{album:Album;category:string;onChange:(v:Album)=>void;onClose:()=>void;onSave:(e:FormEvent<HTMLFormElement>)=>void}){return <div className="album-editor-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)onClose()}}><form className="album-editor" onSubmit={onSave}><header><strong>{album.title?'Edit':'Add'} {category.slice(0,-1)}</strong><button type="button" onClick={onClose}>×</button></header><label>Title<input required value={album.title} onChange={e=>onChange({...album,title:e.target.value})}/></label><label>Artist / creator<input value={album.creator||''} onChange={e=>onChange({...album,creator:e.target.value})}/></label><div className="album-editor-row"><label>Year<input type="number" value={album.year||''} onChange={e=>onChange({...album,year:Number(e.target.value)})}/></label><label>Details<input value={album.detail||''} onChange={e=>onChange({...album,detail:e.target.value})}/></label></div><label>Cover image URL<input value={album.cover} onChange={e=>onChange({...album,cover:e.target.value})} placeholder="https://…"/></label><label>Optional link<input value={album.link||''} onChange={e=>onChange({...album,link:e.target.value})} placeholder="https://…"/></label><label>Description<input value={album.description||''} onChange={e=>onChange({...album,description:e.target.value})} placeholder="Optional notes"/></label><footer><button type="button" onClick={onClose}>Cancel</button><button type="submit">Save to shelf</button></footer></form></div>}
+
+function ManualCatalogueShelf({category}:{category:'Music'|'Anime'}){const key='memento.shelf.'+category.toLowerCase();const [items,setItems]=useState<Album[]>(()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}});const [apiKey,setApiKey]=useState(localStorage.getItem('memento.lastfmKey')||'');const [query,setQuery]=useState('');const [results,setResults]=useState<any[]>([]);const [error,setError]=useState('');const [loading,setLoading]=useState(false);const [selected,setSelected]=useState<Album|null>(null);const [editing,setEditing]=useState<Album|null>(null);useEffect(()=>{localStorage.setItem(key,JSON.stringify(items))},[items,key]);useEffect(()=>{localStorage.setItem('memento.lastfmKey',apiKey)},[apiKey]);const blank=():Album=>({id:'custom-'+Date.now(),title:'',year:new Date().getFullYear(),cover:'',colors:['#45404c','#17141c'],ink:'#fff',creator:'',detail:category==='Music'?'ALBUM':'ANIME',link:'',ratio:1});const search=async(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();if(!query.trim())return;if(category==='Music'&&!apiKey.trim()){setError('Add your Last.fm API key below first.');return}setLoading(true);setError('');try{const url=new URL('https://ws.audioscrobbler.com/2.0/');url.searchParams.set('method',category==='Music'?'album.search':'album.search');url.searchParams.set('album',query.trim());url.searchParams.set('api_key',apiKey.trim());url.searchParams.set('format','json');const res=await fetch(url.toString());const data=await res.json();if(data.error)throw new Error(data.message||'Search failed');setResults((data.results?.albummatches?.album||[]).slice(0,12))}catch(err){setError(err instanceof Error?err.message:'Search failed.')}finally{setLoading(false)}};const add=(r:any)=>{const item:Album={id:'lastfm-'+(r.mbid||encodeURIComponent(r.artist+'-'+r.name)),title:r.name,year:0,cover:(r.image||[]).find((x:any)=>x.size==='extralarge')?.['#text']||(r.image||[]).find((x:any)=>x.size==='large')?.['#text']||'',colors:['#403c46','#17141c'],ink:'#fff',creator:r.artist,detail:'ALBUM',link:r.url,ratio:1};setItems(old=>old.some(x=>x.id===item.id)?old:[...old,item]);setResults(old=>old.filter(x=>x.name!==r.name||x.artist!==r.artist))};const save=(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();if(!editing?.title.trim())return;setItems(old=>old.some(x=>x.id===editing.id)?old.map(x=>x.id===editing.id?editing:x):[...old,editing]);setEditing(null)};return <div className="media-case-shelf"><div className="media-case-toolbar"><form onSubmit={search}><input value={query} onChange={e=>setQuery(e.target.value)} placeholder={category==='Music'?'Search albums on Last.fm…':'Search anime albums on Last.fm…'}/><button disabled={loading||!query.trim()}>{loading?'Searching…':'Search'}</button></form><button type="button" onClick={()=>setEditing(blank())}>＋ Add manually</button><span>{items.length} records</span></div>{category==='Music'&&<details className="media-case-api"><summary>Last.fm connection</summary><label>Last.fm API key<input type="password" value={apiKey} onChange={e=>setApiKey(e.target.value)} placeholder="Paste your Last.fm API key"/></label><small>Uses the Last.fm public album search API.</small></details>}{error&&<p className="media-case-error">{error}</p>}{results.length>0&&<div className="media-case-results"><div className="media-case-results-heading"><strong>Search results</strong><button type="button" onClick={()=>setResults([])}>Clear</button></div><div className="media-case-results-grid">{results.map((r,i)=><article key={r.mbid||r.name+'-'+r.artist+i}><img src={(r.image||[]).find((x:any)=>x.size==='large')?.['#text']||''} alt=""/><div><strong>{r.name}</strong><small>{r.artist}</small><button type="button" onClick={()=>add(r)}>＋ Add to shelf</button></div></article>)}</div></div>}{items.length?<div className="cd-shelf-grid">{items.map(item=><ShelfItem key={item.id} album={item} onOpen={setSelected}/>)}</div>:<div className="shelf-empty"><div className="shelf-empty-case"><span>{category==='Music'?'CD':'ANIME'}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>Search above or add your own entry.</span></div>}{selected&&<Viewer album={selected} onClose={()=>setSelected(null)} onEdit={()=>{setEditing(selected);setSelected(null)}} onRemove={()=>{setItems(old=>old.filter(x=>x.id!==selected.id));setSelected(null)}}/>}{editing&&<AlbumEditor album={editing} category={category} onChange={setEditing} onClose={()=>setEditing(null)} onSave={save}/>} </div>}
 
 function EmptyMediaShelf({ category }: { category: ShelfCategory }) {
   const initials: Record<ShelfCategory,string> = {Music:'CD',Games:'GAME',Movies:'FILM',Anime:'ANIME',Shows:'TV',Books:'BOOK'}
@@ -396,6 +402,6 @@ export default function CdShelf({ category }: { category: ShelfCategory }) {
     </> : category === 'Games' ? <>
       <div className="cd-shelf-subheading"><strong>Games</strong><span>ROBLOX EXPERIENCES</span></div>
       <GamesShelf/>
-    </> : category === 'Movies' || category === 'Shows' ? <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><MovieTvShelf category={category}/></> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
+    </>  : category === 'Movies' || category === 'Shows' || category === 'Anime' ? <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><MovieTvShelf category={category}/></> : category === 'Music' ? <><div className="cd-shelf-subheading"><strong>Music</strong><span>YOUR COLLECTION</span></div><ManualCatalogueShelf category="Music"/></> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
   </section>
 }
