@@ -3179,3 +3179,50 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .media-case-api input{padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji'}
 .media-case-api small{display:block;margin-top:7px}
 @media(max-width:600px){.album-editor-backdrop{padding:8px}.album-editor{padding:14px}.album-editor-row{grid-template-columns:1fr}.media-case-toolbar>button{align-self:flex-start}}
+
+
+/* Watch progress and timestamp notes */
+.watchlist-tracker{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.watchlist-tracker h2{margin:0 0 13px;color:var(--text);font:500 17px 'Playfair Display','Jdecked Twemoji'}
+.watchlist-tracker-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.watchlist-tracker-fields label{display:grid;gap:6px;color:var(--muted);font-size:10px}
+.watchlist-tracker input{min-width:0;width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji'}
+.watchlist-tracker>p{margin:10px 0 0;color:var(--muted);font-size:10px}
+.watchlist-timestamp-form{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:8px}
+.watchlist-timestamp-form button{padding:9px 12px;border:1px solid var(--accent);border-radius:7px;background:var(--accent);color:white;font-size:10px;cursor:pointer}
+.watchlist-tracker>article{display:flex;align-items:center;gap:12px;margin-top:9px;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);font-size:11px}
+.watchlist-tracker>article time{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.watchlist-tracker>article span{flex:1;color:var(--text)}
+.watchlist-tracker>article button{border:0;background:none;color:var(--muted);font-size:9px;cursor:pointer}
+.nav-collection-group{display:grid;gap:1px;margin:2px 0}
+.nav-collection-group>.nav-subitem{margin-left:24px;width:calc(100% - 24px)}
+.journal-return-button{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:10px;cursor:pointer}
+.journal-return-button:hover{border-color:var(--accent);color:var(--text)}
+.scrapbook-cover-actions .scrapbook-open-book-button{border-color:var(--accent);background:var(--accent);color:#fff}
+.scrapbook-reset-colour{margin-left:7px;padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);font-size:9px;cursor:pointer}
+.scrapbook-page-colour button{padding:4px 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);font-size:9px;cursor:pointer}
+.scrapbook-image-rotate{touch-action:none;cursor:grab}
+.scrapbook-image-rotate:active{cursor:grabbing}
+.scrapbook-drawing-layer:not(.inactive){cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 20l4.2-1 11-11a2.1 2.1 0 0 0-3-3l-11 11L4 20z' fill='%23332c25' stroke='%23fff' stroke-width='1.2'/%3E%3C/svg%3E") 3 21,crosshair}
+.scrapbook-editor-toolbar{padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 5px 20px #00000008}
+.scrapbook-editor-toolbar button,.scrapbook-editor-toolbar select,.scrapbook-editor-toolbar input{transition:border-color .15s,background .15s,box-shadow .15s}
+.scrapbook-editor-toolbar button:hover{border-color:var(--accent);background:var(--bg)}
+.scrapbook-editor-layout{gap:16px}
+.scrapbook-image-sidebar{box-shadow:0 5px 20px #00000008}
+.scrapbook-book-stage{padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 8px 28px #00000008}
+.scrapbook-paper{border-radius:3px}
+.scrapbook-paper:focus-within{outline:1px solid color-mix(in srgb,var(--accent) 35%,transparent);outline-offset:-8px}
+.entry-link-dropdown{position:relative;display:inline-flex}
+.entry-link-dropdown summary{display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--muted);cursor:pointer;list-style:none}
+.entry-link-dropdown summary::-webkit-details-marker{display:none}
+.entry-link-dropdown>div{position:absolute;z-index:30;top:calc(100% + 6px);right:0;display:grid;min-width:115px;padding:5px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:0 8px 24px #0002}
+.entry-link-dropdown>div button{padding:8px 10px;border:0;border-radius:5px;background:transparent;color:var(--text);text-align:left;font-size:10px;cursor:pointer}
+.entry-link-dropdown>div button:hover{background:var(--bg)}
+.entry-annotations{margin:22px 0;padding:14px 17px;border-left:2px solid var(--accent);background:var(--surface);color:var(--muted);font-size:11px}
+.entry-annotations>strong{color:var(--text);font:600 10px 'DM Sans','Jdecked Twemoji';letter-spacing:.08em;text-transform:uppercase}
+.entry-annotations ul{display:grid;gap:6px;margin:9px 0 0;padding-left:18px}
+.entry-annotations li{line-height:1.6}
+.editor-content{display:flex;flex-direction:column}
+.editor-content>.entry-footnotes-editor{order:20}
+.editor-content>.attachments-panel{order:19}
+@media(max-width:650px){.watchlist-tracker-fields{grid-template-columns:1fr 1fr}.watchlist-timestamp-form{grid-template-columns:1fr}.watchlist-timestamp-form button{justify-self:start}.scrapbook-editor-toolbar{padding:8px}.scrapbook-book-stage{padding:3px}}
