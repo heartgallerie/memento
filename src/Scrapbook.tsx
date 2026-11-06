@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
-import { BookOpen, PenLine, ChevronLeft, ChevronRight, Plus, Settings2, X, Pencil, ImagePlus, Trash2, Undo2, Redo2, Upload, Move, Palette, RotateCw, PenLine, Eraser, BookPlus, Highlighter, MoreHorizontal, Pin } from 'lucide-react'
+import { BookOpen, PenLine, ChevronLeft, ChevronRight, Plus, Settings2, X, Pencil, ImagePlus, Trash2, Undo2, Redo2, Upload, Move, Palette, RotateCw, Eraser, BookPlus, Highlighter, MoreHorizontal, Pin } from 'lucide-react'
 
 type ScrapImage={id:string;src:string;x:number;y:number;width:number;rotation:number}
 type Stroke={id:string;points:{x:number;y:number}[];color:string;width:number}
