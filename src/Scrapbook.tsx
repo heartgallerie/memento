@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CSSProperties, PointerEvent as ReactPointerEvent, DragEvent as ReactDragEvent } from 'react'
+import type { PointerEvent as ReactPointerEvent } from 'react'
 import { BookOpen, ChevronLeft, ChevronRight, Plus, Settings2, X, Pencil, ImagePlus, Trash2, Undo2, Redo2, Upload, Move, Palette } from 'lucide-react'
 
 type ScrapImage={id:string;src:string;x:number;y:number;width:number;rotation:number}
@@ -13,22 +13,21 @@ type DragState={pageId:string;imageId:string;mode:'move'|'resize';startX:number;
 
 export default function Scrapbook(){
  const [data,setData]=useState<ScrapData>(()=>{try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(!saved||!Array.isArray(saved.pages))return initial;return {...initial,...saved,pages:saved.pages.map((p:Partial<ScrapPage>,i:number)=>({...makePage(i+1),...p,color:p.color||'#f3eddf',images:Array.isArray(p.images)?p.images:p.image?[{id:'legacy-'+i,src:p.image,x:25,y:25,width:50,rotation:0}]:[]}))}}catch{return initial}})
- const [opened,setOpened]=useState(false),[editing,setEditing]=useState(false),[settings,setSettings]=useState(false),[jump,setJump]=useState('1'),[selectedImage,setSelectedImage]=useState<string|null>(null),[history,setHistory]=useState<ScrapData[]>([]),[future,setFuture]=useState<ScrapData[]>([]),[dragging,setDragging]=useState(false)
+ const [opened,setOpened]=useState(false),[editing,setEditing]=useState(false),[settings,setSettings]=useState(false),[jump,setJump]=useState('1'),[selectedImage,setSelectedImage]=useState<string|null>(null),[history,setHistory]=useState<ScrapData[]>([]),[future,setFuture]=useState<ScrapData[]>([])
  const fileRef=useRef<HTMLInputElement>(null),coverRef=useRef<HTMLInputElement>(null),dragRef=useRef<DragState|null>(null)
  useEffect(()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch{console.warn('Scrapbook storage is full; consider using smaller images.')}},[data])
  const total=data.pages.length,pageIndex=Math.min(total-1,Math.max(0,Number(jump)-1)),spread=Math.min(Math.floor(pageIndex/2),Math.max(0,Math.ceil(total/2)-1)),spreadStart=spread*2
  const currentPage=data.pages[pageIndex]
  const update=(fn:(v:ScrapData)=>ScrapData)=>{setHistory(h=>[...h.slice(-49),data]);setFuture([]);setData(fn(data))}
  const updatePage=(id:string,patch:Partial<ScrapPage>)=>update(v=>({...v,pages:v.pages.map(p=>p.id===id?{...p,...patch}:p)}))
- const updateImage=(pageId:string,imageId:string,patch:Partial<ScrapImage>)=>update(v=>({...v,pages:v.pages.map(p=>p.id===pageId?{...p,images:p.images.map(im=>im.id===imageId?{...im,...patch}:im)}:p)}))
  const undo=()=>{if(!history.length)return;setFuture(v=>[data,...v]);setData(history[history.length-1]);setHistory(v=>v.slice(0,-1))}
  const redo=()=>{if(!future.length)return;setHistory(v=>[...v,data]);setData(future[0]);setFuture(v=>v.slice(1))}
  const addPage=()=>{const p=makePage(data.pages.length+1);update(v=>({...v,pages:[...v.pages,p]}));setJump(String(data.pages.length+1));setOpened(true)}
  const go=(n:number)=>{const target=Math.max(1,Math.min(total,Math.floor(Number(n)||1)));setJump(String(target));setSelectedImage(null)}
  const addFiles=async(files:FileList|null,pageId:string)=>{if(!files?.length)return;const additions=await Promise.all(Array.from(files).filter(f=>f.type.startsWith('image/')).map(async file=>({id:'img-'+Date.now()+'-'+Math.random().toString(36).slice(2),src:await readFile(file),x:28+Math.random()*12,y:20+Math.random()*12,width:42,rotation:(Math.random()*6)-3})));if(additions.length){update(v=>({...v,pages:v.pages.map(p=>p.id===pageId?{...p,images:[...p.images,...additions]}:p)}));setSelectedImage(additions[0].id);setEditing(true)}}
- const beginDrag=(e:ReactPointerEvent<HTMLDivElement>,p:ScrapPage,im:ScrapImage,mode:'move'|'resize')=>{e.preventDefault();e.stopPropagation();e.currentTarget.setPointerCapture(e.pointerId);dragRef.current={pageId:p.id,imageId:im.id,mode,startX:e.clientX,startY:e.clientY,originX:im.x,originY:im.y,originW:im.width};setSelectedImage(im.id);setDragging(true)}
+ const beginDrag=(e:ReactPointerEvent<HTMLDivElement>,p:ScrapPage,im:ScrapImage,mode:'move'|'resize')=>{e.preventDefault();e.stopPropagation();e.currentTarget.setPointerCapture(e.pointerId);dragRef.current={pageId:p.id,imageId:im.id,mode,startX:e.clientX,startY:e.clientY,originX:im.x,originY:im.y,originW:im.width};setSelectedImage(im.id)}
  const moveDrag=(e:ReactPointerEvent<HTMLDivElement>)=>{const d=dragRef.current;if(!d)return;const rect=e.currentTarget.closest('.scrapbook-book-page')?.getBoundingClientRect();if(!rect)return;const dx=(e.clientX-d.startX)/rect.width*100,dy=(e.clientY-d.startY)/rect.height*100;const page=data.pages.find(p=>p.id===d.pageId);const im=page?.images.find(v=>v.id===d.imageId);if(!im)return;const patch=d.mode==='move'?{x:Math.max(-45,Math.min(100, d.originX+dx)),y:Math.max(-45,Math.min(100,d.originY+dy))}:{width:Math.max(8,Math.min(180,d.originW+dx))};setData(v=>({...v,pages:v.pages.map(p=>p.id===d.pageId?{...p,images:p.images.map(x=>x.id===d.imageId?{...x,...patch}:x)}:p)}))}
- const endDrag=()=>{if(dragRef.current){setHistory(h=>[...h.slice(-49),data]);setFuture([])}dragRef.current=null;setDragging(false)}
+ const endDrag=()=>{if(dragRef.current){setHistory(h=>[...h.slice(-49),data]);setFuture([])}dragRef.current=null}
  const removeImage=(p:ScrapPage,id:string)=>{updatePage(p.id,{images:p.images.filter(im=>im.id!==id)});if(selectedImage===id)setSelectedImage(null)}
  const pageView=(p:ScrapPage,index:number)=> <div className={'scrapbook-book-page '+(index%2?'scrapbook-right-page':'scrapbook-left-page')} style={{background:p.color}} onDragOver={e=>{if(editing){e.preventDefault();e.dataTransfer.dropEffect='copy'}}} onDrop={e=>{if(editing){e.preventDefault();void addFiles(e.dataTransfer.files,p.id)}}}>
   <div className="scrapbook-paper" style={{background:p.color}}><input aria-label="Page title" value={p.title} disabled={!editing} onChange={e=>updatePage(p.id,{title:e.target.value})} placeholder="A little title…"/><textarea aria-label="Page contents" value={p.text} disabled={!editing} onChange={e=>updatePage(p.id,{text:e.target.value})} placeholder="Write, collect, remember…"/><small>{index+1}</small></div>
