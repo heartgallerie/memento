@@ -49,33 +49,50 @@ const STORAGE_KEY = 'memento-book-shelf-v2'
 const coverUrl = (book: Book) => book.cover || (book.isbn ? 'https://covers.openlibrary.org/b/isbn/' + book.isbn + '-L.jpg?default=false' : '')
 
 function BookObject({ book, size, rotation = 0, turned = 0, dragging = false }: { book: Book; size: number; rotation?: number; turned?: number; dragging?: boolean }) {
-  const height = Math.round(size * 1.414)
-  const depth = Math.round(size * .12)
-  const leaves = Math.max(2, book.pages / 2)
   const rtl = book.kind === 'manga'
+  const width = Math.round(size * (rtl ? .8 : 1))
+  const height = Math.round(size * (rtl ? 1.2 : 1.414))
+  const depth = Math.round(size * .12)
+  const leaves = Math.max(2, Math.ceil(book.pages / 2))
   const hinge = rtl ? 'right center' : 'left center'
-  const pageAngle = rtl ? 180 : -180
-  const face = (style: CSSProperties): CSSProperties => ({ position: 'absolute', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', ...style })
+  const swing = rtl ? 1 : -1
   const cover = coverUrl(book)
-  return <div style={{ width:size,height,position:'relative',transformStyle:'preserve-3d',transform:'rotateX(-7deg) rotateY('+rotation+'deg)',transition:dragging?'none':'transform .55s ease' }}>
-    <div style={face({inset:0,transform:'translateZ('+(-depth/2)+'px) rotateY(180deg)',background:book.colors[1]})}/>
-    <div style={face({inset:0,transform:'translateZ('+(-depth/2+1)+'px)',background:'#e9e0ce'})}/>
-    <div style={face({width:depth,height,left:-depth/2,transform:'rotateY(-90deg)',background:'linear-gradient(90deg,'+book.colors[0]+','+book.colors[1]+')',backfaceVisibility:'visible',display:'flex',alignItems:'center',justifyContent:'center',overflow:'hidden',color:'#fff',font:'600 8px Georgia,serif',letterSpacing:'.03em',writingMode:'vertical-rl',textAlign:'center',textShadow:'0 1px 2px #000'})}><span style={{maxHeight:'90%',overflow:'hidden'}}>{book.title}</span></div>
-    <div style={face({width:depth,height,left:size-depth/2,transform:'rotateY(90deg)',background:'repeating-linear-gradient(90deg,#f5f0e6 0 1px,#cfc7b6 1px 2px)',backfaceVisibility:'visible'})}/>
-    <div style={face({width:size,height:depth,top:-depth/2,transform:'rotateX(90deg)',background:'#ded6c5',backfaceVisibility:'visible'})}/>
-    <div style={face({width:size,height:depth,top:height-depth/2,transform:'rotateX(-90deg)',background:'#ded6c5',backfaceVisibility:'visible'})}/>
-    {Array.from({length:leaves},(_,i)=><div key={i} style={{position:'absolute',inset:0,transformStyle:'preserve-3d',transformOrigin:hinge,transform:'translateZ('+(depth/2-(i+1)*depth/(leaves+2))+'px) rotateY('+(turned>i+1?pageAngle:0)+'deg)',transition:dragging?'none':'transform .7s cubic-bezier(.3,.7,.2,1)',pointerEvents:'none'}}>
-      <div style={face({inset:0,background:'#f4efe4'})}><div style={{position:'absolute',inset:'11% 13% 17%',backgroundImage:'repeating-linear-gradient(180deg,rgba(60,50,40,.22) 0 1px,transparent 1px 7px)'}}/></div>
-      <div style={face({inset:0,transform:'rotateY(180deg)',background:'#f4efe4'})}><div style={{position:'absolute',inset:'11% 13% 17%',backgroundImage:'repeating-linear-gradient(180deg,rgba(60,50,40,.22) 0 1px,transparent 1px 7px)'}}/></div>
-    </div>)}
-    <div style={{position:'absolute',inset:0,transformStyle:'preserve-3d',transformOrigin:hinge,transform:'translateZ('+(depth/2)+'px) rotateY('+(turned>0?(rtl?179:-179):0)+'deg)',transition:'transform .75s cubic-bezier(.3,.7,.2,1)',pointerEvents:'none'}}>
-      <div style={face({inset:0,backgroundColor:book.colors[0],backgroundImage:cover?'url('+cover+')':'none',backgroundSize:'cover',backgroundPosition:'center',boxShadow:'inset 0 0 0 2px #ffffff20'})}/>
+  const face = (style: CSSProperties): CSSProperties => ({ position:'absolute', backfaceVisibility:'hidden', WebkitBackfaceVisibility:'hidden', ...style })
+  const pageFace = (index:number) => <div style={{position:'absolute',inset:0,background:'#f4efe4',overflow:'hidden'}}>
+    {rtl
+      ? <div style={{position:'absolute',inset:'8% 8% 12%',display:'grid',gridTemplateColumns:'1fr 1fr',gridTemplateRows:'1fr 1fr 1fr',gap:'3%'}}>
+          {['1 / 1 / 2 / 3','2 / 1 / 3 / 2','2 / 2 / 4 / 3','3 / 1 / 4 / 2'].map((area,i)=><div key={i} style={{gridArea:area,border:'1px solid #302b27',background:'#ebe5d9'}}/> )}
+        </div>
+      : <div style={{position:'absolute',inset:'12% 13% 17%',backgroundImage:'repeating-linear-gradient(180deg,rgba(60,50,40,.26) 0 1px,transparent 1px 7px)'}}/>}
+    {index===0&&!rtl&&<div style={{position:'absolute',inset:'12%',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',fontFamily:'Georgia,serif',textAlign:'center',color:'#302820',gap:8}}><strong style={{fontSize:Math.max(13,size*.085)}}>{book.title}</strong><small>{book.author}</small></div>}
+    <small style={{position:'absolute',bottom:'5%',left:0,right:0,textAlign:'center',font:'10px Georgia,serif',color:'#8a8170'}}>{index+1}</small>
+  </div>
+  const edgeV = 'repeating-linear-gradient(90deg,#f6f1e6 0 1.5px,#cfc7b4 1.5px 2.5px)'
+  const edgeH = 'repeating-linear-gradient(0deg,#f6f1e6 0 1.5px,#cfc7b4 1.5px 2.5px)'
+  const spine = 'linear-gradient(90deg,'+book.colors[0]+','+book.colors[1]+')'
+  return <div style={{width,height,position:'relative',transformStyle:'preserve-3d',transform:'translateX('+(turned>0?(rtl?-width/2:width/2):0)+'px) rotateX(-7deg) rotateY('+rotation+'deg)',transition:dragging?'none':'transform .55s cubic-bezier(.2,.8,.2,1)'}}>
+    <div style={face({inset:0,transform:'translateZ('+(-depth/2)+'px) rotateY(180deg)',background:'linear-gradient(135deg,'+book.colors[1]+',#080808)'})}/>
+    <div style={face({inset:0,transform:'translateZ('+(-depth/2+1)+'px)',background:'#e4dcc8'})}/>
+    <div style={face({width:depth,height,left:-depth/2,transform:'rotateY(-90deg)',background:rtl?edgeV:spine,backfaceVisibility:'visible'})}/>
+    <div style={face({width:depth,height,left:width-depth/2,transform:'rotateY(90deg)',background:rtl?spine:edgeV,backfaceVisibility:'visible'})}/>
+    <div style={face({width,height:depth,top:-depth/2,transform:'rotateX(90deg)',background:edgeH,backfaceVisibility:'visible'})}/>
+    <div style={face({width,height:depth,top:height-depth/2,transform:'rotateX(-90deg)',background:edgeH,backfaceVisibility:'visible'})}/>
+    {Array.from({length:leaves},(_,i)=>{
+      const k=i+1, turnedLeaf=turned>k, z=turnedLeaf?-depth/2+k*depth/(leaves+2):depth/2-k*depth/(leaves+2)
+      return <div key={k} style={{position:'absolute',inset:0,transformStyle:'preserve-3d',transformOrigin:hinge,transform:'translateZ('+z+'px) rotateY('+(turnedLeaf?swing*180:0)+'deg)',transition:dragging?'none':'transform .8s cubic-bezier(.3,.7,.2,1)',pointerEvents:'none'}}>
+        <div style={face({inset:0})}>{pageFace(2*k-2)}</div>
+        <div style={face({inset:0,transform:'rotateY(180deg)'})}>{pageFace(2*k-1)}</div>
+      </div>
+    })}
+    <div style={{position:'absolute',inset:0,transformStyle:'preserve-3d',transformOrigin:hinge,transform:'translateZ('+(turned>0?-depth/2:depth/2)+'px) rotateY('+(turned>0?swing*179:0)+'deg)',transition:'transform .8s cubic-bezier(.3,.7,.2,1)',pointerEvents:'none'}}>
+      <div style={face({inset:0,backgroundColor:book.colors[0],backgroundImage:cover?'url('+cover+')':'none',backgroundSize:'cover',backgroundPosition:'center',boxShadow:'inset 0 0 0 2px #ffffff20'})}>
+        {!cover&&<div style={{position:'absolute',inset:'12%',display:'flex',alignItems:'center',justifyContent:'center',textAlign:'center',font:'bold 18px Georgia,serif',color:'#fff',textShadow:'0 2px 8px #000'}}>{book.title}</div>}
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(115deg,rgba(255,255,255,.18),transparent 35%,transparent 75%,rgba(255,255,255,.08))'}}/>
+      </div>
       <div style={face({inset:0,transform:'rotateY(180deg)',background:'#e4dcc8'})}/>
     </div>
-    <div style={{position:'absolute',left:0,top:0,bottom:0,width:'9%',transform:'translateZ('+(depth/2+1)+'px)',background:'linear-gradient(90deg,#0008,#fff2 35%,transparent)'}}/>
   </div>
 }
-
 function ShelfBook({ book, onOpen }: { book: Book; onOpen: (book: Book) => void }) {
   const [rotation,setRotation] = useState(22)
   const [active,setActive] = useState(false)
