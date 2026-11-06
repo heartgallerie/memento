@@ -3485,3 +3485,39 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-cover-edit-colour{display:flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:10px}
 .scrapbook-cover-edit-colour input{width:23px;height:23px;padding:1px;border:0;background:transparent;cursor:pointer}
 @media(max-width:650px){.scrapbook-settings-fields{grid-template-columns:1fr}}
+
+
+/* Correctly fill library book covers with their selected background artwork */
+.scrapbook-library-cover.scrapbook-cover{
+  isolation:isolate;
+  background-color:var(--scrapbook-cover-color,transparent);
+}
+.scrapbook-library-cover.scrapbook-cover>.scrapbook-cover-art{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  opacity:1!important;
+  transform:none!important;
+  border:0!important;
+  border-radius:inherit!important;
+  box-shadow:none!important;
+  z-index:1!important;
+}
+.scrapbook-library-cover.scrapbook-cover:after{
+  z-index:4;
+  background:linear-gradient(100deg,#0003 0%,transparent 22%,#0001 72%,#0003 100%);
+}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-spine{z-index:8}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-title,
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-subtitle{z-index:7}
+.scrapbook-heading-icon{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;width:23px;height:25px;color:var(--accent)}
+.scrapbook-heading-icon>svg:first-child{width:20px;height:20px;stroke-width:1.8}
+.scrapbook-heading-icon>svg:last-child{position:absolute;right:-3px;bottom:-2px;width:12px;height:12px;padding:1px;border-radius:4px;background:var(--bg);stroke-width:2.1}
