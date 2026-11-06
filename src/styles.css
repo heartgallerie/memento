@@ -3414,3 +3414,30 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .memo-post-dialog>footer button{cursor:pointer}
 .memo-post-dialog>footer .choice{border:1px solid var(--line);background:var(--surface);color:var(--muted)}
 .memo-post-delete-dialog h2{margin:9px 0 5px}
+
+
+/* Scrapbook library header and cover previews */
+.scrapbook-heading{align-items:flex-end;margin-bottom:30px}
+.scrapbook-heading-main{min-width:0;flex:1}
+.scrapbook-heading-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.scrapbook-heading-title>svg{flex:none;color:var(--accent)}
+.scrapbook-heading-title h1{margin:0;font-family:Georgia,serif;font-size:34px;font-weight:500;letter-spacing:-.04em}
+.scrapbook-library-count{margin-left:4px;color:var(--muted);font:10px 'DM Mono','Jdecked Twemoji'}
+.scrapbook-heading-main>p{margin:7px 0 0;color:var(--muted);font-size:13px}
+.scrapbook-open-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 22px}
+.scrapbook-open-toolbar .scrapbook-return-actions{display:flex;align-items:center;gap:7px}
+.scrapbook-library-name{gap:7px}
+.scrapbook-library-name svg{order:-1}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-art{opacity:.82;object-fit:cover;object-position:center;filter:none}
+.scrapbook-library-cover.scrapbook-cover:after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(100deg,#0002 0%,transparent 24%,#0001 75%,#0003 100%)}
+.scrapbook-library-placed-image{height:auto;aspect-ratio:auto;z-index:5;overflow:visible;border:0;background:transparent;box-shadow:none}
+.scrapbook-library-placed-image img{width:100%;height:auto;max-height:none;object-fit:contain;border:2px solid #ffffffb8;border-radius:2px;box-shadow:0 5px 15px #0005}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-spine{z-index:8}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-title,.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-subtitle{z-index:7}
+@media(max-width:700px){
+ .scrapbook-heading{align-items:flex-start}
+ .scrapbook-heading-title{gap:8px}
+ .scrapbook-heading-title h1{font-size:30px}
+ .scrapbook-library-count{flex-basis:100%;margin:0 0 0 27px}
+ .scrapbook-open-toolbar{align-items:flex-start;flex-direction:column}
+}
