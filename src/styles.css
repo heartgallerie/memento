@@ -3226,3 +3226,9 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .editor-content>.entry-footnotes-editor{order:20}
 .editor-content>.attachments-panel{order:19}
 @media(max-width:650px){.watchlist-tracker-fields{grid-template-columns:1fr 1fr}.watchlist-timestamp-form{grid-template-columns:1fr}.watchlist-timestamp-form button{justify-self:start}.scrapbook-editor-toolbar{padding:8px}.scrapbook-book-stage{padding:3px}}
+
+.scrapbook-cover-colour{display:flex;align-items:flex-end;gap:8px}
+.scrapbook-cover-colour label{display:grid;gap:5px}
+.scrapbook-cover-colour input[type=color]{width:100%;height:36px;padding:3px;border:1px solid var(--line);border-radius:7px;background:var(--panel);cursor:pointer}
+.scrapbook-cover-colour .scrapbook-reset-colour{height:30px;margin:0 0 2px}
+.scrapbook-page-colour{display:inline-flex;align-items:center;gap:7px}
