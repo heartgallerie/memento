@@ -12,6 +12,9 @@ export type Album = {
   creator?: string
   detail?: string
   link?: string
+  ratio?: number
+  tmdbId?: number
+  mediaType?: 'movie' | 'tv'
 }
 
 export const ALBUMS: Album[] = [
@@ -47,8 +50,11 @@ function CdCase({
   onDiscDown?: (event: PointerEvent<HTMLDivElement>) => void
   discRef?: RefObject<HTMLDivElement | null>
 }) {
-  const depth = Math.round(size * 0.11)
+  const ratio = album.ratio || 1
+  const height = Math.round(size * ratio)
+  const depth = Math.round(size * (ratio > 1 ? 0.1 : 0.11))
   const diameter = size * 0.88
+  const pull = (height / 2 + diameter / 2) * 0.68
   const face = (extra: CSSProperties): CSSProperties => ({
     position: 'absolute', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', ...extra,
   })
@@ -56,23 +62,23 @@ function CdCase({
 
   return (
     <div className="cd-case-object" style={{
-      width: size, height: size, transformStyle: 'preserve-3d',
-      transform: `translateX(${open ? size * 0.36 : 0}px) rotateX(${rotX}deg) rotateY(${rotY}deg)`,
+      width: size, height, transformStyle: 'preserve-3d',
+      transform: `translateY(${discOut ? Math.max(0, pull - (height / 2 - diameter / 2)) / 2 : 0}px) translateX(${open ? size * 0.36 : 0}px) rotateX(${rotX}deg) rotateY(${rotY}deg)`,
       transition: dragging ? 'none' : 'transform .6s cubic-bezier(.2,.8,.2,1)',
     }}>
       <div style={face({ inset: 0, transform: `translateZ(${-depth / 2}px) rotateY(180deg)`, background: '#151515', backgroundImage: plastic })} />
       <div style={face({ inset: 0, transform: `translateZ(${-depth / 2}px)`, background: '#1c1c1e' })} />
       <div style={{ position: 'absolute', inset: size * 0.04, transform: `translateZ(${-depth / 2 + 2}px)`, background: '#26262a', borderRadius: 4, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.06)' }} />
-      <div style={{ position: 'absolute', left: size / 2 - size * 0.07, top: size / 2 - size * 0.07, width: size * 0.14, height: size * 0.14, borderRadius: '50%', transform: `translateZ(${-depth / 2 + 3}px)`, background: 'radial-gradient(circle, #111 0 35%, #3a3a40 38% 100%)' }} />
-      <div style={face({ width: depth, height: size, left: -depth / 2, transform: 'rotateY(-90deg)', background: `linear-gradient(90deg, ${album.colors[1]}, #0a0a0a)`, backfaceVisibility: 'visible' })} />
-      <div style={face({ width: depth, height: size, left: size - depth / 2, transform: 'rotateY(90deg)', background: '#0e0e0f', backfaceVisibility: 'visible' })} />
+      <div style={{ position: 'absolute', left: size / 2 - size * 0.07, top: height / 2 - size * 0.07, width: size * 0.14, height: size * 0.14, borderRadius: '50%', transform: `translateZ(${-depth / 2 + 3}px)`, background: 'radial-gradient(circle, #111 0 35%, #3a3a40 38% 100%)' }} />
+      <div style={face({ width: depth, height, left: -depth / 2, transform: 'rotateY(-90deg)', background: `linear-gradient(90deg, ${album.colors[1]}, #0a0a0a)`, backfaceVisibility: 'visible' })} />
+      <div style={face({ width: depth, height, left: size - depth / 2, transform: 'rotateY(90deg)', background: '#0e0e0f', backfaceVisibility: 'visible' })} />
       <div style={face({ width: size, height: depth, top: -depth / 2, transform: 'rotateX(90deg)', background: '#0e0e0f', backfaceVisibility: 'visible' })} />
-      <div style={face({ width: size, height: depth, top: size - depth / 2, transform: 'rotateX(-90deg)', background: '#0e0e0f', backfaceVisibility: 'visible' })} />
+      <div style={face({ width: size, height: depth, top: height - depth / 2, transform: 'rotateX(-90deg)', background: '#0e0e0f', backfaceVisibility: 'visible' })} />
 
       <div ref={discRef} onPointerDown={open ? onDiscDown : undefined} className="cd-case-disc" style={{
-        left: size / 2 - diameter / 2, top: size / 2 - diameter / 2, width: diameter, height: diameter,
+        left: size / 2 - diameter / 2, top: height / 2 - diameter / 2, width: diameter, height: diameter,
         pointerEvents: open ? 'auto' : 'none', cursor: open ? 'grab' : 'default',
-        transform: discOut ? `translate3d(0, ${-size * 0.64}px, ${depth * 1.4}px)` : `translateZ(${-depth / 2 + 6}px)`,
+        transform: discOut ? `translate3d(0, ${-pull}px, ${depth * 1.4}px)` : `translateZ(${-depth / 2 + 6}px)`,
         transition: 'transform .7s cubic-bezier(.2,.8,.2,1)', filter: 'drop-shadow(0 6px 10px rgba(0,0,0,.45))',
       }}>
         <div className="cd-case-disc-art" style={{ backgroundImage: discArt(album), transform: `rotate(${discAngle}deg)`, WebkitMaskImage: holeMask, maskImage: holeMask }} />
@@ -115,7 +121,8 @@ function ShelfItem({ album, onOpen }: { album: Album; onOpen: (album: Album) => 
 }
 
 function Viewer({ album, onClose, onRemove }: { album: Album; onClose: () => void; onRemove?: () => void }) {
-  const [size, setSize] = useState(() => Math.min(330, (typeof window !== 'undefined' ? window.innerWidth : 400) * 0.62))
+  const ratio = album.ratio || 1
+  const [size, setSize] = useState(() => Math.max(140, Math.min(330, (typeof window !== 'undefined' ? window.innerWidth : 400) * 0.62, ((typeof window !== 'undefined' ? window.innerHeight : 750) - 250) / (ratio + 0.55))))
   const [rotation, setRotation] = useState({ x: -8, y: -24 })
   const [open, setOpen] = useState(false)
   const [discOut, setDiscOut] = useState(false)
@@ -128,12 +135,12 @@ function Viewer({ album, onClose, onRemove }: { album: Album; onClose: () => voi
   const caseDrag = useRef<{ x: number; y: number; rx: number; ry: number } | null>(null)
 
   useEffect(() => {
-    const resize = () => setSize(Math.min(330, window.innerWidth * 0.62))
+    const resize = () => setSize(Math.max(140, Math.min(340, window.innerWidth * 0.62, (window.innerHeight - 250) / (ratio + 0.55))))
     const keydown = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose() }
     window.addEventListener('resize', resize)
     window.addEventListener('keydown', keydown)
     return () => { window.removeEventListener('resize', resize); window.removeEventListener('keydown', keydown) }
-  }, [onClose])
+  }, [onClose, ratio])
 
   useEffect(() => {
     let frame = 0
@@ -325,6 +332,54 @@ function GamesShelf() {
   </div>
 }
 
+
+type TMDBShelfResult = {
+  id:number; title?:string; name?:string; overview?:string
+  release_date?:string; first_air_date?:string; poster_path?:string|null; backdrop_path?:string|null
+}
+const TMDB_POSTER='https://image.tmdb.org/t/p/w500'
+function MovieTvShelf({category}:{category:'Movies'|'Shows'}){
+  const mediaType=category==='Movies'?'movie':'tv'
+  const storageKey='memento.shelf.'+mediaType
+  const [items,setItems]=useState<Album[]>(()=>{try{return JSON.parse(localStorage.getItem(storageKey)||'[]') as Album[]}catch{return []}})
+  const [query,setQuery]=useState('')
+  const [results,setResults]=useState<TMDBShelfResult[]>([])
+  const [loading,setLoading]=useState(false)
+  const [error,setError]=useState('')
+  const [selected,setSelected]=useState<Album|null>(null)
+  const apiKey=localStorage.getItem('memento.tmdbKey')||''
+  useEffect(()=>{localStorage.setItem(storageKey,JSON.stringify(items))},[items,storageKey])
+  const search=async(event:FormEvent<HTMLFormElement>)=>{
+    event.preventDefault()
+    if(!query.trim())return
+    if(!apiKey){setError('Add your TMDB API key in Watchlist → TMDB connection first.');return}
+    setLoading(true);setError('')
+    try{
+      const url=new URL('https://api.themoviedb.org/3/search/'+mediaType)
+      url.searchParams.set('api_key',apiKey);url.searchParams.set('query',query.trim());url.searchParams.set('include_adult','false')
+      const response=await fetch(url.toString())
+      if(!response.ok)throw new Error(response.status===401?'TMDB rejected your API key. Check it in Watchlist settings.':'TMDB search failed. Try again.')
+      const data=await response.json()
+      setResults((data.results||[]).slice(0,12))
+    }catch(err){setError(err instanceof Error?err.message:'Could not search TMDB.')}finally{setLoading(false)}
+  }
+  const add=(result:TMDBShelfResult)=>{
+    const title=result.title||result.name||'Untitled'
+    const date=result.release_date||result.first_air_date||''
+    const item:Album={id:'tmdb-'+mediaType+'-'+result.id,tmdbId:result.id,mediaType,title,year:Number(date.slice(0,4))||0,cover:result.poster_path?TMDB_POSTER+result.poster_path:'',colors:category==='Movies'?['#34465d','#10141c']:['#385b45','#0b1510'],ink:'#fff',creator:category==='Movies'?'FILM':'TV SERIES',detail:date.slice(0,4)||category.toUpperCase(),ratio:1.4}
+    setItems(current=>current.some(existing=>existing.id===item.id)?current:[...current,item])
+    setResults(current=>current.filter(existing=>existing.id!==result.id))
+  }
+  return <div className="media-case-shelf">
+    <div className="media-case-toolbar"><form onSubmit={search}><input value={query} onChange={event=>setQuery(event.target.value)} placeholder={'Search '+category.toLowerCase()+' on TMDB…'}/><button type="submit" disabled={loading||!query.trim()}>{loading?'Searching…':'Search TMDB'}</button></form><span>{items.length} {items.length===1?'title':'titles'}</span></div>
+    {error&&<p className="media-case-error" role="alert">{error}</p>}
+    {results.length>0&&<div className="media-case-results"><div className="media-case-results-heading"><strong>Search results</strong><button type="button" onClick={()=>setResults([])}>Clear</button></div><div className="media-case-results-grid">{results.map(result=><article key={result.id}><img src={result.poster_path?TMDB_POSTER+result.poster_path:''} alt="" onError={event=>{event.currentTarget.style.visibility='hidden'}}/><div><strong>{result.title||result.name}</strong><small>{(result.release_date||result.first_air_date||'').slice(0,4)||'Release date unknown'}</small><button type="button" onClick={()=>add(result)}>＋ Add to shelf</button></div></article>)}</div></div>}
+    {items.length?<div className="cd-shelf-grid">{items.map(item=><ShelfItem key={item.id} album={item} onOpen={setSelected}/>)}</div>:<div className="shelf-empty"><div className="shelf-empty-case"><span>{category==='Movies'?'FILM':'TV'}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>Search TMDB above to add {category.toLowerCase()} to your collection.</span></div>}
+    {selected&&<Viewer key={selected.id} album={selected} onClose={()=>setSelected(null)} onRemove={()=>{setItems(current=>current.filter(item=>item.id!==selected.id));setSelected(null)}}/>}
+    <p className="media-case-attribution">Movie and TV metadata provided by TMDB.</p>
+  </div>
+}
+
 function EmptyMediaShelf({ category }: { category: ShelfCategory }) {
   const initials: Record<ShelfCategory,string> = {Music:'CD',Games:'GAME',Movies:'FILM',Anime:'ANIME',Shows:'TV',Books:'BOOK'}
   return <div className="shelf-empty"><div className="shelf-empty-case"><span>{initials[category]}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>There's nothing here yet. This shelf is ready for your collection.</span></div>
@@ -341,6 +396,6 @@ export default function CdShelf({ category }: { category: ShelfCategory }) {
     </> : category === 'Games' ? <>
       <div className="cd-shelf-subheading"><strong>Games</strong><span>ROBLOX EXPERIENCES</span></div>
       <GamesShelf/>
-    </> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
+    </> : category === 'Movies' || category === 'Shows' ? <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><MovieTvShelf category={category}/></> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
   </section>
 }
