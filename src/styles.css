@@ -3124,3 +3124,58 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-cover-image-list button{display:flex;align-items:center;gap:6px;padding:5px 7px;font-size:9px}
 .scrapbook-cover-image-list button.selected{border-color:var(--accent);color:var(--accent)}
 .scrapbook-cover-image-list img{width:24px;height:28px;object-fit:cover;border-radius:3px}
+
+
+/* Watchlist detail pages, personal ratings and comments */
+.watchlist-back{display:inline-flex;align-items:center;gap:6px;margin:0 0 18px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:10px;cursor:pointer}
+.watchlist-detail-hero{position:relative;display:flex;align-items:flex-end;gap:25px;min-height:310px;padding:35px 28px;border:1px solid var(--line);border-radius:15px;background-position:center 35%;background-size:cover;background-color:var(--surface);overflow:hidden}
+.watchlist-detail-poster{width:155px;aspect-ratio:2/3;flex:none;overflow:hidden;border:1px solid #ffffff28;border-radius:8px;background:var(--soft);box-shadow:0 14px 35px #0005}
+.watchlist-detail-poster img{width:100%;height:100%;object-fit:cover}
+.watchlist-detail-heading{max-width:650px;display:grid;gap:10px;padding-bottom:4px}
+.watchlist-detail-heading h1{margin:0;color:var(--text);font:500 clamp(27px,4vw,42px) 'Playfair Display','Jdecked Twemoji'}
+.watchlist-detail-heading p{margin:0;color:var(--muted);font-size:12px;line-height:1.8}
+.watchlist-detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:5px}
+.watchlist-detail-actions select,.watchlist-detail-actions button{padding:8px 11px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--text);font-size:10px}
+.watchlist-detail-actions button{display:flex;align-items:center;gap:5px;cursor:pointer}
+.watchlist-detail-columns{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(0,1.5fr);gap:16px;margin-top:18px}
+.watchlist-detail-rating,.watchlist-detail-comments{padding:19px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.watchlist-detail-columns h2{margin:0 0 14px;color:var(--text);font:500 17px 'Playfair Display','Jdecked Twemoji'}
+.watchlist-stars{display:flex;gap:5px}
+.watchlist-stars button{padding:0;border:0;background:none;color:var(--line);font-size:29px;cursor:pointer;line-height:1}
+.watchlist-stars button.filled{color:#d6a94c}
+.watchlist-detail-rating>small{display:block;margin-top:10px;color:var(--muted);font-size:10px}
+.watchlist-detail-comments form{display:grid;gap:8px}
+.watchlist-detail-comments textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:11px/1.6 'DM Sans','Jdecked Twemoji';resize:vertical}
+.watchlist-detail-comments form button{justify-self:end;padding:8px 11px;border:1px solid var(--accent);border-radius:7px;background:var(--accent);color:#fff;font-size:10px;cursor:pointer}
+.watchlist-detail-comments form button:disabled{opacity:.45}
+.watchlist-comment-list{display:grid;gap:8px;margin-top:14px}
+.watchlist-comment-list article{display:flex;justify-content:space-between;gap:12px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.watchlist-comment-list p{margin:0;color:var(--text);font-size:11px;line-height:1.65;white-space:pre-wrap}
+.watchlist-comment-list button{align-self:flex-start;border:0;background:none;color:var(--muted);font-size:9px;cursor:pointer}
+.watchlist-detail-empty{color:var(--muted);font-size:10px}
+.watchlist-detail-gallery{display:flex;gap:10px;overflow:auto;margin-top:18px}
+.watchlist-detail-gallery img{width:150px;height:105px;flex:none;object-fit:cover;border-radius:8px}
+.watchlist-card-rating{flex:1;align-self:center;color:#d6a94c;font-size:10px}
+.watchlist-editor input[type=file]{padding:7px;font-size:10px}
+@media(max-width:650px){.watchlist-detail-hero{align-items:flex-start;flex-direction:column;min-height:0;padding:20px}.watchlist-detail-poster{width:110px}.watchlist-detail-columns{grid-template-columns:1fr}.watchlist-detail-heading h1{font-size:29px}}
+
+/* Manual catalogue editor for shelf items */
+.album-editor-backdrop{position:fixed;inset:0;z-index:1900;display:grid;place-items:center;overflow:auto;padding:18px;background:#08090bb8;backdrop-filter:blur(8px)}
+.album-editor{display:grid;gap:12px;width:min(100%,520px);max-height:88vh;overflow:auto;padding:20px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--text);box-shadow:0 20px 70px #0007}
+.album-editor header,.album-editor footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.album-editor header{padding-bottom:10px;border-bottom:1px solid var(--line)}
+.album-editor header strong{font:500 18px 'Playfair Display','Jdecked Twemoji'}
+.album-editor header button{width:29px;height:29px;border:1px solid var(--line);border-radius:50%;background:var(--bg);color:var(--text);font-size:19px;cursor:pointer}
+.album-editor label{display:grid;gap:5px;color:var(--muted);font-size:10px}
+.album-editor input{width:100%;box-sizing:border-box;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji'}
+.album-editor-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.album-editor footer{justify-content:flex-end;margin-top:5px}
+.album-editor footer button{padding:8px 12px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--text);font-size:10px;cursor:pointer}
+.album-editor footer button[type=submit]{border-color:var(--accent);background:var(--accent);color:#fff}
+.media-case-toolbar>button{flex:none;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--text);font:600 10px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+.media-case-api{margin:0 0 15px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted);font-size:10px}
+.media-case-api summary{cursor:pointer}
+.media-case-api label{display:grid;gap:6px;max-width:420px;margin-top:10px}
+.media-case-api input{padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji'}
+.media-case-api small{display:block;margin-top:7px}
+@media(max-width:600px){.album-editor-backdrop{padding:8px}.album-editor{padding:14px}.album-editor-row{grid-template-columns:1fr}.media-case-toolbar>button{align-self:flex-start}}
