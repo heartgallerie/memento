@@ -3479,3 +3479,9 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .scrapbook-cover-edit-panel{grid-template-columns:1fr;width:calc(100vw - 32px);padding:11px}
  .scrapbook-heading-copy h1{font-size:30px}
 }
+
+.scrapbook-settings-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.scrapbook-settings-fields label{display:grid;gap:6px;color:var(--muted);font-size:10px}
+.scrapbook-cover-edit-colour{display:flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:10px}
+.scrapbook-cover-edit-colour input{width:23px;height:23px;padding:1px;border:0;background:transparent;cursor:pointer}
+@media(max-width:650px){.scrapbook-settings-fields{grid-template-columns:1fr}}
