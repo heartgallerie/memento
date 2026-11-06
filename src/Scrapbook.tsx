@@ -8,7 +8,7 @@ type ScrapData={title:string;subtitle:string;cover:string;coverColor:string;page
 const KEY='memento.scrapbook'
 const makePage=(n:number):ScrapPage=>({id:'page-'+n+'-'+Date.now(),title:'',text:'',color:'#f3eddf',images:[]})
 const initial:ScrapData={title:'Scrapbook',subtitle:'A collection of little things.',cover:'',coverColor:'#795d50',pages:[makePage(1),makePage(2)]}
-const readFile=(file:File)=>new Promise<string>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=reject;reader.readAsDataURL(file)})
+const readFile=async(file:File):Promise<string>=>{const source=await new Promise<string>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=reject;reader.readAsDataURL(file)});const image=new Image();image.src=source;await image.decode();const scale=Math.min(1,1800/Math.max(image.naturalWidth,image.naturalHeight));const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));const ctx=canvas.getContext('2d');if(!ctx) return source;ctx.drawImage(image,0,0,canvas.width,canvas.height);return canvas.toDataURL('image/webp',.82)}
 type DragState={pageId:string;imageId:string;mode:'move'|'resize';startX:number;startY:number;originX:number;originY:number;originW:number}
 
 export default function Scrapbook(){
