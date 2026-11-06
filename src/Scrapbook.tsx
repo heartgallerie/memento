@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BookOpen, ChevronLeft, ChevronRight, Plus, Settings2, X } from 'lucide-react'
 
 type ScrapPage = { id:string; title:string; text:string; image:string }
@@ -14,7 +14,6 @@ export default function Scrapbook(){
  const total=data.pages.length
  const spread=Math.min(Math.floor(page/2),Math.max(0,Math.ceil(total/2)-1))
  const leftIndex=spread*2,rightIndex=spread*2+1
- const current=data.pages[Math.min(page,total-1)]||makePage(1)
  const updatePage=(index:number,patch:Partial<ScrapPage>)=>setData(v=>({...v,pages:v.pages.map((p,i)=>i===index?{...p,...patch}:p)}))
  const addPage=()=>{const next=data.pages.length;setData(v=>({...v,pages:[...v.pages,makePage(v.pages.length+1)]}));setPage(next);setOpened(true)}
  const go=(n:number)=>{const target=Math.max(1,Math.min(total,Math.floor(Number(n)||1)));setPage(target-1);setJump(String(target));setOpened(true)}
