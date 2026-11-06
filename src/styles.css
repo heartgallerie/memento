@@ -3279,3 +3279,23 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .entry-footnotes li>sup{color:var(--accent);font-size:9px;font-weight:700}
 .entry-footnotes li>span{overflow-wrap:anywhere}
 @media(max-width:650px){.format-toolbar.bottom-format-toolbar .insert-menu-trigger{width:28px!important;min-width:28px!important}.text-colour-control{width:28px;height:28px}}
+
+
+/* Checklist circles and footnote editing */
+.entry-checklist{list-style:none!important;padding-left:0!important;margin:10px 0}
+.entry-checklist li{display:flex;align-items:flex-start;gap:9px;margin:6px 0}
+.entry-checklist input[type="checkbox"]{appearance:none;-webkit-appearance:none;box-sizing:border-box;flex:0 0 15px;width:15px;height:15px;margin:3px 0 0;border:1.5px solid var(--muted);border-radius:50%;background:transparent;cursor:pointer;vertical-align:middle;transition:background .15s,border-color .15s,box-shadow .15s}
+.entry-checklist input[type="checkbox"]:checked{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 3px var(--surface,#fff)}
+.entry-checklist li:has(input:checked) span{text-decoration:line-through;text-decoration-thickness:1px;color:var(--muted)}
+.entry-footnotes-editor{display:grid;gap:7px;margin:16px 0 8px;padding:10px 0;border-top:1px solid var(--line)}
+.entry-footnotes-editor-heading{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:10px;font-weight:650;letter-spacing:.08em;text-transform:uppercase}
+.entry-footnotes-editor-heading span{font-size:9px;opacity:.7}
+.entry-footnote-edit-row{display:grid;grid-template-columns:16px minmax(0,1fr) 25px;align-items:start;gap:7px}
+.entry-footnote-edit-row>sup{padding-top:7px;color:var(--accent);font-size:10px}
+.entry-footnote-edit-row textarea{width:100%;min-height:30px;resize:vertical;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:6px 8px;color:var(--text);font:inherit;font-size:12px;line-height:1.45}
+.entry-footnote-edit-row button{width:25px;height:27px;display:grid;place-items:center;border:0;border-radius:5px;background:transparent;color:var(--muted);cursor:pointer}
+.entry-footnote-edit-row button:hover{background:var(--bg);color:var(--danger,#b55)}
+.rich-editor em,.rich-editor i{font-style:italic!important}
+.rich-editor strong,.rich-editor b{font-weight:700!important}
+.read-entry-body em,.read-entry-body i{font-style:italic!important}
+.read-entry-body strong,.read-entry-body b{font-weight:700!important}
