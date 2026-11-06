@@ -3251,7 +3251,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 
 /* Journal editor: history, colour, checklists and compact notes */
-.format-toolbar.bottom-format-toolbar button:disabled{opacity:.32;cursor:not--allowed}
+.format-toolbar.bottom-format-toolbar button:disabled{opacity:.32;cursor:not-allowed}
 .format-toolbar.bottom-format-toolbar .insert-menu-trigger{width:30px!important;height:30px!important;min-width:30px!important;padding:0!important;border:0!important;border-radius:6px!important;background:transparent!important;box-shadow:none!important;justify-content:center;color:var(--muted)!important}
 .format-toolbar.bottom-format-toolbar .insert-menu-trigger:hover{background:var(--bg)!important;color:var(--text)!important}
 .text-colour-control{position:relative;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--line);border-radius:6px;color:var(--text);font:700 15px Georgia,serif;cursor:pointer}
