@@ -376,7 +376,7 @@ function MovieTvShelf({category}:{category:'Movies'|'Shows'}){
     {results.length>0&&<div className="media-case-results"><div className="media-case-results-heading"><strong>Search results</strong><button type="button" onClick={()=>setResults([])}>Clear</button></div><div className="media-case-results-grid">{results.map(result=><article key={result.id}><img src={result.poster_path?TMDB_POSTER+result.poster_path:''} alt="" onError={event=>{event.currentTarget.style.visibility='hidden'}}/><div><strong>{result.title||result.name}</strong><small>{(result.release_date||result.first_air_date||'').slice(0,4)||'Release date unknown'}</small><button type="button" onClick={()=>add(result)}>＋ Add to shelf</button></div></article>)}</div></div>}
     {items.length?<div className="cd-shelf-grid">{items.map(item=><ShelfItem key={item.id} album={item} onOpen={setSelected}/>)}</div>:<div className="shelf-empty"><div className="shelf-empty-case"><span>{category==='Movies'?'FILM':'TV'}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>Search TMDB above to add {category.toLowerCase()} to your collection.</span></div>}
     {selected&&<Viewer key={selected.id} album={selected} onClose={()=>setSelected(null)} onRemove={()=>{setItems(current=>current.filter(item=>item.id!==selected.id));setSelected(null)}}/>}
-    <p className="media-case-attribution">Movie and TV metadata provided by TMDB.</p>
+    <p className="media-case-attribution">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
   </div>
 }
 
