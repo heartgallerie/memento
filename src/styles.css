@@ -3441,3 +3441,10 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .scrapbook-library-count{flex-basis:100%;margin:0 0 0 27px}
  .scrapbook-open-toolbar{align-items:flex-start;flex-direction:column}
 }
+
+
+/* Keep scrapbook cover lettering visible in the library preview */
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-title{color:#f7f0e5;font:500 clamp(20px,2.3vw,29px)/1.15 Georgia,serif;max-width:76%;text-align:center;text-shadow:0 2px 9px #000b,0 0 18px #0008}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-subtitle{color:#f3e9d8;font:italic 11px Georgia,serif;max-width:72%;text-align:center;text-shadow:0 1px 7px #000c}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-art{opacity:.72}
+.scrapbook-cover-art{object-position:center}
