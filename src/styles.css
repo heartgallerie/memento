@@ -3061,7 +3061,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-image-sidebar>button span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .scrapbook-image-sidebar>button small{color:var(--muted);font-size:9px}
 .scrapbook-image-sidebar>button.scrapbook-sidebar-add{justify-content:center;border:1px dashed var(--line);color:var(--muted)}
-.scrapbook-book-page.scrapbook-left-page:after,.scrapbook-book-page.scrapbook-right-page:after{z-index:5;pointer-events:none}
+.scrapbook-book-page.scrapbook-left-page:after,.scrapbook-book-page.scrapbook-right-page:after{z-index:auto;pointer-events:none}
 .scrapbook-book-spread{animation:scrapbook-page-turn .52s cubic-bezier(.2,.7,.2,1)}
 @keyframes scrapbook-page-turn{0%{opacity:.65;transform:perspective(1200px) rotateY(-11deg) translateX(18px)}55%{opacity:.9;transform:perspective(1200px) rotateY(3deg) translateX(-3px)}100%{opacity:1;transform:perspective(1200px) rotateY(0) translateX(0)}}
 @media(max-width:850px){.scrapbook-editor-layout{grid-template-columns:minmax(0,1fr) 145px;gap:8px}.scrapbook-image-sidebar{padding:8px}.scrapbook-drop-hint{width:100%;margin:0}}
