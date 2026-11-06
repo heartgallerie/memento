@@ -392,6 +392,6 @@ export default function CdShelf({ category }: { category: ShelfCategory }) {
     </> : category === 'Games' ? <>
       <div className="cd-shelf-subheading"><strong>Games</strong><span>ROBLOX EXPERIENCES</span></div>
       <GamesShelf/>
-    </>  : category === 'Movies' || category === 'Shows' || category === 'Anime' ? <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><MovieTvShelf category={category}/></> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
+    </>  : category === 'Movies' || category === 'Shows' || category === 'Anime' ? <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><MovieTvShelf key={category} category={category}/></> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
   </section>
 }
