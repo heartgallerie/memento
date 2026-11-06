@@ -4,6 +4,7 @@ import { Bot, PhoneCall, Film, Tv, CakeSlice, BookOpen, BookText, PenLine, Calen
 
 import type { CSSProperties as ReactCSSProperties, ReactNode } from 'react'
 import CdShelf from './CdShelf'
+import BookShelf from './BookShelf'
 import Scrapbook from './Scrapbook'
 import { ALBUMS as MEMO_SHELF_ALBUMS } from './CdShelf'
 import { EmojiText, emojiShortcodes, customEmojiImages, renderEmojiShortcodesInHtml, replaceEmojiShortcodes } from './emoji'
@@ -206,7 +207,7 @@ function WatchlistPage(){
  </section>
 }
 
-function CartiShelves({category}:{category:'Music'|'Games'|'Movies'|'Anime'|'Shows'|'Books'}){ return <CdShelf category={category}/> }
+function CartiShelves({category}:{category:'Music'|'Games'|'Movies'|'Anime'|'Shows'|'Books'}){ return category==='Books'?<BookShelf/>:<CdShelf category={category}/> }
 type MemoPost={id:string;text:string;createdAt:number}
 function MemoProfile({avatarColor,onBack,note,setNote,frame,setFrame,posts,setPosts}:{avatarColor:string;onBack:()=>void;note:string;setNote:(v:string)=>void;frame:string;setFrame:(v:string)=>void;posts:MemoPost[];setPosts:React.Dispatch<React.SetStateAction<MemoPost[]>>}){
  const writePost=()=>{const text=window.prompt('Write a post as Memo');if(text?.trim())setPosts(items=>[{id:String(Date.now()),text:text.trim(),createdAt:Date.now()},...items])}
