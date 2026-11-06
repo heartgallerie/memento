@@ -3067,3 +3067,54 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(max-width:850px){.scrapbook-editor-layout{grid-template-columns:minmax(0,1fr) 145px;gap:8px}.scrapbook-image-sidebar{padding:8px}.scrapbook-drop-hint{width:100%;margin:0}}
 @media(max-width:650px){.scrapbook-editor-layout{grid-template-columns:1fr}.scrapbook-image-sidebar{position:static;max-height:220px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.scrapbook-image-sidebar>strong,.scrapbook-image-sidebar>span,.scrapbook-image-sidebar>button.scrapbook-sidebar-add{grid-column:1/-1}.scrapbook-book-stage{padding-left:0;padding-right:0}.scrapbook-book-page,.scrapbook-paper,.scrapbook-blank{min-height:390px}.scrapbook-paper{min-height:390px}.scrapbook-settings{grid-template-columns:1fr}.scrapbook-drop-hint{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.scrapbook-book-spread{animation:none}}
+
+
+/* Scrapbook editor refinements */
+.scrapbook-cover{background-image:none!important;isolation:isolate}
+.scrapbook-cover-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.48;border-radius:inherit;pointer-events:none;z-index:1}
+.scrapbook-cover-spine{z-index:7;pointer-events:none}
+.scrapbook-cover-title,.scrapbook-cover-subtitle{position:relative;z-index:6;pointer-events:none}
+.scrapbook-cover-open{z-index:8;cursor:pointer}
+.scrapbook-cover .scrapbook-image-layer{z-index:4}
+.scrapbook-cover-actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:10px;color:var(--muted);font-size:10px}
+.scrapbook-cover-actions button{display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:10px;cursor:pointer}
+.scrapbook-cover.cover-editing{outline:2px dashed var(--accent);outline-offset:5px}
+.scrapbook-book-picker{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:15px}
+.scrapbook-book-picker button{padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);font-size:10px;cursor:pointer}
+.scrapbook-book-picker button.active{border-color:var(--accent);background:var(--surface);color:var(--text)}
+.scrapbook-book-picker button.scrapbook-new-book{display:inline-flex;align-items:center;gap:5px;color:var(--text)}
+.scrapbook-delete-book{color:#bd6464!important}
+.scrapbook-page-richtext{flex:1;min-height:300px;overflow:auto;outline:none;white-space:pre-wrap;color:#3d352c;font:14px/30px Georgia,serif}
+.scrapbook-page-richtext:empty:before{content:attr(data-placeholder);color:#a49a89}
+.scrapbook-page-richtext p{margin:0 0 8px}
+.scrapbook-page-richtext blockquote{margin:8px 0;padding-left:12px;border-left:2px solid #b9ad9a;color:#776b5b}
+.scrapbook-page-richtext[contenteditable="false"]:empty:before{content:none}
+.scrapbook-page-colour input[type=color]{width:25px;height:22px;padding:0;border:0;background:transparent;cursor:pointer}
+.scrapbook-lines-toggle{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:10px}
+.scrapbook-editor-toolbar select{max-width:155px;padding:8px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:10px}
+.scrapbook-editor-toolbar input[type=color]{width:28px;height:28px;padding:2px;border:1px solid var(--line);border-radius:7px;background:var(--panel)}
+.scrapbook-editor-toolbar input[type=range]{width:64px}
+.scrapbook-editor-toolbar button.active{border-color:var(--accent);color:var(--accent);background:var(--surface)}
+.scrapbook-image-rotate{position:absolute;top:-18px;right:23px;display:grid;place-items:center;width:22px;height:18px;border:0;border-radius:4px 4px 0 0;background:#567b9d;color:white;cursor:pointer}
+.scrapbook-drawing-layer{position:absolute;inset:0;z-index:4;width:100%;height:100%;overflow:visible;touch-action:none;pointer-events:auto}
+.scrapbook-drawing-layer.inactive{pointer-events:none}
+.scrapbook-book-page:has(.scrapbook-drawing-layer:not(.inactive)){cursor:crosshair}
+.scrapbook-paper{z-index:0}
+.scrapbook-image-layer{z-index:3}
+.scrapbook-page-richtext{background:transparent}
+@keyframes scrapbook-page-turn{0%{opacity:.9;transform:perspective(1200px) rotateY(-3deg) translateX(4px)}100%{opacity:1;transform:perspective(1200px) rotateY(0) translateX(0)}}
+.scrapbook-book-spread{animation:scrapbook-page-turn .2s ease-out}
+@media(max-width:700px){.scrapbook-page-richtext{min-height:230px;font-size:12px;line-height:25px}.scrapbook-book-picker{gap:5px}.scrapbook-cover-actions span{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){.scrapbook-book-spread{animation:none}}
+
+/* Journal subtitle and footnotes */
+.subtitle-input{display:block;width:100%;margin:9px 0 14px;padding:10px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);font:italic 14px Georgia,serif;outline:none}
+.subtitle-input::placeholder{color:var(--muted)}
+.read-entry-subtitle{margin:-9px 0 24px;color:var(--muted);font:italic 16px/1.5 Georgia,serif}
+.entry-footnotes-editor{display:grid;gap:7px;margin:18px 0 20px;color:var(--text);font-size:11px;font-weight:600}
+.entry-footnotes-editor>span{color:var(--muted);font-size:10px;font-weight:400}
+.entry-footnotes-editor textarea{width:100%;min-height:58px;resize:vertical;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);font:12px/1.6 'DM Sans','Jdecked Twemoji'}
+.entry-footnotes{margin:26px 0;padding:15px 18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--muted);font-size:11px}
+.entry-footnotes>strong{color:var(--text);font:600 10px 'DM Sans','Jdecked Twemoji';letter-spacing:.08em;text-transform:uppercase}
+.entry-footnotes ol{display:grid;gap:7px;margin:10px 0 0;padding-left:20px}
+.entry-footnotes li{padding-left:4px;line-height:1.6}
