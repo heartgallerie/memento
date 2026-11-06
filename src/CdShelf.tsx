@@ -108,7 +108,7 @@ function ShelfItem({ album, onOpen }: { album: Album; onOpen: (album: Album) => 
       onPointerLeave={() => setTilt({ x: 0, y: -22, active: false })} aria-label={`Open ${album.title}${album.creator ? `, ${album.creator}` : ', by Playboi Carti'}`}>
       <span className="cd-shelf-case-shadow"><CdCase album={album} size={size} rotX={tilt.x} rotY={tilt.y} dragging={tilt.active} /></span>
       <span className="cd-shelf-item-copy">
-        <strong>{album.title}</strong><span>{album.creator || 'PLAYBOI CARTI'}</span>
+        <strong>{album.title}</strong><span>{album.creator || ''}</span>
         <small>{album.detail || `${album.year} · ${album.year === 2016 || album.year === 2017 ? 'MIXTAPE' : 'ALBUM'}`}</small>
       </span>
     </button>
@@ -203,7 +203,7 @@ function Viewer({ album, onClose, onRemove, onEdit }: { album: Album; onClose: (
           <CdCase album={album} size={size} rotX={rotation.x} rotY={rotation.y} open={open} discOut={discOut}
             discAngle={angle} dragging={dragging} onDiscDown={onDiscDown} discRef={discRef} />
         </div>
-        <div className="cd-shelf-viewer-meta"><strong>{album.title}</strong><span>{album.creator || 'PLAYBOI CARTI'}</span><small>{album.detail || album.year}</small></div>
+        <div className="cd-shelf-viewer-meta"><strong>{album.title}</strong><span>{album.creator || ''}</span><small>{album.detail || album.year}</small></div>
         <div className="cd-shelf-controls">
           <button type="button" className={open ? 'is-active' : ''} onClick={toggleOpen}>{open ? 'Close case' : 'Open case'}</button>
           <button type="button" disabled={!open} className={discOut ? 'is-active' : ''} onClick={() => setDiscOut(value => !value)}>{discOut ? 'Put disc back' : 'Pull disc out'}</button>
@@ -335,7 +335,7 @@ type TMDBShelfResult = {
 const TMDB_POSTER='https://image.tmdb.org/t/p/w500'
 function MovieTvShelf({category}:{category:'Movies'|'Shows'|'Anime'}){
   const mediaType=category==='Movies'?'movie':'tv'
-  const storageKey='memento.shelf.'+mediaType
+  const storageKey='memento.shelf.'+(category==='Anime'?'anime':mediaType)
   const [items,setItems]=useState<Album[]>(()=>{try{return JSON.parse(localStorage.getItem(storageKey)||'[]') as Album[]}catch{return []}})
   const [query,setQuery]=useState('')
   const [results,setResults]=useState<TMDBShelfResult[]>([])
@@ -372,7 +372,7 @@ function MovieTvShelf({category}:{category:'Movies'|'Shows'|'Anime'}){
     {error&&<p className="media-case-error" role="alert">{error}</p>}
     {results.length>0&&<div className="media-case-results"><div className="media-case-results-heading"><strong>Search results</strong><button type="button" onClick={()=>setResults([])}>Clear</button></div><div className="media-case-results-grid">{results.map(result=><article key={result.id}><img src={result.poster_path?TMDB_POSTER+result.poster_path:''} alt="" onError={event=>{event.currentTarget.style.visibility='hidden'}}/><div><strong>{result.title||result.name}</strong><small>{(result.release_date||result.first_air_date||'').slice(0,4)||'Release date unknown'}</small><button type="button" onClick={()=>add(result)}>＋ Add to shelf</button></div></article>)}</div></div>}
     {items.length?<div className="cd-shelf-grid">{items.map(item=><ShelfItem key={item.id} album={item} onOpen={setSelected}/>)}</div>:<div className="shelf-empty"><div className="shelf-empty-case"><span>{category==='Movies'?'FILM':'TV'}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>Search TMDB above to add {category.toLowerCase()} to your collection.</span></div>}
-    {selected&&<Viewer key={selected.id} album={selected} onClose={()=>setSelected(null)} onEdit={()=>{setEditing(selected);setSelected(null);setShowManual(true)}} onRemove={()=>{setItems(current=>current.filter(item=>item.id!==selected.id));setSelected(null)}}/>}{showManual&&editing&&<AlbumEditor album={editing} category={category} onChange={setEditing} onClose={()=>{setShowManual(false);setEditing(null)}} onSave={saveManual}/ >}
+    {selected&&<Viewer key={selected.id} album={selected} onClose={()=>setSelected(null)} onEdit={()=>{setEditing(selected);setSelected(null);setShowManual(true)}} onRemove={()=>{setItems(current=>current.filter(item=>item.id!==selected.id));setSelected(null)}}/>}{showManual&&editing&&<AlbumEditor album={editing} category={category} onChange={setEditing} onClose={()=>{setShowManual(false);setEditing(null)}} onSave={saveManual}/>}
     <p className="media-case-attribution">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
   </div>
 }
@@ -387,13 +387,11 @@ function EmptyMediaShelf({ category }: { category: ShelfCategory }) {
 }
 
 export default function CdShelf({ category }: { category: ShelfCategory }) {
-  const [selected, setSelected] = useState<Album | null>(null)
-  const close = useCallback(() => setSelected(null), [])
-  return <section className="cd-shelf">
+    return <section className="cd-shelf">
     {category === 'Music' ? <><div className="cd-shelf-subheading"><strong>Music</strong><span>YOUR COLLECTION</span></div><ManualCatalogueShelf category="Music"/>
     </> : category === 'Games' ? <>
       <div className="cd-shelf-subheading"><strong>Games</strong><span>ROBLOX EXPERIENCES</span></div>
       <GamesShelf/>
-    </>  : category === 'Movies' || category === 'Shows' || category === 'Anime' ? <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><MovieTvShelf category={category}/></> : category === 'Music' ? <><div className="cd-shelf-subheading"><strong>Music</strong><span>YOUR COLLECTION</span></div><ManualCatalogueShelf category="Music"/></> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
+    </>  : category === 'Movies' || category === 'Shows' || category === 'Anime' ? <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><MovieTvShelf category={category}/></> : category === 'Books' ? <BookShelf/> : <><div className="cd-shelf-subheading"><strong>{category}</strong><span>YOUR COLLECTION</span></div><EmptyMediaShelf category={category}/></>}
   </section>
 }
