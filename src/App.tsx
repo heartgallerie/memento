@@ -661,7 +661,7 @@ function applyMarkdownFormatting(){const root=document.querySelector('.rich-edit
   const rect=range.getBoundingClientRect()
   if(!rect.width&&!rect.height){setSelection(null);setExpanded(false);return}
   const node=range.commonAncestorContainer,element=node instanceof Element?node:node.parentElement
-  setSelection({text,top:Math.max(8,rect.top-48),left:Math.min(window.innerWidth-270,Math.max(8,rect.left+rect.width/2-135)),editable:!!element?.closest('[contenteditable="true"]'),formatted:!!element?.closest('strong,b,em,i,u,s,strike,mark,font[style],span[style]')})
+  setSelection({text,top:Math.max(8,rect.top-48),left:Math.min(window.innerWidth-330,Math.max(8,rect.left+rect.width/2-165)),editable:!!element?.closest('[contenteditable="true"]'),formatted:!!element?.closest('strong,b,em,i,u,s,strike,mark,font[style],span[style]')})
  }
  useEffect(()=>{
   document.addEventListener('selectionchange',updateSelection);window.addEventListener('scroll',updateSelection,true);window.addEventListener('resize',updateSelection)
