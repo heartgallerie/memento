@@ -187,7 +187,7 @@ function Editor({ initial, mode, onClose, onSave }: { initial: Partial<Book>; mo
       kind,
     })
   }
-  const chooseManga=(item:JikanManga)=>{const date=item.published?.from||'';onSave({id:initial.id||'',title:item.title_english||item.title,author:(item.authors||[]).map(x=>x.name).join(', ')||'Unknown author',year:Number(date.slice(0,4))||0,isbn:'',cover:item.images?.jpg?.image_url||'',colors:initial.colors||['#292929','#080808'],pages:Math.max(2,(item.volumes||1)*200),kind:'manga'})}
+  const chooseManga=(item:JikanManga)=>{const date=item.published?.from||'';onSave({id:initial.id||'',title:item.title_english||item.title,author:(item.authors||[]).map(x=>x.name).join(', ')||'Unknown author',year:Number(date.slice(0,4))||0,isbn:'',cover:item.images?.jpg?.image_url||'',colors:initial.colors||['#292929','#080808'],pages:8,kind:'manga'})}
   const saveManual=()=>{
     if(!title.trim())return
     onSave({id:initial.id || '',title:title.trim(),author:author.trim() || 'Unknown author',year:Number(year)||0,isbn:isbn.trim(),cover:cover.trim(),colors:initial.colors || (kind==='manga'?['#292929','#080808']:['#80684d','#30251d']),pages:Math.max(2,Number(pages)||8),kind})
