@@ -3521,3 +3521,47 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-heading-icon{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;width:23px;height:25px;color:var(--accent)}
 .scrapbook-heading-icon>svg:first-child{width:20px;height:20px;stroke-width:1.8}
 .scrapbook-heading-icon>svg:last-child{position:absolute;right:-3px;bottom:-2px;width:12px;height:12px;padding:1px;border-radius:4px;background:var(--bg);stroke-width:2.1}
+
+
+/* Glass selection toolbar */
+.selection-action-toolbar{
+ position:fixed;z-index:3000;display:flex;align-items:center;gap:2px;
+ max-width:calc(100vw - 16px);padding:5px;border:1px solid color-mix(in srgb,var(--line) 72%,transparent);
+ border-radius:999px;background:linear-gradient(145deg,color-mix(in srgb,var(--surface) 84%,white 16%),color-mix(in srgb,var(--surface) 76%,transparent));
+ -webkit-backdrop-filter:blur(24px) saturate(175%);backdrop-filter:blur(24px) saturate(175%);
+ box-shadow:0 12px 38px #0002,0 2px 8px #00000012,inset 0 1px 0 #ffffff70;
+}
+.selection-action-toolbar>button{
+ display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:32px;padding:0 11px;
+ border:0;border-radius:999px;background:transparent;color:var(--text);
+ font:600 11px 'DM Sans','Jdecked Twemoji';white-space:nowrap;cursor:pointer;
+ transition:background .16s ease,color .16s ease,transform .16s ease;
+}
+.selection-action-toolbar>button:hover{background:color-mix(in srgb,var(--text) 8%,transparent);color:var(--accent)}
+.selection-action-toolbar>button:active{transform:scale(.96)}
+.selection-toolbar-divider{width:1px;height:17px;flex:none;background:color-mix(in srgb,var(--text) 17%,transparent)}
+.selection-action-toolbar>button.selection-toolbar-expand{width:32px;min-width:32px;padding:0}
+.selection-toolbar-expand svg{transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+.selection-toolbar-expand.expanded svg{transform:rotate(90deg)}
+.selection-toolbar-expanded{
+ position:absolute;top:calc(100% + 9px);right:0;display:flex;flex-direction:column;gap:2px;
+ width:190px;padding:6px;border:1px solid color-mix(in srgb,var(--line) 72%,transparent);
+ border-radius:19px;background:linear-gradient(145deg,color-mix(in srgb,var(--surface) 86%,white 14%),color-mix(in srgb,var(--surface) 78%,transparent));
+ -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);
+ box-shadow:0 16px 44px #00000026,0 3px 10px #00000012,inset 0 1px 0 #ffffff75;
+ opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-9px) scale(.96);
+ transform-origin:top right;transition:opacity .2s ease,transform .28s cubic-bezier(.2,.8,.2,1),visibility .2s;
+}
+.selection-toolbar-expanded.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}
+.selection-toolbar-expanded button{
+ display:flex;align-items:center;gap:11px;width:100%;min-height:36px;padding:0 11px;
+ border:0;border-radius:12px;background:transparent;color:var(--text);
+ font:500 11px 'DM Sans','Jdecked Twemoji';text-align:left;cursor:pointer;
+ transition:background .15s ease,color .15s ease;
+}
+.selection-toolbar-expanded button:hover{background:color-mix(in srgb,var(--text) 8%,transparent);color:var(--accent)}
+.selection-toolbar-expanded button svg{width:15px;height:15px;color:var(--muted);flex:none}
+.selection-expanded-divider{height:1px;margin:4px 7px;background:color-mix(in srgb,var(--text) 14%,transparent)}
+@media(prefers-reduced-motion:reduce){
+ .selection-action-toolbar>button,.selection-toolbar-expand svg,.selection-toolbar-expanded,.selection-toolbar-expanded button{transition:none}
+}
