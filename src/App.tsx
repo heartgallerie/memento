@@ -680,13 +680,13 @@ function SelectionToolbar({onAnnotation,onCreateComment,onLink}:{onAnnotation:(t
  }
  if(!selection)return null
  return <div className="selection-action-toolbar" style={{top:selection.top,left:selection.left}} onMouseDown={e=>e.preventDefault()} role="toolbar" aria-label="Text selection actions">
-  <button type="button" title="Copy" aria-label="Copy" onClick={copy}><Copy size={15}/></button>
-  <button type="button" title="Select all" aria-label="Select all" onClick={selectAll}><TextSelect size={15}/></button>
-  <button type="button" title="Annotate" aria-label="Annotate" onClick={()=>{onAnnotation(selection.text);close()}}><MessageCircle size={15}/></button>
-  <button type="button" className={'selection-toolbar-expand'+(expanded?' expanded':'')} title="More actions" aria-label={expanded?'Close more actions':'More actions'} aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}><ArrowRight size={15}/></button>
+  <button type="button" aria-label="Copy" onClick={copy}><Copy size={15}/><span>Copy</span></button>
+  <button type="button" aria-label="Select all" onClick={selectAll}><TextSelect size={15}/><span>Select all</span></button>
+  <button type="button" aria-label="Annotate" onClick={()=>{onAnnotation(selection.text);close()}}><MessageCircle size={15}/><span>Annotate</span></button>
+  <button type="button" className={'selection-toolbar-expand'+(expanded?' expanded':'')} aria-label={expanded?'Close more actions':'More actions'} aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}><ArrowRight size={15}/><span>More</span></button>
   <div className={'selection-toolbar-expanded'+(expanded?' is-open':'')} aria-hidden={!expanded}>
    <button type="button" tabIndex={expanded?0:-1} onClick={()=>{onCreateComment(selection.text);close()}}><MessageCircle size={15}/>Create comment</button>
-   {selection.editable&&<button type="button" tabIndex={expanded?0:-1} onClick={()=>{onLink();close()}}><Link2 size={15}/>Link</button>}
+   <button type="button" tabIndex={expanded?0:-1} onClick={()=>{onLink();close()}}><Link2 size={15}/>Link</button>
   </div>
  </div>
 }
