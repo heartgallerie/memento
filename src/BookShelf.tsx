@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type FormEvent, type PointerEvent } from 'react'
 
 type BookKind = 'book' | 'manga'
 type Book = {
@@ -264,7 +264,7 @@ export function MangaShelf() {
   const [editing,setEditing]=useState<Book|null>(null)
   const [manualOpen,setManualOpen]=useState(false)
   useEffect(()=>{try{localStorage.setItem(STORAGE,JSON.stringify(items))}catch{/* Local storage may be full. */}},[items])
-  const search=async(event:React.FormEvent<HTMLFormElement>)=>{
+  const search=async(event:FormEvent<HTMLFormElement>)=>{
     event.preventDefault()
     if(!query.trim())return
     setLoading(true);setError('');setResults([])
