@@ -3565,3 +3565,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(prefers-reduced-motion:reduce){
  .selection-action-toolbar>button,.selection-toolbar-expand svg,.selection-toolbar-expanded,.selection-toolbar-expanded button{transition:none}
 }
+
+
+.watchlist-no-results{margin:14px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--muted);font-size:13px}
