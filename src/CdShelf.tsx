@@ -328,6 +328,7 @@ function GamesShelf() {
 }
 
 
+type JikanAnimeResult = { mal_id:number; title:string; title_english?:string|null; year?:number|null; synopsis?:string|null; images?:{jpg?:{image_url?:string}}; type?:string }
 type TMDBShelfResult = {
   id:number; title?:string; name?:string; overview?:string; media_type?:string; original_language?:string; genre_ids?:number[]
   release_date?:string; first_air_date?:string; poster_path?:string|null; backdrop_path?:string|null
@@ -338,8 +339,9 @@ function MovieTvShelf({category}:{category:'Movies'|'Shows'|'Anime'}){
   const storageKey='memento.shelf.'+(category==='Anime'?'anime':mediaType)
   const [items,setItems]=useState<Album[]>(()=>{try{return JSON.parse(localStorage.getItem(storageKey)||'[]') as Album[]}catch{return []}})
   const [query,setQuery]=useState('')
-  const [results,setResults]=useState<TMDBShelfResult[]>([])
+  const [results,setResults]=useState<(TMDBShelfResult|JikanAnimeResult)[]>([])
   const [loading,setLoading]=useState(false)
+  const [hasSearched,setHasSearched]=useState(false)
   const [error,setError]=useState('')
   const [selected,setSelected]=useState<Album|null>(null),[editing,setEditing]=useState<Album|null>(null),[showManual,setShowManual]=useState(false)
   const apiKey=localStorage.getItem('memento.tmdbKey')||''
@@ -347,33 +349,39 @@ function MovieTvShelf({category}:{category:'Movies'|'Shows'|'Anime'}){
   const search=async(event:FormEvent<HTMLFormElement>)=>{
     event.preventDefault()
     if(!query.trim())return
-    if(!apiKey){setError('Add your TMDB API key in Watchlist → TMDB connection first.');return}
-    setLoading(true);setError('')
+    setLoading(true);setError('');setResults([]);setHasSearched(true)
     try{
-      const url=new URL('https://api.themoviedb.org/3/search/'+(category==='Anime'?'multi':mediaType))
-      url.searchParams.set('api_key',apiKey);url.searchParams.set('query',query.trim());url.searchParams.set('include_adult','false')
-      const response=await fetch(url.toString())
-      if(!response.ok)throw new Error(response.status===401?'TMDB rejected your API key. Check it in Watchlist settings.':'TMDB search failed. Try again.')
-      const data=await response.json()
-      setResults((data.results||[]).filter((r:TMDBShelfResult & {media_type?:string;original_language?:string;genre_ids?:number[]})=>category!=='Anime'||((r.media_type==='tv'||r.media_type==='movie')&&r.original_language==='ja'&&(r.genre_ids||[]).includes(16))).slice(0,12))
-    }catch(err){setError(err instanceof Error?err.message:'Could not search TMDB.')}finally{setLoading(false)}
+      if(category==='Anime'){
+        const response=await fetch('https://api.jikan.moe/v4/anime?q='+encodeURIComponent(query.trim())+'&limit=12&sfw=true')
+        if(!response.ok)throw new Error('Jikan anime search failed ('+response.status+'). Try again in a moment.')
+        const data=await response.json();setResults((data.data||[]) as JikanAnimeResult[])
+      }else{
+        if(!apiKey){setError('Add your TMDB API key in Watchlist → TMDB connection first.');return}
+        const url=new URL('https://api.themoviedb.org/3/search/'+mediaType)
+        url.searchParams.set('api_key',apiKey);url.searchParams.set('query',query.trim());url.searchParams.set('include_adult','false')
+        const response=await fetch(url.toString())
+        if(!response.ok)throw new Error(response.status===401?'TMDB rejected your API key. Check it in Watchlist settings.':'TMDB search failed. Try again.')
+        const data=await response.json();setResults((data.results||[]) as TMDBShelfResult[])
+      }
+    }catch(err){setError(err instanceof Error?err.message:'Search failed.')}finally{setLoading(false)}
   }
   const saveManual=(event:FormEvent<HTMLFormElement>)=>{event.preventDefault();if(!editing?.title.trim())return;setItems(old=>old.some(item=>item.id===editing.id)?old.map(item=>item.id===editing.id?editing: item):[...old,editing]);setEditing(null);setShowManual(false)}
   const blank=():Album=>({id:'custom-'+Date.now(),title:'',year:new Date().getFullYear(),cover:'',colors:['#34465d','#10141c'],ink:'#fff',creator:'',detail:'',link:'',ratio:1.4})
-  const add=(result:TMDBShelfResult)=>{
-    const title=result.title||result.name||'Untitled'
-    const date=result.release_date||result.first_air_date||''
-    const type=category==='Anime'?(result.media_type==='movie'?'movie':'tv'):mediaType;const item:Album={id:'tmdb-'+type+'-'+result.id,tmdbId:result.id,mediaType:type,title,year:Number(date.slice(0,4))||0,cover:result.poster_path?TMDB_POSTER+result.poster_path:'',colors:category==='Movies'?['#34465d','#10141c']:['#385b45','#0b1510'],ink:'#fff',creator:category==='Movies'?'FILM':category==='Anime'?'ANIME':'TV SERIES',detail:date.slice(0,4)||category.toUpperCase(),ratio:1.4,description:result.overview||''}
+  const add=(result:TMDBShelfResult|JikanAnimeResult)=>{
+    const isJikan='mal_id' in result
+    const title=isJikan?(result.title_english||result.title):((result as TMDBShelfResult).title||(result as TMDBShelfResult).name||'Untitled')
+    const date=isJikan?String((result as JikanAnimeResult).year||''):((result as TMDBShelfResult).release_date||(result as TMDBShelfResult).first_air_date||'')
+    const item:Album=isJikan?{id:'jikan-anime-'+(result as JikanAnimeResult).mal_id,title,year:Number(date)||0,cover:(result as JikanAnimeResult).images?.jpg?.image_url||'',colors:['#385b45','#0b1510'],ink:'#fff',creator:'ANIME',detail:date||'ANIME',ratio:1.4,description:(result as JikanAnimeResult).synopsis||'',link:'https://myanimelist.net/anime/'+(result as JikanAnimeResult).mal_id}:{id:'tmdb-'+(result as TMDBShelfResult).media_type+'-'+(result as TMDBShelfResult).id,tmdbId:(result as TMDBShelfResult).id,mediaType:mediaType,title,year:Number(date.slice(0,4))||0,cover:(result as TMDBShelfResult).poster_path?TMDB_POSTER+(result as TMDBShelfResult).poster_path:'',colors:category==='Movies'?['#34465d','#10141c']:['#385b45','#0b1510'],ink:'#fff',creator:category==='Movies'?'FILM':'TV SERIES',detail:date.slice(0,4)||category.toUpperCase(),ratio:1.4,description:(result as TMDBShelfResult).overview||''}
     setItems(current=>current.some(existing=>existing.id===item.id)?current:[...current,item])
-    setResults(current=>current.filter(existing=>existing.id!==result.id))
+    setResults(current=>current.filter(existing=>('mal_id' in existing?existing.mal_id:(existing as TMDBShelfResult).id)!==('mal_id' in result?result.mal_id:(result as TMDBShelfResult).id)))
   }
   return <div className="media-case-shelf">
-    <div className="media-case-toolbar"><form onSubmit={search}><input value={query} onChange={event=>setQuery(event.target.value)} placeholder={'Search '+category.toLowerCase()+' on TMDB…'}/><button type="submit" disabled={loading||!query.trim()}>{loading?'Searching…':'Search TMDB'}</button></form><button type="button" onClick={()=>{setEditing(blank());setShowManual(true)}}>＋ Add manually</button><span>{items.length} {items.length===1?'title':'titles'}</span></div>
-    {error&&<p className="media-case-error" role="alert">{error}</p>}
-    {results.length>0&&<div className="media-case-results"><div className="media-case-results-heading"><strong>Search results</strong><button type="button" onClick={()=>setResults([])}>Clear</button></div><div className="media-case-results-grid">{results.map(result=><article key={result.id}><img src={result.poster_path?TMDB_POSTER+result.poster_path:''} alt="" onError={event=>{event.currentTarget.style.visibility='hidden'}}/><div><strong>{result.title||result.name}</strong><small>{(result.release_date||result.first_air_date||'').slice(0,4)||'Release date unknown'}</small><button type="button" onClick={()=>add(result)}>＋ Add to shelf</button></div></article>)}</div></div>}
+    <div className="media-case-toolbar"><form onSubmit={search}><input value={query} onChange={event=>setQuery(event.target.value)} placeholder={category==='Anime'?'Search anime on Jikan…':'Search '+category.toLowerCase()+' on TMDB…'}/><button type="submit" disabled={loading||!query.trim()}>{loading?'Searching…':category==='Anime'?'Search Jikan':'Search TMDB'}</button></form><button type="button" onClick={()=>{setEditing(blank());setShowManual(true)}}>＋ Add manually</button><span>{items.length} {items.length===1?'title':'titles'}</span></div>
+    {error&&<p className="media-case-error" role="alert">{error}</p>}{hasSearched&&!loading&&!error&&query.trim()&&results.length===0&&<p className="media-case-error" role="status">No {category.toLowerCase()} found for “{query}”. Try another search.</p>}
+    {results.length>0&&<div className="media-case-results"><div className="media-case-results-heading"><strong>Search results</strong><button type="button" onClick={()=>setResults([])}>Clear</button></div><div className="media-case-results-grid">{results.map(result=>{const jikan='mal_id' in result;const title=jikan?(result.title_english||result.title):((result as TMDBShelfResult).title||(result as TMDBShelfResult).name);const cover=jikan?(result as JikanAnimeResult).images?.jpg?.image_url:((result as TMDBShelfResult).poster_path?TMDB_POSTER+(result as TMDBShelfResult).poster_path:'');const year=jikan?(result as JikanAnimeResult).year:((result as TMDBShelfResult).release_date||(result as TMDBShelfResult).first_air_date||'').slice(0,4);return <article key={jikan?'jikan-'+(result as JikanAnimeResult).mal_id:'tmdb-'+(result as TMDBShelfResult).id}><img src={cover||''} alt="" onError={event=>{event.currentTarget.style.visibility='hidden'}}/><div><strong>{title}</strong><small>{year||'Release date unknown'}</small><button type="button" onClick={()=>add(result)}>＋ Add to shelf</button></div></article>})}</div></div>}
     {items.length?<div className="cd-shelf-grid">{items.map(item=><ShelfItem key={item.id} album={item} onOpen={setSelected}/>)}</div>:<div className="shelf-empty"><div className="shelf-empty-case"><span>{category==='Movies'?'FILM':category==='Anime'?'ANIME':'TV'}</span></div><strong>Your {category.toLowerCase()} shelf is empty</strong><span>Search TMDB above or add your own {category.toLowerCase()} entry.</span></div>}
     {selected&&<Viewer key={selected.id} album={selected} onClose={()=>setSelected(null)} onEdit={()=>{setEditing(selected);setSelected(null);setShowManual(true)}} onRemove={()=>{setItems(current=>current.filter(item=>item.id!==selected.id));setSelected(null)}}/>}{showManual&&editing&&<AlbumEditor album={editing} category={category} onChange={setEditing} onClose={()=>{setShowManual(false);setEditing(null)}} onSave={saveManual}/>}
-    <p className="media-case-attribution">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+    <p className="media-case-attribution">{category==='Anime'?'Anime metadata provided by Jikan / MyAnimeList.':'This product uses the TMDB API but is not endorsed or certified by TMDB.'}</p>
   </div>
 }
 
