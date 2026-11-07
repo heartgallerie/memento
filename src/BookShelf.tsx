@@ -23,7 +23,7 @@ type GoogleVolume = {
     imageLinks?: Record<string, string>
   }
 }
-type JikanManga = { mal_id:number; title:string; title_english?:string|null; authors?:{name:string}[]; published?:{from?:string|null}; volumes?:number|null; images?:{jpg?:{image_url?:string}} }
+type KitsuManga = { id:string; attributes:{ canonicalTitle?:string; titles?:{en?:string|null;en_jp?:string|null;ja_jp?:string|null}; startDate?:string|null; volumeCount?:number|null; chapterCount?:number|null; posterImage?:{small?:string;medium?:string;large?:string}|null } }
 type SavedShelf = { customBooks: Book[]; edits: Record<string, Book> }
 
 const SHAKESPEARE: Book[] = [
@@ -147,7 +147,7 @@ function Editor({ initial, mode, onClose, onSave }: { initial: Partial<Book>; mo
   const [isbn,setIsbn]=useState(initial.isbn || '')
   const [pages,setPages]=useState(String(initial.pages || 8))
   const [results,setResults]=useState<GoogleVolume[]>([])
-  const [mangaResults,setMangaResults]=useState<JikanManga[]>([])
+  const [mangaResults,setMangaResults]=useState<KitsuManga[]>([])
   const [loading,setLoading]=useState(false)
   const [error,setError]=useState('')
   const search=async()=>{
@@ -155,9 +155,11 @@ function Editor({ initial, mode, onClose, onSave }: { initial: Partial<Book>; mo
     setLoading(true);setError('');setResults([]);setMangaResults([])
     try{
       if(kind==='manga'){
-        const response=await fetch('https://api.jikan.moe/v4/manga?q='+encodeURIComponent(query.trim())+'&limit=12')
-        if(!response.ok)throw new Error('Jikan manga search failed ('+response.status+'). Try again in a moment.')
-        const data=await response.json();const found=(data.data||[]) as JikanManga[];setMangaResults(found)
+        const url=new URL('https://kitsu.io/api/edge/manga')
+        url.searchParams.set('filter[text]',query.trim());url.searchParams.set('page[limit]','12');url.searchParams.set('sort','-userCount')
+        const response=await fetch(url.toString(),{headers:{Accept:'application/vnd.api+json'}})
+        if(!response.ok)throw new Error('Kitsu manga search failed ('+response.status+'). Try again in a moment.')
+        const data=await response.json();const found=(data.data||[]) as KitsuManga[];setMangaResults(found)
         if(!found.length)setError('No manga found. Try another title or author.')
       }else{
         const response=await fetch('https://www.googleapis.com/books/v1/volumes?q='+encodeURIComponent(query.trim())+'&maxResults=20&printType=books')
@@ -187,7 +189,7 @@ function Editor({ initial, mode, onClose, onSave }: { initial: Partial<Book>; mo
       kind,
     })
   }
-  const chooseManga=(item:JikanManga)=>{const date=item.published?.from||'';onSave({id:initial.id||'',title:item.title_english||item.title,author:(item.authors||[]).map(x=>x.name).join(', ')||'Unknown author',year:Number(date.slice(0,4))||0,isbn:'',cover:item.images?.jpg?.image_url||'',colors:initial.colors||['#292929','#080808'],pages:8,kind:'manga'})}
+  const chooseManga=(item:KitsuManga)=>{const attrs=item.attributes;const date=attrs.startDate||'';onSave({id:initial.id||'',title:attrs.titles?.en||attrs.canonicalTitle||'Untitled',author:'',year:Number(date.slice(0,4))||0,isbn:'',cover:attrs.posterImage?.large||attrs.posterImage?.medium||attrs.posterImage?.small||'',colors:initial.colors||['#292929','#080808'],pages:8,kind:'manga'})}
   const saveManual=()=>{
     if(!title.trim())return
     onSave({id:initial.id || '',title:title.trim(),author:author.trim() || 'Unknown author',year:Number(year)||0,isbn:isbn.trim(),cover:cover.trim(),colors:initial.colors || (kind==='manga'?['#292929','#080808']:['#80684d','#30251d']),pages:Math.max(2,Number(pages)||8),kind})
@@ -197,11 +199,11 @@ function Editor({ initial, mode, onClose, onSave }: { initial: Partial<Book>; mo
       <header><div><strong>{initial.id?'Edit book':'Add a book'}</strong><small>Search a catalogue or enter the details yourself.</small></div><button onClick={onClose} aria-label="Close">×</button></header>
       <nav><button className={tab==='search'?'active':''} onClick={()=>setTab('search')}>Search catalogue</button><button className={tab==='manual'?'active':''} onClick={()=>setTab('manual')}>Enter manually</button></nav>
       {tab==='search'?<div className="book-editor-search">
-        <div className="book-editor-query"><input value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')search()}} placeholder={kind==='manga'?'Search manga title or author on Jikan…':'Title, author or ISBN…'}/><button onClick={search} disabled={loading||!query.trim()}>{loading?'Searching…':kind==='manga'?'Search Jikan':'Search Google Books'}</button></div>
+        <div className="book-editor-query"><input value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')search()}} placeholder={kind==='manga'?'Search manga on Kitsu…':'Title, author or ISBN…'}/><button onClick={search} disabled={loading||!query.trim()}>{loading?'Searching…':kind==='manga'?'Search Kitsu':'Search Google Books'}</button></div>
         <label className="book-editor-kind">Add as <select value={kind} onChange={e=>setKind(e.target.value as BookKind)}><option value="book">Regular book</option><option value="manga">Manga (right-to-left)</option></select></label>
         {error&&<p className="book-editor-error" role="status">{error}</p>}
-        <div className="book-editor-results">{kind==='manga'&&mangaResults.map(item=><button key={item.mal_id} className="book-editor-result" onClick={()=>chooseManga(item)}><span className="book-editor-result-cover">{item.images?.jpg?.image_url?<img src={item.images.jpg.image_url} alt=""/>:<span>NO COVER</span>}</span><span><strong>{item.title_english||item.title}</strong><small>{(item.authors||[]).map(x=>x.name).join(', ')||'Unknown author'}</small><small>{item.published?.from?.slice(0,4)||'Year unknown'} · {item.volumes||'?'} volumes</small></span><b>＋</b></button>)}{kind==='book'&&results.map(item=>{const info=item.volumeInfo||{};const images=info.imageLinks||{};const image=images.thumbnail||images.smallThumbnail||images.small||'';return <button key={item.id} className="book-editor-result" onClick={()=>choose(item)}><span className="book-editor-result-cover">{image?<img src={image.replace(/^http:/,'https:')} alt=""/>:<span>NO COVER</span>}</span><span><strong>{info.title||'Untitled'}</strong><small>{(info.authors||[]).join(', ')||'Unknown author'}</small><small>{info.publishedDate||'Year unknown'} · {info.pageCount||'?'} pages</small></span><b>＋</b></button>})}</div>
-        <small className="book-editor-attribution">{kind==='manga'?'Manga search powered by Jikan / MyAnimeList.':'Book search powered by Google Books.'} Selecting a result adds it to your shelf or updates the book you opened.</small>
+        <div className="book-editor-results">{kind==='manga'&&mangaResults.map(item=><button key={item.id} className="book-editor-result" onClick={()=>chooseManga(item)}><span className="book-editor-result-cover">{(item.attributes.posterImage?.medium||item.attributes.posterImage?.small)?<img src={item.attributes.posterImage.medium||item.attributes.posterImage.small} alt=""/>:<span>NO COVER</span>}</span><span><strong>{item.attributes.titles?.en||item.attributes.canonicalTitle||'Untitled'}</strong><small>{item.attributes.startDate?.slice(0,4)||'Year unknown'} · {item.attributes.volumeCount||'?'} volumes</small></span><b>＋</b></button>)}{kind==='book'&&results.map(item=>{const info=item.volumeInfo||{};const images=info.imageLinks||{};const image=images.thumbnail||images.smallThumbnail||images.small||'';return <button key={item.id} className="book-editor-result" onClick={()=>choose(item)}><span className="book-editor-result-cover">{image?<img src={image.replace(/^http:/,'https:')} alt=""/>:<span>NO COVER</span>}</span><span><strong>{info.title||'Untitled'}</strong><small>{(info.authors||[]).join(', ')||'Unknown author'}</small><small>{info.publishedDate||'Year unknown'} · {info.pageCount||'?'} pages</small></span><b>＋</b></button>})}</div>
+        <small className="book-editor-attribution">{kind==='manga'?'Manga search powered by Kitsu.':'Book search powered by Google Books.'} Selecting a result adds it to your shelf or updates the book you opened.</small>
       </div>:<div className="book-editor-manual">
         <label>Title<input value={title} onChange={e=>setTitle(e.target.value)} placeholder="Book title"/></label>
         <label>Author<input value={author} onChange={e=>setAuthor(e.target.value)} placeholder="Author / creator"/></label>
