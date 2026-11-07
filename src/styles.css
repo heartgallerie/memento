@@ -3734,3 +3734,10 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  box-shadow:0 10px 34px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.3)!important;
  isolation:isolate;
 }
+
+.rich-editor a.entry-inline-link{
+ color:var(--accent)!important;text-decoration:none!important;font-weight:600;cursor:pointer;
+}
+.rich-editor a.entry-inline-link svg{
+ display:inline-block;vertical-align:-2px;margin-left:4px;color:var(--accent);pointer-events:none;
+}
