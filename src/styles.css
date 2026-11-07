@@ -3876,3 +3876,54 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   backdrop-filter:blur(15px) saturate(165%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.24);
 }
+
+
+/* Journal toolbar: date and stacked counts on the left, editable tags in the remaining space */
+.editor-toolbar{justify-content:space-between;gap:14px;min-width:0}
+.editor-toolbar-info{display:flex;align-items:center;gap:13px;min-width:0;flex:none}
+.editor-toolbar-divider{width:1px;height:28px;flex:none;background:var(--line)}
+.toolbar-entry-counts{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;white-space:nowrap;font-size:9px;line-height:1.25}
+.toolbar-entry-tags{flex:1;min-width:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-start;padding:0;border:0}
+.toolbar-entry-tags>.tag-picker{position:relative}
+.toolbar-entry-tags .tag-picker-menu{z-index:120}
+.toolbar-entry-tags .selected-tag{font-size:9px;padding:4px 8px}
+.toolbar-entry-tags .tag-picker-trigger{white-space:nowrap}
+.toolbar-actions{flex:none}
+@media(max-width:760px){
+ .editor-toolbar{height:auto;min-height:64px;flex-wrap:wrap;padding:10px 0;row-gap:9px}
+ .editor-toolbar-info{flex:1 1 auto}
+ .toolbar-entry-tags{order:3;flex-basis:100%}
+ .toolbar-actions{margin-left:auto}
+}
+@media(max-width:420px){
+ .editor-toolbar-info{gap:8px}
+ .editor-date{font-size:9px;gap:5px}
+ .toolbar-entry-counts{font-size:8px}
+}
+
+/* Keep the reaction picker inside the viewport by anchoring its right edge to the trigger */
+.entry-reaction-picker-wrap{position:relative}
+.entry-reaction-picker-wrap>.entry-reaction-picker{left:auto;right:0;width:min(310px,calc(100vw - 32px));max-width:calc(100vw - 32px);}
+
+/* A warmer, layered light palette: avoid flat white surfaces */
+:root{
+ --bg:#f1efe7;
+ --panel:#e9e7dd;
+ --surface:#f8f6ef;
+ --line:#dedbd0;
+ --text:#30312b;
+ --muted:#858579;
+ --soft:#e7e4d9;
+ color:var(--text);
+ background:
+   radial-gradient(ellipse at 12% 0%,rgba(197,185,155,.13),transparent 42%),
+   linear-gradient(145deg,#f3f1e9 0%,#eeece3 55%,#f4f1e8 100%);
+}
+body{background:var(--bg);color:var(--text)}
+.sidebar{background:linear-gradient(180deg,#eae8de 0%,#e6e4da 100%)}
+.topbar,.editor-toolbar{background:color-mix(in srgb,var(--surface) 82%,transparent)}
+.editor-area:has(.entry-read-content){background:var(--bg)}
+.entry-read-content,.editor-content{background:transparent}
+.entry-card,.calendar-stat-panel,.settings-section,.memo-panel,.people-profile-card{
+ border-color:var(--line);
+}
