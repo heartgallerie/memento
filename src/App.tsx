@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Bot, PhoneCall, Film, Tv, CakeSlice, BookOpen, BookText, PenLine, CalendarDays, Search, UserRound, Settings, Sparkles, Plus, ImagePlus, ChevronLeft, ChevronRight, MoreHorizontal, Download, PanelLeftClose, PanelLeftOpen, Archive, Check, ArrowUpRight, FilePlus2, Bold, Italic, Underline, List, ListOrdered, ListChecks, Undo2, Redo2, Quote, Highlighter, X, Tag as TagIcon, Cloud, Upload, Sun, Moon, Palette, Trash2, Calendar as CalendarIcon, Folder, Bookmark, ChevronDown, MapPin, BadgeCheck, BarChart3, Pin, ExternalLink, Play, Pause, Paperclip, Ban, ArrowUp, AudioLines, Pencil, Instagram, Users, UserPlus, MessageCircle, Link2, AtSign, Globe, Music2, Youtube, Briefcase, LayoutTemplate, Heart, Dices, Dice5, Send, Library } from 'lucide-react'
+import { Bot, PhoneCall, Film, Tv, CakeSlice, BookOpen, BookText, PenLine, CalendarDays, Search, UserRound, Settings, Sparkles, Plus, ImagePlus, ChevronLeft, ChevronRight, MoreHorizontal, Copy, TextSelect, ArrowRight, Download, PanelLeftClose, PanelLeftOpen, Archive, Check, ArrowUpRight, FilePlus2, Bold, Italic, Underline, List, ListOrdered, ListChecks, Undo2, Redo2, Quote, Highlighter, X, Tag as TagIcon, Cloud, Upload, Sun, Moon, Palette, Trash2, Calendar as CalendarIcon, Folder, Bookmark, ChevronDown, MapPin, BadgeCheck, BarChart3, Pin, ExternalLink, Play, Pause, Paperclip, Ban, ArrowUp, AudioLines, Pencil, Instagram, Users, UserPlus, MessageCircle, Link2, AtSign, Globe, Music2, Youtube, Briefcase, LayoutTemplate, Heart, Dices, Dice5, Send, Library } from 'lucide-react'
 
 import type { CSSProperties as ReactCSSProperties, ReactNode } from 'react'
 import CdShelf from './CdShelf'
@@ -640,17 +640,61 @@ const reactionEmojiOptions:[string,string][]=[
 
 function linkifyEntryUrls(html:string){if(!html||typeof document==='undefined')return html;const template=document.createElement('template');template.innerHTML=html;const walker=document.createTreeWalker(template.content,NodeFilter.SHOW_TEXT);const nodes:Text[]=[];while(walker.nextNode())nodes.push(walker.currentNode as Text);const pattern=/(https?:\/\/[^\s<]+|www\.[^\s<]+)/gi;for(const node of nodes){const parent=node.parentElement;if(parent?.closest('a,script,style,code,pre'))continue;const value=node.textContent||'';pattern.lastIndex=0;const fragment=document.createDocumentFragment();let last=0;for(const match of value.matchAll(pattern)){const index=match.index??0;const raw=match[0],url=raw.replace(/[.,!?;:)]+$/,'');if(index>last)fragment.append(document.createTextNode(value.slice(last,index)));const anchor=document.createElement('a');anchor.href=/^https?:/i.test(url)?url:'https://'+url;anchor.target='_blank';anchor.rel='noopener noreferrer';anchor.title='Ctrl + click to open link';anchor.textContent=url;fragment.append(anchor);if(url.length<raw.length)fragment.append(document.createTextNode(raw.slice(url.length)));last=index+raw.length}if(last){if(last<value.length)fragment.append(document.createTextNode(value.slice(last)));node.replaceWith(fragment)}}return template.innerHTML}
 
-function applyMarkdownFormatting(){const root=document.querySelector('.rich-editor');if(!root)return;const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes:Text[]=[];while(walker.nextNode())nodes.push(walker.currentNode as Text);const pattern=/\*\*([^*]+)\*\*|__([^_]+)__|\*([^*]+)\*|_([^_]+)_|~~([^~]+)~~/g;for(const node of nodes){if(node.parentElement?.closest('a,em,strong,b,i,u,s,code,pre,script,style'))continue;const value=node.textContent||'';pattern.lastIndex=0;let match:RegExpExecArray|null,last=0;const fragment=document.createDocumentFragment();while((match=pattern.exec(value))){if(match.index>last)fragment.append(document.createTextNode(value.slice(last,match.index)));const tag=match[1]||match[2]?'strong':match[5]?'s':'em';const el=document.createElement(tag);el.textContent=match[1]||match[2]||match[3]||match[4]||match[5]||'';fragment.append(el);last=pattern.lastIndex}if(last){if(last<value.length)fragment.append(document.createTextNode(value.slice(last)));node.replaceWith(fragment)}}const editorNode=document.querySelector('.rich-editor') as HTMLElement|null;if(editorNode){const event=new Event('input',{bubbles:true});editorNode.dispatchEvent(event)}}
-
-function SelectionToolbar({onAnnotation,onFootnote,onLink,onIgnoreRichText}:{onAnnotation:(text:string)=>void;onFootnote:(text:string)=>void;onLink:()=>void;onIgnoreRichText:()=>void}){
+function applyMarkdownFormatting(){const root=document.querySelector('.rich-editor');if(!root)return;const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes:Text[]=[];while(walker.nextNode())nodes.push(walker.currentNode as Text);const pattern=/\*\*([^*]+)\*\*|__([^_]+)__|\*([^*]+)\*|_([^_]+)_|~~([^~]+)~~/g;for(const node of nodes){if(node.parentElement?.closest('a,em,strong,b,i,u,s,code,pre,script,style'))continue;const value=node.textContent||'';pattern.lastIndex=0;let match:RegExpExecArray|null,last=0;const fragment=document.createDocumentFragment();while((match=pattern.exec(value))){if(match.index>last)fragment.append(document.createTextNode(value.slice(last,match.index)));const tag=match[1]||match[2]?'strong':match[5]?'s':'em';const el=document.createElement(tag);el.textContent=match[1]||match[2]||match[3]||match[4]||match[5]||'';fragment.append(el);last=pattern.lastIndex}if(last){if(last<value.length)fragment.append(document.createTextNode(value.slice(last)));node.replaceWith(fragment)}}const editorNode=document.querySelector('.rich-editor') as HTMLElement|null;if(editorNode){const event=new Event('input',{bubbles:true});editofunction SelectionToolbar({onAnnotation,onFootnote,onLink,onIgnoreRichText}:{onAnnotation:(text:string)=>void;onFootnote:(text:string)=>void;onLink:()=>void;onIgnoreRichText:()=>void}){
  const [selection,setSelection]=useState<{text:string;top:number;left:number;editable:boolean;formatted:boolean}|null>(null)
+ const [expanded,setExpanded]=useState(false)
+ const getCleanRange=(range:Range)=>{
+  const clean=range.cloneRange(),end=clean.endContainer
+  if(end.nodeType===Node.TEXT_NODE){
+   const value=end.textContent||'',selectedEnd=clean.endOffset,selectedStart=clean.startContainer===end?clean.startOffset:0
+   const selected=value.slice(selectedStart,selectedEnd),trimmed=selected.replace(/\\s+$/u,'')
+   if(trimmed.length<selected.length)clean.setEnd(end,selectedStart+trimmed.length)
+  }
+  return clean
+ }
+ const updateSelection=()=>{
+  const current=window.getSelection()
+  if(!current||current.isCollapsed){setSelection(null);setExpanded(false);return}
+  const range=getCleanRange(current.getRangeAt(0)),text=range.toString()
+  if(!text.trim()){setSelection(null);setExpanded(false);return}
+  if(text!==current.toString()){current.removeAllRanges();current.addRange(range)}
+  const rect=range.getBoundingClientRect()
+  if(!rect.width&&!rect.height){setSelection(null);setExpanded(false);return}
+  const node=range.commonAncestorContainer,element=node instanceof Element?node:node.parentElement
+  setSelection({text,top:Math.max(8,rect.top-48),left:Math.min(window.innerWidth-270,Math.max(8,rect.left+rect.width/2-135)),editable:!!element?.closest('[contenteditable="true"]'),formatted:!!element?.closest('strong,b,em,i,u,s,strike,mark,font[style],span[style]')})
+ }
  useEffect(()=>{
-  const update=()=>{const current=window.getSelection();if(!current||current.isCollapsed||!current.toString().trim()){setSelection(null);return}const range=current.getRangeAt(0),rect=range.getBoundingClientRect();if(!rect.width&&!rect.height){setSelection(null);return}const node=range.commonAncestorContainer,element=node instanceof Element?node:node.parentElement;setSelection({text:current.toString().trim(),top:Math.max(8,rect.top-48),left:Math.min(window.innerWidth-220,Math.max(8,rect.left+rect.width/2-110)),editable:!!element?.closest('[contenteditable="true"]'),formatted:!!element?.closest('strong,b,em,i,u,s,strike,mark,font[style],span[style]')})}
-  document.addEventListener('selectionchange',update);window.addEventListener('scroll',update,true);window.addEventListener('resize',update)
-  return()=>{document.removeEventListener('selectionchange',update);window.removeEventListener('scroll',update,true);window.removeEventListener('resize',update)}
+  document.addEventListener('selectionchange',updateSelection);window.addEventListener('scroll',updateSelection,true);window.addEventListener('resize',updateSelection)
+  return()=>{document.removeEventListener('selectionchange',updateSelection);window.removeEventListener('scroll',updateSelection,true);window.removeEventListener('resize',updateSelection)}
  },[])
+ const close=()=>{setExpanded(false);setSelection(null)}
+ const copy=()=>{if(!selection)return;void navigator.clipboard?.writeText(selection.text);close()}
+ const selectAll=()=>{
+  if(!selection)return
+  const current=window.getSelection(),node=current?.anchorNode,element=node instanceof Element?node:node?.parentElement
+  const root=element?.closest('.read-entry-body,.rich-editor,[contenteditable="true"]')||element?.closest('p,li,blockquote')||element
+  if(root){const range=document.createRange();range.selectNodeContents(root);current?.removeAllRanges();current?.addRange(range);setExpanded(false);requestAnimationFrame(updateSelection)}
+ }
  if(!selection)return null
- return <div className="selection-action-toolbar" style={{top:selection.top,left:selection.left}} onMouseDown={e=>e.preventDefault()} role="toolbar" aria-label="Text selection actions"><button type="button" onClick={()=>{onAnnotation(selection.text);setSelection(null)}}>Annotate</button><button type="button" onClick={()=>{onFootnote(selection.text);setSelection(null)}}>Footnote</button>{selection.editable&&<><button type="button" onClick={()=>{onLink();setSelection(null)}}><Link2 size={13}/> Link</button>{selection.formatted&&<button type="button" onClick={()=>{onIgnoreRichText();setSelection(null)}}>Ignore rich text</button>}</>}</div>
+ return <div className="selection-action-toolbar" style={{top:selection.top,left:selection.left}} onMouseDown={e=>e.preventDefault()} role="toolbar" aria-label="Text selection actions">
+  <button type="button" onClick={copy}><Copy size={13}/>Copy</button>
+  <span className="selection-toolbar-divider"/>
+  <button type="button" onClick={selectAll}><TextSelect size={13}/>Select All</button>
+  <span className="selection-toolbar-divider"/>
+  <button type="button" onClick={()=>{onAnnotation(selection.text);close()}}><MessageCircle size={13}/>Annotate</button>
+  <span className="selection-toolbar-divider"/>
+  <button type="button" className={'selection-toolbar-expand'+(expanded?' expanded':'')} aria-label={expanded?'Close more actions':'More text actions'} aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}><ArrowRight size={14}/></button>
+  <div className={'selection-toolbar-expanded'+(expanded?' is-open':'')} aria-hidden={!expanded}>
+   <button type="button" tabIndex={expanded?0:-1} onClick={copy}><Copy size={14}/>Copy</button>
+   <button type="button" tabIndex={expanded?0:-1} onClick={selectAll}><TextSelect size={14}/>Select All</button>
+   <button type="button" tabIndex={expanded?0:-1} onClick={()=>{onAnnotation(selection.text);close()}}><MessageCircle size={14}/>Annotate</button>
+   <span className="selection-expanded-divider"/>
+   <button type="button" tabIndex={expanded?0:-1} onClick={()=>{onFootnote(selection.text);close()}}><BookText size={14}/>Footnote</button>
+   {selection.editable&&<button type="button" tabIndex={expanded?0:-1} onClick={()=>{onLink();close()}}><Link2 size={14}/>Link</button>}
+   {selection.editable&&selection.formatted&&<button type="button" tabIndex={expanded?0:-1} onClick={()=>{onIgnoreRichText();close()}}><X size={14}/>Ignore rich text</button>}
+  </div>
+ </div>
+}ich text</button>}</>}</div>
 }
 
 function App(){
