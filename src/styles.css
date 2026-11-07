@@ -3667,3 +3667,38 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 .selection-toolbar-expanded button{background:transparent}
 .selection-toolbar-expanded button:hover{background:color-mix(in srgb,var(--text) 8%,var(--surface))}
+
+/* Journal note tabs: keep headings visible without a horizontal scrollbar */
+.entry-notes-tabs{
+ overflow:visible!important;overflow-x:visible!important;scrollbar-width:none;
+ -ms-overflow-style:none;flex-wrap:wrap;
+}
+.entry-notes-tabs::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+.entry-notes-panel-header{flex-wrap:wrap}
+@media(max-width:620px){
+ .entry-notes-panel-header{align-items:flex-start}
+ .entry-notes-tabs{width:100%;overflow:visible!important;flex-wrap:wrap}
+}
+/* Links created from selected journal text */
+.read-entry-body a.entry-inline-link{
+ color:var(--accent)!important;text-decoration:none!important;font-weight:600;
+ display:inline-flex;align-items:baseline;gap:4px;
+}
+.read-entry-body a.entry-inline-link svg{
+ display:inline-block;vertical-align:-2px;flex:none;color:currentColor;
+}
+/* Apple-like frosted glass: translucent enough to see softened content behind */
+.selection-action-toolbar{
+ background:color-mix(in srgb,var(--surface) 70%,transparent)!important;
+ -webkit-backdrop-filter:blur(24px) saturate(180%)!important;
+ backdrop-filter:blur(24px) saturate(180%)!important;
+ border:1px solid color-mix(in srgb,var(--text) 17%,transparent)!important;
+ box-shadow:0 10px 34px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.24)!important;
+}
+.selection-toolbar-expanded{
+ background:color-mix(in srgb,var(--surface) 74%,transparent)!important;
+ -webkit-backdrop-filter:blur(24px) saturate(180%)!important;
+ backdrop-filter:blur(24px) saturate(180%)!important;
+ border:1px solid color-mix(in srgb,var(--text) 17%,transparent)!important;
+ box-shadow:0 14px 38px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
