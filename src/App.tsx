@@ -647,7 +647,7 @@ function applyMarkdownFormatting(){const root=document.querySelector('.rich-edit
   const clean=range.cloneRange(),end=clean.endContainer
   if(end.nodeType===Node.TEXT_NODE){
    const value=end.textContent||'',selectedEnd=clean.endOffset,selectedStart=clean.startContainer===end?clean.startOffset:0
-   const selected=value.slice(selectedStart,selectedEnd),trimmed=selected.replace(/\\s+$/u,'')
+   const selected=value.slice(selectedStart,selectedEnd),trimmed=selected.trimEnd()
    if(trimmed.length<selected.length)clean.setEnd(end,selectedStart+trimmed.length)
   }
   return clean
