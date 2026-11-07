@@ -683,7 +683,7 @@ function SelectionToolbar({onAnnotation,onCreateComment,onFootnote,onLink}:{onAn
   <button type="button" aria-label="Copy" onClick={copy}><Copy size={15}/><span>Copy</span></button>
   <button type="button" aria-label="Select all" onClick={selectAll}><TextSelect size={15}/><span>Select all</span></button>
   <button type="button" aria-label="Annotate" onClick={()=>{onAnnotation(selection.text);close()}}><MessageCircle size={15}/><span>Annotate</span></button>
-  <button type="button" className={'selection-toolbar-expand'+(expanded?' expanded':'')} aria-label={expanded?'Close more actions':'More actions'} aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}><ArrowRight size={16}/></button>
+  <button type="button" className={'selection-toolbar-expand'+(expanded?' expanded':'')} aria-label={expanded?'Close more actions':'More actions'} aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}><ArrowRight size={14}/></button>
   <div className={'selection-toolbar-expanded'+(expanded?' is-open':'')} aria-hidden={!expanded}>
    <button type="button" tabIndex={expanded?0:-1} onClick={()=>{onCreateComment(selection.text);close()}}><MessageCircle size={15}/>Create comment</button>
    <button type="button" tabIndex={expanded?0:-1} onClick={()=>{onFootnote(selection.text);close()}}><BookText size={15}/>Footnote</button>
