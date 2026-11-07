@@ -668,7 +668,7 @@ function applyMarkdownFormatting(){const root=document.querySelector('.rich-edit
   return()=>{document.removeEventListener('selectionchange',updateSelection);window.removeEventListener('scroll',updateSelection,true);window.removeEventListener('resize',updateSelection)}
  },[])
  const close=()=>{setExpanded(false);setSelection(null)}
- const copy=()=>{if(!selection)return;void navigator.clipboard?.writeText(selection.text);close()}
+ const copy=()=>{if(!selection)return;const value=selection.text;if(navigator.clipboard?.writeText){void navigator.clipboard.writeText(value).catch(()=>{const field=document.createElement('textarea');field.value=value;field.style.position='fixed';field.style.opacity='0';document.body.append(field);field.select();document.execCommand('copy');field.remove()})}else{const field=document.createElement('textarea');field.value=value;field.style.position='fixed';field.style.opacity='0';document.body.append(field);field.select();document.execCommand('copy');field.remove()}close()}
  const selectAll=()=>{
   if(!selection)return
   const current=window.getSelection(),node=current?.anchorNode,element=node instanceof Element?node:node?.parentElement
