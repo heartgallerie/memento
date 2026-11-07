@@ -249,3 +249,62 @@ export default function BookShelf() {
     {editor&&<Editor key={(editor.targetId||'new')+editor.mode} initial={editor.initial} mode={editor.mode} onClose={()=>setEditor(null)} onSave={save}/>}
   </section>
 }
+
+
+export function MangaShelf() {
+  const STORAGE='memento.shelf.manga'
+  const [items,setItems]=useState<Book[]>(()=>{
+    try{return JSON.parse(localStorage.getItem(STORAGE)||'[]') as Book[]}catch{return []}
+  })
+  const [query,setQuery]=useState('')
+  const [results,setResults]=useState<KitsuManga[]>([])
+  const [loading,setLoading]=useState(false)
+  const [error,setError]=useState('')
+  const [selected,setSelected]=useState<Book|null>(null)
+  const [editing,setEditing]=useState<Book|null>(null)
+  const [manualOpen,setManualOpen]=useState(false)
+  useEffect(()=>{try{localStorage.setItem(STORAGE,JSON.stringify(items))}catch{/* Local storage may be full. */}},[items])
+  const search=async(event:React.FormEvent<HTMLFormElement>)=>{
+    event.preventDefault()
+    if(!query.trim())return
+    setLoading(true);setError('');setResults([])
+    try{
+      const url=new URL('https://kitsu.io/api/edge/manga')
+      url.searchParams.set('filter[text]',query.trim())
+      url.searchParams.set('page[limit]','12')
+      url.searchParams.set('sort','-userCount')
+      const response=await fetch(url.toString(),{headers:{Accept:'application/vnd.api+json'}})
+      if(!response.ok)throw new Error('Kitsu manga search failed ('+response.status+'). Try again in a moment.')
+      const data=await response.json()
+      const found=(data.data||[]) as KitsuManga[]
+      setResults(found)
+      if(!found.length)setError('No manga found for “'+query.trim()+'”. Try another title.')
+    }catch(err){setError(err instanceof Error?err.message:'Could not search Kitsu.')}
+    finally{setLoading(false)}
+  }
+  const addFromKitsu=(result:KitsuManga)=>{
+    const attrs=result.attributes,date=attrs.startDate||''
+    const book:Book={id:'kitsu-manga-'+result.id,title:attrs.titles?.en||attrs.canonicalTitle||'Untitled',author:'Unknown author',year:Number(date.slice(0,4))||0,cover:attrs.posterImage?.large||attrs.posterImage?.medium||attrs.posterImage?.small||'',colors:['#292929','#080808'],pages:8,kind:'manga'}
+    setItems(current=>current.some(item=>item.id===book.id)?current:[...current,book])
+    setResults(current=>current.filter(item=>item.id!==result.id))
+  }
+  const saveManual=(event:React.FormEvent<HTMLFormElement>)=>{
+    event.preventDefault()
+    if(!editing?.title.trim())return
+    const value={...editing,id:editing.id||'manga-custom-'+Date.now(),kind:'manga' as const}
+    setItems(current=>current.some(item=>item.id===value.id)?current.map(item=>item.id===value.id?value:item):[...current,value])
+    setEditing(null);setManualOpen(false)
+  }
+  const blank=():Book=>({id:'',title:'',author:'Unknown author',year:0,cover:'',colors:['#292929','#080808'],pages:8,kind:'manga'})
+  const openEdit=(book:Book)=>{setSelected(null);setEditing({...book});setManualOpen(true)}
+  const remove=(book:Book)=>{setItems(current=>current.filter(item=>item.id!==book.id));setSelected(null)}
+  return <section className="book-shelf">
+    <div className="book-shelf-toolbar"><div><strong>Manga</strong><span>{items.length} volumes</span></div><span className="book-shelf-attribution">Catalogue powered by Kitsu</span><button className="book-shelf-add" onClick={()=>{setEditing(blank());setManualOpen(true)}}>＋ Add manually</button></div>
+    <form className="book-editor-query" onSubmit={search}><input value={query} onChange={event=>setQuery(event.target.value)} placeholder="Search manga on Kitsu…"/><button type="submit" disabled={loading||!query.trim()}>{loading?'Searching…':'Search Kitsu'}</button></form>
+    {error&&<p className="book-editor-error" role="status">{error}</p>}
+    {results.length>0&&<div className="book-editor-results">{results.map(item=><button key={item.id} className="book-editor-result" onClick={()=>addFromKitsu(item)}><span className="book-editor-result-cover">{item.attributes.posterImage?.medium||item.attributes.posterImage?.small?<img src={item.attributes.posterImage?.medium||item.attributes.posterImage?.small} alt=""/>:<span>NO COVER</span>}</span><span><strong>{item.attributes.titles?.en||item.attributes.canonicalTitle||'Untitled'}</strong><small>{item.attributes.startDate?.slice(0,4)||'Year unknown'} · {item.attributes.volumeCount||'?'} volumes</small></span><b>＋</b></button>)}</div>}
+    {items.length?<div className="book-shelf-grid">{items.map(book=><ShelfBook key={book.id} book={book} onOpen={setSelected}/>)}</div>:<div className="shelf-empty"><div className="shelf-empty-case"><span>MANGA</span></div><strong>Your manga shelf is empty</strong><span>Search Kitsu above or add a manga manually.</span></div>}
+    {selected&&<BookViewer key={selected.id} book={selected} onClose={()=>setSelected(null)} onEdit={()=>openEdit(selected)} onRemove={()=>remove(selected)}/>}
+    {manualOpen&&editing&&<div className="book-editor-overlay" role="dialog" aria-modal="true" aria-label="Add or edit manga"><form className="book-editor" onSubmit={saveManual}><header><div><strong>{editing.id?'Edit manga':'Add manga'}</strong><small>Enter the details for your shelf.</small></div><button type="button" onClick={()=>{setManualOpen(false);setEditing(null)}} aria-label="Close">×</button></header><div className="book-editor-manual"><label>Title<input value={editing.title} onChange={e=>setEditing({...editing,title:e.target.value})} required placeholder="Manga title"/></label><label>Author / creator<input value={editing.author} onChange={e=>setEditing({...editing,author:e.target.value})} placeholder="Author"/></label><div className="book-editor-fields"><label>Year<input type="number" value={editing.year||''} onChange={e=>setEditing({...editing,year:Number(e.target.value)||0})}/></label><label>Pages<input type="number" min="2" value={editing.pages} onChange={e=>setEditing({...editing,pages:Math.max(2,Number(e.target.value)||8)})}/></label></div><label>Cover image URL<input value={editing.cover||''} onChange={e=>setEditing({...editing,cover:e.target.value})} placeholder="https://…"/></label><div className="book-editor-actions"><button type="button" onClick={()=>{setManualOpen(false);setEditing(null)}}>Cancel</button><button className="primary" type="submit" disabled={!editing.title.trim()}>Save manga</button></div></div></form></div>}
+  </section>
+}
