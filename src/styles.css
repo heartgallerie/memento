@@ -3927,3 +3927,16 @@ body{background:var(--bg);color:var(--text)}
 .entry-card,.calendar-stat-panel,.settings-section,.memo-panel,.people-profile-card{
  border-color:var(--line);
 }
+
+
+/* Viewport-aware reaction picker: coordinates are measured from its trigger */
+.entry-reaction-picker-wrap>.entry-reaction-picker{
+ position:fixed!important;left:var(--reaction-picker-left,16px)!important;
+ right:auto!important;top:var(--reaction-picker-top,16px)!important;
+ width:min(310px,calc(100vw - 32px))!important;max-width:calc(100vw - 32px)!important;
+ z-index:5000!important;
+}
+.toolbar-folder-select{
+ max-width:112px;min-width:0;padding:5px 8px;border:1px solid var(--line);
+ border-radius:999px;background:var(--surface);color:var(--muted);font-size:10px;
+}
