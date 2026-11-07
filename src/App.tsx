@@ -694,7 +694,6 @@ function applyMarkdownFormatting(){const root=document.querySelector('.rich-edit
    {selection.editable&&selection.formatted&&<button type="button" tabIndex={expanded?0:-1} onClick={()=>{onIgnoreRichText();close()}}><X size={14}/>Ignore rich text</button>}
   </div>
  </div>
-}ich text</button>}</>}</div>
 }
 
 function App(){
