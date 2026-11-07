@@ -3788,3 +3788,40 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   vertical-align:-1px;
   margin-left:3px;
 }
+
+
+/* Slightly softer frosted glass, keeping the separate blur overlay */
+.selection-action-toolbar::before,
+.selection-toolbar-expanded::before{
+  -webkit-backdrop-filter:blur(15px) saturate(165%);
+  backdrop-filter:blur(15px) saturate(165%);
+}
+.selection-action-toolbar>button.selection-toolbar-expand{
+  display:grid;place-items:center;width:34px;min-width:34px;height:34px;padding:0;
+}
+.selection-action-toolbar>button.selection-toolbar-expand>svg{
+  display:block;width:16px;height:16px;margin:0;transform:translateX(0);
+}
+.selection-action-toolbar .selection-toolbar-expand.expanded>svg{transform:rotate(90deg)}
+.app-shell[data-link-style="dotted"] .read-entry-body a.entry-inline-link,
+.app-shell[data-link-style="dotted"] .rich-editor a.entry-inline-link{
+  text-decoration-line:underline!important;text-decoration-style:dotted!important;
+  text-decoration-color:currentColor!important;text-decoration-thickness:1px!important;
+  text-underline-offset:3px!important;
+}
+.app-shell[data-link-style="dotted"] .read-entry-body a.entry-inline-link svg,
+.app-shell[data-link-style="dotted"] .rich-editor a.entry-inline-link svg{display:none!important}
+.app-shell[data-link-style="arrow"] .read-entry-body a.entry-inline-link,
+.app-shell[data-link-style="arrow"] .rich-editor a.entry-inline-link{text-decoration:none!important}
+.read-entry-body a.entry-inline-link,
+.rich-editor a.entry-inline-link{position:relative;cursor:pointer}
+.read-entry-body a.entry-inline-link:hover::after,
+.rich-editor a.entry-inline-link:hover::after,
+.read-entry-body a.entry-inline-link:focus-visible::after,
+.rich-editor a.entry-inline-link:focus-visible::after{
+  content:attr(data-link-preview);position:absolute;z-index:80;left:0;bottom:calc(100% + 9px);
+  display:block;width:max-content;max-width:min(340px,75vw);padding:9px 11px;overflow-wrap:anywhere;
+  border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);
+  box-shadow:0 8px 28px rgba(0,0,0,.18);font:500 10px/1.5 'DM Sans','Jdecked Twemoji',sans-serif;
+  white-space:normal;pointer-events:none;
+}
