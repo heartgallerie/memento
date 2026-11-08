@@ -190,13 +190,13 @@ const getWatchlistRelations=(current:WatchItem,items:WatchItem[])=>{
  }).filter(result=>result.score>0).sort((a,b)=>b.score-a.score).slice(0,8)
 }
 function WatchlistPage({collection='watchlist'}:{collection?:'watchlist'|'wishlist'}){
- const storageKey=collection==='wishlist'?'memento.wishlist':'memento.watchlist',otherStorageKey=collection==='wishlist'?'memento.watchlist':'memento.wishlist',isWishlist=collection==='wishlist'
+ const storageKey=collection==='wishlist'?'memento.wishlist':'memento.watchlist',otherStorageKey=collection==='wishlist'?'memento.watchlist':'memento.wishlist',categoryStorageKey=storageKey+'.categories',isWishlist=collection==='wishlist'
  const [items,setItems]=useState<WatchItem[]>(()=>{try{return (JSON.parse(localStorage.getItem(storageKey)||'[]') as WatchItem[]).map(item=>({...item,status:item.status==='Plan to watch'?'Backlog':item.status==='Watching'?'In Progress':item.status,tabs:Array.isArray(item.tabs)&&item.tabs.length?item.tabs:[item.status==='Plan to watch'?'Backlog':item.status==='Watching'?'In Progress':item.status||'Backlog']}))}catch{return []}})
- const [categories,setCategories]=useState<string[]>(()=>{try{return JSON.parse(localStorage.getItem('memento.watchlist.categories')||'[]')}catch{return []}})
+ const [categories,setCategories]=useState<string[]>(()=>{try{return JSON.parse(localStorage.getItem(categoryStorageKey)||localStorage.getItem('memento.watchlist.categories')||'[]')}catch{return []}})
  const [query,setQuery]=useState(''),[results,setResults]=useState<TMDBResult[]>([]),[searching,setSearching]=useState(false),[hasSearched,setHasSearched]=useState(false),[error,setError]=useState('')
  const [filter,setFilter]=useState(WATCH_STATUSES[0]),[editing,setEditing]=useState<WatchItem|null>(null),[detail,setDetail]=useState<WatchItem|null>(null),[categoryDraft,setCategoryDraft]=useState(''),[commentDraft,setCommentDraft]=useState(''),[linkTitle,setLinkTitle]=useState(''),[linkUrl,setLinkUrl]=useState('')
  useEffect(()=>{localStorage.setItem(storageKey,JSON.stringify(items))},[items,storageKey])
- useEffect(()=>{localStorage.setItem('memento.watchlist.categories',JSON.stringify(categories))},[categories])
+ useEffect(()=>{localStorage.setItem(categoryStorageKey,JSON.stringify(categories))},[categories])
  const allCategories=[...WATCH_STATUSES,...categories]
  const toggleTab=(item:WatchItem,tab:string)=>{const currentTabs=item.tabs||[item.status||'Backlog'];const next=currentTabs.includes(tab)?currentTabs.filter(x=>x!==tab):[...currentTabs,tab];return {...item,tabs:next,status:next[0]||'Backlog'}}
  const removeCategory=(category:string)=>{setCategories(old=>old.filter(x=>x!==category));setItems(old=>old.map(item=>({...item,tabs:(item.tabs||[item.status||'Backlog']).filter(x=>x!==category)})));if(filter===category)setFilter(WATCH_STATUSES[0])}
