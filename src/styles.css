@@ -4253,3 +4253,60 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .wishlist-page .watchlist-card-art{width:68px;height:100px}
  .wishlist-page .watchlist-card-copy{padding:10px 11px}
 }
+
+
+/* Library search layout refinement */
+.watchlist-search-compact{
+  margin-top:22px;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.watchlist-search-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+}
+.watchlist-search-compact .watchlist-search{
+  flex:1 1 auto;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  gap:10px;
+}
+.watchlist-search-compact .watchlist-search input{
+  min-width:0;
+  flex:1 1 auto;
+}
+.watchlist-search-compact .watchlist-search>button{
+  flex:0 0 auto;
+}
+.watchlist-search-compact .watchlist-manual-add{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  flex:0 0 auto;
+  min-height:38px;
+  padding:8px 13px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--surface);
+  color:var(--text);
+  white-space:nowrap;
+  cursor:pointer;
+}
+.watchlist-search-compact .watchlist-manual-add:hover{
+  border-color:var(--accent);
+  background:var(--soft);
+}
+@media(max-width:560px){
+  .watchlist-search-row{align-items:stretch;flex-wrap:wrap}
+  .watchlist-search-compact .watchlist-search{flex-basis:100%}
+}
