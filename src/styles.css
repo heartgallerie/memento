@@ -4068,3 +4068,17 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .profile-no-banner .profile-fields{padding-top:0}
  .profile-no-banner .profile-heading-actions{gap:5px}
 }
+
+
+/* Sidebar mini calendar */
+.sidebar-mini-calendar{margin:12px 10px 15px;padding:10px 9px;border:1px solid color-mix(in srgb,var(--line) 75%,transparent);border-radius:10px;background:color-mix(in srgb,var(--surface) 55%,transparent)}
+.sidebar-mini-calendar-heading>button{display:flex;align-items:center;gap:7px;width:100%;padding:1px 2px;border:0;background:transparent;color:var(--muted);font:600 10px 'DM Sans',system-ui,sans-serif;text-align:left;cursor:pointer}
+.sidebar-mini-calendar-heading>button span{flex:1}.sidebar-mini-calendar-heading svg:last-child{transition:transform .18s}.sidebar-mini-calendar-heading svg:last-child.is-collapsed{transform:rotate(-90deg)}
+.sidebar-mini-calendar-month{display:flex;align-items:center;justify-content:space-between;gap:5px;margin:9px 0 7px}.sidebar-mini-calendar-month strong{font:600 10px 'DM Sans',system-ui,sans-serif;color:var(--text)}
+.sidebar-mini-calendar-month button{display:grid;place-items:center;width:22px;height:22px;border:0;border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}.sidebar-mini-calendar-month button:hover{background:var(--soft);color:var(--text)}
+.sidebar-mini-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;text-align:center}.sidebar-mini-weekday{padding:3px 0;color:var(--muted);font:600 8px 'DM Sans',system-ui,sans-serif}
+.sidebar-mini-calendar-grid>button{position:relative;display:grid;place-items:center;aspect-ratio:1;min-width:0;padding:0;border:0;border-radius:6px;background:transparent;color:var(--text);font:10px 'DM Sans',system-ui,sans-serif;cursor:pointer}.sidebar-mini-calendar-grid>button:hover{background:var(--soft)}
+.sidebar-mini-calendar-grid>button.is-today{outline:1px solid var(--accent);outline-offset:-1px}.sidebar-mini-calendar-grid>button.is-selected{background:var(--accent);color:white}.sidebar-mini-calendar-grid>button>i{position:absolute;bottom:2px;width:3px;height:3px;border-radius:50%;background:var(--accent)}.sidebar-mini-calendar-grid>button.is-selected>i{background:white}
+.sidebar.collapsed .sidebar-mini-calendar{display:none}
+.scrapbook-library-create>span{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+.scrapbook-heading-icon.scrapbook-heading-icon--single{border:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important}
