@@ -4024,3 +4024,14 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-heading-icon.scrapbook-heading-icon--single>svg:last-child{position:static;width:20px;height:20px;padding:0;background:transparent;stroke-width:1.8}
 .scrapbook-library-cover-text{position:absolute!important;z-index:5!important;display:block!important;min-height:1em;padding:5px 7px;border-radius:3px;white-space:pre-wrap;overflow-wrap:anywhere;text-align:center;line-height:1.2;pointer-events:none;box-shadow:0 1px 4px #0002}
 .scrapbook-library-cover-title{display:none!important}
+
+
+/* Stretch is a third background fit mode for scrapbook covers and pages. */
+.scrapbook-page-background{object-fit:cover}
+.scrapbook-cover-art{object-fit:cover}
+.scrapbook-placed-image.polaroid{padding:6px 6px 23px;background:#fff;border:1px solid #e7e2d9;box-shadow:0 5px 12px #0004,0 1px 2px #0002;box-sizing:border-box}
+.scrapbook-placed-image.polaroid img{width:100%;height:auto;max-height:none;object-fit:contain;filter:none}
+.scrapbook-library-placed-image.polaroid{padding:4px 4px 15px;background:#fff;border:1px solid #e7e2d9;box-shadow:0 4px 10px #0005;box-sizing:border-box}
+.scrapbook-library-placed-image.polaroid img{border:0;border-radius:0;box-shadow:none}
+.scrapbook-image-polaroid{position:absolute;top:-18px;left:24px;display:grid;place-items:center;width:22px;height:18px;padding:0;border:0;border-radius:4px 4px 0 0;background:#f1eee6;color:#514a40;font-size:12px;cursor:pointer}
+.scrapbook-image-polaroid.active{background:#7965bb;color:white}
