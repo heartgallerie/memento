@@ -4082,3 +4082,12 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar.collapsed .sidebar-mini-calendar{display:none}
 .scrapbook-library-create>span{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
 .scrapbook-heading-icon.scrapbook-heading-icon--single{border:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important}
+
+
+/* Keep New entry fixed-size while the sidebar calendar is expanded. */
+.sidebar>.new-entry{flex:0 0 39px;min-height:39px;box-sizing:border-box}
+.nav-journal-row>.nav-item{padding-right:38px}
+.journal-expand-trigger{position:absolute;right:7px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:26px;height:26px;padding:0;border:0;border-radius:7px;background:transparent;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
+.journal-expand-trigger:hover{background:var(--surface-hover);color:var(--text)}
+.journal-expand-trigger svg{transition:transform .18s ease}
+.journal-expand-trigger[aria-expanded="true"] svg{transform:rotate(180deg)}
