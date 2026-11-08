@@ -4106,3 +4106,28 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .calendar-date-selection label{color:var(--muted);font-size:11px;font-weight:600}
 .calendar-date-selection input{max-width:190px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji'}
 @media(max-width:650px){.calendar-date-selection{margin:20px 0;align-items:flex-start;flex-direction:column}.calendar-date-selection input{max-width:none;width:100%;box-sizing:border-box}}
+
+
+/* Smoothly reveal and collapse the sidebar calendar and journal sections. */
+.sidebar-mini-calendar-content{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .28s cubic-bezier(.2,.75,.25,1),opacity .2s ease}
+.sidebar-mini-calendar-content.is-open{grid-template-rows:1fr;opacity:1}
+.sidebar-mini-calendar-inner{min-height:0;overflow:hidden}
+.sidebar-mini-calendar-heading button svg:last-child{transition:transform .25s ease}
+.sidebar-mini-calendar-heading button[aria-expanded="true"] svg:last-child{transform:rotate(180deg)}
+.nav-subitems-clip{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .28s cubic-bezier(.2,.75,.25,1),opacity .2s ease}
+.nav-subitems-clip.is-open{grid-template-rows:1fr;opacity:1}
+.nav-subitems-clip>.nav-subitems{min-height:0;overflow:hidden}
+.nav-journal-row>.nav-item{box-sizing:border-box;display:flex;align-items:center;min-height:38px}
+.sidebar.collapsed .nav-journal-row{width:100%;min-height:38px;justify-content:center}
+.sidebar.collapsed .nav-journal-row>.nav-item{width:100%;height:38px;min-height:38px;flex:0 0 100%;justify-content:center;padding:0!important;margin:0;box-sizing:border-box;border:1px solid transparent}
+.sidebar.collapsed .nav-journal-row>.nav-item svg{display:block;flex:none;margin:0}
+.sidebar.collapsed .nav-journal-row>.nav-item.active{border-color:var(--line)}
+.calendar-date-selection{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:32px 0 24px;padding:15px 17px;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+.calendar-date-part{display:grid;gap:8px;min-width:0}
+.calendar-date-part>span{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.calendar-date-part>div{display:flex;align-items:center;justify-content:space-between;gap:5px;min-width:0}
+.calendar-date-part strong{font:600 13px 'DM Sans','Jdecked Twemoji';color:var(--text);text-align:center;white-space:nowrap}
+.calendar-date-part button{display:grid;place-items:center;flex:none;width:27px;height:27px;padding:0;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.calendar-date-part button:hover{border-color:var(--accent);background:var(--soft);color:var(--accent)}
+@media(max-width:650px){.calendar-date-selection{grid-template-columns:1fr;gap:14px}.calendar-date-part>div{justify-content:flex-start}.calendar-date-part strong{min-width:90px}}
+@media(prefers-reduced-motion:reduce){.sidebar-mini-calendar-content,.nav-subitems-clip,.sidebar-mini-calendar-heading button svg:last-child{transition:none}}
