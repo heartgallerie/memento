@@ -3966,3 +3966,5 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .editor-toolbar>.toolbar-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex:none;margin-left:auto}
 .close-entry-btn{white-space:nowrap}
 @media(max-width:760px){.editor-toolbar{flex-wrap:wrap;gap:8px;padding:8px}.editor-toolbar>.entry-tags{order:3;flex-basis:100%;padding:4px 0;overflow-x:auto}.editor-toolbar>.toolbar-actions{margin-left:auto}}
+
+.scrapbook-library-cover.scrapbook-cover:after{background:none!important}
