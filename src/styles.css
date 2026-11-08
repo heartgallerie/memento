@@ -3936,3 +3936,33 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  width:min(310px,calc(100vw - 32px))!important;max-width:calc(100vw - 32px)!important;
  z-index:5000!important;
 }
+
+/* Scrapbook covers use identical, undimmed artwork in the library and cover view. */
+.scrapbook-cover-art{opacity:1!important;filter:none!important}
+.scrapbook-cover-art.fit-contain{object-fit:contain!important}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-art{opacity:1!important;filter:none!important}
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-title,
+.scrapbook-library-cover.scrapbook-cover .scrapbook-cover-subtitle,
+.scrapbook-cover>.scrapbook-cover-title,
+.scrapbook-cover>.scrapbook-cover-subtitle{display:none!important}
+.scrapbook-page-background{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.scrapbook-book-page{overflow:hidden}
+.scrapbook-paper{position:relative;z-index:1;background-color:transparent!important}
+.scrapbook-image-layer{z-index:3}
+.scrapbook-settings{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;padding:12px!important;margin:0 auto 16px!important;max-width:920px}
+.scrapbook-settings-group{padding:10px 12px!important;gap:8px!important}
+.scrapbook-settings-group h3{margin:0;font-size:11px}
+.scrapbook-cover-upload{gap:6px!important}
+.scrapbook-cover-upload button{padding:7px 10px!important;font-size:10px!important}
+.scrapbook-cover-upload button.active,.scrapbook-editor-toolbar button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));color:var(--accent)}
+.scrapbook-fit-label{color:var(--muted);font-size:10px}
+.editor-toolbar{display:flex;align-items:center;justify-content:flex-start;gap:14px;min-height:54px;height:auto;padding:8px 0}
+.editor-toolbar-info{flex:none}
+.editor-toolbar>.entry-tags{display:flex;align-items:center;flex:1;min-width:0;gap:6px;flex-wrap:nowrap;overflow:visible;margin:0;padding:0 10px;border:0;white-space:nowrap}
+.editor-toolbar>.entry-tags>.tag-picker{position:relative;flex:none}
+.editor-toolbar>.entry-tags .tag-picker-trigger{width:30px;min-width:30px;height:30px;padding:0;justify-content:center}
+.editor-toolbar>.entry-tags .selected-tag{font-size:9px;padding:4px 7px}
+.editor-toolbar>.entry-tags>select{max-width:115px;min-width:0}
+.editor-toolbar>.toolbar-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex:none;margin-left:auto}
+.close-entry-btn{white-space:nowrap}
+@media(max-width:760px){.editor-toolbar{flex-wrap:wrap;gap:8px;padding:8px}.editor-toolbar>.entry-tags{order:3;flex-basis:100%;padding:4px 0;overflow-x:auto}.editor-toolbar>.toolbar-actions{margin-left:auto}}
