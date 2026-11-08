@@ -4047,3 +4047,24 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-image-layer{overflow:visible;z-index:4}
 .scrapbook-image-boundary-indicator{position:absolute;z-index:20;top:8px;left:50%;transform:translateX(-50%);padding:6px 11px;border:1px solid #d49a52;border-radius:999px;background:#fff8e9;color:#80531f;box-shadow:0 3px 12px #0002;font:600 10px/1.2 'DM Sans',system-ui,sans-serif;white-space:nowrap;pointer-events:none}
 .scrapbook-editor-toolbar,.scrapbook-open-toolbar,.scrapbook-reader-controls{position:relative;z-index:8}
+
+
+/* When no banner is selected, place the profile avatar beside the profile information. */
+.profile-main.profile-no-banner{display:grid;grid-template-columns:112px minmax(0,1fr);column-gap:22px;row-gap:14px;padding-top:0;align-items:start}
+.profile-no-banner .profile-heading-row{display:contents}
+.profile-no-banner .profile-avatar-stack{grid-column:1;grid-row:1;top:0;width:112px;height:112px;margin:0;align-self:start}
+.profile-no-banner .profile-heading-row .profile-avatar{position:relative;top:0;width:112px;height:112px}
+.profile-no-banner .profile-fields{grid-column:2;grid-row:1;min-width:0;padding-top:0}
+.profile-no-banner .profile-heading-actions{grid-column:2;grid-row:2;justify-self:end;align-self:start;display:flex;gap:8px;position:relative;z-index:2}
+.profile-no-banner .profile-heading-actions .profile-edit-button,
+.profile-no-banner .profile-heading-actions .profile-socials-button{margin-top:0}
+.profile-main.profile-no-banner>.profile-tabs,
+.profile-main.profile-no-banner>.profile-tab-transition{grid-column:1/-1;width:100%;min-width:0}
+@media(max-width:650px){
+ .profile-main.profile-no-banner{grid-template-columns:76px minmax(0,1fr);column-gap:13px;row-gap:12px}
+ .profile-no-banner .profile-avatar-stack{width:76px;height:76px}
+ .profile-no-banner .profile-heading-row .profile-avatar{width:76px;height:76px}
+ .profile-no-banner .profile-avatar-stack>.profile-avatar-frame{inset:-6px;width:88px;height:88px}
+ .profile-no-banner .profile-fields{padding-top:0}
+ .profile-no-banner .profile-heading-actions{gap:5px}
+}
