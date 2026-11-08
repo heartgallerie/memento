@@ -345,7 +345,7 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,onOpenEntry,
  }
  useEffect(()=>{void loadModels()},[])
  useEffect(()=>{localStorage.setItem('memento-memo-chat',JSON.stringify(messages))},[messages])
- useEffect(()=>{localStorage.setItem('memento.linkStyle',linkStyle)},[linkStyle]);useEffect(()=>{localStorage.setItem('memento-ollama-url',ollamaUrl)},[ollamaUrl])
+useEffect(()=>{localStorage.setItem('memento-ollama-url',ollamaUrl)},[ollamaUrl])
  useEffect(()=>{if(selectedModel)localStorage.setItem('memento-ollama-model',selectedModel)},[selectedModel])
  useEffect(()=>{localStorage.setItem('memento-memo-journal',String(includeJournal))},[includeJournal])
  useEffect(()=>{localStorage.setItem('memento-memo-dms',String(includeDMs))},[includeDMs])
@@ -833,6 +833,7 @@ The tower stands beside the River Seine on the Champ de Mars, in the 7th arrondi
  useEffect(()=>{localStorage.setItem('memento.theme',theme);document.documentElement.dataset.theme=theme},[theme])
  useEffect(()=>{localStorage.setItem('memento.accent',accent);document.documentElement.style.setProperty('--accent',accent)},[accent])
  useEffect(()=>{localStorage.setItem('memento.twitterBadgeColor',String(twitterBadgeColor));document.documentElement.style.setProperty('--verified-color',twitterBadgeColor?'#1d9bf0':'var(--accent)')},[twitterBadgeColor])
+ useEffect(()=>{localStorage.setItem('memento.linkStyle',linkStyle)},[linkStyle])
  useEffect(()=>{localStorage.setItem('memento.memoAvatarColor',memoAvatarColor);localStorage.setItem('memento.memoAvatarFollowsAccent',String(memoAvatarFollowsAccent));localStorage.setItem('memento.memoAvatarDesign',memoAvatarDesign)},[memoAvatarColor,memoAvatarFollowsAccent,memoAvatarDesign])
  useEffect(()=>{localStorage.setItem('memento.memoNote',memoNote);localStorage.setItem('memento.memoFrame',memoFrame);localStorage.setItem('memento.memoPosts',JSON.stringify(memoPosts))},[memoNote,memoFrame,memoPosts])
  useEffect(()=>{localStorage.setItem('memento.timeFormat',timeFormat)},[timeFormat])
