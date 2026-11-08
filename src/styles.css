@@ -4035,3 +4035,9 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-library-placed-image.polaroid img{border:0;border-radius:0;box-shadow:none}
 .scrapbook-image-polaroid{position:absolute;top:-18px;left:24px;display:grid;place-items:center;width:22px;height:18px;padding:0;border:0;border-radius:4px 4px 0 0;background:#f1eee6;color:#514a40;font-size:12px;cursor:pointer}
 .scrapbook-image-polaroid.active{background:#7965bb;color:white}
+
+
+/* Scrapbook editor fixes: keep text entry left-to-right, let collage images extend beyond page edges, and remove the toolbar shell when editing is off. */
+.scrapbook-cover-text-content{direction:ltr!important;unicode-bidi:isolate!important;writing-mode:horizontal-tb!important}
+.scrapbook-book-page{overflow:visible!important}
+.scrapbook-cover:not(.cover-editing) .scrapbook-cover-text-tools,.scrapbook-cover:not(.cover-editing) .scrapbook-cover-text-resize,.scrapbook-cover:not(.cover-editing) .scrapbook-cover-text-rotate{display:none!important}
