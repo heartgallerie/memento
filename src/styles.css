@@ -4091,3 +4091,18 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .journal-expand-trigger:hover{background:var(--surface-hover);color:var(--text)}
 .journal-expand-trigger svg{transition:transform .18s ease}
 .journal-expand-trigger[aria-expanded="true"] svg{transform:rotate(180deg)}
+
+
+/* Sidebar calendar alignment and its compact collapsed shortcut. */
+.sidebar-mini-calendar{margin:12px 8px 18px;padding:11px 8px;width:auto;box-sizing:border-box}
+.sidebar-mini-calendar-heading{min-height:20px}
+.sidebar-mini-calendar-month{margin:8px 0 6px}
+.sidebar-mini-calendar-grid{gap:2px}
+.sidebar-mini-calendar-grid>button{min-height:25px}
+.sidebar-mini-calendar-collapsed{display:grid;place-items:center;width:38px;height:38px;flex:none;margin:12px auto 18px;padding:0;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.sidebar-mini-calendar-collapsed:hover,.sidebar-mini-calendar-collapsed:focus-visible{border-color:var(--accent);background:var(--soft);color:var(--accent)}
+.sidebar.collapsed .sidebar-mini-calendar-collapsed{margin:12px auto 18px}
+.calendar-date-selection{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:32px 0 24px;padding:15px 17px;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+.calendar-date-selection label{color:var(--muted);font-size:11px;font-weight:600}
+.calendar-date-selection input{max-width:190px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji'}
+@media(max-width:650px){.calendar-date-selection{margin:20px 0;align-items:flex-start;flex-direction:column}.calendar-date-selection input{max-width:none;width:100%;box-sizing:border-box}}
