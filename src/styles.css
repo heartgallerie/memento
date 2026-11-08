@@ -4170,3 +4170,19 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-detail-columns>section,.watchlist-tracker{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .watchlist-detail-columns h2,.watchlist-tracker h2{margin:0 0 13px;font:500 18px 'Playfair Display',serif}
 @media(max-width:650px){.watchlist-page{padding:0 15px 55px}.watchlist-detail-banner{min-height:125px}.watchlist-detail-hero{grid-template-columns:105px minmax(0,1fr);gap:15px;padding:0 0 20px}.watchlist-detail-heading{padding:2px 0}.watchlist-detail-heading h1{font-size:25px}.watchlist-detail-heading p{font-size:11px}.watchlist-grid{grid-template-columns:repeat(auto-fill,minmax(125px,1fr))}}
+
+/* Related titles from the personal watchlist */
+.watchlist-related{margin:24px 0 4px;padding:19px 20px;border:1px solid var(--line);border-radius:13px;background:var(--surface)}
+.watchlist-related-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:15px}
+.watchlist-related-heading h2{margin:5px 0 0;font:500 21px 'Playfair Display',serif}
+.watchlist-related-heading>span{color:var(--muted);font-size:10px}
+.watchlist-related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px}
+.watchlist-related-card{display:flex;align-items:center;gap:11px;min-width:0;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);text-align:left;cursor:pointer;transition:border-color .18s,transform .18s}
+.watchlist-related-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.watchlist-related-art{flex:0 0 48px;width:48px;height:66px;display:grid;place-items:center;overflow:hidden;border-radius:5px;background:var(--surface);color:var(--muted)}
+.watchlist-related-art img{width:100%;height:100%;object-fit:cover}
+.watchlist-related-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.watchlist-related-copy small{color:var(--muted);font-size:8px;letter-spacing:.09em;text-transform:uppercase}
+.watchlist-related-copy strong{overflow:hidden;font-size:11px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+.watchlist-related-copy em{color:var(--muted);font-size:9px;font-style:normal}
+@media(max-width:650px){.watchlist-related{padding:14px}.watchlist-related-grid{grid-template-columns:1fr 1fr;gap:7px}.watchlist-related-card{gap:8px;padding:6px}.watchlist-related-art{flex-basis:39px;width:39px;height:55px}.watchlist-related-copy strong{font-size:10px}}
