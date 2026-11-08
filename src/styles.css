@@ -4016,3 +4016,11 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .scrapbook-library-cover-title{position:absolute;z-index:8;left:8%;right:8%;top:50%;transform:translateY(-50%);display:block;padding:7px 9px;text-align:center;white-space:normal;overflow-wrap:anywhere;color:#fff;font:600 clamp(10px,1.5vw,17px)/1.2 Georgia,serif;text-shadow:0 2px 5px #000b;background:linear-gradient(90deg,transparent,#0005,transparent);pointer-events:none}
 .scrapbook-library-cover-text{z-index:9!important}
 .scrapbook-cover-text-editor,.scrapbook-cover-text-settings{display:none!important}
+
+
+/* Single scrapbook mark in the library heading (no stacked mini-icon positioning). */
+.scrapbook-heading-icon.scrapbook-heading-icon--single{width:30px;height:30px;border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-radius:9px;background:color-mix(in srgb,var(--accent) 9%,var(--surface));box-shadow:inset 0 1px 0 #ffffff40}
+.scrapbook-heading-icon.scrapbook-heading-icon--single>svg:first-child,
+.scrapbook-heading-icon.scrapbook-heading-icon--single>svg:last-child{position:static;width:20px;height:20px;padding:0;background:transparent;stroke-width:1.8}
+.scrapbook-library-cover-text{position:absolute!important;z-index:5!important;display:block!important;min-height:1em;padding:5px 7px;border-radius:3px;white-space:pre-wrap;overflow-wrap:anywhere;text-align:center;line-height:1.2;pointer-events:none;box-shadow:0 1px 4px #0002}
+.scrapbook-library-cover-title{display:none!important}
