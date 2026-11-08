@@ -4204,3 +4204,16 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-link-list a:hover{color:var(--accent)}
 .watchlist-link-list article>button{border:0;background:none;color:var(--muted);font-size:10px;cursor:pointer}
 @media(max-width:650px){.watchlist-links form{grid-template-columns:1fr}.watchlist-links form button{justify-self:start}}
+
+/* Compact unified Library search */
+.watchlist-search-compact{padding:12px 14px!important}
+.watchlist-search-compact .watchlist-search-tabs,.watchlist-search-compact .watchlist-api-settings{display:none!important}
+.watchlist-search-compact .watchlist-search{max-width:760px;margin:0 auto}
+.watchlist-search-compact .watchlist-search input{min-width:0}
+.watchlist-result-group{margin-top:18px}
+.watchlist-result-group h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:12px;font-weight:600;letter-spacing:.04em}
+.watchlist-result-group h3 span{color:var(--muted);font-size:10px;font-weight:400}
+.watchlist-result-group+.watchlist-result-group{padding-top:15px;border-top:1px solid var(--line)}
+.watchlist-search-compact .watchlist-results{margin-top:12px}
+.setting-input-label{display:grid;gap:7px;max-width:520px;font-size:12px;color:var(--text)}
+.setting-input-label input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit}
