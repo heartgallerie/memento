@@ -4186,3 +4186,21 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-related-copy strong{overflow:hidden;font-size:11px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
 .watchlist-related-copy em{color:var(--muted);font-size:9px;font-style:normal}
 @media(max-width:650px){.watchlist-related{padding:14px}.watchlist-related-grid{grid-template-columns:1fr 1fr;gap:7px}.watchlist-related-card{gap:8px;padding:6px}.watchlist-related-art{flex-basis:39px;width:39px;height:55px}.watchlist-related-copy strong{font-size:10px}}
+
+/* Library: progress and named links */
+.watchlist-card-progress{display:flex;flex-direction:column;gap:5px;min-width:0;margin:2px 0 4px}
+.watchlist-card-progress small{color:var(--muted);font-size:9px;line-height:1.3}
+.watchlist-progress-track{height:4px;overflow:hidden;border-radius:999px;background:var(--line)}
+.watchlist-progress-track span{display:block;height:100%;border-radius:inherit;background:var(--accent);transition:width .25s ease}
+.watchlist-links{margin:20px 0;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.watchlist-links h2{margin:0 0 12px;font:500 18px 'Playfair Display',serif}
+.watchlist-links form{display:grid;grid-template-columns:minmax(120px,.8fr) minmax(180px,1.4fr) auto;gap:8px}
+.watchlist-links input{min-width:0;padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-size:11px}
+.watchlist-links form button{display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font-size:10px;cursor:pointer}
+.watchlist-links form button:disabled{opacity:.45;cursor:not-allowed}
+.watchlist-link-list{display:grid;gap:7px;margin-top:13px}
+.watchlist-link-list article{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.watchlist-link-list a{display:flex;align-items:center;gap:7px;min-width:0;color:var(--text);font-size:11px;text-decoration:none}
+.watchlist-link-list a:hover{color:var(--accent)}
+.watchlist-link-list article>button{border:0;background:none;color:var(--muted);font-size:10px;cursor:pointer}
+@media(max-width:650px){.watchlist-links form{grid-template-columns:1fr}.watchlist-links form button{justify-self:start}}
