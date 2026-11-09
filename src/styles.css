@@ -4418,3 +4418,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-time-inputs input::placeholder{color:var(--muted);opacity:.65}
 .watchlist-time-inputs b{color:var(--muted);font-size:14px;font-weight:500}
 @media(max-width:560px){.watchlist-time-progress-fields{grid-template-columns:1fr;gap:10px}}
+
+.watchlist-detail-progress{display:grid;gap:7px;margin-top:15px;padding:13px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.watchlist-detail-progress-heading{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px}
+.watchlist-detail-progress-heading strong{color:var(--accent);font-size:12px;font-variant-numeric:tabular-nums}
+.watchlist-detail-progress small{color:var(--muted);font-size:10px;font-variant-numeric:tabular-nums}
