@@ -4366,3 +4366,15 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-progress-track>span{display:block!important;height:100%!important;min-height:100%;border-radius:999px!important;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 55%,#fff),var(--accent))!important;box-shadow:0 0 9px color-mix(in srgb,var(--accent) 45%,transparent);transition:width .3s ease}
 .watchlist-card-progress small{color:var(--accent)!important;font-size:10px!important;font-weight:650!important;line-height:1.35}
 @media(max-width:700px){.watchlist-filter-groups{align-items:flex-start!important;flex-direction:column!important;gap:8px!important}.watchlist-custom-tabs{padding:8px 0 0!important;border-left:0!important;border-top:1px solid var(--line)!important}.watchlist-search-row{gap:6px!important}.watchlist-search-compact>.watchlist-search-row>.watchlist-manual-add{padding:8px 9px;font-size:9px}}
+
+
+/* Final requested Library control and tab alignment */
+.watchlist-search-row{justify-content:flex-start!important;gap:8px!important;}
+.watchlist-search-compact .watchlist-search{flex:0 1 560px!important;width:min(100%,560px)!important;min-width:0!important;}
+.watchlist-search-compact .watchlist-search>button:not(.watchlist-manual-add){background:var(--accent)!important;border-color:var(--accent)!important;color:#fff!important;box-shadow:inset 0 1px 0 #ffffff35,0 2px 5px #00000012!important;}
+.watchlist-search-compact .watchlist-search>button:not(.watchlist-manual-add):hover{filter:brightness(1.06);}
+.watchlist-search-compact>.watchlist-search-row>.watchlist-manual-add{margin:0!important;background:transparent!important;border:1px solid #fff!important;color:var(--text)!important;box-shadow:none!important;}
+.watchlist-filter-groups{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:12px!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;}
+.watchlist-core-tabs,.watchlist-custom-tabs{flex:0 0 auto!important;min-width:max-content!important;}
+.watchlist-custom-tabs{padding:0 0 0 12px!important;border-top:0!important;border-left:1px solid var(--line)!important;}
+@media(max-width:700px){.watchlist-filter-groups{flex-direction:row!important;align-items:center!important;flex-wrap:nowrap!important;}.watchlist-custom-tabs{padding:0 0 0 10px!important;border-left:1px solid var(--line)!important;border-top:0!important;}}
