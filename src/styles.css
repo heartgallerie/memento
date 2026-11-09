@@ -4423,3 +4423,15 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-detail-progress-heading{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px}
 .watchlist-detail-progress-heading strong{color:var(--accent);font-size:12px;font-variant-numeric:tabular-nums}
 .watchlist-detail-progress small{color:var(--muted);font-size:10px;font-variant-numeric:tabular-nums}
+
+.watchlist-toolbar-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.watchlist-tool-dropdown{position:relative}
+.watchlist-tool-dropdown>summary{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--text);font:10px 'DM Sans',sans-serif;cursor:pointer;list-style:none}
+.watchlist-tool-dropdown>summary::-webkit-details-marker{display:none}
+.watchlist-tool-menu{position:absolute;z-index:30;top:calc(100% + 6px);right:0;display:grid;min-width:145px;max-height:260px;overflow:auto;padding:5px;border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:0 8px 24px #0002}
+.watchlist-tool-menu button{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 9px;border:0;border-radius:6px;background:transparent;color:var(--text);font:10px 'DM Sans',sans-serif;text-align:left;cursor:pointer}
+.watchlist-tool-menu button:hover,.watchlist-tool-menu button.active{background:var(--soft);color:var(--accent)}
+.watchlist-tracker-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:12px}
+.watchlist-time-progress-fields{grid-template-columns:1fr;gap:10px;align-content:start}
+.watchlist-detail-progress{grid-column:2;grid-row:1;margin-top:0;align-self:stretch;align-content:center}
+@media(max-width:560px){.watchlist-tracker-fields{grid-template-columns:1fr}.watchlist-detail-progress{grid-column:1;grid-row:auto}.watchlist-time-progress-fields{grid-template-columns:1fr}}
