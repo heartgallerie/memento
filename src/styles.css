@@ -4400,3 +4400,21 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-tab-menu{z-index:120!important;max-height: min(320px,55vh);overflow-y:auto;}
 .watchlist-detail-actions{isolation:isolate;}
 @media(max-width:700px){.watchlist-search-row{width:100%!important;gap:5px!important}.watchlist-search-compact .watchlist-search{flex:1 1 auto!important;width:auto!important;min-width:0!important}.watchlist-custom-category-menu{right:0;left:auto}}
+
+/* Movie progress uses strict HH:MM fields and a readable custom-category list */
+.watchlist-custom-category-list{display:grid;gap:3px;min-width:190px}
+.watchlist-custom-category-row{display:flex;align-items:center;gap:6px;padding:2px;border-radius:7px}
+.watchlist-custom-category-row>button:first-child{display:flex;align-items:center;justify-content:space-between;gap:14px;flex:1;min-width:0;padding:9px 10px;border:0;border-radius:5px;background:transparent;color:var(--text);font:500 11px 'DM Sans','Jdecked Twemoji';text-align:left;cursor:pointer}
+.watchlist-custom-category-row>button:first-child:hover,.watchlist-custom-category-row.active>button:first-child{background:var(--soft);color:var(--accent)}
+.watchlist-custom-category-row small{color:var(--muted);font-size:10px}
+.watchlist-custom-category-row .watchlist-remove-tab{display:grid;place-items:center;width:27px;height:27px;flex:0 0 27px;border:0;border-radius:5px;background:transparent;color:var(--muted);cursor:pointer}
+.watchlist-custom-category-row .watchlist-remove-tab:hover{background:var(--soft);color:var(--text)}
+.watchlist-time-progress-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:100%}
+.watchlist-time-field{display:grid;gap:7px;min-width:0}
+.watchlist-time-field>span{color:var(--muted);font-size:11px;font-weight:600}
+.watchlist-time-inputs{display:flex;align-items:center;gap:5px;width:max-content;max-width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.watchlist-time-inputs:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 13%,transparent)}
+.watchlist-time-inputs input{width:32px;min-width:0;padding:3px 0;border:0;outline:0;background:transparent;color:var(--text);font:600 15px 'DM Sans',sans-serif;text-align:center;font-variant-numeric:tabular-nums}
+.watchlist-time-inputs input::placeholder{color:var(--muted);opacity:.65}
+.watchlist-time-inputs b{color:var(--muted);font-size:14px;font-weight:500}
+@media(max-width:560px){.watchlist-time-progress-fields{grid-template-columns:1fr;gap:10px}}
