@@ -4466,3 +4466,26 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 /* Smoother fade for long descriptions on Library detail pages only. */
 .watchlist-detail-heading .profile-post-body.is-collapsed{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;max-height:none;overflow:hidden}
 .watchlist-detail-page .watchlist-detail-heading .profile-post-body.is-collapsed:after{content:none!important;display:none!important;position:static!important;height:0!important;background:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;filter:none!important;mask:none!important;-webkit-mask:none!important}
+
+
+/* Refined Library search bar */
+.watchlist-search-compact{padding:0!important}
+.watchlist-search-row{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important}
+.watchlist-search-compact .watchlist-search{display:flex!important;align-items:center!important;gap:10px!important;flex:1 1 auto!important;width:auto!important;max-width:none!important;min-width:0!important;min-height:48px!important;padding:5px 6px 5px 14px!important;border:1px solid var(--line)!important;border-radius:12px!important;background:var(--surface)!important;box-shadow:0 2px 8px #00000008!important;box-sizing:border-box}
+.watchlist-search-compact .watchlist-search:focus-within{border-color:color-mix(in srgb,var(--accent) 65%,var(--line))!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 10%,transparent)!important}
+.watchlist-search-compact .watchlist-search>svg{width:16px!important;height:16px!important;flex:0 0 16px!important;color:var(--muted)!important}
+.watchlist-search-compact .watchlist-search-type{flex:0 0 auto!important;width:105px!important;max-width:105px!important;height:34px!important;padding:0 8px!important;border:0!important;border-radius:8px!important;background:var(--soft)!important;color:var(--text)!important;font:500 10px 'DM Sans','Jdecked Twemoji'!important;outline:0!important}
+.watchlist-search-compact .watchlist-search input{height:36px!important;min-width:0!important;flex:1 1 auto!important;padding:0 3px!important;border:0!important;background:transparent!important;color:var(--text)!important;font:12px 'DM Sans','Jdecked Twemoji'!important;outline:0!important}
+.watchlist-search-compact .watchlist-search input::placeholder{color:var(--muted)!important;opacity:.8!important}
+.watchlist-search-compact .watchlist-search>button:not(.watchlist-manual-add){display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:36px!important;padding:0 17px!important;border:0!important;border-radius:9px!important;background:var(--accent)!important;color:#fff!important;font:600 10px 'DM Sans','Jdecked Twemoji'!important;box-shadow:none!important;transition:filter .15s,transform .15s!important}
+.watchlist-search-compact .watchlist-search>button:not(.watchlist-manual-add):hover{filter:brightness(1.07)!important;transform:translateY(-1px)}
+.watchlist-search-compact .watchlist-search>button:disabled{opacity:.45!important;transform:none!important}
+.watchlist-search-compact>.watchlist-search-row>.watchlist-manual-add{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;flex:0 0 auto!important;min-height:48px!important;padding:0 15px!important;border:1px solid var(--line)!important;border-radius:12px!important;background:transparent!important;color:var(--text)!important;font:500 10px 'DM Sans','Jdecked Twemoji'!important;box-shadow:none!important;white-space:nowrap!important;transition:background .15s,border-color .15s!important}
+.watchlist-search-compact>.watchlist-search-row>.watchlist-manual-add:hover{border-color:var(--accent)!important;background:var(--soft)!important;transform:none!important}
+@media(max-width:560px){
+ .watchlist-search-row{align-items:stretch!important;flex-wrap:wrap!important}
+ .watchlist-search-compact .watchlist-search{flex:1 1 100%!important;width:100%!important;gap:7px!important;padding-left:10px!important}
+ .watchlist-search-compact .watchlist-search-type{width:88px!important;max-width:88px!important;font-size:9px!important}
+ .watchlist-search-compact .watchlist-search>button:not(.watchlist-manual-add){padding:0 11px!important}
+ .watchlist-search-compact>.watchlist-search-row>.watchlist-manual-add{min-height:38px!important}
+}
