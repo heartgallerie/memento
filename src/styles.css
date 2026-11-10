@@ -4503,3 +4503,11 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 /* Ensure the expanded Library editor always sits above the app shell. */
 .watchlist-editor-backdrop{position:fixed!important;inset:0!important;z-index:2147483647!important;isolation:isolate;transform:none!important}
+
+
+/* Compact genre and theme tags on expanded Library pages. */
+.watchlist-detail-taxonomy{display:flex;flex-direction:column;gap:9px;margin:15px 0 3px;}
+.watchlist-detail-taxonomy-group{display:flex;flex-wrap:wrap;align-items:center;gap:7px;}
+.watchlist-detail-taxonomy-group>span:first-child{flex:0 0 auto;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.watchlist-detail-taxonomy-group>div{display:flex;flex-wrap:wrap;gap:6px;}
+.watchlist-detail-tag{display:inline-flex;align-items:center;min-height:23px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font:500 10px 'DM Sans','Jdecked Twemoji';line-height:1.25;}
