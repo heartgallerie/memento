@@ -4446,3 +4446,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 /* Keep the account/profile control anchored at the bottom while the sidebar scrolls. */
 .sidebar-bottom{position:sticky;bottom:0;z-index:5;flex-shrink:0;background:var(--panel)}
+
+
+/* Fade and lightly blur overflowing navigation items above the pinned profile control. */
+.sidebar>nav{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:42px}
+.sidebar>nav::after{content:"";position:sticky;display:block;right:0;bottom:0;left:0;height:42px;margin-top:-42px;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--panel) 94%);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
