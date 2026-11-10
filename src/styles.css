@@ -4442,3 +4442,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 /* Give the main navigation its own floating-card silhouette. */
 .sidebar{top:12px;height:calc(100vh - 24px);margin:12px 0 12px 12px;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 28px #0000000d}
 @media(max-width:650px){.sidebar{top:8px;height:calc(100vh - 16px);margin:8px 0 8px 8px;border-radius:15px}}
+
+
+/* Keep the account/profile control anchored at the bottom while the sidebar scrolls. */
+.sidebar-bottom{position:sticky;bottom:0;z-index:5;flex-shrink:0;background:var(--panel)}
