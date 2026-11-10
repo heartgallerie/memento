@@ -237,14 +237,14 @@ function WatchlistDetailBanner({current}:{current:WatchItem}){
     if(cancelled)return
     try{extract(image)}
     catch{
-     if(!viaProxy&&/^https?:\\/\\//i.test(current.artwork)){
-      load('https://images.weserv.nl/?url='+encodeURIComponent(current.artwork.replace(/^https?:\\/\\//i,'')),true)
+     if(!viaProxy&&(current.artwork.startsWith('https://')||current.artwork.startsWith('http://'))){
+      load('https://images.weserv.nl/?url='+encodeURIComponent(current.artwork.startsWith('https://')?current.artwork.slice(8):current.artwork.slice(7)),true)
      }else setPalette([])
     }
    }
    image.onerror=()=>{
     if(cancelled)return
-    if(!viaProxy&&/^https?:\\/\\//i.test(current.artwork))load('https://images.weserv.nl/?url='+encodeURIComponent(current.artwork.replace(/^https?:\\/\\//i,'')),true)
+    if(!viaProxy&&(current.artwork.startsWith('https://')||current.artwork.startsWith('http://')))load('https://images.weserv.nl/?url='+encodeURIComponent(current.artwork.startsWith('https://')?current.artwork.slice(8):current.artwork.slice(7)),true)
     else setPalette([])
    }
    image.src=src
