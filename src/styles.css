@@ -4464,4 +4464,5 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 
 /* Smoother fade for long descriptions on Library detail pages only. */
-.watchlist-detail-heading .profile-post-body.is-collapsed:after{height:88px;background:linear-gradient(to bottom,transparent 0%,color-mix(in srgb,var(--bg) 12%,transparent) 28%,color-mix(in srgb,var(--bg) 48%,transparent) 62%,color-mix(in srgb,var(--bg) 88%,transparent) 86%,var(--bg) 100%);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);mask-image:linear-gradient(to bottom,transparent 0%,#000 42%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 42%)}
+.watchlist-detail-heading .profile-post-body.is-collapsed{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;max-height:none;overflow:hidden}
+.watchlist-detail-heading .profile-post-body.is-collapsed:after{content:none;display:none;backdrop-filter:none;-webkit-backdrop-filter:none}
