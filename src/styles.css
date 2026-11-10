@@ -4491,3 +4491,5 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 
 .watchlist-search-compact .watchlist-search>button:not(.watchlist-manual-add){order:3}
+
+.watchlist-music-listened{display:flex!important;align-items:center;gap:9px;min-height:38px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font-size:11px}.watchlist-music-listened input{width:15px;height:15px;accent-color:var(--accent)}
