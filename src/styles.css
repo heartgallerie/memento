@@ -4449,5 +4449,15 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 
 /* Fade and lightly blur overflowing navigation items above the pinned profile control. */
-.sidebar>nav{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:42px}
-.sidebar>nav::after{content:"";position:sticky;display:block;right:0;bottom:0;left:0;height:42px;margin-top:-42px;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--panel) 94%);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.sidebar>nav{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+
+
+/* Keep the app search bar pinned while scrolling, with the same frosted-glass treatment as the selection toolbar. */
+.topbar{position:sticky;top:0;z-index:100;background:transparent!important}
+.top-search.top-search-centered{
+ background:rgba(116,120,132,.24)!important;
+ -webkit-backdrop-filter:blur(15px) saturate(165%);
+ backdrop-filter:blur(15px) saturate(165%);
+ border:1px solid rgba(255,255,255,.26);
+ box-shadow:0 10px 34px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.24);
+}
