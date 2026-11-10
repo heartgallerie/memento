@@ -207,42 +207,53 @@ function WatchlistDetailBanner({current}:{current:WatchItem}){
  const [palette,setPalette]=useState<string[]>([])
  useEffect(()=>{
   if(current.backdrop||!current.artwork){setPalette([]);return}
-  let cancelled=false
-  const image=new Image()
-  image.crossOrigin='anonymous'
-  image.onload=()=>{
-   try{
-    const canvas=document.createElement('canvas'),size=64
-    canvas.width=size;canvas.height=size
-    const context=canvas.getContext('2d',{willReadFrequently:true})
-    if(!context)throw new Error('Canvas unavailable')
-    context.drawImage(image,0,0,size,size)
-    const pixels=context.getImageData(0,0,size,size).data
-    const bins=new Map<string,{count:number;r:number;g:number;b:number}>()
-    for(let i=0;i<pixels.length;i+=16){
-     const alpha=pixels[i+3]/255
-     if(alpha<.5)continue
-     const r=pixels[i],g=pixels[i+1],b=pixels[i+2]
-     const key=[r>>4,g>>4,b>>4].join(',')
-     const bin=bins.get(key)||{count:0,r:0,g:0,b:0}
-     bin.count++;bin.r+=r;bin.g+=g;bin.b+=b;bins.set(key,bin)
-    }
-    const ranked=[...bins.values()].map(bin=>({count:bin.count,color:[Math.round(bin.r/bin.count),Math.round(bin.g/bin.count),Math.round(bin.b/bin.count)]})).sort((x,y)=>y.count-x.count)
-    const chosen:number[][]=[]
-    for(const entry of ranked){
-     if(chosen.every(color=>Math.sqrt(color.reduce((sum,value,index)=>sum+(value-entry.color[index])**2,0))>48))chosen.push(entry.color)
-     if(chosen.length===3)break
-    }
-    while(chosen.length<3)chosen.push(chosen[chosen.length-1]||[74,78,91])
-    if(!cancelled)setPalette(chosen.map(color=>'#'+color.map(value=>value.toString(16).padStart(2,'0')).join('')))
-   }catch{if(!cancelled)setPalette([])}
+  let cancelled=false,activeImage:HTMLImageElement|null=null
+  const extract=(image:HTMLImageElement)=>{
+   const canvas=document.createElement('canvas'),size=64
+   canvas.width=size;canvas.height=size
+   const context=canvas.getContext('2d',{willReadFrequently:true})
+   if(!context)throw new Error('Canvas unavailable')
+   context.drawImage(image,0,0,size,size)
+   const pixels=context.getImageData(0,0,size,size).data
+   const bins=new Map<string,{count:number;r:number;g:number;b:number}>()
+   for(let i=0;i<pixels.length;i+=16){
+    if(pixels[i+3]<128)continue
+    const r=pixels[i],g=pixels[i+1],b=pixels[i+2],key=[r>>4,g>>4,b>>4].join(',')
+    const bin=bins.get(key)||{count:0,r:0,g:0,b:0}
+    bin.count++;bin.r+=r;bin.g+=g;bin.b+=b;bins.set(key,bin)
+   }
+   const ranked=[...bins.values()].map(bin=>({count:bin.count,color:[Math.round(bin.r/bin.count),Math.round(bin.g/bin.count),Math.round(bin.b/bin.count)]})).sort((x,y)=>y.count-x.count)
+   const chosen:number[][]=[]
+   for(const entry of ranked){
+    if(chosen.every(color=>Math.sqrt(color.reduce((sum,value,index)=>sum+(value-entry.color[index])**2,0))>38))chosen.push(entry.color)
+    if(chosen.length===3)break
+   }
+   while(chosen.length<3)chosen.push(chosen[chosen.length-1]||[74,78,91])
+   if(!cancelled)setPalette(chosen.map(color=>'#'+color.map(value=>value.toString(16).padStart(2,'0')).join('')))
   }
-  image.onerror=()=>{if(!cancelled)setPalette([])}
-  image.src=current.artwork
-  return()=>{cancelled=true;image.onload=null;image.onerror=null}
+  const load=(src:string,viaProxy=false)=>{
+   const image=new Image();activeImage=image;image.crossOrigin='anonymous'
+   image.onload=()=>{
+    if(cancelled)return
+    try{extract(image)}
+    catch{
+     if(!viaProxy&&/^https?:\\/\\//i.test(current.artwork)){
+      load('https://images.weserv.nl/?url='+encodeURIComponent(current.artwork.replace(/^https?:\\/\\//i,'')),true)
+     }else setPalette([])
+    }
+   }
+   image.onerror=()=>{
+    if(cancelled)return
+    if(!viaProxy&&/^https?:\\/\\//i.test(current.artwork))load('https://images.weserv.nl/?url='+encodeURIComponent(current.artwork.replace(/^https?:\\/\\//i,'')),true)
+    else setPalette([])
+   }
+   image.src=src
+  }
+  load(current.artwork)
+  return()=>{cancelled=true;if(activeImage){activeImage.onload=null;activeImage.onerror=null;activeImage.src=''}}
  },[current.artwork,current.backdrop])
  const colors=palette.length===3?palette:['#343844','#55566b','#292d3b']
- const rgb=colors[0].match(/[\da-f]{2}/gi)?.map(value=>parseInt(value,16))||[52,56,68]
+ const rgb=colors[0].match(/[\\da-f]{2}/gi)?.map(value=>parseInt(value,16))||[52,56,68]
  const luminance=rgb.map(value=>{const channel=value/255;return channel<=.04045?channel/12.92:((channel+.055)/1.055)**2.4}).reduce((sum,value,index)=>sum+value*[.2126,.7152,.0722][index],0)
  const foreground=luminance>.42?'#17191f':'#fff'
  const labelStyle={color:foreground,textShadow:luminance>.42?'0 1px 3px #ffffff88':'0 1px 8px #000b'} as React.CSSProperties
