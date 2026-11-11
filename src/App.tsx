@@ -270,6 +270,50 @@ function WatchlistPage({collection='watchlist',includeAdult=false,randomOpenId='
  const [query,setQuery]=useState(''),[results,setResults]=useState<TMDBResult[]>([]),[searching,setSearching]=useState(false),[hasSearched,setHasSearched]=useState(false),[error,setError]=useState(''),[searchMediaType,setSearchMediaType]=useState('all')
  const [filter,setFilter]=useState<string>(WATCH_STATUSES[0]),[mediaFilter,setMediaFilter]=useState('all'),[sortOrder,setSortOrder]=useState('default'),[viewMode,setViewMode]=useState<'grid'|'list'|'shelf'>(()=>{const saved=localStorage.getItem(storageKey+'.viewMode');return saved==='list'||saved==='shelf'?saved:'grid'}),[editing,setEditing]=useState<WatchItem|null>(null),[detail,setDetail]=useState<WatchItem|null>(null),[expandedDescriptions,setExpandedDescriptions]=useState<string[]>([]),[categoryDraft,setCategoryDraft]=useState(''),[commentDraft,setCommentDraft]=useState(''),[linkTitle,setLinkTitle]=useState(''),[linkUrl,setLinkUrl]=useState('')
  useEffect(()=>{localStorage.setItem(storageKey,JSON.stringify(items))},[items,storageKey])
+ const ageRatingAttempts=useRef(new Set<string>())
+ useEffect(()=>{
+  const tmdbKey=localStorage.getItem('memento.tmdbKey')||'',rawgKey=localStorage.getItem('memento.rawgKey')||''
+  const pending=items.filter(item=>!item.ageRating&&!ageRatingAttempts.current.has(item.id)&&(
+   (!!tmdbKey&&(item.mediaType==='movie'||item.mediaType==='tv')&&!!item.tmdbId)||
+   (item.mediaType==='game'&&item.id.startsWith('watch-game-steam-'))||
+   (!!rawgKey&&item.mediaType==='game'&&item.id.startsWith('watch-game-rawg-'))
+  )).slice(0,5)
+  if(!pending.length)return
+  pending.forEach(item=>ageRatingAttempts.current.add(item.id))
+  let cancelled=false
+  const applyRating=(id:string,ageRating:string,ageRatingSource:string)=>{
+   if(cancelled||!ageRating)return
+   setItems(old=>old.map(entry=>entry.id===id?{...entry,ageRating,ageRatingSource}:entry))
+   setDetail(old=>old?.id===id?{...old,ageRating,ageRatingSource}:old)
+  }
+  Promise.allSettled(pending.map(async item=>{
+   if((item.mediaType==='movie'||item.mediaType==='tv')&&item.tmdbId&&tmdbKey){
+    const path=item.mediaType==='movie'?'movie/'+item.tmdbId+'/release_dates':'tv/'+item.tmdbId+'/content_ratings'
+    const response=await fetch('https://api.themoviedb.org/3/'+path+'?api_key='+encodeURIComponent(tmdbKey))
+    if(!response.ok)return
+    const data=await response.json(),entries=item.mediaType==='movie'?(data.results||[]).flatMap((country:any)=>(country.release_dates||[]).map((release:any)=>({country:country.iso_3166_1,rating:release.certification}))):(data.results||[]).map((entry:any)=>({country:entry.iso_3166_1,rating:entry.rating}))
+    const chosen=entries.find((entry:any)=>entry.country==='ZA'&&entry.rating)||entries.find((entry:any)=>entry.country==='US'&&entry.rating)||entries.find((entry:any)=>entry.rating)
+    if(chosen)applyRating(item.id,String(chosen.rating),'TMDB · '+chosen.country)
+    return
+   }
+   if(item.mediaType==='game'&&item.id.startsWith('watch-game-steam-')){
+    const appId=item.id.slice('watch-game-steam-'.length),url='https://store.steampowered.com/api/appdetails?appids='+encodeURIComponent(appId)+'&l=english&cc=za'
+    const response=await fetch('https://proxy.cors.dev/'+url,{credentials:'omit'})
+    if(!response.ok)return
+    const payload=await response.json(),game=payload[appId]?.data,age=Number(game?.required_age)
+    if(Number.isFinite(age)&&age>0)applyRating(item.id,age+'+','Steam age requirement')
+    return
+   }
+   if(item.mediaType==='game'&&item.id.startsWith('watch-game-rawg-')&&rawgKey){
+    const gameId=item.id.slice('watch-game-rawg-'.length),response=await fetch('https://api.rawg.io/api/games/'+encodeURIComponent(gameId)+'?key='+encodeURIComponent(rawgKey))
+    if(!response.ok)return
+    const game=await response.json(),rating=game.esrb_rating?.name
+    if(rating)applyRating(item.id,String(rating),'ESRB · RAWG')
+   }
+  }))
+  return()=>{cancelled=true}
+ },[items,storageKey])
+
  useEffect(()=>{const valid=new Set(items.map(item=>item.id)),next=[...customOrder.filter(id=>valid.has(id)),...items.map(item=>item.id).filter(id=>!customOrder.includes(id))];if(JSON.stringify(next)!==JSON.stringify(customOrder))setCustomOrder(next);localStorage.setItem(storageKey+'.customOrder',JSON.stringify(next))},[items,customOrder,storageKey])
  useEffect(()=>{if(!randomOpenId)return;const target=items.find(item=>item.id===randomOpenId);if(target){setFilter('Backlog');setMediaFilter('all');setDetail(target);onRandomOpened()}},[randomOpenId,items,onRandomOpened])
  useEffect(()=>{localStorage.setItem(categoryStorageKey,JSON.stringify(categories))},[categories])
