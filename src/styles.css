@@ -4527,3 +4527,28 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-card-age-rating{display:inline-flex;align-self:flex-start;width:max-content;max-width:100%;margin-top:3px;padding:2px 6px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:9px;line-height:1.35}
 .watchlist-result-source{display:inline-flex;width:max-content;color:var(--muted);font-size:9px;text-decoration:underline;text-underline-offset:2px}
 .watchlist-result-source:hover{color:var(--accent)}
+
+
+/* Library card actions, age labels and enlarged cover artwork. */
+.watchlist-card-art{position:relative}
+.watchlist-card-age-rating{position:absolute;top:9px;right:9px;z-index:2;margin:0;padding:4px 7px;border:1px solid #ffffff55;border-radius:6px;background:#111d;color:#fff;font-size:10px;font-weight:600;line-height:1.2;backdrop-filter:blur(8px);box-shadow:0 2px 8px #0003}
+.watchlist-card-menu{position:relative;flex:none;align-self:center}
+.watchlist-card-menu>summary{display:grid;place-items:center;width:29px;height:29px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--muted);list-style:none;cursor:pointer}
+.watchlist-card-menu>summary::-webkit-details-marker{display:none}
+.watchlist-card-menu>summary:hover,.watchlist-card-menu[open]>summary{border-color:var(--accent);color:var(--accent)}
+.watchlist-card-menu-panel{position:absolute;z-index:80;right:0;bottom:calc(100% + 5px);display:grid;gap:2px;width:175px;max-height:min(360px,65vh);overflow:auto;padding:6px;border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:0 12px 30px #0003}
+.watchlist-card-menu-panel button{display:flex!important;align-items:center;justify-content:flex-start!important;gap:8px;width:100%!important;height:auto!important;min-height:29px;padding:7px 8px!important;border:0!important;border-radius:5px!important;background:transparent!important;color:var(--text)!important;font:10px 'DM Sans','Jdecked Twemoji';text-align:left;cursor:pointer}
+.watchlist-card-menu-panel button:hover,.watchlist-card-menu-panel button.active{background:var(--soft)!important;color:var(--accent)!important}
+.watchlist-card-menu-panel button.danger{color:#c66d6d!important}
+.watchlist-card-menu-panel button.danger:hover{background:#c66d6d18!important}
+.watchlist-card-menu-panel button>svg:last-child{margin-left:auto}
+.watchlist-card-menu-panel small{padding:6px 8px 3px;border-top:1px solid var(--line);color:var(--muted);font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.watchlist-card-menu-divider{height:1px;background:var(--line)}
+.watchlist-detail-poster{display:grid;place-items:center;padding:0;color:var(--muted);cursor:zoom-in}
+.watchlist-detail-poster:disabled{cursor:default}
+.watchlist-detail-poster img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .2s}
+.watchlist-detail-poster:not(:disabled):hover img{transform:scale(1.025)}
+.watchlist-artwork-lightbox{position:fixed;inset:0;z-index:2200;display:grid;place-items:center;padding:48px 24px 24px;background:#08090bdc;backdrop-filter:blur(10px)}
+.watchlist-artwork-lightbox>img{display:block;max-width:min(90vw,760px);max-height:88vh;width:auto;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 20px 70px #0008}
+.watchlist-artwork-lightbox>button{position:absolute;top:18px;right:20px;display:grid;place-items:center;width:38px;height:38px;border:1px solid #ffffff55;border-radius:50%;background:#17191f;color:#fff;cursor:pointer}
+@media(max-width:650px){.watchlist-card-menu-panel{bottom:auto;top:calc(100% + 5px)}.watchlist-artwork-lightbox{padding:48px 12px 12px}.watchlist-artwork-lightbox>img{max-width:96vw;max-height:88vh}}
