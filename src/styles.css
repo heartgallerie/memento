@@ -4523,3 +4523,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-card[draggable="true"]{cursor:grab}
 .watchlist-card[draggable="true"]:active{cursor:grabbing}
 .watchlist-card[draggable="true"] .watchlist-card-art{cursor:grab}
+
+.watchlist-card-age-rating{display:inline-flex;align-self:flex-start;width:max-content;max-width:100%;margin-top:3px;padding:2px 6px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:9px;line-height:1.35}
+.watchlist-result-source{display:inline-flex;width:max-content;color:var(--muted);font-size:9px;text-decoration:underline;text-underline-offset:2px}
+.watchlist-result-source:hover{color:var(--accent)}
