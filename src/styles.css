@@ -4674,3 +4674,67 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .watchlist-toolbar-controls{margin-left:auto}
  .watchlist-custom-category-menu{left:0}
 }
+
+
+/* Settings helper and notice copy should use the app's typography and surfaces. */
+.settings-view .profile-pill-settings>small,
+.settings-view .settings-section .profile-pill-settings>small,
+.settings-view .settings-section .storage-usage-panel small{
+ display:block;
+ max-width:760px;
+ margin:0;
+ padding:10px 12px;
+ border:1px solid var(--line);
+ border-radius:9px;
+ background:var(--panel);
+ color:var(--muted);
+ font:10px/1.65 'DM Sans','Jdecked Twemoji',sans-serif;
+ letter-spacing:.005em;
+}
+.settings-view .profile-pill-settings>small a,
+.settings-view .settings-section .profile-pill-settings>small a{
+ color:var(--accent);
+ font:600 10px/1.65 'DM Sans','Jdecked Twemoji',sans-serif;
+ text-decoration:underline;
+ text-decoration-color:color-mix(in srgb,var(--accent) 55%,transparent);
+ text-underline-offset:3px;
+}
+.settings-view .profile-pill-settings>small a:hover{color:var(--text)}
+.settings-view .lastfm-setup-note,
+.settings-view .lastfm-setup-note p{
+ color:var(--muted);
+ font:10px/1.65 'DM Sans','Jdecked Twemoji',sans-serif;
+}
+.settings-view .lastfm-setup-note{
+ padding:12px 14px;
+ border:1px solid var(--line);
+ border-radius:10px;
+ background:var(--panel);
+}
+.settings-view .lastfm-setup-note strong{color:var(--text);font:600 11px 'DM Sans','Jdecked Twemoji',sans-serif}
+.settings-view .lastfm-setup-note a{color:var(--accent);text-underline-offset:3px}
+.settings-view .settings-section .profile-pill-settings>small:not(:last-child){margin-bottom:2px}
+
+/* Keep the card menu's Edit and Remove actions firmly left aligned. */
+.watchlist-card-menu-panel{justify-items:stretch}
+.watchlist-card-menu-panel>button{
+ display:flex!important;
+ flex-direction:row!important;
+ align-items:center!important;
+ justify-content:flex-start!important;
+ align-self:stretch!important;
+ width:100%!important;
+ margin:0!important;
+ text-align:left!important;
+}
+.watchlist-card-menu-panel>button>svg:first-child{flex:0 0 14px;margin:0!important}
+.watchlist-card-menu-panel>button>svg:last-child{margin-left:0!important}
+.watchlist-card-move-options>button>svg:last-child{margin-left:auto!important}
+
+/* Softly fade the collection contents when changing Library tabs or views. */
+.watchlist-tab-fade{animation:watchlistTabFade .22s ease both}
+@keyframes watchlistTabFade{
+ from{opacity:0;transform:translateY(4px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){.watchlist-tab-fade{animation:none}}
