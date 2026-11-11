@@ -4552,3 +4552,9 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-artwork-lightbox>img{display:block;max-width:min(90vw,760px);max-height:88vh;width:auto;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 20px 70px #0008}
 .watchlist-artwork-lightbox>button{position:absolute;top:18px;right:20px;display:grid;place-items:center;width:38px;height:38px;border:1px solid #ffffff55;border-radius:50%;background:#17191f;color:#fff;cursor:pointer}
 @media(max-width:650px){.watchlist-card-menu-panel{bottom:auto;top:calc(100% + 5px)}.watchlist-artwork-lightbox{padding:48px 12px 12px}.watchlist-artwork-lightbox>img{max-width:96vw;max-height:88vh}}
+
+.watchlist-card{overflow:visible}
+.watchlist-card-art{border-radius:9px 9px 0 0}
+.watchlist-card-menu[open]{z-index:90}
+.wishlist-page .watchlist-card-art{border-radius:9px 0 0 9px}
+.watchlist-list-view .watchlist-card-art{border-radius:9px 0 0 9px}
