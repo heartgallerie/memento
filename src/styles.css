@@ -5120,3 +5120,9 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .watchlist-core-tabs button{transition:none!important}
  .watchlist-core-tabs button.active{animation:none!important}
 }
+
+/* Keep the compact YouTube expand arrow pinned to the far edge of the pill. */
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-heading{position:relative;padding-right:22px}
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle{position:absolute;right:0;top:50%;margin:0;transform:translateY(-50%);flex:0 0 17px}
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-collapsed-copy{flex:1 1 auto;width:0;min-width:0;padding-right:2px}
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle svg{transform:rotate(-90deg)}
