@@ -5221,7 +5221,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .social-platform-brand strong{font:650 13px 'DM Sans','Jdecked Twemoji';color:var(--text)}
 .social-platform-brand span{font:10px 'DM Sans','Jdecked Twemoji';color:var(--muted)}
 .social-platform-dot{width:8px;height:8px;flex:none;border-radius:50%;background:var(--line)}
-.social-platform-card:has(.social-platform-username input:not([value=""])) .social-platform-dot{background:var(--social-brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--social-brand) 12%,transparent)}
+.social-platform-card.is-connected .social-platform-dot{background:var(--social-brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--social-brand) 12%,transparent)}
 .social-tiktok-glyph{font:900 27px/1 Arial,sans-serif;text-shadow:-2px 1px #25f4ee,2px -1px #fe2c55;color:var(--text)!important}
 .social-x-glyph{font:700 24px/1 Arial,sans-serif;color:var(--text)!important}
 .social-roblox-glyph{width:19px;height:19px;border:5px solid currentColor;transform:rotate(22deg);position:relative}
