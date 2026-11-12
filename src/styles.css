@@ -4979,7 +4979,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .nekora-rating-stars button{display:grid;place-items:center;width:32px;height:34px;padding:0;border:0;background:transparent;color:#a9a29a;cursor:pointer;transition:transform .18s ease,color .18s ease,filter .18s ease}
 .nekora-rating-stars button:hover{transform:scale(1.1);filter:drop-shadow(0 2px 5px rgba(245,158,11,.28))}
 .nekora-rating-stars button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:5px}
-.nekora-rating-star{stroke:#d6a94c;fill-opacity:1;transition:transform .18s ease,stroke .18s ease}
+.nekora-rating-star{fill-opacity:1;transition:transform .18s ease,stroke .18s ease}
 .watchlist-track-stars.nekora-rating-stars{gap:3px}
 .watchlist-track-stars.nekora-rating-stars button{width:25px;height:27px}
 .watchlist-track-stars.nekora-rating-stars .nekora-rating-star{width:24px;height:24px}
@@ -5007,3 +5007,36 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .profile-status-bubble .memento-video-player{max-height:180px}
 @media(max-width:600px){.memento-video-volume{width:42px}.memento-video-controls{opacity:1;padding:20px 8px 6px}.memento-video-control-row{gap:5px}.memento-video-time{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.memento-video-player *{transition:none!important}}
+
+
+/* Fine-tune star outlines, frosted thumbnail timestamps and video controls. */
+.nekora-rating-star{stroke:var(--star-outline,none)}
+.video-duration{
+ background:rgba(17,17,20,.34)!important;
+ border-color:rgba(255,255,255,.2)!important;
+ -webkit-backdrop-filter:blur(12px) saturate(145%)!important;
+ backdrop-filter:blur(12px) saturate(145%)!important;
+ box-shadow:0 2px 10px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.memento-video-control-row button[aria-label="Pause"]{
+ width:30px;height:30px;border-radius:8px;
+ background:var(--memento-player-accent)!important;
+ color:#fff!important;
+ box-shadow:0 2px 9px rgba(0,0,0,.24);
+}
+.memento-video-control-row button[aria-label="Pause"] svg{fill:currentColor;stroke:currentColor}
+.memento-video-control-row button[aria-label="Pause"]:hover{filter:brightness(1.1)}
+.memento-video-volume{
+ background:linear-gradient(to right,var(--memento-player-accent) var(--volume-progress,100%),rgba(255,255,255,.38) var(--volume-progress,100%))!important;
+}
+.recently-deleted-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.recently-deleted-actions>span{margin-left:auto}
+.recently-deleted-delete-now{
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;
+ min-height:29px;padding:5px 9px;border:1px solid color-mix(in srgb,#d66 38%,var(--line));
+ border-radius:7px;background:color-mix(in srgb,#d66 7%,var(--panel));
+ color:#c66;font:500 10px 'DM Sans','Jdecked Twemoji';cursor:pointer;
+ transition:background .15s,border-color .15s;
+}
+.recently-deleted-delete-now:hover{background:color-mix(in srgb,#d66 14%,var(--panel));border-color:#c66}
+@media(max-width:520px){.recently-deleted-actions>span{width:100%;margin-left:0;order:3}}
