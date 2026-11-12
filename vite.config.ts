@@ -3,36 +3,36 @@ import react from '@vitejs/plugin-react'
 
 const decodeHtml = (value: string) => value
   .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
-  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#(\\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
-  .replace(/&#x([\\da-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
-  .replace(/\\s+/g, ' ').trim()
+  .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+  .replace(/&#x([\da-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+  .replace(/\s+/g, ' ').trim()
 
 const metaValue = (html: string, names: string[]) => {
-  const tags = html.match(/<meta\\b[^>]*>/gi) || []
+  const tags = html.match(/<meta\b[^>]*>/gi) || []
   for (const tag of tags) {
-    const name = tag.match(/(?:property|name|itemprop)=[\"']([^\"']+)[\"']/i)?.[1]?.toLowerCase()
+    const name = tag.match(/(?:property|name|itemprop)=["']([^"']+)["']/i)?.[1]?.toLowerCase()
     if (!name || !names.includes(name)) continue
-    const content = tag.match(/content=[\"']([^\"']*)[\"']/i)?.[1]
+    const content = tag.match(/content=["']([^"']*)["']/i)?.[1]
     if (content) return decodeHtml(content)
   }
   return ''
 }
 
 const profileUrls: Record<string, (username: string) => string> = {
-  Instagram: username => `https://www.instagram.com/${encodeURIComponent(username)}/`,
-  TikTok: username => `https://www.tiktok.com/@${encodeURIComponent(username)}`,
-  YouTube: username => `https://www.youtube.com/@${encodeURIComponent(username)}`,
-  Twitch: username => `https://www.twitch.tv/${encodeURIComponent(username)}`,
-  X: username => `https://x.com/${encodeURIComponent(username)}`,
-  Roblox: username => `https://www.roblox.com/users/profile?username=${encodeURIComponent(username)}`,
-  SoundCloud: username => `https://soundcloud.com/${encodeURIComponent(username)}`,
+  Instagram: username => 'https://www.instagram.com/' + encodeURIComponent(username) + '/',
+  TikTok: username => 'https://www.tiktok.com/@' + encodeURIComponent(username),
+  YouTube: username => 'https://www.youtube.com/@' + encodeURIComponent(username),
+  Twitch: username => 'https://www.twitch.tv/' + encodeURIComponent(username),
+  X: username => 'https://x.com/' + encodeURIComponent(username),
+  Roblox: username => 'https://www.roblox.com/users/profile?username=' + encodeURIComponent(username),
+  SoundCloud: username => 'https://soundcloud.com/' + encodeURIComponent(username),
 }
 
 const countFromText = (text: string, labels: string[]) => {
   for (const label of labels) {
-    const escaped = label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')
-    const match = text.match(new RegExp('([\\\\d,.]+\\\\s?[KMB]?)\\\\s*' + escaped, 'i'))
-    if (match) return match[1].replace(/\\s+/g, '')
+    const escaped = label.replace(/[.*+?^\x24()|[\]\\]/g, '\\$&')
+    const match = text.match(new RegExp('([\\d,.]+\\s?[KMB]?)\\s*' + escaped, 'i'))
+    if (match) return match[1].replace(/\s+/g, '')
   }
   return ''
 }
@@ -50,7 +50,7 @@ const getProfilePage = async (url: string) => {
   if (!response.ok) {
     const reason = response.status === 403 || response.status === 429
       ? 'This platform is blocking anonymous profile requests right now.'
-      : `The platform returned HTTP ${response.status}.`
+      : 'The platform returned HTTP ' + response.status + '.'
     throw new Error(reason)
   }
   return response.text()
@@ -63,15 +63,15 @@ const lookupRoblox = async (username: string) => {
     body: JSON.stringify({ usernames: [username], excludeBannedUsers: false }),
     signal: AbortSignal.timeout(9000),
   })
-  if (!lookup.ok) throw new Error(`Roblox username lookup returned HTTP ${lookup.status}.`)
+  if (!lookup.ok) throw new Error('Roblox username lookup returned HTTP ' + lookup.status + '.')
   const user = (await lookup.json()).data?.[0]
   if (!user) throw new Error('No Roblox account was found for that username.')
   const id = user.id
   const [detail, avatar, followers, friends] = await Promise.all([
-    fetch(`https://users.roblox.com/v1/users/${id}`, { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
-    fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png&isCircular=false`, { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
-    fetch(`https://friends.roblox.com/v1/users/${id}/followers/count`, { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
-    fetch(`https://friends.roblox.com/v1/users/${id}/friends/count`, { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
+    fetch('https://users.roblox.com/v1/users/' + id, { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
+    fetch('https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=' + id + '&size=150x150&format=Png&isCircular=false', { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
+    fetch('https://friends.roblox.com/v1/users/' + id + '/followers/count', { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
+    fetch('https://friends.roblox.com/v1/users/' + id + '/friends/count', { signal: AbortSignal.timeout(9000) }).then(r => r.ok ? r.json() : null),
   ])
   return {
     displayName: detail?.displayName || user.name,
@@ -79,7 +79,7 @@ const lookupRoblox = async (username: string) => {
     followers: followers?.count == null ? '' : String(followers.count),
     following: friends?.count == null ? '' : String(friends.count),
     bio: detail?.description || '',
-    url: `https://www.roblox.com/users/${id}/profile`,
+    url: 'https://www.roblox.com/users/' + id + '/profile',
     message: 'Profile details retrieved from Roblox public endpoints.',
   }
 }
@@ -95,14 +95,14 @@ const lookupPublicProfile = async (platform: string, username: string) => {
   const description = metaValue(html, ['og:description', 'description', 'twitter:description'])
   const avatarUrl = metaValue(html, ['og:image', 'og:image:secure_url', 'twitter:image'])
   const author = metaValue(html, ['author'])
-  const displayName = (title || author).replace(/\\s*[-|·].*$/, '').replace(/\\s*\\(@?[^)]*\\)$/, '').trim()
+  const displayName = (title || author).replace(/\s*[-|·].*$/, '').replace(/\s*\(@?[^)]*\)$/, '').trim()
   const combined = [description, title, html.slice(0, 500000)].join(' ')
   let followers = countFromText(description + ' ' + title, ['followers', 'subscribers'])
   let following = countFromText(description + ' ' + title, ['following', 'friends'])
   if (platform === 'YouTube') {
-    const subscriberText = html.match(/"subscriberCountText"\\s*:\\s*\\{\\s*"simpleText"\\s*:\\s*"([^"]+)"/)?.[1]
-      || html.match(/"subscriberCountText"\\s*:\\s*\\{\\s*"runs"\\s*:\\s*\\[\\s*\\{\\s*"text"\\s*:\\s*"([^"]+)"/)?.[1]
-    if (subscriberText) followers = countFromText(subscriberText, ['subscribers']) || subscriberText.replace(/\\s*subscribers?/i, '')
+    const subscriberText = html.match(/"subscriberCountText"\s*:\s*\{\s*"simpleText"\s*:\s*"([^"]+)"/)?.[1]
+      || html.match(/"subscriberCountText"\s*:\s*\{\s*"runs"\s*:\s*\[\s*\{\s*"text"\s*:\s*"([^"]+)"/)?.[1]
+    if (subscriberText) followers = countFromText(subscriberText, ['subscribers']) || subscriberText.replace(/\s*subscribers?/i, '')
   }
   if (platform === 'Instagram' || platform === 'TikTok' || platform === 'X' || platform === 'Twitch' || platform === 'SoundCloud') {
     followers ||= countFromText(combined.slice(0, 100000), ['followers'])
@@ -110,10 +110,10 @@ const lookupPublicProfile = async (platform: string, username: string) => {
   }
   const hasData = Boolean(displayName || avatarUrl || description || followers || following)
   if (!hasData) throw new Error('The profile page did not expose readable public profile information. You can still enter the details manually.')
-  const platformNote = followers || following
+  const message = followers || following
     ? 'Public profile metadata retrieved. Only fields visible to anonymous visitors were filled.'
     : 'Public profile metadata retrieved. This platform did not expose follower counts to anonymous visitors.'
-  return { displayName, avatarUrl, followers, following, bio: description, url, message: platformNote }
+  return { displayName, avatarUrl, followers, following, bio: description, url, message }
 }
 
 const socialProfileMiddleware = (server: any) => {
@@ -127,9 +127,14 @@ const socialProfileMiddleware = (server: any) => {
       return
     }
     try {
-      const chunks: Uint8Array[] = []
-      for await (const chunk of req) chunks.push(typeof chunk === 'string' ? new TextEncoder().encode(chunk) : chunk)
-      const body = JSON.parse(new TextDecoder().decode(Buffer.concat(chunks)))
+      const bodyText = await new Promise<string>((resolve, reject) => {
+        let raw = ''
+        req.setEncoding('utf8')
+        req.on('data', (chunk: string) => { raw += chunk })
+        req.on('end', () => resolve(raw))
+        req.on('error', reject)
+      })
+      const body = JSON.parse(bodyText)
       const platform = String(body.platform || '')
       const username = String(body.username || '').trim().replace(/^@/, '')
       if (!profileUrls[platform]) throw new Error('Unsupported social platform.')
