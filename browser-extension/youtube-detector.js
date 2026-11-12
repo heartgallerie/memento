@@ -28,6 +28,8 @@ if (!globalThis.__mementoYoutubeDetectorInstalled) {
         || document.querySelector("#owner #channel-name a")?.textContent?.trim()
         || document.querySelector("ytd-channel-name a")?.textContent?.trim()
         || document.querySelector("#upload-info #channel-name")?.textContent?.trim()
+        || document.querySelector("#owner #upload-info yt-formatted-string")?.textContent?.trim()
+        || document.querySelector("ytd-video-owner-renderer [itemprop=author] [itemprop=name]")?.textContent?.trim()
         || document.querySelector("meta[name=author]")?.getAttribute("content")?.trim()
         || "")
       : "";
