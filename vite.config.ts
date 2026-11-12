@@ -84,36 +84,102 @@ const lookupRoblox = async (username: string) => {
   }
 }
 
+const parseInstagramDescription = (description: string) => {
+  const match = /^([\d.,]+[KMB]?)\s+Followers,\s+([\d.,]+[KMB]?)\s+Following,\s+([\d.,]+[KMB]?)\s+Posts/i.exec(description)
+  const separator = description.indexOf(' - ')
+  return {
+    followers: match?.[1] || '',
+    following: match?.[2] || '',
+    bio: separator === -1 ? '' : description.slice(separator + 3).trim(),
+  }
+}
+
 const lookupPublicProfile = async (platform: string, username: string) => {
   const urlBuilder = profileUrls[platform]
   if (!urlBuilder) throw new Error('Unsupported social platform.')
   if (platform === 'Roblox') return lookupRoblox(username)
+  if (platform === 'TikTok') {
+    throw new Error('TikTok blocks anonymous server-side profile lookups. Add the profile details manually.')
+  }
 
   const url = urlBuilder(username)
+  if (platform === 'SoundCloud') {
+    const endpoint = 'https://soundcloud.com/oembed?format=json&url=' + encodeURIComponent(url)
+    const response = await fetch(endpoint, {
+      headers: { 'Accept': 'application/json', 'User-Agent': 'MementoProfileLookup/1.0' },
+      signal: AbortSignal.timeout(9000),
+    })
+    if (response.status === 404) throw new Error('No public SoundCloud profile was found for that username.')
+    if (!response.ok) throw new Error('SoundCloud profile lookup returned HTTP ' + response.status + '.')
+    const embed = await response.json()
+    const displayName = embed.title || embed.author_name || ''
+    if (!displayName) throw new Error('SoundCloud did not return profile metadata for that username.')
+    return {
+      displayName,
+      avatarUrl: embed.thumbnail_url || '',
+      followers: '',
+      following: '',
+      bio: '',
+      url,
+      message: 'SoundCloud returned public oEmbed profile metadata. Follower counts are not included in this endpoint.',
+    }
+  }
+
   const html = await getProfilePage(url)
   const title = metaValue(html, ['og:title', 'twitter:title'])
   const description = metaValue(html, ['og:description', 'description', 'twitter:description'])
   const avatarUrl = metaValue(html, ['og:image', 'og:image:secure_url', 'twitter:image'])
-  const author = metaValue(html, ['author'])
-  const displayName = (title || author).replace(/\s*[-|·].*$/, '').replace(/\s*\(@?[^)]*\)$/, '').trim()
-  const combined = [description, title, html.slice(0, 500000)].join(' ')
-  let followers = countFromText(description + ' ' + title, ['followers', 'subscribers'])
-  let following = countFromText(description + ' ' + title, ['following', 'friends'])
-  if (platform === 'YouTube') {
+  let displayName = ''
+  let bio = description
+  let followers = ''
+  let following = ''
+
+  if (platform === 'X') {
+    const match = /^(.+?)\s+\(@([A-Za-z0-9_]{1,20})\)\s+on X$/.exec(title)
+    if (!match || match[2].toLowerCase() !== username.toLowerCase()) {
+      throw new Error('X did not return matching public profile metadata. The account may be private or unavailable to anonymous visitors.')
+    }
+    displayName = match[1]
+  } else if (platform === 'Instagram') {
+    const match = /^\s*(.*?)\s*\(@([A-Za-z0-9_.]+)\)\s*•\s*Instagram/.exec(title)
+    if (!match || match[2].toLowerCase() !== username.toLowerCase()) {
+      throw new Error('Instagram did not expose matching public profile metadata. This does not necessarily mean the username is unavailable.')
+    }
+    displayName = match[1] || ''
+    const parsed = parseInstagramDescription(description)
+    followers = parsed.followers
+    following = parsed.following
+    bio = parsed.bio
+  } else if (platform === 'Twitch') {
+    const match = /^(.+?)\s+-\s+Twitch$/.exec(title)
+    if (!match) {
+      throw new Error('Twitch did not expose public profile metadata. A missing channel and a blocked lookup can look the same.')
+    }
+    displayName = match[1].trim()
+  } else if (platform === 'YouTube') {
+    if (!title || /^(youtube|log ?in|sign ?in)$/i.test(title)) {
+      throw new Error('YouTube did not return public channel metadata for that handle.')
+    }
+    displayName = title
     const subscriberText = html.match(/"subscriberCountText"\s*:\s*\{\s*"simpleText"\s*:\s*"([^"]+)"/)?.[1]
       || html.match(/"subscriberCountText"\s*:\s*\{\s*"runs"\s*:\s*\[\s*\{\s*"text"\s*:\s*"([^"]+)"/)?.[1]
     if (subscriberText) followers = countFromText(subscriberText, ['subscribers']) || subscriberText.replace(/\s*subscribers?/i, '')
   }
-  if (platform === 'Instagram' || platform === 'TikTok' || platform === 'X' || platform === 'Twitch' || platform === 'SoundCloud') {
-    followers ||= countFromText(combined.slice(0, 100000), ['followers'])
-    following ||= countFromText(combined.slice(0, 100000), ['following'])
-  }
-  const hasData = Boolean(displayName || avatarUrl || description || followers || following)
+
+  const hasData = Boolean(displayName || avatarUrl || bio || followers || following)
   if (!hasData) throw new Error('The profile page did not expose readable public profile information. You can still enter the details manually.')
-  const message = followers || following
-    ? 'Public profile metadata retrieved. Only fields visible to anonymous visitors were filled.'
-    : 'Public profile metadata retrieved. This platform did not expose follower counts to anonymous visitors.'
-  return { displayName, avatarUrl, followers, following, bio: description, url, message }
+  const message = platform === 'Instagram'
+    ? followers || following
+      ? 'Instagram public profile metadata retrieved, including the counts it exposes. Some accounts hide these fields.'
+      : 'Instagram profile metadata retrieved. Follower counts were not exposed.'
+    : platform === 'Twitch'
+      ? 'Twitch public profile metadata retrieved. Follower counts require Twitch API authorisation.'
+      : platform === 'YouTube'
+        ? followers
+          ? 'YouTube channel metadata retrieved, including its public subscriber count.'
+          : 'YouTube channel metadata retrieved. Subscriber count was not exposed in the public page.'
+        : 'X public profile metadata retrieved. Only fields visible to anonymous visitors were filled.'
+  return { displayName, avatarUrl, followers, following, bio, url, message }
 }
 
 const socialProfileMiddleware = (server: any) => {
