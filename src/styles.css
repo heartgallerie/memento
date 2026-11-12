@@ -4972,3 +4972,15 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-tracklist.is-editing .watchlist-track-info input:focus{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 14%,transparent)}
 .watchlist-tracklist-empty{display:grid;justify-items:start;gap:10px;padding:8px 0}
 @media(max-width:600px){.watchlist-tracklist-heading{align-items:flex-start}.watchlist-tracklist-tools{gap:6px}.watchlist-tracklist-tools>button{padding:7px 8px;font-size:10px}.watchlist-track-edit-actions button{width:27px;height:27px}.watchlist-tracklist.is-editing .watchlist-track-main{gap:8px}.watchlist-tracklist.is-editing .watchlist-track-info{min-width:0}}
+
+/* Nekorapop-inspired rating stars */
+.nekora-rating-stars{display:flex;align-items:center;gap:6px}
+.nekora-rating-stars .watchlist-rating-defs{position:absolute;width:0;height:0;overflow:hidden}
+.nekora-rating-stars button{display:grid;place-items:center;width:32px;height:34px;padding:0;border:0;background:transparent;color:#a9a29a;cursor:pointer;transition:transform .18s ease,color .18s ease,filter .18s ease}
+.nekora-rating-stars button:hover{transform:scale(1.1);filter:drop-shadow(0 2px 5px rgba(245,158,11,.28))}
+.nekora-rating-stars button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:5px}
+.nekora-rating-star{stroke:#d6a94c;fill-opacity:1;transition:transform .18s ease,stroke .18s ease}
+.watchlist-track-stars.nekora-rating-stars{gap:3px}
+.watchlist-track-stars.nekora-rating-stars button{width:25px;height:27px}
+.watchlist-track-stars.nekora-rating-stars .nekora-rating-star{width:24px;height:24px}
+@media(max-width:600px){.watchlist-track-stars.nekora-rating-stars{gap:1px}.watchlist-track-stars.nekora-rating-stars button{width:23px}}
