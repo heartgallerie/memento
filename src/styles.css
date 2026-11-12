@@ -157,7 +157,7 @@
 /* Memento refinement pass */
 .user-row{cursor:pointer}
 .top-actions .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.video-duration{position:absolute;right:8px;bottom:8px;padding:3px 6px;border-radius:4px;background:#000c;color:#fff;font:10px 'DM Mono','Jdecked Twemoji'}
+.video-duration{position:absolute;right:8px;bottom:8px;padding:4px 7px;border:1px solid #ffffff55;border-radius:6px;background:#111d;color:#fff;font:10px 'DM Mono','Jdecked Twemoji';backdrop-filter:blur(8px);box-shadow:0 2px 8px #0003}
 .video-channel-row .video-handle{font-weight:400;color:var(--muted);margin-left:5px}
 .video-description{margin:15px 0;padding:14px 16px;border-radius:10px;background:var(--panel);color:var(--text);font:12px/1.7 'DM Sans','Jdecked Twemoji';overflow-wrap:anywhere}
 .video-description p{margin:0 0 9px}.video-description p:last-child{margin-bottom:0}
@@ -4984,3 +4984,26 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-track-stars.nekora-rating-stars button{width:25px;height:27px}
 .watchlist-track-stars.nekora-rating-stars .nekora-rating-star{width:24px;height:24px}
 @media(max-width:600px){.watchlist-track-stars.nekora-rating-stars{gap:1px}.watchlist-track-stars.nekora-rating-stars button{width:23px}}
+
+
+/* Accent-aware custom player shared by playable videos across Memento. */
+.memento-video-player{position:relative;isolation:isolate;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:10px;background:#08090b;color:#fff;--memento-player-accent:var(--accent)}
+.memento-video-player>video{display:block;width:100%;height:100%;object-fit:contain;background:#08090b}
+.memento-video-center-play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:58px;height:58px;transform:translate(-50%,-50%);border:1px solid #ffffff55;border-radius:50%;background:#111c;color:white;backdrop-filter:blur(12px);cursor:pointer;transition:transform .18s,background .18s}
+.memento-video-center-play:hover{transform:translate(-50%,-50%) scale(1.08);background:color-mix(in srgb,var(--memento-player-accent) 72%,#111)}
+.memento-video-controls{position:absolute;right:0;bottom:0;left:0;padding:24px 12px 8px;background:linear-gradient(transparent,#050609df);opacity:0;transition:opacity .18s}
+.memento-video-player:hover .memento-video-controls,.memento-video-player:focus-within .memento-video-controls{opacity:1}
+.memento-video-control-row{display:flex;align-items:center;gap:8px;min-width:0}
+.memento-video-control-row button{display:grid;place-items:center;width:28px;height:28px;flex:none;border:0;background:transparent;color:#fff;cursor:pointer}
+.memento-video-control-row button:hover{color:var(--memento-player-accent)}
+.memento-video-time{color:#fff;font:10px 'DM Mono',monospace;white-space:nowrap}
+.memento-video-spacer{flex:1}
+.memento-video-seek{display:block;width:100%;height:4px;margin:0 0 7px;appearance:none;border-radius:99px;background:linear-gradient(to right,var(--memento-player-accent) var(--video-progress),#ffffff55 var(--video-progress));cursor:pointer}
+.memento-video-seek::-webkit-slider-thumb,.memento-video-volume::-webkit-slider-thumb{appearance:none;width:10px;height:10px;border:0;border-radius:50%;background:var(--memento-player-accent);box-shadow:0 0 0 2px #ffffff55}
+.memento-video-seek::-moz-range-thumb,.memento-video-volume::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:50%;background:var(--memento-player-accent)}
+.memento-video-volume{width:58px;height:3px;appearance:none;border-radius:99px;background:#ffffff70;cursor:pointer}
+.memento-video-player:fullscreen{width:100vw;height:100vh;max-height:none;aspect-ratio:auto;border-radius:0}
+.memento-video-player:fullscreen>video{object-fit:contain}
+.profile-status-bubble .memento-video-player{max-height:180px}
+@media(max-width:600px){.memento-video-volume{width:42px}.memento-video-controls{opacity:1;padding:20px 8px 6px}.memento-video-control-row{gap:5px}.memento-video-time{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.memento-video-player *{transition:none!important}}
