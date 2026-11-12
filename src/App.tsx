@@ -248,7 +248,7 @@ const getWatchlistRelations=(current:WatchItem,items:WatchItem[])=>{
 function WatchlistDetailBanner({current}:{current:WatchItem}){
  const [palette,setPalette]=useState<string[]>([])
  useEffect(()=>{
-  if(current.backdrop||!current.artwork){setPalette([]);return}
+  if((current.backdrop&&current.mediaType!=='manga')||!current.artwork){setPalette([]);return}
   let cancelled=false,activeImage:HTMLImageElement|null=null
   const extract=(image:HTMLImageElement)=>{
    const canvas=document.createElement('canvas'),size=64
@@ -299,8 +299,9 @@ function WatchlistDetailBanner({current}:{current:WatchItem}){
  const luminance=rgb.map(value=>{const channel=value/255;return channel<=.04045?channel/12.92:((channel+.055)/1.055)**2.4}).reduce((sum,value,index)=>sum+value*[.2126,.7152,.0722][index],0)
  const foreground=luminance>.42?'#17191f':'#fff'
  const labelStyle={color:foreground,textShadow:luminance>.42?'0 1px 3px #ffffff88':'0 1px 8px #000b'} as React.CSSProperties
- const bannerStyle=current.mediaType==='manga'?{backgroundImage:'linear-gradient(115deg,'+(palette.length===3?colors.join(','):'color-mix(in srgb,var(--accent) 78%,#171923),color-mix(in srgb,var(--accent) 28%,#171923),#171923')+')'}:current.backdrop?{backgroundImage:'linear-gradient(90deg,#101114d9,transparent 80%),url(\"'+current.backdrop+'\")'}:current.artwork?{backgroundImage:'linear-gradient(110deg,'+colors.join(',')+')'}:{}
- return <div className="watchlist-detail-banner" style={bannerStyle}><span style={labelStyle}>{current.mediaType==='movie'?'FILM':current.mediaType==='anime'?'ANIME':current.mediaType==='manga'?'MANGA':current.mediaType==='music'?'MUSIC':current.mediaType==='game'?'VIDEO GAME':current.mediaType==='youtube'?'YOUTUBE VIDEO':current.mediaType==='link'?'LINK':'TV SERIES'}{current.releaseDate?' · '+current.releaseDate.slice(0,4):''}</span></div>
+ const isManga=current.mediaType==='manga'
+ const bannerStyle=isManga?({'--manga-banner-start':palette[0]||'var(--accent)','--manga-banner-mid':palette[1]||'color-mix(in srgb,var(--accent) 58%,var(--panel))','--manga-banner-end':palette[2]||'color-mix(in srgb,var(--accent) 22%,var(--panel))'} as React.CSSProperties):current.backdrop?{backgroundImage:'linear-gradient(90deg,#101114d9,transparent 80%),url(\"'+current.backdrop+'\")'}:current.artwork?{backgroundImage:'linear-gradient(110deg,'+colors.join(',')+')'}:{}
+ return <div className={'watchlist-detail-banner'+(isManga?' is-manga-banner':'')} style={bannerStyle}><span style={labelStyle}>{current.mediaType==='movie'?'FILM':current.mediaType==='anime'?'ANIME':current.mediaType==='manga'?'MANGA':current.mediaType==='music'?'MUSIC':current.mediaType==='game'?'VIDEO GAME':current.mediaType==='youtube'?'YOUTUBE VIDEO':current.mediaType==='link'?'LINK':'TV SERIES'}{current.releaseDate?' · '+current.releaseDate.slice(0,4):''}</span></div>
 }
 
 function WatchlistPage({collection='watchlist',includeAdult=false,randomOpenId='',onRandomOpened=()=>{},onSwitchCollection=()=>{}}:{collection?:'watchlist'|'wishlist';includeAdult?:boolean;randomOpenId?:string;onRandomOpened?:()=>void;onSwitchCollection?:(collection:'watchlist'|'wishlist')=>void}){
