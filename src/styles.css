@@ -5010,7 +5010,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 
 /* Fine-tune star outlines, frosted thumbnail timestamps and video controls. */
-.nekora-rating-star{stroke:var(--star-outline,none)}
 .video-duration{
  background:rgba(17,17,20,.34)!important;
  border-color:rgba(255,255,255,.2)!important;
