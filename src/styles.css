@@ -5122,6 +5122,9 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 
 /* Keep the YouTube arrow in the same heading position in both expanded and compact states. */
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle{display:none!important}
+.sidebar-activity-youtube.is-collapsed{cursor:pointer}
+
 .sidebar-activity-youtube .sidebar-activity-heading{
   display:flex;
   align-items:center;
