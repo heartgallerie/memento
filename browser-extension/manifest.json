@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Memento Now Playing",
-  "version": "1.1.0",
-  "description": "Shares the title of a currently playing YouTube video with Memento.",
+  "version": "1.2.0",
+  "description": "Shares the title and channel of a currently playing YouTube video with Memento.",
   "permissions": ["tabs", "scripting", "storage"],
   "host_permissions": [
     "https://www.youtube.com/*",
