@@ -5123,6 +5123,53 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 
 /* Keep the YouTube arrow in the same heading position in both expanded and compact states. */
 .sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle{display:none!important}
+
+/* Match the compact sidebar YouTube activity to the red profile pill. */
+.sidebar-activity-youtube.is-collapsed{
+  display:inline-flex;
+  width:max-content;
+  max-width:min(100%,380px);
+  min-height:30px;
+  height:30px;
+  padding:0 11px;
+  gap:0;
+  border:0;
+  border-radius:999px;
+  background:#f00;
+  box-shadow:none;
+}
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-heading{
+  display:inline-flex;
+  width:auto;
+  min-width:0;
+  height:30px;
+  min-height:0;
+  gap:8px;
+  overflow:hidden;
+}
+.sidebar-activity-youtube.is-collapsed .sidebar-youtube-mark,
+.sidebar-activity-youtube.is-collapsed .sidebar-youtube-mark svg{
+  width:17px;
+  height:17px;
+}
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-collapsed-copy{
+  display:block;
+  flex:0 1 auto;
+  width:auto;
+  max-width:min(320px,calc(100vw - 100px));
+  color:#fff;
+  font:600 10px/1.2 'DM Sans','Jdecked Twemoji';
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  opacity:1;
+  transform:none;
+  animation:none;
+}
+.sidebar-youtube-copy{display:flex;flex:1;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.sidebar-youtube-channel{display:block;max-width:100%;overflow:hidden;color:var(--activity-subtext,#ffffffd9);font:500 9px/1.2 'DM Sans','Jdecked Twemoji';text-overflow:ellipsis;white-space:nowrap}
+.sidebar-youtube-content .sidebar-activity-track{display:block}
+
 .sidebar-activity-youtube.is-collapsed{cursor:pointer}
 
 .sidebar-activity-youtube .sidebar-activity-heading{
