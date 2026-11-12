@@ -5088,10 +5088,15 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-tab-fade .watchlist-card:nth-child(1){animation-delay:0ms}.watchlist-tab-fade .watchlist-card:nth-child(2){animation-delay:22ms}.watchlist-tab-fade .watchlist-card:nth-child(3){animation-delay:44ms}.watchlist-tab-fade .watchlist-card:nth-child(4){animation-delay:66ms}.watchlist-tab-fade .watchlist-card:nth-child(5){animation-delay:88ms}.watchlist-tab-fade .watchlist-card:nth-child(6){animation-delay:110ms}.watchlist-tab-fade .watchlist-card:nth-child(n+7){animation-delay:125ms}
 @keyframes watchlistCardEnter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 .youtube-now-playing{height:auto;min-height:30px;padding:5px 11px}
-.youtube-track-copy{display:grid;gap:2px;min-width:0;max-width:min(320px,calc(100vw - 100px));overflow:hidden}
-.youtube-track-title,.youtube-track-channel{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.youtube-track-title{font:600 10px/1.2 'DM Sans','Jdecked Twemoji'}
-.youtube-track-channel{font:400 9px/1.2 'DM Sans','Jdecked Twemoji';opacity:.78}
+.youtube-track-copy{display:flex;align-items:center;gap:7px;min-width:0;max-width:min(360px,calc(100vw - 100px));overflow:hidden}
+.youtube-track-title,.youtube-track-channel{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.youtube-track-title{flex:0 1 auto;font:600 10px/1.2 'DM Sans','Jdecked Twemoji'}
+.youtube-track-channel{flex:0 1 auto;font:400 9px/1.2 'DM Sans','Jdecked Twemoji';opacity:.78}
+.youtube-track-channel:before{content:'·';display:inline-block;margin-right:7px;opacity:.65}
+.youtube-now-playing.is-channel-below .youtube-track-copy{display:grid;align-items:start;gap:2px}
+.youtube-now-playing.is-channel-below .youtube-track-title,.youtube-now-playing.is-channel-below .youtube-track-channel{width:100%}
+.youtube-now-playing.is-channel-below .youtube-track-channel:before{content:none}
+.youtube-now-playing.is-channel-below .youtube-track-copy{max-width:min(320px,calc(100vw - 100px))}
 .youtube-now-playing.is-collapsed .youtube-track-copy{max-width:0}
 @media(prefers-reduced-motion:reduce){.watchlist-tab-fade,.watchlist-tab-fade .watchlist-card{animation:none!important;filter:none!important;transform:none!important}}
 
@@ -5110,12 +5115,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  100%{transform:translateY(-1px) scale(1);filter:brightness(1)}
 }
 
-/* Force a visible accent/palette gradient on manga detail banners. */
-.watchlist-detail-banner.is-manga-banner{
- background:linear-gradient(115deg,var(--manga-banner-start),var(--manga-banner-mid),var(--manga-banner-end))!important;
- background-image:linear-gradient(115deg,var(--manga-banner-start),var(--manga-banner-mid),var(--manga-banner-end))!important;
- background-size:cover!important;
-}
+/* Manga detail banners receive their palette gradient directly from the component. */
 @media(prefers-reduced-motion:reduce){
  .watchlist-core-tabs button{transition:none!important}
  .watchlist-core-tabs button.active{animation:none!important}
