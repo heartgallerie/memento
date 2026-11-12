@@ -5212,19 +5212,17 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .socials-platform-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
 .social-platform-card{--social-brand:var(--accent);position:relative;display:grid;align-content:start;gap:15px;min-width:0;padding:18px;border:1px solid var(--line);border-radius:22px;background:var(--surface);color:var(--text);box-shadow:0 5px 20px #00000008;overflow:hidden;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
 .social-platform-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--social-brand) 45%,var(--line));box-shadow:0 10px 26px #00000010}
-.social-brand-instagram{--social-brand:#d84b83}.social-brand-tiktok{--social-brand:#25d5d0}.social-brand-youtube{--social-brand:#ff3030}.social-brand-twitch{--social-brand:#9147ff}.social-brand-x{--social-brand:#888}.social-brand-roblox{--social-brand:#777}.social-brand-soundcloud{--social-brand:#ff7626}
+.social-brand-instagram{--social-brand:#E4405F}.social-brand-tiktok{--social-brand:#000000}.social-brand-youtube{--social-brand:#FF0000}.social-brand-twitch{--social-brand:#9146FF}.social-brand-x{--social-brand:#000000}.social-brand-roblox{--social-brand:#000000}.social-brand-soundcloud{--social-brand:#FF5500}
 .social-platform-top,.social-platform-brand{display:flex;align-items:center;min-width:0}
 .social-platform-top{justify-content:space-between;gap:12px}
 .social-platform-brand{gap:11px}
 .social-platform-logo{display:grid;place-items:center;flex:none;width:43px;height:43px;border-radius:15px;background:color-mix(in srgb,var(--social-brand) 13%,var(--surface));color:var(--social-brand)}
+.social-brand-tiktok .social-platform-logo,.social-brand-x .social-platform-logo,.social-brand-roblox .social-platform-logo{color:var(--text)}
 .social-platform-brand>div:last-child{display:grid;gap:4px;min-width:0}
 .social-platform-brand strong{font:650 13px 'DM Sans','Jdecked Twemoji';color:var(--text)}
 .social-platform-brand span{font:10px 'DM Sans','Jdecked Twemoji';color:var(--muted)}
 .social-platform-dot{width:8px;height:8px;flex:none;border-radius:50%;background:var(--line)}
 .social-platform-card.is-connected .social-platform-dot{background:var(--social-brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--social-brand) 12%,transparent)}
-.social-tiktok-glyph{font:900 27px/1 Arial,sans-serif;text-shadow:-2px 1px #25f4ee,2px -1px #fe2c55;color:var(--text)!important}
-.social-x-glyph{font:700 24px/1 Arial,sans-serif;color:var(--text)!important}
-.social-roblox-glyph{width:19px;height:19px;border:5px solid currentColor;transform:rotate(22deg);position:relative}
 .social-platform-profile{display:flex;align-items:center;gap:11px;min-width:0;padding:12px;border-radius:16px;background:var(--panel)}
 .social-platform-profile>img,.social-platform-avatar-fallback{width:48px;height:48px;flex:none;border-radius:50%;object-fit:cover;background:color-mix(in srgb,var(--social-brand) 16%,var(--panel))}
 .social-platform-avatar-fallback{display:grid;place-items:center;color:var(--social-brand);font:650 18px 'DM Sans','Jdecked Twemoji'}
