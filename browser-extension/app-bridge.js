@@ -4,7 +4,7 @@ if (!globalThis.__mementoAppBridgeInstalled) {
 
   chrome.runtime.onMessage.addListener(message => {
     if (message?.type === "memento-youtube-state") {
-      window.postMessage({ source: "memento-youtube-bridge", title: message.title || "", tabId: message.tabId ?? null }, location.origin);
+      window.postMessage({ source: "memento-youtube-bridge", title: message.title || "", channelName: message.channelName || "", tabId: message.tabId ?? null }, location.origin);
     }
   });
 
@@ -21,7 +21,7 @@ if (!globalThis.__mementoAppBridgeInstalled) {
     try {
       chrome.runtime.sendMessage({ type: "memento-youtube-get" }, response => {
         if (chrome.runtime.lastError) return;
-        window.postMessage({ source: "memento-youtube-bridge", title: response?.title || "", tabId: response?.tabId ?? null }, location.origin);
+        window.postMessage({ source: "memento-youtube-bridge", title: response?.title || "", channelName: response?.channelName || "", tabId: response?.tabId ?? null }, location.origin);
       });
     } catch {}
   });
