@@ -5019,12 +5019,12 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 .memento-video-control-row button[aria-label="Pause"]{
  width:30px;height:30px;border-radius:8px;
- background:var(--memento-player-accent)!important;
+ background:transparent!important;
  color:#fff!important;
- box-shadow:0 2px 9px rgba(0,0,0,.24);
+ box-shadow:none!important;
 }
 .memento-video-control-row button[aria-label="Pause"] svg{fill:currentColor;stroke:currentColor}
-.memento-video-control-row button[aria-label="Pause"]:hover{filter:brightness(1.1)}
+.memento-video-control-row button[aria-label="Pause"]:hover{color:var(--memento-player-accent)!important;filter:none}
 .memento-video-volume{
  background:linear-gradient(to right,var(--memento-player-accent) var(--volume-progress,100%),rgba(255,255,255,.38) var(--volume-progress,100%))!important;
 }
@@ -5039,3 +5039,21 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 .recently-deleted-delete-now:hover{background:color-mix(in srgb,#d66 14%,var(--panel));border-color:#c66}
 @media(max-width:520px){.recently-deleted-actions>span{width:100%;margin-left:0;order:3}}
+
+
+/* Track rating controls and matching Recently deleted action styling. */
+.watchlist-track-review{flex-wrap:wrap}
+.watchlist-track-clear-rating{
+ display:inline-flex;align-items:center;justify-content:center;
+ width:22px;height:22px;padding:0;border:1px solid var(--line);
+ border-radius:6px;background:var(--panel);color:var(--muted);cursor:pointer;
+}
+.watchlist-track-clear-rating:hover{border-color:#c66d6d;color:#c66d6d;background:#c66d6d10}
+.recently-deleted-delete-now{
+ border:1px solid var(--line)!important;
+ border-radius:7px!important;
+ background:var(--panel)!important;
+ color:var(--text)!important;
+ font:500 10px 'DM Sans','Jdecked Twemoji'!important;
+}
+.recently-deleted-delete-now:hover{border-color:var(--accent)!important;background:var(--surface)!important;color:var(--text)!important}
