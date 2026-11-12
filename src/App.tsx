@@ -82,9 +82,9 @@ function ProfileAudioPlayer({src,title,subtitle}:{src:string;title:string;subtit
  const bars=Array.from({length:84},(_,i)=>18+((i*29+i*i*11+i%7*13)%78))
  return <div className="profile-audio-player">
   <audio ref={audioRef} src={src} preload="metadata" onTimeUpdate={e=>setTime(e.currentTarget.currentTime)} onLoadedMetadata={e=>setDuration(Number.isFinite(e.currentTarget.duration)?e.currentTarget.duration:0)} onPlay={()=>setPlaying(true)} onPause={()=>setPlaying(false)} onEnded={()=>setPlaying(false)}/>
-  <div className="profile-audio-art" aria-hidden="true"><AudioLines size={34}/><span>♫</span></div>
+  <div className="profile-audio-art" aria-hidden="true"><AudioLines size={30}/></div>
   <div className="profile-audio-content">
-   <div className="profile-audio-heading"><div><strong title={title}>{title}</strong><span title={subtitle}>{subtitle}</span></div><span className="profile-audio-brand">MEMENTO <b>♫</b></span></div>
+   <div className="profile-audio-heading"><div><strong title={title}>{title}</strong><span title={subtitle}>{subtitle}</span></div></div>
    <div className="profile-audio-waveform" role="group" aria-label="Audio timeline">
     <div className="profile-audio-wave-bars" aria-hidden="true">{bars.map((height,i)=><i key={i} style={{height:height+'%',background:i/bars.length*100<=progress?'var(--profile-audio-progress)':'var(--profile-audio-wave)'}}/>)}</div>
     <input aria-label="Seek audio" type="range" min="0" max={duration||1} step="0.1" value={Math.min(time,duration||1)} onChange={e=>{const next=Number(e.target.value);if(audioRef.current)audioRef.current.currentTime=next;setTime(next)}}/>
