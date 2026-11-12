@@ -5053,7 +5053,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .profile-audio-content{display:grid;align-content:center;gap:9px;min-width:0;flex:1}
 .profile-audio-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
 .profile-audio-heading>div{display:grid;gap:4px;min-width:0}
-.profile-audio-heading strong{overflow:hidden;color:var(--bg);font:600 13px 'DM Sans','Jdecked Twemoji',sans-serif;text-overflow:ellipsis;white-space:nowrap}
+.profile-audio-heading strong{overflow:hidden;color:var(--text);font:600 13px 'DM Sans','Jdecked Twemoji',sans-serif;text-overflow:ellipsis;white-space:nowrap}
 .profile-audio-heading>div>span{overflow:hidden;color:var(--muted);font:10px 'DM Sans','Jdecked Twemoji',sans-serif;text-overflow:ellipsis;white-space:nowrap}
 .profile-audio-brand{display:none}
 .profile-audio-waveform{position:relative;height:37px;min-width:0;cursor:pointer}
@@ -5073,3 +5073,10 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .profile-audio-volume input::-moz-range-thumb{width:9px;height:9px;border:0;border-radius:50%;background:var(--accent)}
 @media(max-width:600px){.profile-audio-player{gap:11px;padding:11px}.profile-audio-art{flex-basis:70px;width:70px;height:70px}.profile-audio-art>span{font-size:29px}.profile-audio-content{gap:7px}.profile-audio-heading strong{font-size:11px}.profile-audio-brand{display:none}.profile-audio-waveform{height:30px}.profile-audio-volume input{width:42px}}
 @media(prefers-reduced-motion:reduce){.profile-audio-play,.profile-audio-wave-bars i{transition:none}}
+
+/* Chapter, episode, season and volume ratings. */
+.watchlist-parts-list .watchlist-track-info select{width:100%;min-width:0;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:11px 'DM Sans','Jdecked Twemoji';}
+.watchlist-parts-list .watchlist-track-info select:focus{outline:none;border-color:var(--accent);}
+.watchlist-parts-list .watchlist-track-display small{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em;}
+.watchlist-parts-list .watchlist-track-review{grid-column:2;}
+@media(max-width:600px){.watchlist-parts-list .watchlist-track-review{grid-column:1;padding-left:34px;}}
