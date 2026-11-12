@@ -5121,44 +5121,34 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  .watchlist-core-tabs button.active{animation:none!important}
 }
 
-/* Keep the compact YouTube expand arrow pinned to the far edge of the pill. */
-.sidebar-activity-youtube.is-collapsed .sidebar-activity-heading{position:relative;padding-right:22px}
-.sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle{position:absolute;right:0;top:50%;margin:0;transform:translateY(-50%);flex:0 0 17px}
-.sidebar-activity-youtube.is-collapsed .sidebar-activity-collapsed-copy{flex:1 1 auto;width:0;min-width:0;padding-right:2px}
-.sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle svg{transform:rotate(-90deg)}
-
-
-/* Match the compact YouTube card's arrow to the Spotify pill's right-edge alignment. */
-.sidebar-activity-youtube.is-collapsed .sidebar-activity-heading{
-  display:flex!important;
-  align-items:center!important;
-  width:100%!important;
-  min-width:0!important;
+/* Keep the YouTube arrow in the same heading position in both expanded and compact states. */
+.sidebar-activity-youtube .sidebar-activity-heading{
+  display:flex;
+  align-items:center;
+  width:100%;
+  min-width:0;
   padding-right:0!important;
-  overflow:hidden!important;
 }
-.sidebar-activity-youtube.is-collapsed .sidebar-activity-collapsed-copy{
-  display:block!important;
-  flex:1 1 0!important;
-  width:auto!important;
-  min-width:0!important;
-  max-width:none!important;
-  padding:0!important;
-  overflow:hidden!important;
-  white-space:nowrap!important;
-}
-.sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle{
+.sidebar-activity-youtube .sidebar-activity-toggle{
   position:static!important;
   inset:auto!important;
-  display:grid!important;
-  flex:0 0 23px!important;
-  width:23px!important;
-  height:23px!important;
-  min-width:23px!important;
-  margin:0 0 0 auto!important;
-  padding:0!important;
+  display:grid;
+  flex:0 0 23px;
+  width:23px;
+  height:23px;
+  margin-left:auto!important;
   transform:none!important;
 }
+.sidebar-activity-youtube.is-collapsed .sidebar-activity-collapsed-copy{
+  flex:1 1 0;
+  width:auto;
+  min-width:0;
+  max-width:none;
+  padding:0;
+}
+.sidebar-activity-youtube .sidebar-activity-toggle svg{
+  transform:rotate(0deg);
+}
 .sidebar-activity-youtube.is-collapsed .sidebar-activity-toggle svg{
-  transform:rotate(-90deg)!important;
+  transform:rotate(-90deg);
 }
