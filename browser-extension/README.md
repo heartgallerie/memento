@@ -9,7 +9,7 @@ This small Chromium extension is needed because a normal website cannot read the
 3. Turn on **Developer mode**.
 4. Choose **Load unpacked** and select the repository's `browser-extension` folder.
 5. Keep the extension enabled, open Memento, then enable **Settings → Now playing → YouTube**.
-6. Open a YouTube video in another tab and press Play. The red YouTube pill should appear on your Memento profile. Pause or close the video and it should disappear.
+6. Open a YouTube video in another tab and press Play. The red YouTube pill should appear on your Memento profile with the video title and channel name. Pause or close the video and it should disappear.
 
 The extension requests access only to YouTube and local Memento addresses (`localhost` and `127.0.0.1`). The detector runs only on YouTube, and the bridge runs only on those local Memento addresses. You can inspect the three small source files before loading it, and remove it at any time from the browser's extensions page.
 
