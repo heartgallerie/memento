@@ -4341,8 +4341,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-tab-menu label>svg{margin-left:auto;color:var(--accent);opacity:0}
 .watchlist-tab-menu label:has(input:checked){background:color-mix(in srgb,var(--accent) 11%,var(--surface))}
 .watchlist-tab-menu label:has(input:checked)>svg{opacity:1}
-.watchlist-card-rating{display:flex;align-items:center;gap:1px;color:#d5a23b;font-size:12px;white-space:nowrap}
-.watchlist-card-rating>span{display:inline-block;background:linear-gradient(90deg,#f6d77b var(--star-fill),#b8b2a4 var(--star-fill));background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 1px 1px #b47d2733)}
+.watchlist-card-rating{display:flex;align-items:center;gap:2px;color:#d5a23b;font-size:15px;white-space:nowrap}
+.watchlist-card-rating>span{display:inline-block;font-size:15px;line-height:1;background:linear-gradient(90deg,#f6d77b var(--star-fill),#b8b2a4 var(--star-fill));background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 1px 1px #b47d2733)}
 .watchlist-stars{gap:4px}
 .watchlist-stars button{font-size:31px;color:transparent;background:linear-gradient(90deg,#f8d77b var(--star-fill),#aaa28f var(--star-fill));background-clip:text;-webkit-background-clip:text;filter:drop-shadow(0 2px 2px #b47d2730);transition:transform .15s,filter .15s}
 .watchlist-stars button:hover{transform:translateY(-2px) scale(1.08);filter:drop-shadow(0 3px 4px #c8943d55)}
