@@ -4914,3 +4914,27 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  cursor:pointer;
 }
 .watchlist-clear-rating:hover{border-color:#c66d6d;color:#c66d6d;background:#c66d6d10}
+
+
+/* Album tracklists and individual track reviews. */
+.watchlist-tracklist{margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.watchlist-tracklist-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.watchlist-tracklist-heading h2{margin:3px 0 0;font-size:17px}
+.watchlist-tracklist-heading>small{color:var(--muted);font-size:10px}
+.watchlist-tracklist ol{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.watchlist-track-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;padding:13px 2px;border-top:1px solid var(--line)}
+.watchlist-track-main{display:flex;align-items:center;gap:12px;min-width:0}
+.watchlist-track-number{width:22px;flex:none;color:var(--muted);font:10px 'DM Mono',monospace}
+.watchlist-track-info{display:grid;gap:3px;min-width:0}
+.watchlist-track-info strong{overflow:hidden;color:var(--text);font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+.watchlist-track-info small,.watchlist-track-review>small{color:var(--muted);font-size:10px}
+.watchlist-track-review{display:flex;align-items:center;gap:8px}
+.watchlist-track-stars{gap:1px}
+.watchlist-track-stars button{width:17px;height:21px;font-size:17px}
+.watchlist-track-comment-form{display:flex;grid-column:1/-1;gap:6px;margin-left:34px}
+.watchlist-track-comment-form input{flex:1;min-width:0;padding:7px 9px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--text);font:10px 'DM Sans','Jdecked Twemoji'}
+.watchlist-track-comment-form button{padding:6px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--text);font:10px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+.watchlist-track-comments{grid-column:1/-1;display:grid;gap:5px;margin-left:34px}
+.watchlist-track-comments p{display:flex;justify-content:space-between;gap:8px;margin:0;padding:7px 9px;border-radius:7px;background:var(--panel);color:var(--muted);font-size:10px}
+.watchlist-track-comments button{display:grid;place-items:center;flex:none;border:0;background:transparent;color:var(--muted);cursor:pointer}
+@media(max-width:600px){.watchlist-tracklist{padding:14px}.watchlist-track-row{grid-template-columns:minmax(0,1fr);gap:7px}.watchlist-track-review{padding-left:34px}.watchlist-track-comment-form,.watchlist-track-comments{margin-left:0}}
