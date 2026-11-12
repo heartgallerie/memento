@@ -4967,6 +4967,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .watchlist-track-edit-actions button:disabled{opacity:.28;cursor:default}
 .watchlist-track-edit-actions .watchlist-track-remove{color:var(--muted)}
 .watchlist-track-edit-actions .watchlist-track-remove:hover{color:var(--danger,#c55);border-color:var(--danger,#c55)}
+.watchlist-tracklist.is-editing .watchlist-track-info{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
 .watchlist-tracklist.is-editing .watchlist-track-info input{width:100%;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:12px 'DM Sans','Jdecked Twemoji';outline:none}
 .watchlist-tracklist.is-editing .watchlist-track-info input:focus{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 14%,transparent)}
 .watchlist-tracklist-empty{display:grid;justify-items:start;gap:10px;padding:8px 0}
