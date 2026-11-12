@@ -271,6 +271,25 @@ function WatchlistPage({collection='watchlist',includeAdult=false,randomOpenId='
  const [query,setQuery]=useState(''),[results,setResults]=useState<TMDBResult[]>([]),[searching,setSearching]=useState(false),[hasSearched,setHasSearched]=useState(false),[error,setError]=useState(''),[searchMediaType,setSearchMediaType]=useState('all')
  const [filter,setFilter]=useState<string>(WATCH_STATUSES[0]),[mediaFilter,setMediaFilter]=useState('all'),[sortOrder,setSortOrder]=useState('default'),[viewMode,setViewMode]=useState<'grid'|'list'|'shelf'>(()=>{const saved=localStorage.getItem(storageKey+'.viewMode');return saved==='list'||saved==='shelf'?saved:'grid'}),[editing,setEditing]=useState<WatchItem|null>(null),[detail,setDetail]=useState<WatchItem|null>(null),[artworkOpen,setArtworkOpen]=useState(false),[expandedDescriptions,setExpandedDescriptions]=useState<string[]>([]),[categoryDraft,setCategoryDraft]=useState(''),[commentDraft,setCommentDraft]=useState(''),[linkTitle,setLinkTitle]=useState(''),[linkUrl,setLinkUrl]=useState('')
  useEffect(()=>{localStorage.setItem(storageKey,JSON.stringify(items))},[items,storageKey])
+ useEffect(()=>{
+  const target=detail
+  if(!target||target.mediaType!=='music'||target.tracklist?.length)return
+  const apiKey=localStorage.getItem('memento.lastfmApiKey')||''
+  if(!apiKey.trim())return
+  let cancelled=false
+  const params=new URLSearchParams({method:'album.getInfo',artist:target.creator||'',album:target.title,api_key:apiKey.trim(),format:'json'})
+  fetch('https://ws.audioscrobbler.com/2.0/?'+params.toString()).then(response=>response.ok?response.json():null).then(data=>{
+   if(cancelled||!data?.album)return
+   const raw=data.album.tracks?.track,tracks=(Array.isArray(raw)?raw:raw?[raw]:[]).map((track:any,index:number)=>({id:String(index+1),name:String(track.name||'Track '+(index+1)),artist:String(track.artist?.name||track.artist||target.creator||'Unknown artist'),rating:'',comments:[]} as WatchTrack))
+   const published=String(data.album.wiki?.published||''),year=published.match(/\b(?:19|20)\d{2}\b/)?.[0]||''
+   if(!tracks.length&&!year)return
+   const patch={...(tracks.length?{tracklist:tracks,totalTracks:String(tracks.length)}:{}),...(year&&!target.releaseDate?{releaseDate:year}:{})}
+   setItems(old=>old.map(item=>item.id===target.id?{...item,...patch}:item))
+   setDetail(old=>old?.id===target.id?{...old,...patch}:old)
+  }).catch(()=>{})
+  return()=>{cancelled=true}
+ },[detail?.id])
+ 
  const ageRatingAttempts=useRef(new Set<string>())
  useEffect(()=>{
   const tmdbKey=localStorage.getItem('memento.tmdbKey')||'',rawgKey=localStorage.getItem('memento.rawgKey')||''
