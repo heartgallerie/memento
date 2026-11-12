@@ -23,6 +23,14 @@ if (!globalThis.__mementoYoutubeDetectorInstalled) {
       ? (document.querySelector("h1.ytd-watch-metadata yt-formatted-string")?.textContent?.trim()
         || document.title.replace(/\s*[-|] YouTube\s*$/i, "").trim())
       : "";
+    const channelName = playing
+      ? (document.querySelector("ytd-video-owner-renderer #channel-name a")?.textContent?.trim()
+        || document.querySelector("#owner #channel-name a")?.textContent?.trim()
+        || document.querySelector("ytd-channel-name a")?.textContent?.trim()
+        || document.querySelector("#upload-info #channel-name")?.textContent?.trim()
+        || document.querySelector("meta[name=author]")?.getAttribute("content")?.trim()
+        || "")
+      : "";
 
     if (title !== lastTitle || channelName !== lastChannelName || playing !== lastPlaying || (playing && Date.now() - lastSentAt > 5000)) {
       lastTitle = title;
