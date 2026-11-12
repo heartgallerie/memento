@@ -5041,3 +5041,35 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
  border-radius:6px;background:var(--panel);color:var(--muted);cursor:pointer;
 }
 .watchlist-track-clear-rating:hover{border-color:#c66d6d;color:#c66d6d;background:#c66d6d10}
+
+
+/* SoundCloud-inspired custom audio player for the profile's Audio feed. */
+.audio-feed{display:grid;gap:14px;padding:8px 0 30px}
+.profile-audio-player{display:flex;align-items:stretch;gap:15px;min-width:0;padding:15px;border:1px solid #343434;border-radius:12px;background:linear-gradient(115deg,#242424 0%,#171717 58%,#202020 100%);color:#f5f5f5;box-shadow:0 5px 18px #00000012;--profile-audio-progress:#ff5500;--profile-audio-wave:#777}
+.profile-audio-art{position:relative;display:grid;place-items:center;flex:0 0 92px;width:92px;height:92px;overflow:hidden;border-radius:7px;background:radial-gradient(circle at 70% 25%,#ff9a45 0,#ff5500 35%,#9e2600 100%);color:#fff}
+.profile-audio-art:before,.profile-audio-art:after{content:"";position:absolute;width:125px;height:125px;border:1px solid #ffffff35;border-radius:50%}
+.profile-audio-art:before{transform:scale(.68)}.profile-audio-art:after{transform:scale(.9)}
+.profile-audio-art>svg{position:absolute;opacity:.38}.profile-audio-art>span{position:relative;z-index:1;font:600 35px Georgia,serif;text-shadow:0 2px 8px #6d1d00}
+.profile-audio-content{display:grid;align-content:center;gap:9px;min-width:0;flex:1}
+.profile-audio-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
+.profile-audio-heading>div{display:grid;gap:4px;min-width:0}
+.profile-audio-heading strong{overflow:hidden;color:#fff;font:600 13px 'DM Sans','Jdecked Twemoji',sans-serif;text-overflow:ellipsis;white-space:nowrap}
+.profile-audio-heading>div>span{overflow:hidden;color:#b4b4b4;font:10px 'DM Sans','Jdecked Twemoji',sans-serif;text-overflow:ellipsis;white-space:nowrap}
+.profile-audio-brand{flex:none;color:#a7a7a7;font:700 8px 'DM Sans','Jdecked Twemoji',sans-serif;letter-spacing:1.3px}.profile-audio-brand b{margin-left:3px;color:#ff6a1a;font-size:12px}
+.profile-audio-waveform{position:relative;height:37px;min-width:0;cursor:pointer}
+.profile-audio-wave-bars{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;gap:2px;overflow:hidden}
+.profile-audio-wave-bars i{display:block;flex:1;min-width:1px;max-width:5px;border-radius:3px;opacity:.95;transition:background .12s}
+.profile-audio-waveform input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.profile-audio-waveform input:focus-visible{outline:2px solid #ff6a1a;outline-offset:3px;opacity:.08}
+.profile-audio-controls{display:flex;align-items:center;gap:10px;min-width:0}
+.profile-audio-play{display:grid;place-items:center;flex:none;width:31px;height:31px;padding:0;border:0;border-radius:50%;background:#ff5500;color:#fff;cursor:pointer;transition:background .15s,transform .15s}
+.profile-audio-play:hover{background:#ff762f;transform:scale(1.06)}
+.profile-audio-controls>span{color:#bcbcbc;font:9px 'DM Mono',monospace;white-space:nowrap}.profile-audio-controls>span i{color:#777;font-style:normal}
+.profile-audio-volume{display:flex;align-items:center;gap:6px;margin-left:auto}
+.profile-audio-volume button{display:grid;place-items:center;width:25px;height:25px;padding:0;border:0;background:transparent;color:#c5c5c5;cursor:pointer}
+.profile-audio-volume button:hover{color:#ff6a1a}
+.profile-audio-volume input{width:62px;height:3px;appearance:none;border-radius:99px;background:#666;cursor:pointer}
+.profile-audio-volume input::-webkit-slider-thumb{appearance:none;width:9px;height:9px;border:0;border-radius:50%;background:#ff6a1a}
+.profile-audio-volume input::-moz-range-thumb{width:9px;height:9px;border:0;border-radius:50%;background:#ff6a1a}
+@media(max-width:600px){.profile-audio-player{gap:11px;padding:11px}.profile-audio-art{flex-basis:70px;width:70px;height:70px}.profile-audio-art>span{font-size:29px}.profile-audio-content{gap:7px}.profile-audio-heading strong{font-size:11px}.profile-audio-brand{display:none}.profile-audio-waveform{height:30px}.profile-audio-volume input{width:42px}}
+@media(prefers-reduced-motion:reduce){.profile-audio-play,.profile-audio-wave-bars i{transition:none}}
