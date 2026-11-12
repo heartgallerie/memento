@@ -293,7 +293,7 @@ function WatchlistDetailBanner({current}:{current:WatchItem}){
   }
   load(current.artwork)
   return()=>{cancelled=true;if(activeImage){activeImage.onload=null;activeImage.onerror=null;activeImage.src=''}}
- },[current.artwork,current.backdrop])
+ },[current.artwork,current.backdrop,current.mediaType])
  const colors=palette.length===3?palette:['#343844','#55566b','#292d3b']
  const rgb=colors[0].match(/[0-9a-f]{2}/gi)?.map(value=>parseInt(value,16))||[52,56,68]
  const luminance=rgb.map(value=>{const channel=value/255;return channel<=.04045?channel/12.92:((channel+.055)/1.055)**2.4}).reduce((sum,value,index)=>sum+value*[.2126,.7152,.0722][index],0)
