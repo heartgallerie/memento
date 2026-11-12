@@ -5094,3 +5094,29 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .youtube-track-channel{font:400 9px/1.2 'DM Sans','Jdecked Twemoji';opacity:.78}
 .youtube-now-playing.is-collapsed .youtube-track-copy{max-width:0}
 @media(prefers-reduced-motion:reduce){.watchlist-tab-fade,.watchlist-tab-fade .watchlist-card{animation:none!important;filter:none!important;transform:none!important}}
+
+
+/* Animate the actual selected Library status tab button. */
+.watchlist-core-tabs button{
+ transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease;
+ transform-origin:center;
+}
+.watchlist-core-tabs button.active{
+ animation:watchlistStatusTabSelect .3s cubic-bezier(.2,.8,.25,1) both;
+}
+@keyframes watchlistStatusTabSelect{
+ 0%{transform:translateY(0) scale(.94);filter:brightness(.92)}
+ 55%{transform:translateY(-2px) scale(1.045);filter:brightness(1.08)}
+ 100%{transform:translateY(-1px) scale(1);filter:brightness(1)}
+}
+
+/* Force a visible accent/palette gradient on manga detail banners. */
+.watchlist-detail-banner.is-manga-banner{
+ background:linear-gradient(115deg,var(--manga-banner-start),var(--manga-banner-mid),var(--manga-banner-end))!important;
+ background-image:linear-gradient(115deg,var(--manga-banner-start),var(--manga-banner-mid),var(--manga-banner-end))!important;
+ background-size:cover!important;
+}
+@media(prefers-reduced-motion:reduce){
+ .watchlist-core-tabs button{transition:none!important}
+ .watchlist-core-tabs button.active{animation:none!important}
+}
