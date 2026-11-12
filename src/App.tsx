@@ -367,10 +367,9 @@ function WatchlistPage({collection='watchlist',includeAdult=false,randomOpenId='
  const ageRatingAttempts=useRef(new Set<string>())
  useEffect(()=>{
   const tmdbKey=localStorage.getItem('memento.tmdbKey')||'',rawgKey=localStorage.getItem('memento.rawgKey')||''
-  const pending=items.filter(item=>!item.ageRating&&!ageRatingAttempts.current.has(item.id)&&(
-   (!!tmdbKey&&(item.mediaType==='movie'||item.mediaType==='tv')&&!!item.tmdbId)||
-   (item.mediaType==='game'&&item.id.startsWith('watch-game-steam-')&&(!item.ageRating||!item.releaseDate))||
-   (!!rawgKey&&item.mediaType==='game'&&item.id.startsWith('watch-game-rawg-'))
+  const pending=items.filter(item=>!ageRatingAttempts.current.has(item.id)&&(
+   (!item.ageRating&&((!!tmdbKey&&(item.mediaType==='movie'||item.mediaType==='tv')&&!!item.tmdbId)||(!!rawgKey&&item.mediaType==='game'&&item.id.startsWith('watch-game-rawg-'))))||
+   (item.mediaType==='game'&&item.id.startsWith('watch-game-steam-')&&(!item.ageRating||!item.releaseDate))
   )).slice(0,5)
   if(!pending.length)return
   pending.forEach(item=>ageRatingAttempts.current.add(item.id))
