@@ -20,7 +20,7 @@ function currentState() {
   const current = [...playingByTab.entries()]
     .filter(([, item]) => item.title && Date.now() - item.updatedAt < 15000)
     .sort((a, b) => b[1].updatedAt - a[1].updatedAt)[0];
-  return current ? { title: current[1].title, tabId: current[0] } : { title: "", tabId: null };
+  return current ? { title: current[1].title, channelName: current[1].channelName || "", tabId: current[0] } : { title: "", channelName: "", tabId: null };
 }
 
 async function broadcast() {
@@ -29,7 +29,7 @@ async function broadcast() {
   const tabs = await chrome.tabs.query({});
   await Promise.all(tabs.map(tab => tab.id == null
     ? Promise.resolve()
-    : chrome.tabs.sendMessage(tab.id, { type: "memento-youtube-state", title: state.title, tabId: state.tabId }).catch(() => {})));
+    : chrome.tabs.sendMessage(tab.id, { type: "memento-youtube-state", title: state.title, channelName: state.channelName, tabId: state.tabId }).catch(() => {})));
 }
 
 async function injectIntoExistingTabs() {
@@ -51,7 +51,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     restoreState().then(async () => {
       const id = sender.tab.id;
       if (typeof message.title === "string" && message.title.trim()) {
-        playingByTab.set(id, { title: message.title.trim(), url: sender.tab.url || "", updatedAt: Date.now() });
+        playingByTab.set(id, { title: message.title.trim(), channelName: typeof message.channelName === "string" ? message.channelName.trim() : "", url: sender.tab.url || "", updatedAt: Date.now() });
       } else {
         playingByTab.delete(id);
       }
