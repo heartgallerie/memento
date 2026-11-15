@@ -5376,3 +5376,26 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(max-width:650px){.folders-page{margin:27px auto;padding:0 16px 55px}.folders-page-heading{align-items:flex-start}.folders-page-heading .folders-create-button{min-height:35px;padding:0 10px;white-space:nowrap}.folders-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;padding:11px 8px}.folders-overview>div{min-width:0;padding:0 9px}.folders-overview strong{font-size:17px}.folders-overview span{font-size:8px}.folders-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.folder-card-open{padding:11px}.folder-card-art{height:92px}.folder-card-footer{padding:8px}.folder-card-footer>span{font-size:8px}.folder-card-footer button{width:25px;height:25px}.folder-add-card{min-height:190px;padding:10px}.folders-unfiled{align-items:flex-start;flex-direction:column}.folders-unfiled>button{align-self:flex-end}}
 @media(max-width:390px){.folders-grid{grid-template-columns:1fr}.folder-card-art{height:105px}}
 @media(prefers-reduced-motion:reduce){.folder-card,.folder-card-footer button,.folder-add-card,.folders-create-button{transition:none}}
+
+
+/* Library comments use the same compact layout as journal-entry comments. */
+.watchlist-entry-comments{display:grid;gap:0;margin-top:14px}
+.watchlist-entry-comments .entry-comment{display:flex;align-items:flex-start;gap:9px;margin:0;padding:12px 0;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent}
+.watchlist-entry-comments .entry-comment:first-child{padding-top:2px}
+.watchlist-entry-comments .entry-comment:last-child{border-bottom:0}
+.watchlist-entry-comments .entry-comment-copy p{font-size:12px;line-height:1.6}
+.watchlist-entry-comments .entry-comment time{margin-top:7px;font-size:10px}
+.watchlist-comment-read-more{display:inline-block;margin-top:4px;padding:0;border:0;background:none;color:var(--accent);font:600 10px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+.watchlist-comment-menu-wrap{position:relative;flex:none}
+.watchlist-entry-comments .watchlist-comment-menu-trigger{width:28px;height:28px;margin:0;border:0;border-radius:7px}
+.watchlist-entry-comments .watchlist-comment-menu-trigger:hover{border:0;background:var(--panel);color:var(--text)}
+.watchlist-comment-menu{position:absolute;z-index:30;top:30px;right:0;display:grid;min-width:112px;padding:5px;border:1px solid var(--border);border-radius:9px;background:var(--surface);box-shadow:0 8px 24px #00000018}
+.watchlist-comment-menu button{display:flex;align-items:center;gap:8px;padding:8px 9px;border:0;border-radius:6px;background:transparent;color:var(--text);font:11px 'DM Sans','Jdecked Twemoji';text-align:left;cursor:pointer}
+.watchlist-comment-menu button:hover{background:var(--panel)}
+.watchlist-comment-menu button.danger{color:#c66d6d}
+.watchlist-comment-edit{display:grid;gap:8px}
+.watchlist-comment-edit textarea{width:100%;min-height:76px;resize:vertical;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font:12px/1.55 'DM Sans','Jdecked Twemoji';outline:none}
+.watchlist-comment-edit>div{display:flex;justify-content:flex-end;gap:7px}
+.watchlist-comment-edit>div button{padding:6px 10px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);font:10px 'DM Sans','Jdecked Twemoji';cursor:pointer}
+.watchlist-comment-edit>div button:last-child{border-color:var(--accent);background:var(--accent);color:#fff}
+.watchlist-comment-edit>div button:disabled{opacity:.45;cursor:default}
