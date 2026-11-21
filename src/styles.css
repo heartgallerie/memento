@@ -5492,3 +5492,42 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(prefers-reduced-motion:reduce){
  .sidebar-activity-music.is-ipod:not(.is-collapsed){animation:none}
 }
+
+
+/* Small polish: remove the extra iPod outline and keep YouTube text clear of its action. */
+.sidebar-activity-music.is-ipod:not(.is-collapsed){
+  border:0;
+}
+.sidebar-activity-music.is-ipod:not(.is-collapsed):after{
+  border:0;
+}
+.sidebar-youtube-content{
+  align-items:center;
+  gap:10px;
+}
+.sidebar-youtube-copy{
+  flex:1 1 0;
+  width:0;
+  min-width:0;
+}
+.sidebar-youtube-copy .sidebar-activity-track{
+  display:block;
+  width:100%;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.sidebar-youtube-copy .sidebar-activity-track.is-scrolling{
+  animation:none;
+}
+.sidebar-youtube-copy .sidebar-activity-track>span{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.sidebar-youtube-open{
+  flex:0 0 auto;
+  white-space:nowrap;
+}
