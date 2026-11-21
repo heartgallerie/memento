@@ -5438,12 +5438,17 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   box-shadow:inset 0 1px 8px #0002;
 }
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-music-content:before{
-  position:absolute;z-index:-1;inset:-35%;
+  position:absolute;z-index:0;inset:-38%;
   content:'';
-  background:radial-gradient(ellipse at 22% 35%,var(--activity-c1),transparent 55%),radial-gradient(ellipse at 78% 65%,var(--activity-c2),transparent 58%),radial-gradient(ellipse at 50% 10%,var(--activity-c3),transparent 60%);
-  filter:blur(20px);
-  opacity:.95;
+  background:radial-gradient(ellipse at 18% 24%,color-mix(in srgb,var(--lastfm-c1) 95%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 82% 78%,color-mix(in srgb,var(--lastfm-c2) 95%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 55% 8%,color-mix(in srgb,var(--lastfm-c3) 92%,transparent) 0%,transparent 55%);
+  filter:blur(25px) saturate(1.2);
+  opacity:1;
   animation:sidebar-ipod-screen-flow 28s ease-in-out infinite alternate;
+}
+.sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-music-content:after{
+  position:absolute;z-index:2;inset:0;content:'';
+  background:linear-gradient(125deg,#ffffff42 0%,transparent 38%,#ffffff18 62%,transparent 100%);
+  pointer-events:none;
 }
 @keyframes sidebar-ipod-screen-gradient{0%{background-position:0% 30%}50%{background-position:100% 70%}100%{background-position:20% 100%}}
 @keyframes sidebar-ipod-screen-flow{0%{transform:translate(-5%,-4%) scale(1)}50%{transform:translate(6%,5%) scale(1.14)}100%{transform:translate(-2%,7%) scale(1.06)}}
