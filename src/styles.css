@@ -5431,9 +5431,10 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   min-width:0;min-height:76px;max-height:76px;
   gap:7px;padding:7px;
   border:0;border-radius:7px;
-  background:linear-gradient(125deg,var(--activity-c1),var(--activity-c2),var(--activity-c3),var(--activity-c1));
-  background-size:260% 260%;
-  animation:sidebar-ipod-screen-gradient 24s ease-in-out infinite alternate;
+  background:radial-gradient(ellipse at 18% 24%,color-mix(in srgb,var(--activity-c1) 92%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 82% 78%,color-mix(in srgb,var(--activity-c2) 92%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 55% 8%,color-mix(in srgb,var(--activity-c3) 88%,transparent) 0%,transparent 55%),linear-gradient(125deg,color-mix(in srgb,var(--activity-c1) 76%,#252033),color-mix(in srgb,var(--activity-c2) 72%,#252033),color-mix(in srgb,var(--activity-c3) 76%,#252033));
+  background-size:190% 190%,180% 180%,210% 210%,100% 100%;
+  background-position:0% 0%,100% 100%,50% 0%,center;
+  animation:lastfm-liquid-flow 28s ease-in-out infinite alternate;
   box-shadow:inset 0 1px 8px #0002;
 }
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-music-content:before{
@@ -5484,8 +5485,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-ipod-control.play,.sidebar-ipod-control.pause{
   bottom:8px;width:9px;height:10px;fill:#65707c;stroke:none;
 }
-.sidebar-ipod-control.play{left:calc(50% - 11px);transform:translateX(-50%)}
-.sidebar-ipod-control.pause{left:calc(50% + 4px);transform:translateX(-50%)}
+.sidebar-ipod-control.play{left:calc(50% - 4px);transform:translateX(-100%)}
+.sidebar-ipod-control.pause{left:calc(50% + 4px);transform:translateX(0)}
 .sidebar-activity-music.is-ipod.is-collapsed{background:linear-gradient(145deg,#f8fafc,#dce1e7);border-color:#aeb4bc}
 .sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-icon{color:#59636e}
 .sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-collapsed-copy{color:#252a31}
@@ -5515,3 +5516,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-activity-youtube .sidebar-youtube-open:hover{background:#ffffff35}
 .sidebar-activity-youtube .sidebar-activity-toggle{margin-left:0!important}
 .sidebar-youtube-content{gap:8px}
+
+/* Green now-playing indicator beside the sidebar account name. */
+.sidebar-account-name .sidebar-music-playing-indicator{flex:none;margin-left:2px;color:#35c66b;filter:drop-shadow(0 0 3px #35c66b55)}
