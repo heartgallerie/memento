@@ -5407,9 +5407,9 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   --activity-subtext:#ffffffd6;
   gap:9px;
   padding:10px;
-  border:1px solid #aeb4bc;
+  border:1px solid var(--ipod-body-border);
   border-radius:17px;
-  background:linear-gradient(145deg,#f8fafc,#dce1e7 55%,#c8ced6);
+  background:linear-gradient(145deg,var(--ipod-body-top),var(--ipod-body-mid) 55%,var(--ipod-body-bottom));
   color:#252a31;
   box-shadow:inset 0 1px 0 #fff,0 5px 16px #0003;
   animation:none;
@@ -5447,7 +5447,7 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-music-content:after{
   position:absolute;z-index:2;inset:0;content:'';
-  background:radial-gradient(ellipse at center,color-mix(in srgb,var(--ipod-screen-tint) 5%,transparent) 42%,#00000000 62%,#00000020 100%),linear-gradient(125deg,#ffffff42 0%,transparent 38%,#ffffff18 62%,transparent 100%);
+  background:radial-gradient(ellipse at center,#ffffff0d 42%,#00000000 62%,#00000020 100%),linear-gradient(125deg,#ffffff42 0%,transparent 38%,#ffffff18 62%,transparent 100%);
   box-shadow:inset 0 0 16px 1px #0000001c;
   pointer-events:none;
 }
@@ -5466,14 +5466,14 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   position:relative;display:block;
   width:76px;height:76px;flex:none;
   border:1px solid #aab1ba;border-radius:50%;
-  background:linear-gradient(145deg,#fbfcfd,#cbd1d8);
+  background:linear-gradient(145deg,var(--ipod-wheel-top),var(--ipod-wheel-bottom));
   box-shadow:inset 0 2px 4px #fff,0 2px 5px #0002;
 }
 .sidebar-ipod-wheel-center{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   display:block;width:24px;height:24px;
   border:1px solid #aab1ba;border-radius:50%;
-  background:linear-gradient(#e9edf1,#c4cbd3);
+  background:linear-gradient(color-mix(in srgb,var(--ipod-wheel-top) 82%,#fff),var(--ipod-wheel-bottom));
   box-shadow:inset 0 1px 2px #fff;
 }
 .sidebar-ipod-control{position:absolute;color:#65707c}
@@ -5524,6 +5524,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-youtube-content{gap:8px}
 
 /* Green now-playing indicator beside the sidebar account name. */
-.sidebar-account-handle{display:inline-flex;align-items:center;gap:4px;min-width:0}.sidebar-account-handle .sidebar-music-playing-indicator{display:inline-block;flex:none;width:13px;height:13px;margin:0 1px 0 0;color:#35c66b!important;filter:drop-shadow(0 0 3px #35c66b70)}
+.sidebar-user-copy .sidebar-account-handle{display:flex!important;flex-direction:row!important;align-items:center!important;gap:4px!important;min-width:0;white-space:nowrap;line-height:1}.sidebar-account-handle .sidebar-music-playing-wrap{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 13px;width:13px;height:13px;line-height:0}.sidebar-account-handle .sidebar-music-playing-indicator{display:block!important;flex:none;width:13px;height:13px;margin:0;fill:#35c66b!important;color:#35c66b!important;filter:drop-shadow(0 0 3px #35c66b70)}.sidebar-account-handle .sidebar-account-username{display:inline!important;flex:0 1 auto;min-width:0;white-space:nowrap}
 
-.ipod-tint-picker{display:inline-flex;align-items:center;gap:8px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;background:var(--panel)}.ipod-tint-picker input{width:24px;height:24px;padding:0;border:0;border-radius:5px;background:transparent;cursor:pointer}.ipod-tint-picker input::-webkit-color-swatch-wrapper{padding:0}.ipod-tint-picker input::-webkit-color-swatch{border:1px solid #0002;border-radius:4px}.ipod-tint-picker code{font:9px 'DM Mono',monospace;color:var(--muted)}
+.ipod-color-presets{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.ipod-color-presets button{display:grid;place-items:center;width:27px;height:27px;padding:3px;border:1px solid var(--border);border-radius:50%;background:var(--surface);cursor:pointer}.ipod-color-presets button.active{border:2px solid var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 18%,transparent)}.ipod-color-presets button i{display:block;width:17px;height:17px;border:1px solid #0002;border-radius:50%}.ipod-tint-picker code{font:9px 'DM Mono',monospace;color:var(--muted)}
