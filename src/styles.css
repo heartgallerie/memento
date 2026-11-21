@@ -5485,8 +5485,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-ipod-control.play,.sidebar-ipod-control.pause{
   bottom:8px;width:9px;height:10px;fill:#65707c;stroke:none;
 }
-.sidebar-ipod-control.play{left:calc(50% - 4px);transform:translateX(-100%)}
-.sidebar-ipod-control.pause{left:calc(50% + 4px);transform:translateX(0)}
+.sidebar-ipod-control.play{left:calc(50% - 9px);transform:none}
+.sidebar-ipod-control.pause{left:50%;transform:none}
 .sidebar-activity-music.is-ipod.is-collapsed{background:linear-gradient(145deg,#f8fafc,#dce1e7);border-color:#aeb4bc}
 .sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-icon{color:#59636e}
 .sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-collapsed-copy{color:#252a31}
@@ -5518,4 +5518,4 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-youtube-content{gap:8px}
 
 /* Green now-playing indicator beside the sidebar account name. */
-.sidebar-account-name .sidebar-music-playing-indicator{flex:none;margin-left:2px;color:#35c66b;filter:drop-shadow(0 0 3px #35c66b55)}
+.sidebar-account-handle{display:inline-flex;align-items:center;gap:4px;min-width:0}.sidebar-account-handle .sidebar-music-playing-indicator{display:inline-block;flex:none;width:13px;height:13px;margin-left:1px;color:#35c66b;filter:drop-shadow(0 0 3px #35c66b70)}
