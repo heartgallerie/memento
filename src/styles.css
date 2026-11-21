@@ -5608,6 +5608,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .display-name-effect-toon{background-image:linear-gradient(180deg,var(--name-toon-top),var(--name-toon-bottom),var(--name-toon-top))!important;background-size:100% 220%!important;background-position:50% 0%;animation:display-name-toon-flow 16s ease-in-out infinite}
 @keyframes display-name-toon-flow{0%,22%{background-position:50% 0%}72%,100%{background-position:50% 100%}}
 .display-name-effect-glow{-webkit-text-stroke:1px color-mix(in srgb,var(--name-glow) 75%,#ffffff)!important;text-shadow:0 0 2px var(--name-glow),0 0 7px color-mix(in srgb,var(--name-glow) 85%,transparent),0 0 15px color-mix(in srgb,var(--name-glow) 55%,transparent)!important;-webkit-text-fill-color:currentColor!important;color:var(--text)!important}
-.display-name-effect-rainbow{background-image:linear-gradient(90deg,var(--name-rainbow))!important;background-size:250% 100%!important;background-position:100% 50%;animation:display-name-rainbow-flow 18s ease-in-out infinite}
+.display-name-effect-rainbow{background-image:linear-gradient(90deg,var(--name-rainbow),var(--name-rainbow))!important;background-size:200% 100%!important;background-position:100% 50%;animation:display-name-rainbow-flow 18s ease-in-out infinite}
 @keyframes display-name-rainbow-flow{0%,18%{background-position:100% 50%}78%,100%{background-position:0% 50%}}
 @media(prefers-reduced-motion:reduce){.display-name-effect-toon,.display-name-effect-rainbow{animation:none}}
