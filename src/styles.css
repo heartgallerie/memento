@@ -5462,21 +5462,21 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-copy{position:relative;z-index:1;min-width:0;gap:4px}
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-track{color:#fff;font:700 10px/1.3 'DM Sans','Jdecked Twemoji';text-shadow:0 1px 5px #0005}
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-detail{color:#ffffffdf;font:500 9px/1.3 'DM Sans','Jdecked Twemoji';text-shadow:0 1px 5px #0005}
-.sidebar-ipod-wheel{
+ .sidebar-ipod-wheel{
   position:relative;display:block;
   width:76px;height:76px;flex:none;
-  border:1px solid #aab1ba;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--ipod-wheel-top) 82%,#777);border-radius:50%;
   background:linear-gradient(145deg,var(--ipod-wheel-top),var(--ipod-wheel-bottom));
-  box-shadow:inset 0 2px 4px #fff,0 2px 5px #0002;
+  box-shadow:inset 0 2px 4px color-mix(in srgb,var(--ipod-wheel-top) 75%,#fff),0 2px 5px #0002;
 }
 .sidebar-ipod-wheel-center{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   display:block;width:24px;height:24px;
-  border:1px solid #aab1ba;border-radius:50%;
-  background:linear-gradient(color-mix(in srgb,var(--ipod-wheel-top) 82%,#fff),var(--ipod-wheel-bottom));
-  box-shadow:inset 0 1px 2px #fff;
+  border:1px solid color-mix(in srgb,var(--ipod-wheel-bottom) 75%,#777);border-radius:50%;
+  background:linear-gradient(color-mix(in srgb,var(--ipod-wheel-top) 82%,#fff),var(--ipod-body-mid));
+  box-shadow:inset 0 1px 2px #ffffff80;
 }
-.sidebar-ipod-control{position:absolute;color:#65707c}
+.sidebar-ipod-control{position:absolute;color:var(--ipod-control-color)}
 .sidebar-ipod-control.menu{
   top:8px;left:50%;transform:translateX(-50%);
   width:auto;height:auto;fill:none;stroke:none;
@@ -5484,18 +5484,21 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 .sidebar-ipod-control.previous,.sidebar-ipod-control.next{
   top:50%;width:14px;height:18px;transform:translateY(-50%);
-  fill:#59636e;stroke:none;
+  fill:var(--ipod-control-color);stroke:none;
 }
 .sidebar-ipod-control.previous{left:8px}
 .sidebar-ipod-control.next{right:8px}
 .sidebar-ipod-control.play,.sidebar-ipod-control.pause{
-  bottom:8px;width:9px;height:10px;fill:#65707c;stroke:none;
+  bottom:8px;width:9px;height:10px;fill:var(--ipod-control-color);stroke:none;
 }
 .sidebar-ipod-control.play{left:calc(50% - 9px);transform:none}
 .sidebar-ipod-control.pause{left:50%;transform:none}
-.sidebar-activity-music.is-ipod.is-collapsed{background:linear-gradient(145deg,#f8fafc,#dce1e7);border-color:#aeb4bc}
-.sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-icon{color:#59636e}
-.sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-collapsed-copy{color:#252a31}
+.sidebar-activity-music.is-ipod.is-collapsed{position:relative;isolation:isolate;overflow:hidden;border:1px solid color-mix(in srgb,var(--lastfm-c2) 55%,#ffffff80);background:radial-gradient(ellipse at 18% 24%,color-mix(in srgb,var(--lastfm-c1) 92%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 82% 78%,color-mix(in srgb,var(--lastfm-c2) 92%,transparent) 0%,transparent 58%),radial-gradient(ellipse at 55% 8%,color-mix(in srgb,var(--lastfm-c3) 88%,transparent) 0%,transparent 55%),linear-gradient(125deg,color-mix(in srgb,var(--lastfm-c1) 76%,#252033),color-mix(in srgb,var(--lastfm-c2) 72%,#252033),color-mix(in srgb,var(--lastfm-c3) 76%,#252033));background-size:190% 190%,180% 180%,210% 210%,100% 100%;background-position:0% 0%,100% 100%,50% 0%,center;color:var(--activity-text);backdrop-filter:blur(13px) saturate(165%);-webkit-backdrop-filter:blur(13px) saturate(165%);box-shadow:inset 0 1px 0 #ffffff70,inset 0 -1px 0 #ffffff20,0 3px 12px color-mix(in srgb,var(--lastfm-c2) 22%,transparent);animation:lastfm-liquid-flow 28s ease-in-out infinite alternate}
+.sidebar-activity-music.is-ipod.is-collapsed:before{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(125deg,#ffffff50 0%,transparent 38%,#ffffff18 62%,transparent 100%);pointer-events:none}
+.sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-icon{color:var(--activity-text)}
+.sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-collapsed-copy{color:var(--activity-text);text-shadow:0 1px 5px #0004}
+.sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-collapsed-track{color:var(--activity-text)}
+.sidebar-activity-music.is-ipod.is-collapsed .sidebar-activity-collapsed-artist{color:var(--activity-subtext)}
 @media(prefers-reduced-motion:reduce){
  .sidebar-activity-music.is-ipod:not(.is-collapsed),.sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-music-content,.sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-activity-music-content:before{animation:none}
 }
@@ -5524,6 +5527,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .sidebar-youtube-content{gap:8px}
 
 /* Green now-playing indicator beside the sidebar account name. */
-.sidebar-user-copy .sidebar-account-handle{display:flex!important;flex-direction:row!important;align-items:center!important;gap:4px!important;min-width:0;white-space:nowrap;line-height:1}.sidebar-account-handle .sidebar-music-playing-wrap{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 13px;width:13px;height:13px;line-height:0}.sidebar-account-handle .sidebar-music-playing-indicator{display:block!important;flex:none;width:13px;height:13px;margin:0;fill:#35c66b!important;color:#35c66b!important;filter:drop-shadow(0 0 3px #35c66b70)}.sidebar-account-handle .sidebar-account-username{display:inline!important;flex:0 1 auto;min-width:0;white-space:nowrap}
+.sidebar-user-copy .sidebar-account-handle{display:flex!important;flex-direction:row!important;align-items:center!important;gap:4px!important;min-width:0;white-space:nowrap;line-height:1}.sidebar-account-handle .sidebar-music-playing-wrap{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 13px;width:13px;height:13px;line-height:0}.sidebar-account-handle .sidebar-music-playing-indicator{display:block!important;flex:none;width:16px;height:16px;margin:0;fill:#35c66b!important;color:#35c66b!important;filter:drop-shadow(0 0 3px #35c66b70)}.sidebar-account-handle .sidebar-account-username{display:inline!important;flex:0 1 auto;min-width:0;white-space:nowrap}
 
 .ipod-color-presets{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.ipod-color-presets button{display:grid;place-items:center;width:27px;height:27px;padding:3px;border:1px solid var(--border);border-radius:50%;background:var(--surface);cursor:pointer}.ipod-color-presets button.active{border:2px solid var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 18%,transparent)}.ipod-color-presets button i{display:block;width:17px;height:17px;border:1px solid #0002;border-radius:50%}.ipod-tint-picker code{font:9px 'DM Mono',monospace;color:var(--muted)}
