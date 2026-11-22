@@ -7,7 +7,7 @@ import { $patchStyleText } from '@lexical/selection'
 import { CodeHighlightNode, CodeNode } from '@lexical/code'
 import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { HorizontalRuleNode } from '@lexical/extension'
-import { ListItemNode, ListNode, $createListItemNode, $createListNode } from '@lexical/list'
+import { ListItemNode, ListNode, $createListItemNode, $createListNode, $isListItemNode, $isListNode } from '@lexical/list'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { $createParagraphNode, $createTextNode, $getRoot, $getSelection, $isRangeSelection } from 'lexical'
@@ -30,17 +30,18 @@ const IMPORT_NODES = [
 
 export function htmlToLexicalState(html: string): string {
   const documentForImport = new DOMParser().parseFromString(html || '', 'text/html')
-  documentForImport.querySelectorAll('ul.entry-checklist').forEach(list => {
-    list.setAttribute('data-lexical-list-type', 'check')
-    list.querySelectorAll(':scope > li').forEach(item => {
+  const legacyChecklists = Array.from(documentForImport.querySelectorAll('ul.entry-checklist')).map(list => ({
+    text: (list.textContent || '').replace(/\\s+/g, ' ').trim(),
+    checked: Array.from(list.querySelectorAll(':scope > li')).map(item => {
       const checkbox = item.querySelector(':scope > input[type="checkbox"]') as HTMLInputElement | null
-      const checked = checkbox?.checked || checkbox?.hasAttribute('checked') || item.dataset.checked === 'true'
-      item.setAttribute('role', 'checkbox')
-      item.setAttribute('aria-checked', checked ? 'true' : 'false')
-      item.setAttribute('data-checked', checked ? 'true' : 'false')
+      const checked = checkbox?.checked || checkbox?.hasAttribute('checked') || item.getAttribute('aria-checked') === 'true' || item.getAttribute('data-checked') === 'true'
       checkbox?.remove()
-    })
-  })
+      item.removeAttribute('role')
+      item.removeAttribute('aria-checked')
+      item.removeAttribute('data-checked')
+      return checked
+    }),
+  }))
 
   const editor = createHeadlessEditor({
     namespace: 'memento-html-import',
@@ -53,13 +54,64 @@ export function htmlToLexicalState(html: string): string {
     const nodes = $generateNodesFromDOM(editor, documentForImport)
     if (nodes.length) root.append(...nodes)
     else root.append($createParagraphNode())
+    const lists: ListNode[] = []
+    const visit = (node: any) => {
+      if ($isListNode(node)) lists.push(node)
+      if (typeof node.getChildren === 'function') node.getChildren().forEach(visit)
+    }
+    root.getChildren().forEach(visit)
+    for (const legacy of legacyChecklists) {
+      const list = lists.find(candidate =>
+        candidate.getListType() !== 'check' &&
+        candidate.getTextContent().replace(/\\s+/g, ' ').trim() === legacy.text &&
+        candidate.getChildrenSize() === legacy.checked.length
+      )
+      if (!list) continue
+      list.setListType('check')
+      list.getChildren().forEach((item, index) => {
+        if ($isListItemNode(item)) item.setChecked(legacy.checked[index] === true)
+      })
+    }
   }, { discrete: true })
   return JSON.stringify(editor.getEditorState().toJSON())
 }
 
-function htmlWithMementoChecklists(html: string): string {
+function htmlWithMementoChecklists(html: string, liveRoot: HTMLElement | null): string {
   const template = document.createElement('template')
   template.innerHTML = html
+  const liveTasks = liveRoot ? Array.from(liveRoot.querySelectorAll<HTMLLIElement>('li[data-richtext-task]')) : []
+  const outputItems = Array.from(template.content.querySelectorAll<HTMLLIElement>('li'))
+  let outputCursor = 0
+  for (const sourceItem of liveTasks) {
+    const sourceText = (sourceItem.textContent || '').replace(/\\s+/g, ' ').trim()
+    let outputItem: HTMLLIElement | undefined
+    for (let i = outputCursor; i < outputItems.length; i++) {
+      if ((outputItems[i].textContent || '').replace(/\\s+/g, ' ').trim() === sourceText) {
+        outputItem = outputItems[i]
+        outputCursor = i + 1
+        break
+      }
+    }
+    if (!outputItem) continue
+    const checkboxId = sourceItem.getAttribute('aria-owns')
+    const checkbox = checkboxId ? document.getElementById(checkboxId)?.querySelector('input[type="checkbox"]') as HTMLInputElement | null : null
+    const checked = checkbox?.checked ?? sourceItem.getAttribute('aria-checked') === 'true'
+    outputItem.dataset.mementoTask = 'true'
+    outputItem.dataset.checked = checked ? 'true' : 'false'
+    outputItem.setAttribute('role', 'checkbox')
+    outputItem.setAttribute('aria-checked', checked ? 'true' : 'false')
+    const list = outputItem.parentElement
+    if (list?.tagName === 'UL') list.classList.add('entry-checklist')
+    if (!outputItem.querySelector(':scope > input[type="checkbox"]')) {
+      const input = document.createElement('input')
+      input.type = 'checkbox'
+      input.setAttribute('contenteditable', 'false')
+      input.setAttribute('aria-label', 'Mark checklist item complete')
+      input.checked = checked
+      if (checked) input.setAttribute('checked', '')
+      outputItem.insertBefore(input, outputItem.firstChild)
+    }
+  }
   template.content.querySelectorAll('ul[data-lexical-list-type="check"]').forEach(list => {
     list.classList.add('entry-checklist')
     list.querySelectorAll(':scope > li').forEach(item => {
@@ -193,7 +245,7 @@ export default function MementoRichTextEditor({
         toolbar={<RichTextEditorToolbar size="sm" endContent={<MementoToolbarExtras highlightColor={highlightColor} onHighlightColorChange={onHighlightColorChange} onAddFiles={onAddFiles} />} />}
         onChange={(editorState, editor) => {
           const html = editorState.read(() => $generateHtmlFromNodes(editor))
-          onChange(htmlWithMementoChecklists(html))
+          onChange(htmlWithMementoChecklists(html, editor.getRootElement()))
         }}
       />
     </div>
