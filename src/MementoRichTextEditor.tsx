@@ -1,5 +1,5 @@
 import { useMemo, type DragEventHandler, type Ref } from 'react'
-import { Highlighter, ListChecks } from 'lucide-react'
+import { Highlighter, ImagePlus, ListChecks } from 'lucide-react'
 import { RichTextEditor, RichTextEditorToolbar, type RichTextEditorRef } from '@astryxdesign/richtext'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
@@ -84,9 +84,10 @@ function htmlWithMementoChecklists(html: string): string {
   return template.innerHTML
 }
 
-function MementoToolbarExtras({ highlightColor, onHighlightColorChange }: {
+function MementoToolbarExtras({ highlightColor, onHighlightColorChange, onAddFiles }: {
   highlightColor: string
   onHighlightColorChange: (color: string) => void
+  onAddFiles: (files: FileList | null) => void
 }) {
   const [editor] = useLexicalComposerContext()
   const applyHighlight = (color: string) => {
@@ -125,6 +126,10 @@ function MementoToolbarExtras({ highlightColor, onHighlightColorChange }: {
       <button type="button" title="Insert checklist" aria-label="Insert checklist" onMouseDown={event => event.preventDefault()} onClick={insertChecklist}>
         <ListChecks size={16} />
       </button>
+      <label className="memento-astryx-media-button" title="Attach media">
+        <ImagePlus size={16} />
+        <input type="file" multiple accept="image/*,video/*,audio/*" aria-label="Attach media" onChange={event => { onAddFiles(event.target.files); event.currentTarget.value = '' }} />
+      </label>
     </div>
   )
 }
@@ -139,6 +144,7 @@ export default function MementoRichTextEditor({
   onDragOver,
   onDragLeave,
   onDrop,
+  onAddFiles,
   dragging = false,
 }: {
   editorRef: Ref<RichTextEditorRef>
@@ -150,6 +156,7 @@ export default function MementoRichTextEditor({
   onDragOver: DragEventHandler<HTMLDivElement>
   onDragLeave: DragEventHandler<HTMLDivElement>
   onDrop: DragEventHandler<HTMLDivElement>
+  onAddFiles: (files: FileList | null) => void
   dragging?: boolean
 }) {
   const defaultValue = useMemo(() => htmlToLexicalState(html), [entryId])
@@ -163,7 +170,7 @@ export default function MementoRichTextEditor({
         defaultValue={defaultValue}
         placeholder="Start writing…"
         minHeight="320px"
-        toolbar={<RichTextEditorToolbar size="sm" endContent={<MementoToolbarExtras highlightColor={highlightColor} onHighlightColorChange={onHighlightColorChange} />} />}
+        toolbar={<RichTextEditorToolbar size="sm" endContent={<MementoToolbarExtras highlightColor={highlightColor} onHighlightColorChange={onHighlightColorChange} onAddFiles={onAddFiles} />} />}
         onChange={(editorState, editor) => {
           const html = editorState.read(() => $generateHtmlFromNodes(editor))
           onChange(htmlWithMementoChecklists(html))
