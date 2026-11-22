@@ -81,6 +81,26 @@ function htmlWithMementoChecklists(html: string): string {
       marker.dataset.footnote = String(number)
     }
   })
+  template.content.querySelectorAll('a[href]').forEach(link => {
+    link.classList.add('entry-inline-link')
+    if (!link.dataset.linkPreview) link.dataset.linkPreview = link.href
+    if (!link.querySelector('svg')) {
+      const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      icon.setAttribute('viewBox', '0 0 24 24')
+      icon.setAttribute('width', '13')
+      icon.setAttribute('height', '13')
+      icon.setAttribute('fill', 'none')
+      icon.setAttribute('stroke', 'currentColor')
+      icon.setAttribute('stroke-width', '2')
+      icon.setAttribute('stroke-linecap', 'round')
+      icon.setAttribute('stroke-linejoin', 'round')
+      icon.setAttribute('aria-hidden', 'true')
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+      path.setAttribute('d', 'M7 17 17 7M7 7h10v10')
+      icon.append(path)
+      link.append(icon)
+    }
+  })
   return template.innerHTML
 }
 
