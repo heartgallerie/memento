@@ -5640,3 +5640,8 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .memento-astryx-toolbar-extras>.memento-astryx-highlight-swatch{width:13px;height:13px;min-width:13px;border:1px solid #0002;border-radius:50%;padding:0}
 .memento-astryx-toolbar-extras>.memento-astryx-highlight-swatch:hover{outline:2px solid var(--accent);outline-offset:2px}
 @media(max-width:650px){.memento-astryx-richtext [contenteditable="true"]{padding:14px!important}.memento-astryx-toolbar-extras{gap:1px}.memento-astryx-toolbar-extras>button{width:25px;height:27px;min-width:25px}}
+
+.memento-astryx-media-button{position:relative;width:28px;height:28px;display:grid;place-items:center;border-radius:7px;color:var(--muted);cursor:pointer}
+.memento-astryx-media-button:hover{background:var(--soft);color:var(--text)}
+.memento-astryx-media-button input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+@media(max-width:650px){.memento-astryx-media-button{width:25px;height:27px}}
