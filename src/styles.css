@@ -5645,3 +5645,5 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .memento-astryx-media-button:hover{background:var(--soft);color:var(--text)}
 .memento-astryx-media-button input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 @media(max-width:650px){.memento-astryx-media-button{width:25px;height:27px}}
+
+.memento-astryx-richtext{--color-text-primary:var(--text);--color-text-secondary:var(--muted);--color-border:var(--line);--color-surface:var(--surface)}
