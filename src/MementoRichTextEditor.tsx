@@ -76,30 +76,43 @@ export function htmlToLexicalState(html: string): string {
   return JSON.stringify(editor.getEditorState().toJSON())
 }
 
-export function htmlWithMementoChecklists(html: string, liveRoot: HTMLElement | null): string {
+export function htmlWithMementoChecklists(html: string, editor: ReturnType<RichTextEditorRef['getEditor']>): string {
   const template = document.createElement('template')
   template.innerHTML = html
-  const liveTasks = liveRoot ? Array.from(liveRoot.querySelectorAll<HTMLLIElement>('li[data-richtext-task]')) : []
+  const taskItems = editor.getEditorState().read(() => {
+    const tasks: Array<{ text: string; checked: boolean }> = []
+    const visit = (node: any) => {
+      if ($isListNode(node) && node.getListType() === 'check') {
+        node.getChildren().forEach(item => {
+          if ($isListItemNode(item)) {
+            tasks.push({
+              text: item.getTextContent().replace(/\\s+/g, ' ').trim(),
+              checked: item.getChecked() === true,
+            })
+          }
+        })
+      }
+      if (typeof node.getChildren === 'function') node.getChildren().forEach(visit)
+    }
+    $getRoot().getChildren().forEach(visit)
+    return tasks
+  })
   const outputItems = Array.from(template.content.querySelectorAll<HTMLLIElement>('li'))
   let outputCursor = 0
-  for (const sourceItem of liveTasks) {
-    const sourceText = (sourceItem.textContent || '').replace(/\\s+/g, ' ').trim()
+  for (const task of taskItems) {
     let outputItem: HTMLLIElement | undefined
     for (let i = outputCursor; i < outputItems.length; i++) {
-      if ((outputItems[i].textContent || '').replace(/\\s+/g, ' ').trim() === sourceText) {
+      if ((outputItems[i].textContent || '').replace(/\\s+/g, ' ').trim() === task.text) {
         outputItem = outputItems[i]
         outputCursor = i + 1
         break
       }
     }
     if (!outputItem) continue
-    const checkboxId = sourceItem.getAttribute('aria-owns')
-    const checkbox = checkboxId ? document.getElementById(checkboxId)?.querySelector('input[type="checkbox"]') as HTMLInputElement | null : null
-    const checked = checkbox?.checked ?? sourceItem.getAttribute('aria-checked') === 'true'
     outputItem.dataset.mementoTask = 'true'
-    outputItem.dataset.checked = checked ? 'true' : 'false'
+    outputItem.dataset.checked = task.checked ? 'true' : 'false'
     outputItem.setAttribute('role', 'checkbox')
-    outputItem.setAttribute('aria-checked', checked ? 'true' : 'false')
+    outputItem.setAttribute('aria-checked', task.checked ? 'true' : 'false')
     const list = outputItem.parentElement
     if (list?.tagName === 'UL') list.classList.add('entry-checklist')
     if (!outputItem.querySelector(':scope > input[type="checkbox"]')) {
@@ -107,8 +120,8 @@ export function htmlWithMementoChecklists(html: string, liveRoot: HTMLElement | 
       input.type = 'checkbox'
       input.setAttribute('contenteditable', 'false')
       input.setAttribute('aria-label', 'Mark checklist item complete')
-      input.checked = checked
-      if (checked) input.setAttribute('checked', '')
+      input.checked = task.checked
+      if (task.checked) input.setAttribute('checked', '')
       outputItem.insertBefore(input, outputItem.firstChild)
     }
   }
@@ -245,7 +258,7 @@ export default function MementoRichTextEditor({
         toolbar={<RichTextEditorToolbar size="sm" endContent={<MementoToolbarExtras highlightColor={highlightColor} onHighlightColorChange={onHighlightColorChange} onAddFiles={onAddFiles} />} />}
         onChange={(editorState, editor) => {
           const html = editorState.read(() => $generateHtmlFromNodes(editor))
-          onChange(htmlWithMementoChecklists(html, editor.getRootElement()))
+          onChange(htmlWithMementoChecklists(html, editor))
         }}
       />
     </div>
