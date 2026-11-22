@@ -71,6 +71,13 @@ function htmlWithMementoChecklists(html: string): string {
       item.insertBefore(checkbox, item.firstChild)
     })
   })
+  template.content.querySelectorAll('sup').forEach(marker => {
+    const number = Number((marker.textContent || '').trim())
+    if (Number.isInteger(number) && number > 0) {
+      marker.classList.add('entry-footnote-ref')
+      marker.dataset.footnote = String(number)
+    }
+  })
   return template.innerHTML
 }
 
