@@ -5647,3 +5647,6 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @media(max-width:650px){.memento-astryx-media-button{width:25px;height:27px}}
 
 .memento-astryx-richtext{--color-text-primary:var(--text);--color-text-secondary:var(--muted);--color-border:var(--line);--color-surface:var(--surface)}
+
+/* Checked items remain visually marked in journal read mode. */
+.read-entry-body .entry-checklist li:has(> input[type="checkbox"]:checked){color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
