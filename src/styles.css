@@ -5612,21 +5612,30 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 @keyframes display-name-rainbow-flow{0%,18%{background-position:100% 50%}78%,100%{background-position:0% 50%}}
 @media(prefers-reduced-motion:reduce){.display-name-effect-toon,.display-name-effect-rainbow{animation:none}}
 
+/* Interpolate the colour tokens used by the iPod's gradients. */
+@property --ipod-body-top{syntax:"<color>";inherits:true;initial-value:#f8fafc}
+@property --ipod-body-mid{syntax:"<color>";inherits:true;initial-value:#dce1e7}
+@property --ipod-body-bottom{syntax:"<color>";inherits:true;initial-value:#c8ced6}
+@property --ipod-body-border{syntax:"<color>";inherits:true;initial-value:#aeb4bc}
+@property --ipod-wheel-top{syntax:"<color>";inherits:true;initial-value:#ffffff}
+@property --ipod-wheel-bottom{syntax:"<color>";inherits:true;initial-value:#ffffff}
+@property --ipod-control-color{syntax:"<color>";inherits:true;initial-value:#65707c}
+
 /* Smooth iPod colour changes and refine the wheel details. */
 .sidebar-activity-music.is-ipod:not(.is-collapsed){
-  transition:background .45s ease,border-color .45s ease,box-shadow .45s ease;
+  transition:--ipod-body-top .45s ease,--ipod-body-mid .45s ease,--ipod-body-bottom .45s ease,--ipod-body-border .45s ease,background .45s ease,border-color .45s ease,box-shadow .45s ease;
 }
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-ipod-wheel{
-  transition:background .45s ease,border-color .45s ease,box-shadow .45s ease;
+  transition:--ipod-wheel-top .45s ease,--ipod-wheel-bottom .45s ease,--ipod-control-color .45s ease,background .45s ease,border-color .45s ease,box-shadow .45s ease;
 }
 .sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-ipod-control.menu{
   color:var(--ipod-control-color);
   font-size:7px;
 }
 .sidebar-account-handle .sidebar-music-playing-wrap{
-  flex-basis:12px;
-  width:12px;
-  height:12px;
+  flex-basis:14px;
+  width:14px;
+  height:14px;
 }
 .sidebar-account-handle .sidebar-music-playing-indicator{
   width:14px;
