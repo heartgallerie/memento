@@ -5611,3 +5611,24 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 .display-name-effect-rainbow{background-image:linear-gradient(90deg,var(--name-rainbow),var(--name-rainbow))!important;background-size:200% 100%!important;background-position:100% 50%;animation:display-name-rainbow-flow 18s ease-in-out infinite}
 @keyframes display-name-rainbow-flow{0%,18%{background-position:100% 50%}78%,100%{background-position:0% 50%}}
 @media(prefers-reduced-motion:reduce){.display-name-effect-toon,.display-name-effect-rainbow{animation:none}}
+
+/* Smooth iPod colour changes and refine the wheel details. */
+.sidebar-activity-music.is-ipod:not(.is-collapsed){
+  transition:background .45s ease,border-color .45s ease,box-shadow .45s ease;
+}
+.sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-ipod-wheel{
+  transition:background .45s ease,border-color .45s ease,box-shadow .45s ease;
+}
+.sidebar-activity-music.is-ipod:not(.is-collapsed) .sidebar-ipod-control.menu{
+  color:var(--ipod-control-color);
+  font-size:7px;
+}
+.sidebar-account-handle .sidebar-music-playing-wrap{
+  flex-basis:12px;
+  width:12px;
+  height:12px;
+}
+.sidebar-account-handle .sidebar-music-playing-indicator{
+  width:14px;
+  height:14px;
+}
