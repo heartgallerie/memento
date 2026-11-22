@@ -5,7 +5,8 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 import { $patchStyleText } from '@lexical/selection'
 import { CodeHighlightNode, CodeNode } from '@lexical/code'
-import { LinkNode } from '@lexical/link'
+import { AutoLinkNode, LinkNode } from '@lexical/link'
+import { HorizontalRuleNode } from '@lexical/extension'
 import { ListItemNode, ListNode, $createListItemNode, $createListNode } from '@lexical/list'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
@@ -18,11 +19,13 @@ const IMPORT_NODES = [
   ListNode,
   ListItemNode,
   LinkNode,
+  AutoLinkNode,
   CodeNode,
   CodeHighlightNode,
   TableNode,
   TableRowNode,
   TableCellNode,
+  HorizontalRuleNode,
 ]
 
 export function htmlToLexicalState(html: string): string {
