@@ -76,7 +76,7 @@ export function htmlToLexicalState(html: string): string {
   return JSON.stringify(editor.getEditorState().toJSON())
 }
 
-function htmlWithMementoChecklists(html: string, liveRoot: HTMLElement | null): string {
+export function htmlWithMementoChecklists(html: string, liveRoot: HTMLElement | null): string {
   const template = document.createElement('template')
   template.innerHTML = html
   const liveTasks = liveRoot ? Array.from(liveRoot.querySelectorAll<HTMLLIElement>('li[data-richtext-task]')) : []
