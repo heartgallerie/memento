@@ -5641,3 +5641,12 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
   width:14px;
   height:14px;
 }
+
+
+/* Astryx ChatComposer, scoped to Memo */
+.memo-astryx-composer{display:block;padding:0;border:0;background:transparent;box-shadow:none;color:var(--text);}
+.memo-astryx-chat-composer{--color-accent:var(--accent);--color-surface:var(--surface);--color-surface-secondary:var(--panel);--color-border:var(--line);--color-text:var(--text);--color-text-secondary:var(--muted);--radius-chat:12px;width:100%;font-family:'DM Sans','Jdecked Twemoji',sans-serif;}
+.memo-astryx-chat-composer [contenteditable="true"]{font-family:'DM Sans','Jdecked Twemoji',sans-serif;font-size:12px;line-height:1.55;}
+.memo-astryx-chat-composer [contenteditable="true"]:empty:before{font-family:'DM Sans','Jdecked Twemoji',sans-serif;}
+.memo-astryx-chat-composer .memo-settings-button{flex:0 0 31px;width:31px;height:31px;border:0;border-radius:7px;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;}
+.memo-astryx-chat-composer .memo-settings-button:hover,.memo-astryx-chat-composer .memo-settings-button[aria-expanded="true"]{background:var(--soft);color:var(--accent);}
