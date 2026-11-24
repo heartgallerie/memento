@@ -5643,10 +5643,34 @@ input,textarea,[contenteditable="true"],.rich-editor,.rich-editor *{caret-color:
 }
 
 
-/* Astryx ChatComposer, scoped to Memo */
+/* Astryx ChatComposer — inherit Memento's live theme and accent */
 .memo-astryx-composer{display:block;padding:0;border:0;background:transparent;box-shadow:none;color:var(--text);}
-.memo-astryx-chat-composer{--color-accent:var(--accent);--color-surface:var(--surface);--color-surface-secondary:var(--panel);--color-border:var(--line);--color-text:var(--text);--color-text-secondary:var(--muted);--radius-chat:12px;width:100%;font-family:'DM Sans','Jdecked Twemoji',sans-serif;}
-.memo-astryx-chat-composer [contenteditable="true"]{font-family:'DM Sans','Jdecked Twemoji',sans-serif;font-size:12px;line-height:1.55;}
-.memo-astryx-chat-composer [contenteditable="true"]:empty:before{font-family:'DM Sans','Jdecked Twemoji',sans-serif;}
+.memo-astryx-chat-composer{
+  --color-background-body:var(--bg);
+  --color-background-surface:var(--surface);
+  --color-background-card:var(--surface);
+  --color-background-popover:var(--surface);
+  --color-background-muted:var(--panel);
+  --color-accent:var(--accent);
+  --color-accent-muted:color-mix(in srgb,var(--accent) 16%,var(--surface));
+  --color-text-primary:var(--text);
+  --color-text-secondary:var(--muted);
+  --color-text-accent:var(--accent);
+  --color-icon-primary:var(--text);
+  --color-icon-secondary:var(--muted);
+  --color-icon-accent:var(--accent);
+  --color-border:var(--line);
+  --color-border-emphasized:var(--line);
+  --color-on-accent:#fff;
+  --radius-chat:12px;
+  width:100%;
+  color:var(--text);
+  color-scheme:light;
+  font-family:'DM Sans','Jdecked Twemoji',sans-serif;
+}
+:root[data-theme="dark"] .memo-astryx-chat-composer,:root[data-theme="oled"] .memo-astryx-chat-composer{color-scheme:dark;}
+.memo-astryx-chat-composer [contenteditable="true"]{font-family:'DM Sans','Jdecked Twemoji',sans-serif;font-size:12px;line-height:1.55;color:var(--text);}
+.memo-astryx-chat-composer [contenteditable="true"]:empty:before{font-family:'DM Sans','Jdecked Twemoji',sans-serif;color:var(--muted);}
 .memo-astryx-chat-composer .memo-settings-button{flex:0 0 31px;width:31px;height:31px;border:0;border-radius:7px;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;}
 .memo-astryx-chat-composer .memo-settings-button:hover,.memo-astryx-chat-composer .memo-settings-button[aria-expanded="true"]{background:var(--soft);color:var(--accent);}
+.memo-astryx-chat-composer button:focus-visible,.memo-astryx-chat-composer [contenteditable="true"]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
