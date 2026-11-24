@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { ChatComposer, ChatComposerInput } from '@astryxdesign/core/ChatComposer'
 import { Volume2, VolumeX, Maximize2, Bot, PhoneCall, Film, Tv, Gamepad2, CakeSlice, BookOpen, BookText, PenLine, CalendarDays, Search, UserRound, Settings, Sparkles, Plus, ImagePlus, ChevronLeft, ChevronRight, MoreHorizontal, Copy, TextSelect, ArrowRight, ArrowLeftRight, Download, PanelLeftClose, PanelLeftOpen, Archive, Check, ArrowUpRight, FilePlus2, Bold, Italic, Underline, List, ListOrdered, ListChecks, Undo2, Redo2, Quote, Highlighter, X, Tag as TagIcon, Cloud, Upload, Sun, Moon, Palette, Trash2, Calendar as CalendarIcon, Folder, Bookmark, ChevronDown, MapPin, BadgeCheck, BarChart3, Pin, ExternalLink, Play, Pause, Paperclip, Ban, ArrowUp, AudioLines, Pencil, Instagram, Twitch, Users, UserPlus, MessageCircle, Link2, AtSign, Globe, Music2, Youtube, Briefcase, LayoutTemplate, Heart, Dices, Dice5, Send, Library, Filter, ArrowUpDown, Grid3X3, Star } from 'lucide-react'
 import { siInstagram, siTiktok, siYoutube, siTwitch, siX, siRoblox, siSoundcloud } from 'simple-icons'
 import type { SimpleIcon } from 'simple-icons'
@@ -657,7 +658,6 @@ function MemoScreen({memoText,setMemoText,avatarColor,onOpenProfile,onOpenEntry,
  const streamedTextRef=useRef('')
  const [includeJournal,setIncludeJournal]=useState(()=>localStorage.getItem('memento-memo-journal')!=='false')
  const [includeDMs,setIncludeDMs]=useState(()=>localStorage.getItem('memento-memo-dms')!=='false')
- const composerRef=useRef<HTMLTextAreaElement>(null)
  const loadModels=async()=>{
   setModelsLoading(true);setConnectionError('')
   const base=ollamaUrl.trim().replace(/\/+$/,'')
@@ -680,7 +680,6 @@ useEffect(()=>{localStorage.setItem('memento-ollama-url',ollamaUrl)},[ollamaUrl]
  useEffect(()=>{if(selectedModel)localStorage.setItem('memento-ollama-model',selectedModel)},[selectedModel])
  useEffect(()=>{localStorage.setItem('memento-memo-journal',String(includeJournal))},[includeJournal])
  useEffect(()=>{localStorage.setItem('memento-memo-dms',String(includeDMs))},[includeDMs])
- useEffect(()=>{if(!memoText&&composerRef.current)composerRef.current.style.height='auto'},[memoText])
  const sendMessage=async(raw:string,history:{id:number;role:'user'|'memo';text:string}[]=messages)=>{
   const text=raw.trim();if(!text||streaming)return
   const nextMessages=[...history,{id:Date.now(),role:'user' as const,text}]
@@ -770,7 +769,7 @@ useEffect(()=>{localStorage.setItem('memento-ollama-url',ollamaUrl)},[ollamaUrl]
    <div className="memo-archive-access"><strong>Archive access</strong><label><input type="checkbox" checked={includeJournal} onChange={e=>setIncludeJournal(e.target.checked)}/> Use saved journal entries ({entries.filter(entry=>!entry.draft&&!entry.deletedAt).length})</label><label><input type="checkbox" checked={includeDMs} onChange={e=>setIncludeDMs(e.target.checked)}/> Use imported Instagram and WhatsApp DMs ({chats.reduce((count,chat)=>count+chat.messages.length,0)} messages)</label><small>Only relevant excerpts are added to a prompt. Turn either source off whenever you want.</small></div>
    {connectionError&&<p role="alert">{connectionError}</p>}
   </div>}
-  <div className="memo-composer"><button className="memo-settings-button" aria-label="Ollama settings" title="Ollama settings" aria-expanded={settingsOpen} onClick={()=>setSettingsOpen(value=>!value)}><Settings size={17}/></button><textarea ref={composerRef} rows={1} value={memoText} onChange={e=>{const value=e.target.value;const cursor=e.currentTarget.selectionStart;const next=replaceEmojiShortcodes(value);setMemoText(next);if(next!==value){const position=cursor+(next.length-value.length);requestAnimationFrame(()=>composerRef.current?.setSelectionRange(position,position))}}} onInput={e=>{e.currentTarget.style.height='auto';e.currentTarget.style.height=Math.min(e.currentTarget.scrollHeight,140)+'px'}} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();void sendMessage(memoText)}}} placeholder="Message Memo… (Shift + Enter for a new line)" disabled={streaming}/><button className="memo-send-button" aria-label={streaming?'Stop generating':'Send message'} title={streaming?'Stop generating':'Send message'} disabled={!streaming&&!memoText.trim()} onClick={()=>{if(streaming){abortControllerRef.current?.abort()}else{void sendMessage(memoText)}}}>{streaming?<Ban size={15}/>:<ArrowUp size={19}/>}</button></div>
+   <div className="memo-composer memo-astryx-composer" data-astryx-theme="neutral" data-theme={document.documentElement.getAttribute('data-theme')||'light'}><ChatComposer className="memo-astryx-chat-composer" onSubmit={value=>void sendMessage(value)} isStopShown={streaming} onStop={()=>abortControllerRef.current?.abort()} input={<ChatComposerInput value={memoText} onChange={value=>setMemoText(replaceEmojiShortcodes(value))} placeholder="Message Memo…" isDisabled={streaming}/>} sendActions={<button type="button" className="memo-settings-button" aria-label="Ollama settings" title="Ollama settings" aria-expanded={settingsOpen} onClick={()=>setSettingsOpen(value=>!value)}><Settings size={17}/></button>}/></div>
   <p className="fine-print">Responses are generated by {selectedModel||'your selected Ollama model'}. Relevant excerpts from enabled journal and DM archives are sent to your configured Ollama server for each message.</p>
  </section>
 }
